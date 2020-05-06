@@ -273,7 +273,8 @@ public class RtmWrapperIOS : IRtmWrapper
         //RtmWrapperDll.setLogFile("agora_unity_log.txt");
         //RtmWrapperDll.setLogFileSize(1);
         print(RtmWrapperDll.getSDKVersion());
-        RtmWrapperDll.loginByToken(null, username, onLogin);
+        print("token: " + token + " || username: " + username);
+        RtmWrapperDll.loginByToken(token, username, onLogin);
     }
 
     protected override void LogoutAndReleaseRtmService()
