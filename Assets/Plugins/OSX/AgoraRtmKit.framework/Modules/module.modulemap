@@ -1,0 +1,6 @@
+framework module AgoraRtmKit {
+    umbrella header "AgoraRtmKit.h"
+    
+    export *
+    module * { export * }
+}
