@@ -208,7 +208,7 @@ public class RtmWrapperIOS : IRtmWrapper
 
         print(RtmWrapperDll.getSDKVersion());
 
-        //RtmWrapperDll.initAgora("c558a3fe33564ec2853ef1759ec003f1");
+        //RtmWrapperDll.initAgora("");
         //RtmWrapperDll.hello();
     }
 
