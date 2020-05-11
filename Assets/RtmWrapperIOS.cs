@@ -326,7 +326,7 @@ public class RtmWrapperIOS : IRtmWrapper
     {
         UnityMainThreadDispatcher.Instance().Enqueue(() =>
         {
-            var posSize = Marshal.SizeOf(typeof(PeerOnlineStatus));
+            // var posSize = Marshal.SizeOf(typeof(PeerOnlineStatus));
             var pos = (PeerOnlineStatus)Marshal.PtrToStructure(peerOnlineStatus, typeof(PeerOnlineStatus));
             Debug.Log("peer: " + pos.peerId + " -- " + pos.isOnline);
             Debug.Log("peer: " + (int)pos.onlineState);
@@ -449,7 +449,7 @@ public class RtmWrapperIOS : IRtmWrapper
 
     public class AgoraRtmCallKitIOS : IRtmCallKit
     {
-        private IntPtr callHandle;
+        private IntPtr callHandle = IntPtr.Zero;
         public IntPtr GetHandle() { return callHandle; }
 
         [DllImport("__Internal")]
@@ -486,7 +486,7 @@ public class RtmWrapperIOS : IRtmWrapper
 
     public class AgoraRtmLocalCallInvitationIOS : IRtmLocalCallInvitation
     {
-        private IntPtr callHandle;
+        private IntPtr callHandle = IntPtr.Zero;
         public IntPtr GetHandle() { return callHandle; }
 
         public AgoraRtmLocalCallInvitationIOS(IntPtr callHandle)
