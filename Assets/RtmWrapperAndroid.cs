@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 #if !UNITY_IOS
@@ -110,7 +107,7 @@ public class RtmWrapperAndroid : IRtmWrapper
                 Debug.Log(owner + ": success!");
             });
 
-            if(OnSuccess != null)
+            if (OnSuccess != null)
                 OnSuccess.Invoke(o);
         }
 
@@ -160,7 +157,7 @@ public class RtmWrapperAndroid : IRtmWrapper
                 var peerId = member.Call<string>("getUserId");
                 var msg = message.Call<string>("getText");
                 Debug.Log("received message from " + peerId + " saying " + msg);
-                if(OnMessageReceived != null)
+                if (OnMessageReceived != null)
                     OnMessageReceived.Invoke(peerId, msg);
             });
         }
@@ -169,7 +166,7 @@ public class RtmWrapperAndroid : IRtmWrapper
         {
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                if(OnMemberChanged != null)
+                if (OnMemberChanged != null)
                     OnMemberChanged.Invoke(member.Call<string>("getUserId"), member.Call<string>("getChannelId"), true);
             });
         }
@@ -208,7 +205,7 @@ public class RtmWrapperAndroid : IRtmWrapper
 
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                if(OnMessageReceived != null)
+                if (OnMessageReceived != null)
                     OnMessageReceived.Invoke(peerId, msg);
             });
         }
@@ -329,13 +326,15 @@ public class RtmWrapperAndroid : IRtmWrapper
 
     private void Login(string userName, string token)
     {
-        rtmClient.Call("login", CreateAndroidStr(token), CreateAndroidStr(userName), new ResultListener("login", (o) => {
+        rtmClient.Call("login", CreateAndroidStr(token), CreateAndroidStr(userName), new ResultListener("login", (o) =>
+        {
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
                 LoggedIn = true;
                 OnLoginSuccessCallback();
             });
-        }, (o) => {
+        }, (o) =>
+        {
             int errorCode = ((AndroidJavaObject)o).Call<int>("getErrorCode");
             if (errorCode == 5)
                 Debug.Log("Invalid Token!");
@@ -344,9 +343,9 @@ public class RtmWrapperAndroid : IRtmWrapper
         }));
     }
 
-    private void Logout()
+    public override void Logout()
     {
-        rtmClient.Call("logout", new ResultListener("logout", (o) => {}, (o) => { }));
+        rtmClient.Call("logout", new ResultListener("logout", (o) => { }, (o) => { }));
     }
 
     public override void Release()
@@ -369,7 +368,7 @@ public class RtmWrapperAndroid : IRtmWrapper
     }
 
     private void GetChannelMembers()
-    {               
+    {
     }
 
 
@@ -411,7 +410,7 @@ public class RtmWrapperAndroid : IRtmWrapper
     {
         var list = new AndroidJavaObject("java.util.ArrayList");
         rtmClient.Call("addOrUpdateLocalUserAtributesByKeys", list, new ResultListener("add or update local user attributes by keys",
-            (o) => { }, (err) => { } ));
+            (o) => { }, (err) => { }));
     }
 
 
@@ -431,13 +430,13 @@ public class RtmWrapperAndroid : IRtmWrapper
 
     private void getUserAttributes(string userId)
     {
-        rtmClient.Call("getUserAttributes", CreateAndroidStr(userId), new ResultListener("waterfall", (o) => { }, (err) => {}));
+        rtmClient.Call("getUserAttributes", CreateAndroidStr(userId), new ResultListener("waterfall", (o) => { }, (err) => { }));
     }
 
     private void getUserAttributesByKeys(string userId, List<string> keys)
     {
         var list = new AndroidJavaObject("java.util.ArrayList");
-        foreach(var key in keys)
+        foreach (var key in keys)
         {
             list.Call<bool>("add", key);
         }
@@ -489,7 +488,7 @@ public class RtmWrapperAndroid : IRtmWrapper
         var list = new AndroidJavaObject("java.util.ArrayList");
 
         rtmClient.Call("clearChannelAttributes", channelId, list, commandOptions, new ResultListener("Clear Channel attributes", (o) => { }, (err) => { }));
-   }
+    }
     private void GetChannelAttributes(string channelId)
     {
         rtmClient.Call("getChannelAttributes", channelId, new ResultListener("Get Channel Attribues", (o) => { }, (err) => { }));
@@ -589,7 +588,7 @@ public class RtmWrapperAndroid : IRtmWrapper
             Debug.LogError("You need to join the channel before you can send a message to it");
             return;
         }
-        
+
         Debug.Log("send msg: " + msg);
         channel.SendMessage(msg);
     }
@@ -640,7 +639,7 @@ public class RtmWrapperAndroid : IRtmWrapper
                         var online = onlineVal.Call<string>("toString");
                         var isOnline = online == "true";
                         Debug.Log(peerId + " is " + (isOnline ? "online" : "offline"));
-                        OnQueryStatusReceivedCallback(-1, new PeerOnlineStatus() { isOnline = isOnline, onlineState = isOnline ? 0 : 2,  peerId = peerId }, -1, -1);
+                        OnQueryStatusReceivedCallback(-1, new PeerOnlineStatus() { isOnline = isOnline, onlineState = isOnline ? 0 : 2, peerId = peerId }, -1, -1);
                     }
                 });
             },
@@ -655,8 +654,8 @@ public class RtmWrapperAndroid : IRtmWrapper
     {
         var list = new AndroidJavaObject("java.util.ArrayList");
 
-        for(var i = 0; i < channels.Length; i++)
-        { 
+        for (var i = 0; i < channels.Length; i++)
+        {
             var channel = channels[i];
             list.Call<bool>("add", CreateAndroidStr(channel));
         }

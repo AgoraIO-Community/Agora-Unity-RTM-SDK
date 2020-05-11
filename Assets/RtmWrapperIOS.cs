@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using AOT;
 using UnityEngine;
-using UnityEngine.UI;
-
 
 public class RtmWrapperIOS : IRtmWrapper
 {
     void HandleOnMemberLeft(IntPtr channel, IntPtr member)
     {
     }
-
-
 
     //TEMP!!!!
     public RtmChannelIOS curChannel;
@@ -49,14 +44,14 @@ public class RtmWrapperIOS : IRtmWrapper
         [MonoPInvokeCallback(typeof(RtmWrapperDll.OnCompletion))]
         public static void onLeaveChannel(int code)
         {
-            print("unity on leave channel");
+            Debug.Log("unity on leave channel");
         }
 
 
         [MonoPInvokeCallback(typeof(RtmWrapperDll.OnCompletion))]
         public static void onSendChannelMessage(int code)
         {
-            print("unity on send channel msg: " + code);
+            Debug.Log("unity on send channel msg: " + code);
         }
 
 
@@ -206,7 +201,7 @@ public class RtmWrapperIOS : IRtmWrapper
     public override void Initialize()
     {
 
-        print(RtmWrapperDll.getSDKVersion());
+        Debug.Log(RtmWrapperDll.getSDKVersion());
 
         //RtmWrapperDll.initAgora("");
         //RtmWrapperDll.hello();
@@ -216,7 +211,7 @@ public class RtmWrapperIOS : IRtmWrapper
     [MonoPInvokeCallback(typeof(RtmWrapperDll.OnCompletion))]
     public static void onSendPeerMessage(int code)
     {
-        print("unity on send peer msg: " + code);
+        Debug.Log("unity on send peer msg: " + code);
     }
 
     [MonoPInvokeCallback(typeof(RtmWrapperDll.OnCompletion))]
@@ -242,25 +237,25 @@ public class RtmWrapperIOS : IRtmWrapper
     [MonoPInvokeCallback(typeof(RtmWrapperDll.OnConnectionStateChanged))]
     public static void onConnectionStateChanged(IntPtr kit, IntPtr state, IntPtr reason)
     {
-        print("On connection state changed: ");
+        Debug.Log("On connection state changed: ");
     }
 
     [MonoPInvokeCallback(typeof(RtmWrapperDll.OnPeersOnlineStatusChanged))]
     public static void onMessageReceived(IntPtr kit, string msg, string peerId)
     {
-        print(peerId + " sent a message: " + msg);
+        Debug.Log(peerId + " sent a message: " + msg);
     }
 
     [MonoPInvokeCallback(typeof(RtmWrapperDll.OnPeersOnlineStatusChanged))]
     public static void onPeersOnlineStatusChanged(IntPtr kit, int[] status)
     {
-        print("OnPeersOnlineStatusChanged");
+        Debug.Log("OnPeersOnlineStatusChanged");
     }
 
     [MonoPInvokeCallback(typeof(RtmWrapperDll.OnRtmKitTokenDidExpire))]
     public static void onRtmKitTokenDidExpire(IntPtr kit)
     {
-        print("OnRtmKitTokenDidExpire");
+        Debug.Log("OnRtmKitTokenDidExpire");
     }
 
     protected override void CreateRtmServiceAndLogin(string appId, string token, string username)
@@ -272,8 +267,8 @@ public class RtmWrapperIOS : IRtmWrapper
         RtmWrapperDll.init(appId, onConnectionStateChanged, onMessageReceived, onPeersOnlineStatusChanged, onRtmKitTokenDidExpire);
         //RtmWrapperDll.setLogFile("agora_unity_log.txt");
         //RtmWrapperDll.setLogFileSize(1);
-        print(RtmWrapperDll.getSDKVersion());
-        print("token: " + token + " || username: " + username);
+        Debug.Log(RtmWrapperDll.getSDKVersion());
+        Debug.Log("token: " + token + " || username: " + username);
         RtmWrapperDll.loginByToken(token, username, onLogin);
     }
 
@@ -333,8 +328,8 @@ public class RtmWrapperIOS : IRtmWrapper
         {
             var posSize = Marshal.SizeOf(typeof(PeerOnlineStatus));
             var pos = (PeerOnlineStatus)Marshal.PtrToStructure(peerOnlineStatus, typeof(PeerOnlineStatus));
-            print("peer: " + pos.peerId + " -- " + pos.isOnline);
-            print("peer: " + (int)pos.onlineState);
+            Debug.Log("peer: " + pos.peerId + " -- " + pos.isOnline);
+            Debug.Log("peer: " + (int)pos.onlineState);
             RtmWrapper.Instance.OnQueryStatusReceivedCallback(0, pos, 1, 0);
         });
     }
@@ -781,3 +776,4 @@ public class RtmWrapperDll
 
 #endif
 }
+

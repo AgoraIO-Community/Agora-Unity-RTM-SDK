@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -148,50 +147,56 @@ public class RtmWrapper : MonoBehaviour
     }
 }
 
-public abstract class IRtmWrapper : MonoBehaviour
+public abstract class IRtmWrapper
 {
     protected List<string> channels = new List<string>();
 
     #region Events
     public delegate void LoginSuccess();
     public event LoginSuccess OnLoginSuccess;
-    public void OnLoginSuccessCallback() { 
-        if(OnLoginSuccess != null)
-            OnLoginSuccess.Invoke(); 
+    public void OnLoginSuccessCallback()
+    {
+        if (OnLoginSuccess != null)
+            OnLoginSuccess.Invoke();
     }
 
     public delegate void JoinSuccess();
     public event JoinSuccess OnJoinSuccess;
-    protected void OnJoinSuccessCallback() { 
-        if(OnJoinSuccess!= null)
-            OnJoinSuccess.Invoke(); 
+    protected void OnJoinSuccessCallback()
+    {
+        if (OnJoinSuccess != null)
+            OnJoinSuccess.Invoke();
     }
 
     public delegate void MessageReceived(string userName, string msg);
     public event MessageReceived OnMessageReceived;
-    public void OnMessageReceivedCallback(string userName, string msg) { 
+    public void OnMessageReceivedCallback(string userName, string msg)
+    {
         if (OnMessageReceived != null)
-            OnMessageReceived.Invoke(userName, msg); 
+            OnMessageReceived.Invoke(userName, msg);
     }
 
     public delegate void MemberChanged(string userName, string channelId, bool joined);
     public event MemberChanged OnMemberChanged;
-    public void OnMemberChangedCallback(string userName, string channelId, bool joined) { 
-        if(OnMemberChanged != null)
+    public void OnMemberChangedCallback(string userName, string channelId, bool joined)
+    {
+        if (OnMemberChanged != null)
             OnMemberChanged(userName, channelId, joined);
     }
 
     public delegate void QueryStatusReceived(long requestId, PeerOnlineStatus peersStatus, int peerCount, int errorCode);
     public event QueryStatusReceived OnQueryStatusReceived;
-    public void OnQueryStatusReceivedCallback(long requestId, PeerOnlineStatus peersStatus, int peerCount, int errorCode) {
-        if(OnQueryStatusReceived != null)
+    public void OnQueryStatusReceivedCallback(long requestId, PeerOnlineStatus peersStatus, int peerCount, int errorCode)
+    {
+        if (OnQueryStatusReceived != null)
             OnQueryStatusReceived(requestId, peersStatus, peerCount, errorCode);
     }
 
     public delegate void ChannelMemberCountReceived(long requestId, List<ChannelMemberCount> members);
     public event ChannelMemberCountReceived OnChannelMemberCountReceived;
-    public void OnChannelMemberCountReceivedCallback(long requestId, List<ChannelMemberCount> members) {
-        if(OnChannelMemberCountReceived != null)
+    public void OnChannelMemberCountReceivedCallback(long requestId, List<ChannelMemberCount> members)
+    {
+        if (OnChannelMemberCountReceived != null)
             OnChannelMemberCountReceived(requestId, members);
     }
     #endregion
@@ -205,7 +210,7 @@ public abstract class IRtmWrapper : MonoBehaviour
     public void Login(string appId, string token, string username) { CreateRtmServiceAndLogin(appId, token, username); }
     protected abstract void CreateRtmServiceAndLogin(string appId, string token, string username);
 
-    public void Logout() { LogoutAndReleaseRtmService(); }
+    public virtual void Logout() { LogoutAndReleaseRtmService(); }
     protected abstract void LogoutAndReleaseRtmService();
 
     public abstract IRtmChannel JoinChannel(string channel);
@@ -233,5 +238,5 @@ public abstract class IRtmWrapper : MonoBehaviour
     public abstract void QueryPeersOnlineStatus(string peerIdsUnformatted, ref long requestId);
 
     public abstract void GetChannelMemberCount(string[] channelIds, int channelCount, ref long reqId);
-    
+
 }
