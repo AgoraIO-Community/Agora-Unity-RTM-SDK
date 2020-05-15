@@ -41,8 +41,8 @@ To build and run the sample application, get an App ID:
 2. Next go into your Heirarchy window and select **MessengerManager**, in the Inspector add your **App ID** to to the **AppID** Input field
 
 #### Test in Editor 
-1. Go to **File** > **Builds** > **Platform** and select either Windows or Mac depending on the deevice you are working on. 
-2. Press the Unity Play button to runt he example sceen 
+1. Go to **File** > **Builds** > **Platform** and select either Windows or Mac depending on the device you are working on. 
+2. Press the Unity Play button to run the example sceen 
 
 #### Deploy to Windows, Mac, Android
 1. Deploy to Mac, Android, and Windows by simply changing the Platform in the **File** > **Build Settings**, then switch to your prefered platform
