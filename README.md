@@ -42,7 +42,7 @@ To build and run the sample application, get an App ID:
 
 #### Test in Editor 
 1. Go to **File** > **Builds** > **Platform** and select either Windows or Mac depending on the device you are working on. 
-2. Press the Unity Play button to run the example sceen 
+2. Press the Unity Play button to run the example scene 
 
 #### Deploy to Windows, Mac, Android
 1. Deploy to Mac, Android, and Windows by simply changing the Platform in the **File** > **Build Settings**, then switch to your prefered platform
