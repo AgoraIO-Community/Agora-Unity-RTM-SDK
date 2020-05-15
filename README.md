@@ -16,6 +16,7 @@ With this sample app, you can:
 - Query a member in the channel
 - Leave channel
 - Logout RTM server
+- Token Authentication
 
 
 ## Developer Environment Requirements
@@ -35,15 +36,21 @@ To build and run the sample application, get an App ID:
 3. Save the **App ID** from the Dashboard for later use.
 
 ### Run the Application   
-#### If deploying to Windows, Mac, Android
-1. First clone or download this repository and open **Assets** > **Scenes** > **MainScene.unity** in your Unity3D Editor
-2. Press the Unity Play button to begin the Unity3D Editor
-3. Add your **App ID** to the AppID field
-4. Deploy to Mac, Android, and Windows by simply changing the Platform in the **File** > **Build Settings** Window
 
-#### If deploying to iOS
+1. First clone or download this repository and open **Assets** > **Scenes** > **MainScene.unity** in your Unity3D Editor
+2. Next go into your Heirarchy window and select **MessengerManager**, in the Inspector add your **App ID** to to the **AppID** Input field
+
+#### Test in Editor 
+1. Go to **File** > **Builds** > **Platform** and select either Windows or Mac depending on the device you are working on. 
+2. Press the Unity Play button to run the example scene 
+
+#### Deploy to Windows, Mac, Android
+1. Deploy to Mac, Android, and Windows by simply changing the Platform in the **File** > **Build Settings**, then switch to your prefered platform
+2. Hit **Build and Run**
+
+#### Deploy to iOS
 1. Change Platform to iOS in the Platform in the **File** > **Build Settings** Window, hit **Build And Run**
-2. In Xcode under the **General** Tab, under **Targets** > **Unity-iPhone**> **Frameworks, Libaries, and Embedded Content** change **AgoraRtmIos.framework** to **Embed Without Signing**
+2. In Xcode under the **General** Tab, under **Targets** > **Unity-iPhone**> **Frameworks, Libaries, and Embedded Content** change **AgoraRtmIos.framework** to **Embed & Sign**
 3. Press the Play button in Xcode to build to your device
 
 
