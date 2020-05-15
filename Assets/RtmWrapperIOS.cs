@@ -109,7 +109,7 @@ public class RtmWrapperIOS : IRtmWrapper
     public static void onMemberJoined(IntPtr channel, string uid)
     {
         var chId = ((RtmWrapperIOS)RtmWrapper.Instance).curChannel.GetId();
-        Debug.Log(uid + " left " + chId);
+        Debug.Log(uid + " joined " + chId);
         RtmWrapper.Instance.OnMemberChangedCallback(uid, chId, true);
     }
 
@@ -241,10 +241,14 @@ public class RtmWrapperIOS : IRtmWrapper
         Debug.Log("On connection state changed: ");
     }
 
-    [MonoPInvokeCallback(typeof(RtmWrapperDll.OnPeersOnlineStatusChanged))]
+    [MonoPInvokeCallback(typeof(RtmWrapperDll.OnMessageReceived))]
     public static void onMessageReceived(IntPtr kit, string msg, string peerId)
     {
-        Debug.Log(peerId + " sent a message: " + msg);
+        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+        {
+            Debug.Log(peerId + " sent a message: " + msg);
+            RtmWrapper.Instance.OnMessageReceivedCallback(peerId, msg);
+        });
     }
 
     [MonoPInvokeCallback(typeof(RtmWrapperDll.OnPeersOnlineStatusChanged))]
