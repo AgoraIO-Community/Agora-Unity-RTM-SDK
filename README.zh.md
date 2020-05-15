@@ -17,6 +17,7 @@ Agora Unity3D Sample App是一个开源演示，它将帮助您使用Agora RTM S
 - 查询频道中的成员
 - 离开频道
 - 注销RTM服务器
+- 令牌认证
 
 
 ## 开发人员环境要求
@@ -36,16 +37,22 @@ Agora Unity3D Sample App是一个开源演示，它将帮助您使用Agora RTM S
 2. 在左侧的Agora控制台中导航至** Projects **> ** More **> ** Create **> ** Create New Project **。<br/>
 3. 从仪表板保存** App ID **，以备后用。
 
+
 ### 运行应用程序
-#### 如果部署到Windows，Mac，Android
-1. 首先克隆或下载此存储库，然后在Unity3D编辑器中打开**资产**>场景**> ** MainScene.unity **
-2. 按Unity Play按钮启动Unity3D编辑器
-3. 将您的“应用程序ID” **添加到“应用程序ID”字段
-4. 只需在“文件”>“构建设置”窗口中更改平台即可部署到Mac，Android和Windows
+1. 首先克隆或下载此存储库，然后在Unity3D编辑器中打开Assets> Scenes> MainScene.unity。
+2. 接下来进入Heirarchy窗口并选择MessengerManager，在检查器中将您的App ID添加到AppID输入字段
+
+### 在编辑器中测试
+1. 转到文件>构建>平台，然后根据要使用的设备选择Windows或Mac。
+2. 按下Unity Play按钮运行示例场景
+
+#### 部署到Windows，Mac，Android
+1. 只需在“文件”>“构建设置”中更改平台，然后切换到首选平台，即可部署到Mac，Android和Windows。
+2. 点击构建并运行
 
 #### 如果部署到iOS
 1. 在“文件”>“构建设置”窗口的“平台”中，将“平台”更改为iOS，然后单击“构建并运行” **。
-2. 在Xcode的“常规”标签下的“目标”>“ Unity-iPhone”>“框架，库和嵌入式内容”下，将“ AgoraRtmIos.framework”更改为**。嵌入而不签名**
+2. 在Xcode的General选项卡下的Targets> Unity-iPhone> Frameworks，Libaries和Embedded Content下，将AgoraRtmIos.framework更改为Embed＆Sign
 3. 按Xcode中的“播放”按钮以构建您的设备
 
 
