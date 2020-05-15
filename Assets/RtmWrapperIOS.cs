@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using AOT;
 using UnityEngine;
 
+#if UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
 public class RtmWrapperIOS : IRtmWrapper
 {
     void HandleOnMemberLeft(IntPtr channel, IntPtr member)
@@ -604,7 +605,6 @@ public class RtmWrapperIOS : IRtmWrapper
 
 public class RtmWrapperDll
 {
-#if UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
 
     public delegate void OnCompletion(int errorCode);
     //public delegate void OnQueryStatus([MarshalAs(UnmanagedType.LPStr)]string[] peerIds, [MarshalAs(UnmanagedType.LPArray)]int[] status);
@@ -772,8 +772,6 @@ public class RtmWrapperDll
     [DllImport("AgoraRtmBundle")]
 #endif
     public static extern string getSDKVersion();
-
-
-#endif
 }
+#endif
 

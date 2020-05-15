@@ -298,6 +298,21 @@ public class RtmWrapperDll
         const string dll = "";
 #endif
 
+    public delegate void OnCompletion(int errorCode);
+    //public delegate void OnQueryStatus([MarshalAs(UnmanagedType.LPStr)]string[] peerIds, [MarshalAs(UnmanagedType.LPArray)]int[] status);
+    public delegate void OnQueryStatus(IntPtr peerStatus);
+    public delegate void OnChannelMemberCount(ChannelMemberCount[] channelMemberCounts, int errorCode);
+    public delegate void OnMemberJoined(IntPtr channel, string userId);
+    public delegate void OnMemberLeft(IntPtr channel, string userId);
+    public delegate void OnChannelMessageReceived(IntPtr channel, string message, string userId);
+    public delegate void OnMemberCount(IntPtr channel, int count);
+    public delegate void OnQueryPeersBySubscriptionOption([MarshalAs(UnmanagedType.LPStr)] string[] peerIds, int errorCode);
+    public delegate void OnRenewToken(string token, int errorCode);
+    public delegate void OnConnectionStateChanged(IntPtr kit, IntPtr state, IntPtr reason);
+    public delegate void OnMessageReceived(IntPtr kit, string msg, string peerId);
+    public delegate void OnPeersOnlineStatusChanged(IntPtr kit, int[] status);
+    public delegate void OnRtmKitTokenDidExpire(IntPtr kit);
+
 
     //#if UNITY_STANDALONE_WIN || UNITY_EDITOR
 
@@ -667,4 +682,4 @@ public class RtmWrapperDll
     }
 
 }
-    #endif
+#endif
