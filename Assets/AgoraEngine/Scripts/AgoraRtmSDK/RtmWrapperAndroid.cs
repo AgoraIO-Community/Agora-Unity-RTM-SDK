@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace io.agora.rtm
 {
-#if !UNITY_IOS
+#if UNITY_ANDROID
     public class RtmWrapperAndroid : IRtmWrapper
     {
         AndroidJavaClass rtmClientClass;
