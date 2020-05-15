@@ -43,8 +43,8 @@ Agora Unity3D Sample App是一个开源演示，它将帮助您使用Agora RTM S
 2. 接下来进入Heirarchy窗口并选择MessengerManager，在检查器中将您的App ID添加到AppID输入字段
 
 ### 在编辑器中测试
-1. 转到文件>构建>平台，然后根据要使用的设备选择Windows或Mac。
-2. 按下Unity Play按钮运行示例场景
+1.转到“文件”>“版本”>“平台”，然后根据要使用的设备选择Windows或Mac。
+2.按下Unity Play按钮运行示例场景
 
 #### 部署到Windows，Mac，Android
 1. 只需在“文件”>“构建设置”中更改平台，然后切换到首选平台，即可部署到Mac，Android和Windows。
