@@ -5,7 +5,8 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+namespace io.agora.rtm
+{
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 
 public class RtmWrapperWindows : IRtmWrapper
@@ -683,3 +684,4 @@ public class RtmWrapperDll
 
 }
 #endif
+} // namespace

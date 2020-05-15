@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace io.agora.demo.rtm
+namespace io.agora.rtm.demo
 {
     public class chatManager : MonoBehaviour
     {
