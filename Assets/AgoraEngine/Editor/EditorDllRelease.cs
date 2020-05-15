@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using io.agora.rtm;
 
 [InitializeOnLoad]
 public class EditorDllRelease
 {
     static void Quit()
     {
-        #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
         RtmWrapperDll.release();
-        #endif
+#endif
     }
 
     static EditorDllRelease()
