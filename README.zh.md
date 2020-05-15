@@ -32,7 +32,7 @@ Agora Unity3D Sample App是一个开源演示，它将帮助您使用Agora RTM S
 
 要构建和运行示例应用程序，请获取一个应用程序ID：
 
-1. 在[agora.io]（https://dashboard.agora.io/signin/) 上创建一个开发人员帐户。完成注册过程后，您将被重定向到仪表板。<br />
+1. 在 [agora.io](https://dashboard.agora.io/signin/) 上创建一个开发人员帐户。完成注册过程后，您将被重定向到仪表板。<br />
 2. 在左侧的Agora控制台中导航至** Projects **> ** More **> ** Create **> ** Create New Project **。<br/>
 3. 从仪表板保存** App ID **，以备后用。
 
