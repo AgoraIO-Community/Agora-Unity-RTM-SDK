@@ -29,6 +29,7 @@ namespace io.agora.rtm
         void SetRawData(string data);
     }
 
+#if UNITY_IOS || UNITY_STANDALONE_OSX
     public interface IRtmCallKit
     {
         IntPtr GetHandle();
@@ -37,6 +38,7 @@ namespace io.agora.rtm
         void AcceptRemoteInvitation(IRtmRemoteCallInvitation call, RtmWrapperDll.OnCompletion callback);
         void RefuseRemoteInvitation(IRtmRemoteCallInvitation call, RtmWrapperDll.OnCompletion callback);
     }
+#endif
 
     public interface IRtmLocalCallInvitation
     {

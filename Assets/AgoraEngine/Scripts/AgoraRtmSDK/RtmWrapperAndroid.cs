@@ -607,7 +607,7 @@ namespace io.agora.rtm
             }
 
             var sendMessageOptions = new AndroidJavaObject("io.agora.rtm.SendMessageOptions");
-            sendMessageOptions.Set("enableOfflineMessaging", enableOffline ? 1 : 0);
+            sendMessageOptions.Set("enableOfflineMessaging", enableOffline ? true : false);
             rtmClient.Call("sendMessageToPeer", CreateAndroidStr(peerId), CreateAndroidMessage(msg), sendMessageOptions, new ResultListener("send peer message"));
         }
 
