@@ -100,7 +100,7 @@ namespace io.agora.rtm
     [StructLayout(LayoutKind.Sequential)]
     public struct ChannelMemberCount
     {
-        [MarshalAs(UnmanagedType.LPStr)]
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
         public string channelId;
         [MarshalAs(UnmanagedType.U4)]
         public int count;

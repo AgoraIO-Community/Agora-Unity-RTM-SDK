@@ -358,7 +358,7 @@ namespace io.agora.rtm
 
 
         [MonoPInvokeCallback(typeof(RtmWrapperDll.OnChannelMemberCount))]
-        public static void ChannelMemberCountCallback(ChannelMemberCount[] channelMemberCounts, int count)
+        public static void ChannelMemberCountCallback(IntPtr channelMemberCounts, int count)
         {
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
@@ -368,9 +368,18 @@ namespace io.agora.rtm
                     //PeerOnlineStatus peerOnlineStatus = new PeerOnlineStatus();
                     //peerOnlineStatus.peerId = peerIds[0];
                     //peerOnlineStatus.isOnline = onlineStatus[0];
+                    var cmc = new ChannelMemberCount[count];
+                    //var cmc = (ChannelMemberCount[])Marshal.PtrToStructure(channelMemberCounts, typeof(ChannelMemberCount[]));
+                    int typeSize = Marshal.SizeOf(typeof(ChannelMemberCount));
+                    Debug.Log("before for");
+                    for (int i = 0; i < count; i++)
+                    {
+                        cmc[i] = (ChannelMemberCount)Marshal.PtrToStructure(new IntPtr(channelMemberCounts.ToInt64() + (i * typeSize)), typeof(ChannelMemberCount));
+                        Debug.Log("after marshal");
+                    }
 
-                    RtmWrapper.Instance.OnChannelMemberCountReceivedCallback(0, channelMemberCounts.ToList());
-                    RtmWrapperDll.freeChannelMemberCount(channelMemberCounts, channelMemberCounts.Length);
+                    RtmWrapper.Instance.OnChannelMemberCountReceivedCallback(0, cmc.ToList());
+                    RtmWrapperDll.freeChannelMemberCount(channelMemberCounts, cmc.Length);
                 }
                 else
                     Debug.Log("Query Peers: No results!");
@@ -615,7 +624,7 @@ namespace io.agora.rtm
         public delegate void OnCompletion(int errorCode);
         //public delegate void OnQueryStatus([MarshalAs(UnmanagedType.LPStr)]string[] peerIds, [MarshalAs(UnmanagedType.LPArray)]int[] status);
         public delegate void OnQueryStatus(IntPtr peerStatus);
-        public delegate void OnChannelMemberCount(ChannelMemberCount[] channelMemberCounts, int errorCode);
+        public delegate void OnChannelMemberCount(IntPtr channelMemberCounts, int errorCode);
         public delegate void OnMemberJoined(IntPtr channel, string userId);
         public delegate void OnMemberLeft(IntPtr channel, string userId);
         public delegate void OnChannelMessageReceived(IntPtr channel, string message, string userId);
@@ -714,7 +723,7 @@ namespace io.agora.rtm
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
-        public static extern void freeChannelMemberCount(ChannelMemberCount[] data, int ount);
+        public static extern void freeChannelMemberCount(IntPtr data, int count);
 
 #if UNITY_IOS
     [DllImport("__Internal")]
