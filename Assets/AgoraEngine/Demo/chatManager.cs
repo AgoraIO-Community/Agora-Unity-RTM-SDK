@@ -7,9 +7,9 @@ namespace io.agora.rtm.demo
     public class chatManager : MonoBehaviour
     {
         [SerializeField]
-        private string appId;
+        private string appId = "";
         [SerializeField]
-        private string token;
+        private string token = "";
 
         private string userName, channelName;
 
