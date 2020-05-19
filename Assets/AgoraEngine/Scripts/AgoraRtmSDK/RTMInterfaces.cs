@@ -29,7 +29,7 @@ namespace io.agora.rtm
         void SetRawData(string data);
     }
 
-#if UNITY_IOS || UNITY_STANDALONE_OSX
+#if UNITY_IOS || UNITY_STANDALONE_OSX|| UNITY_EDITOR_OSX
     public interface IRtmCallKit
     {
         IntPtr GetHandle();

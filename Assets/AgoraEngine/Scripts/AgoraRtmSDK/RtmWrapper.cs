@@ -13,10 +13,10 @@ namespace io.agora.rtm
             if (Instance != null)
                 Destroy(gameObject);
 
-#if UNITY_ANDROID
-        Instance = new RtmWrapperAndroid();
-#elif UNITY_IOS || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+#if UNITY_IOS || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
             Instance = new RtmWrapperIOS();
+#elif UNITY_ANDROID
+        Instance = new RtmWrapperAndroid();
 #else
         Instance = new RtmWrapperWindows();
 #endif
