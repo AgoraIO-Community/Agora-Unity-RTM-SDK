@@ -14,7 +14,6 @@ namespace io.agora.rtm
         {
         }
 
-        //TEMP!!!!
         public RtmChannelIOS curChannel;
 
         public class RtmChannelIOS : IRtmChannel
@@ -22,7 +21,6 @@ namespace io.agora.rtm
 
             private IntPtr chHandler;
             private string channelId;
-            //TEMP!!! (should be private)
             public Action<object> successCallback;
 
             [DllImport("__Internal")]
@@ -136,10 +134,6 @@ namespace io.agora.rtm
             });
         }
 
-        //TODO
-        //[MonoPInvokeCallback(typeof(RtmWrapperDll.OnCompletion))]
-        //public static void onAttributeUpdate()
-
         [MonoPInvokeCallback(typeof(RtmWrapperDll.OnCompletion))]
         public static void onMemberCount(IntPtr channel, int count)
         {
@@ -206,8 +200,6 @@ namespace io.agora.rtm
 
             Debug.Log(RtmWrapperDll.getSDKVersion());
 
-            //RtmWrapperDll.initAgora("");
-            //RtmWrapperDll.hello();
         }
 
 
@@ -270,10 +262,7 @@ namespace io.agora.rtm
             if (LoggedIn)
                 return;
 
-            //RtmWrapperDll.init("c558a3fe33564ec2853ef1759ec003f1");
             RtmWrapperDll.init(appId, onConnectionStateChanged, onMessageReceived, onPeersOnlineStatusChanged, onRtmKitTokenDidExpire);
-            //RtmWrapperDll.setLogFile("agora_unity_log.txt");
-            //RtmWrapperDll.setLogFileSize(1);
             Debug.Log(RtmWrapperDll.getSDKVersion());
             Debug.Log("token: " + token + " || username: " + username);
             RtmWrapperDll.loginByToken(token, username, onLogin);
@@ -281,7 +270,6 @@ namespace io.agora.rtm
 
         protected override void LogoutAndReleaseRtmService()
         {
-            //TODO
             if (LoggedIn)
             {
                 LoggedIn = false;
@@ -311,29 +299,23 @@ namespace io.agora.rtm
         public override void SendChannelMessage(IRtmChannel channel, string channelName, string msg)
         {
             channel.SendMessage(msg);
-            //channel.sendMessage(msg, onSendChannelMessage);
         }
 
         public override void SendChannelMessageWithOptions(IRtmChannel channel, string channelName, string msg, IRtmWrapper.SendMessageOptions smo)
         {
-            //TODO
             channel.SendMessage(msg);
         }
 
         public override void SendPeerMessage(string peerId, string msg, bool enableOffline)
         {
-            //TODO: Add offline mode
             RtmWrapperDll.sendMessageToPeer(msg, peerId, onSendPeerMessage);
         }
 
         [MonoPInvokeCallback(typeof(RtmWrapperDll.OnQueryStatus))]
-        //public delegate void OnQueryStatus([MarshalAs(UnmanagedType.LPStr)]string[] peerIds, [MarshalAs(UnmanagedType.LPArray)]int[] status);
-        //public static void QueryPeersOnlineStatusCallback(string[] peerIds, int[] onlineStatus)
         public static void QueryPeersOnlineStatusCallback(IntPtr peerOnlineStatus)
         {
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                // var posSize = Marshal.SizeOf(typeof(PeerOnlineStatus));
                 var pos = (PeerOnlineStatus)Marshal.PtrToStructure(peerOnlineStatus, typeof(PeerOnlineStatus));
                 Debug.Log("peer: " + pos.peerId + " -- " + pos.isOnline);
                 Debug.Log("peer: " + (int)pos.onlineState);
@@ -341,9 +323,6 @@ namespace io.agora.rtm
             });
         }
 
-        /**
-         * Test
-         */
         public override void QueryPeersOnlineStatus(string peerIds, ref long requestId)
         {
             var fPeerIds = peerIds.Split(' ');
@@ -365,11 +344,8 @@ namespace io.agora.rtm
                 Debug.Log("channel member count callback: " + count);
                 if (count > 0)
                 {
-                    //PeerOnlineStatus peerOnlineStatus = new PeerOnlineStatus();
-                    //peerOnlineStatus.peerId = peerIds[0];
-                    //peerOnlineStatus.isOnline = onlineStatus[0];
+
                     var cmc = new ChannelMemberCount[count];
-                    //var cmc = (ChannelMemberCount[])Marshal.PtrToStructure(channelMemberCounts, typeof(ChannelMemberCount[]));
                     int typeSize = Marshal.SizeOf(typeof(ChannelMemberCount));
                     Debug.Log("before for");
                     for (int i = 0; i < count; i++)
@@ -383,7 +359,6 @@ namespace io.agora.rtm
                 }
                 else
                     Debug.Log("Query Peers: No results!");
-                //Debug.Log("query peers callback: " + count + " -- " +  peerIds[0] + " -- " +onlineStatus[0]);
             });
         }
 
@@ -622,7 +597,6 @@ namespace io.agora.rtm
     {
 
         public delegate void OnCompletion(int errorCode);
-        //public delegate void OnQueryStatus([MarshalAs(UnmanagedType.LPStr)]string[] peerIds, [MarshalAs(UnmanagedType.LPArray)]int[] status);
         public delegate void OnQueryStatus(IntPtr peerStatus);
         public delegate void OnChannelMemberCount(IntPtr channelMemberCounts, int errorCode);
         public delegate void OnMemberJoined(IntPtr channel, string userId);
@@ -746,13 +720,6 @@ namespace io.agora.rtm
 #endif
         public static extern string unsubscribePeersOnlineStatus(string[] peerIds, int count, OnCompletion callback);
 
-        //#if UNITY_IOS
-        //    [DllImport("__Internal")]
-        //#else
-        //    [DllImport("AgoraRtmBundle")]
-        //#endif
-        //public static extern string queryPeersBySubscriptionOption(int options, OnCompletion callback);
-
 #if UNITY_IOS
     [DllImport("__Internal")]
 #else
@@ -790,4 +757,4 @@ namespace io.agora.rtm
     }
 #endif
 
-} // namespace
+}

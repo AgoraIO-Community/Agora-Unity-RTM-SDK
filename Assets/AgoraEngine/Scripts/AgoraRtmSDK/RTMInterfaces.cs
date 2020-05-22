@@ -5,24 +5,69 @@ namespace io.agora.rtm
 {
     public interface IRtmChannel
     {
+        /**
+         * Joins a channel
+         */
         void Join();
+
+        /**
+         * Leaves a channel
+         */
         void Leave();
+        /**
+         * Sends a message
+         */
         void SendMessage(string msg);
+
+        /**
+         * Sends a message with options
+         */
         void SendMessage(string msg, IRtmWrapper.SendMessageOptions smo);
 
+        /**
+         * Gets the ID of the channel
+         */
         string GetId();
-        void GetMembers();
 
+        /**
+         * Retrieves a member list of channel
+         */
+        void GetMembers();
+        /**
+         * Releases all resources used by the IChannel instance.
+         */
         void Release();
     }
 
     public interface IRtmMessage
     {
+        /**
+         * Retrieves the message type.
+         */
         int GetMsgType();
+
+        /**
+         * Sets the content of the text message or the text description of the raw message.
+         * * Note 
+         * The maximum length is 32 KB.
+          */
         void SetText(string text);
+
+        /**
+         * Retrieves the content of the text message or the text description of the raw message.
+         */
         string GetText();
 
+        /**
+         * Allows the receiver to retrieve the timestamp of when the messaging server receives this message.
+         * * Note 
+         * The returned timestamp is on a millisecond time-scale. It is for demonstration purposes only, not for strict ordering of messages.
+       */
         Int64 GetServerReceivedTs();
+
+        /**
+         * Allows the receiver to check whether this message has been cached on the server (Applies to peer-to-peer message only).
+        */
         bool IsOfflineMessage();
 
         string GetRawData();
@@ -91,11 +136,8 @@ namespace io.agora.rtm
     [StructLayout(LayoutKind.Sequential)]
     public struct PeerOnlineStatus
     {
-        //[MarshalAs(UnmanagedType.LPStr)]
         public string peerId;
-        //[MarshalAs(UnmanagedType.U4)]
         public bool isOnline;
-        //[MarshalAs(UnmanagedType.U4)]
         public int onlineState;
     }
 

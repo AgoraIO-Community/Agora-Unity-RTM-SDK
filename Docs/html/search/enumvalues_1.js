@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['channel_5fmessage_5ferr_5ffailure_884',['CHANNEL_MESSAGE_ERR_FAILURE',['../namespaceagora_1_1rtm.html#ac65cb811d9fe2dcd28389da1786a5b76a12143d2fa29d19c0ce2b5a45683de800',1,'agora::rtm']]],
+  ['channel_5fmessage_5ferr_5finvalid_5fmessage_885',['CHANNEL_MESSAGE_ERR_INVALID_MESSAGE',['../namespaceagora_1_1rtm.html#ac65cb811d9fe2dcd28389da1786a5b76a83da6bb04ca7b52a9d6fe271df7a526b',1,'agora::rtm']]],
+  ['channel_5fmessage_5ferr_5fnot_5finitialized_886',['CHANNEL_MESSAGE_ERR_NOT_INITIALIZED',['../namespaceagora_1_1rtm.html#ac65cb811d9fe2dcd28389da1786a5b76aba660a532e8d31c792ea04af0bda850c',1,'agora::rtm']]],
+  ['channel_5fmessage_5ferr_5fok_887',['CHANNEL_MESSAGE_ERR_OK',['../namespaceagora_1_1rtm.html#ac65cb811d9fe2dcd28389da1786a5b76a345a93650bc5bfac279e9aa342be2c79',1,'agora::rtm']]],
+  ['channel_5fmessage_5ferr_5fsent_5ftimeout_888',['CHANNEL_MESSAGE_ERR_SENT_TIMEOUT',['../namespaceagora_1_1rtm.html#ac65cb811d9fe2dcd28389da1786a5b76a4bd7249b112a4d893c52975af0ff57b2',1,'agora::rtm']]],
+  ['channel_5fmessage_5ferr_5ftoo_5foften_889',['CHANNEL_MESSAGE_ERR_TOO_OFTEN',['../namespaceagora_1_1rtm.html#ac65cb811d9fe2dcd28389da1786a5b76af674d16dc2d573b64b1f3d0c1b39a4f6',1,'agora::rtm']]],
+  ['channel_5fmessage_5ferr_5fuser_5fnot_5flogged_5fin_890',['CHANNEL_MESSAGE_ERR_USER_NOT_LOGGED_IN',['../namespaceagora_1_1rtm.html#ac65cb811d9fe2dcd28389da1786a5b76a61b5a2d980b3d3afa5a5f1e31ce8eae6',1,'agora::rtm']]],
+  ['connection_5fchange_5freason_5fbanned_5fby_5fserver_891',['CONNECTION_CHANGE_REASON_BANNED_BY_SERVER',['../namespaceagora_1_1rtm.html#a81380191ea654d791fb7e6db14faca90a1723c5136713e9b076dddb9bacc29d67',1,'agora::rtm']]],
+  ['connection_5fchange_5freason_5finterrupted_892',['CONNECTION_CHANGE_REASON_INTERRUPTED',['../namespaceagora_1_1rtm.html#a81380191ea654d791fb7e6db14faca90ac3a610331c428e0dd7f289b52d148c42',1,'agora::rtm']]],
+  ['connection_5fchange_5freason_5flogin_893',['CONNECTION_CHANGE_REASON_LOGIN',['../namespaceagora_1_1rtm.html#a81380191ea654d791fb7e6db14faca90af700093af054d591b22cf0f6fe59cb10',1,'agora::rtm']]],
+  ['connection_5fchange_5freason_5flogin_5ffailure_894',['CONNECTION_CHANGE_REASON_LOGIN_FAILURE',['../namespaceagora_1_1rtm.html#a81380191ea654d791fb7e6db14faca90ac17cfe62e00192f79d3eb3a3d46092ce',1,'agora::rtm']]],
+  ['connection_5fchange_5freason_5flogin_5fsuccess_895',['CONNECTION_CHANGE_REASON_LOGIN_SUCCESS',['../namespaceagora_1_1rtm.html#a81380191ea654d791fb7e6db14faca90ab1204d4e836a85458eeed580d40767d4',1,'agora::rtm']]],
+  ['connection_5fchange_5freason_5flogin_5ftimeout_896',['CONNECTION_CHANGE_REASON_LOGIN_TIMEOUT',['../namespaceagora_1_1rtm.html#a81380191ea654d791fb7e6db14faca90a20596d03eabdf54cf17e0b0c83a869a0',1,'agora::rtm']]],
+  ['connection_5fchange_5freason_5flogout_897',['CONNECTION_CHANGE_REASON_LOGOUT',['../namespaceagora_1_1rtm.html#a81380191ea654d791fb7e6db14faca90a3706b54493a6514ebeb56dc059261767',1,'agora::rtm']]],
+  ['connection_5fchange_5freason_5fremote_5flogin_898',['CONNECTION_CHANGE_REASON_REMOTE_LOGIN',['../namespaceagora_1_1rtm.html#a81380191ea654d791fb7e6db14faca90a15a71a5a9551338ade803bc66f10bda5',1,'agora::rtm']]],
+  ['connection_5fstate_5faborted_899',['CONNECTION_STATE_ABORTED',['../namespaceagora_1_1rtm.html#aa6af3dc5c5eeb4df7a3ff1eea25b1ceeaffb8d64da38beb7eccf465dfde07375b',1,'agora::rtm']]],
+  ['connection_5fstate_5fconnected_900',['CONNECTION_STATE_CONNECTED',['../namespaceagora_1_1rtm.html#aa6af3dc5c5eeb4df7a3ff1eea25b1ceea92a7131e410c9ec2e43cc6e7243fcb51',1,'agora::rtm']]],
+  ['connection_5fstate_5fconnecting_901',['CONNECTION_STATE_CONNECTING',['../namespaceagora_1_1rtm.html#aa6af3dc5c5eeb4df7a3ff1eea25b1ceea71aa051480518d3542424853efe16359',1,'agora::rtm']]],
+  ['connection_5fstate_5fdisconnected_902',['CONNECTION_STATE_DISCONNECTED',['../namespaceagora_1_1rtm.html#aa6af3dc5c5eeb4df7a3ff1eea25b1ceeaaeacae3ca94edadabd7ee8e1ad519119',1,'agora::rtm']]],
+  ['connection_5fstate_5freconnecting_903',['CONNECTION_STATE_RECONNECTING',['../namespaceagora_1_1rtm.html#aa6af3dc5c5eeb4df7a3ff1eea25b1ceeab2ebb686dff3d8ef0dfe88d663a17118',1,'agora::rtm']]]
+];

@@ -27,15 +27,11 @@ public class RtmWrapperWindows : IRtmWrapper
         peerMessageCallback = new RtmWrapperDll.PeerMessageReceivedHandler(PeerMessageHandler);
         queryUserStatusCallback = new RtmWrapperDll.QueryStatusReceivedHandler(QueryUserStatusHandler);
         memberCountCallback = new RtmWrapperDll.GetChannelMembersCountHandler(ChannelMemberCountHandler);
-        //queryUserStatusCallback = new QueryStatusReceivedSimpHandler(QueryUserStatusSimpHandler);
 
         Debug.Log("create rtm service: " + RtmWrapperDll.createRtmService(appId,
                         (In64, state) => { Debug.Log("STATE: " + state); },
             peerMessageCallback,
             loginCallback,
-            //() => { Debug.Log("logged in"); joinChannel("testsdfq", null, null, () => { Debug.Log("worked"); }, null); },
-            //() => { Debug.Log("logged in"); joinChannel("testsdfq", null, null, () => { Debug.Log("worked"); }, null); },
-            //() => { Debug.Log("logged in");  },
             (errCode) => { Debug.Log("Error: " + errCode); },
             queryUserStatusCallback,
             null,
@@ -76,7 +72,6 @@ public class RtmWrapperWindows : IRtmWrapper
             getMembersCallback
         );
 
-        //Debug.Log("send msg " + sendMessageToPeer("whatever", "testing to see if it works."));
         channel.Join();
 
         return channel;
@@ -121,9 +116,6 @@ public class RtmWrapperWindows : IRtmWrapper
         RtmWrapperDll.sendMessageToPeer(peerId, msg, enableOffline ? 1 : 0);
     }
 
-    /**
-     * Test
-     */
     public override void QueryPeersOnlineStatus(string peerIdsUnformatted, ref long requestId)
     {
         var peerIds = peerIdsUnformatted.Split(' ');
@@ -164,18 +156,15 @@ public class RtmWrapperWindows : IRtmWrapper
     }
 
     RtmWrapperDll.QueryStatusReceivedHandler queryUserStatusCallback;
-    //QueryStatusReceivedSimpHandler queryUserStatusCallback;
-    //void QueryUserStatusSimpHandler(long requestId, bool pos, int count, int errorCode)
+
     void QueryUserStatusHandler(long requestId, PeerOnlineStatus pos, int count, int errorCode)
     {
         if (errorCode == 0)
         {
-            //Debug.Log(pos[0].peerId + " is " + (pos[0].isOnline ? "connected" : "disconnected" ));
-           // Debug.Log(pos + " is " + (pos.isOnline? "disconnected" : "Connected" ));
+
             Debug.Log(pos.onlineState == 0);
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                //OnQueryStatusReceived?.Invoke(requestId, pos, count, errorCode);
                 OnQueryStatusReceivedCallback(requestId, pos, count, errorCode);
             });
 
@@ -197,7 +186,6 @@ public class RtmWrapperWindows : IRtmWrapper
             var ptr = new IntPtr(channelMember.ToInt64() + offset);
             var cmc = (ChannelMemberCount)Marshal.PtrToStructure(ptr, typeof(ChannelMemberCount));
             channelMembers.Add(cmc);
-            //offset += cmc.channelId.Length + sizeof(int); // size of our structure is: length of the string (1 byte per character + the null terminator) + 32 bits (int size) (assuming 32 bit)
             Debug.Log(cmc.channelId + ": " + cmc.count);
         }
 
@@ -225,13 +213,6 @@ public class RtmWrapperWindows : IRtmWrapper
     void GetChannelMembersHandler([Out] IntPtr members, int userCount, int errorCode)
     {
         int a = 0;
-        //var allMembersList = new List<RtmChannelMember>();
-        //for (int i = 0; i < userCount; i++)
-        //{
-        //    allMembersList.Add(new RtmChannelMember(members[i]));
-        //}
-
-        //allMembersList.ForEach(m => Debug.Log(m.getUserId()));
     }
 
     public override void GetChannelMemberCount(string[] channelIds, int channelCount, ref long reqId)
@@ -300,7 +281,6 @@ public class RtmWrapperDll
 #endif
 
     public delegate void OnCompletion(int errorCode);
-    //public delegate void OnQueryStatus([MarshalAs(UnmanagedType.LPStr)]string[] peerIds, [MarshalAs(UnmanagedType.LPArray)]int[] status);
     public delegate void OnQueryStatus(IntPtr peerStatus);
     public delegate void OnChannelMemberCount(ChannelMemberCount[] channelMemberCounts, int errorCode);
     public delegate void OnMemberJoined(IntPtr channel, string userId);
@@ -314,8 +294,6 @@ public class RtmWrapperDll
     public delegate void OnPeersOnlineStatusChanged(IntPtr kit, int[] status);
     public delegate void OnRtmKitTokenDidExpire(IntPtr kit);
 
-
-    //#if UNITY_STANDALONE_WIN || UNITY_EDITOR
 
     [DllImport(dll, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
     public static extern int initialize();
@@ -364,11 +342,7 @@ public class RtmWrapperDll
     public delegate void PeerMessageReceivedHandler(string userId, string msg);
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    //[field: MarshalAs(UnmanagedType.ByValArray)]
-    //[MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]
     public delegate void QueryStatusReceivedHandler(long requestId, PeerOnlineStatus peers, int peerCount, int errorCode);
-    //[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    //delegate void QueryStatusReceivedSimpHandler(long requestId, bool peers, int peerCount, int errorCode);
 
     [DllImport(dll, CharSet = CharSet.Ansi)]
     public static extern void getChannelMemberCount(string[] channelId, int channelCount, ref long requestId);
@@ -438,31 +412,25 @@ public class RtmWrapperDll
 
         public void Join()
         {
-            //TODO: make sure we don't lose the result value
             var result = joinChannel(chHandler);
         }
 
         public void Leave()
         {
-            //TODO: make sure we don't lose the result value
             var result = leaveChannel(chHandler);
         }
 
         public void Release()
         {
-            //TODO: make sure we don't lose the result value
             var result = releaseChannel(chHandler);
         }
 
         public void SendMessage(string msg)
         {
-            //TODO: make sure we don't lose the result value
             var result = sendChannelMessage(chHandler, msg);
         }
-        //sendMessageWChannelOptions
         public void SendMessage(string msg, IRtmWrapper.SendMessageOptions smo)
         {
-            //TODO: make sure we don't lose the result value
             var result = sendChannelMessageWithOptions(chHandler, msg, ref smo);
         }
 
@@ -473,7 +441,6 @@ public class RtmWrapperDll
 
         public void GetMembers()
         {
-            //TODO: make sure we don't lose the result value
             var result = getChannelMembers(chHandler);
         }
     }
@@ -684,4 +651,4 @@ public class RtmWrapperDll
 
 }
 #endif
-} // namespace
+}

@@ -43,7 +43,6 @@ namespace io.agora.rtm
 
             public void SendMessage(string msg, SendMessageOptions smo)
             {
-                //chHandler.Call("sendMessage", CreateAndroidMessage(msg), new ResultListener("send channel message"));
             }
 
             public string GetId()
@@ -216,10 +215,6 @@ namespace io.agora.rtm
 
             }
 
-            //public void onPeersOnlineStatusChanged(Map<String, Integer> status)
-            //{
-
-            //}
         }
 
         public class ChannelMember
@@ -530,8 +525,6 @@ namespace io.agora.rtm
 
         public override void Initialize()
         {
-            //TODO: REMOVE WHEN FINISHED DEV
-            //AndroidJNIHelper.debug = true;
         }
 
 
@@ -552,7 +545,6 @@ namespace io.agora.rtm
 
         protected override void LogoutAndReleaseRtmService()
         {
-            //TODO
             if (LoggedIn)
             {
                 LoggedIn = false;
@@ -593,7 +585,6 @@ namespace io.agora.rtm
 
         public override void SendChannelMessageWithOptions(IRtmChannel channel, string channelName, string msg, IRtmWrapper.SendMessageOptions smo)
         {
-            // TODO: Add send message options
             Debug.Log("send msg: " + msg);
             channel.SendMessage(msg);
         }
@@ -611,9 +602,7 @@ namespace io.agora.rtm
             rtmClient.Call("sendMessageToPeer", CreateAndroidStr(peerId), CreateAndroidMessage(msg), sendMessageOptions, new ResultListener("send peer message"));
         }
 
-        /**
-         * Test
-         */
+
         public override void QueryPeersOnlineStatus(string peerIdsUnformatted, ref long requestId)
         {
             var peerIds = peerIdsUnformatted.Split(' ');
@@ -700,4 +689,4 @@ namespace io.agora.rtm
         }
     }
 #endif
-} // namespace
+} 
