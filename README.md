@@ -63,7 +63,7 @@ To build and run the sample application, get an App ID:
 - Dive into [Agora SDK Samples](https://github.com/AgoraIO) to see more tutorials
 - Take a look at [Agora Use Case](https://github.com/AgoraIO-usecase) for more complicated real use case
 - Repositories managed by developer communities can be found at [Agora Community](https://github.com/AgoraIO-Community)
-- You can find full API documentation at [Document Center](https://docs.agora.io/en/)
+- You can find full API documentation at [Here](Docs/html/index.html)
 - If you encounter problems during integration, you can ask question in [Stack Overflow](https://stackoverflow.com/questions/tagged/agora.io)
 - You can file bugs about this sample at [issue](https://github.com/jakep84/Unity-RTM/issues)
 
