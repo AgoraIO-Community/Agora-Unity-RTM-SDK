@@ -1,6 +1,6 @@
-# Unity-RTM
+# Agora Real Time Messaging SDK for Unity
 
-一个示例应用程序，用于显示登录/注销，登录到/退出频道，获取频道成员计数，发送/接收频道消息，发送对等消息，查询成员和令牌认证
+一个包含SDK的示例应用程序，用于显示登录/注销，登录到/退出频道，获取频道成员计数，发送/接收频道消息，发送对等消息，查询成员和令牌认证
 
 *Read this in other languages: [English](README.md)*
 
@@ -39,8 +39,9 @@ Agora Unity3D Sample App是一个开源演示，它将帮助您使用Agora RTM S
 
 
 ### 运行应用程序
-1. 首先克隆或下载此存储库，然后在Unity3D编辑器中打开Assets> Scenes> MainScene.unity。
-2. 接下来进入Heirarchy窗口并选择MessengerManager，在检查器中将您的App ID添加到AppID输入字段
+1. 首先克隆或下载此存储库 (或在这个链接直接下载资源包：bit.ly/3grvN9C)  
+2. 在Unity3D编辑器中打开Assets> Scenes> MainScene.unity。
+3. 接下来进入Heirarchy窗口并选择MessengerManager，在检查器中将您的App ID添加到AppID输入字段
 
 ### 在编辑器中测试
 1.转到“文件”>“版本”>“平台”，然后根据要使用的设备选择Windows或Mac。
