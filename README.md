@@ -1,5 +1,5 @@
-# Unity-RTM
-A sample app to show Login /Logout, Log in to/out of channel, Get Channel Member Count, Send/Receive Channel Message, Send Peer Message, Query Member, and token Authentication
+# Agora Real Time Messaging SDK for Unity
+A Unity SDK including a sample app to show Login /Logout, Log in to/out of channel, Get Channel Member Count, Send/Receive Channel Message, Send Peer Message, Query Member, and token Authentication
 
 *其他语言版本： [简体中文](README.zh.md)*
 
@@ -17,7 +17,6 @@ With this sample app, you can:
 - Leave channel
 - Logout RTM server
 - Token Authentication
-
 
 ## Developer Environment Requirements
 - Unity3d 2017 or above
@@ -37,8 +36,9 @@ To build and run the sample application, get an App ID:
 
 ### Run the Application   
 
-1. First clone or download this repository and open **Assets** > **Scenes** > **MainScene.unity** in your Unity3D Editor
-2. Next go into your Heirarchy window and select **MessengerManager**, in the Inspector add your **App ID** to to the **AppID** Input field
+1. First clone or download this repository (the package can also be downloaded directly from this link: https://bit.ly/3grvN9C)
+2. Open **Assets** > **Scenes** > **MainScene.unity** in your Unity3D Editor
+3. Next go into your Heirarchy window and select **MessengerManager**, in the Inspector add your **App ID** to to the **AppID** Input field
 
 #### Test in Editor 
 1. Go to **File** > **Builds** > **Platform** and select either Windows or Mac depending on the device you are working on. 
