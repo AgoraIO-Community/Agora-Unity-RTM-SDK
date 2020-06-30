@@ -1,0 +1,145 @@
+
+
+INFO    2020-06-30T00:30:33:006  23016; [rtm-API] rtm service login with user id: test
+INFO    2020-06-30T00:30:33:008   5516; [rtm-ctx][0] rtm login, init chat context
+INFO    2020-06-30T00:30:33:009   5972; [rs] updateServers 199.190.44.36:8000, priority 1
+INFO    2020-06-30T00:30:33:009   5972; [rs] updateServers 199.190.44.37:8000, priority 1
+INFO    2020-06-30T00:30:33:009   5516; ***CHAT BEGIN: appid:'be****************************e2' userId:'test' sid:'80799485095232701260000000000000'
+INFO    2020-06-30T00:30:33:009   5516; [rtm-chat][ee] rtm emit login signal
+INFO    2020-06-30T00:30:33:010   5516; [rtm-chat][ee] connection state change, from 1 to: 2, reason: 1
+INFO    2020-06-30T00:30:33:010   5516; [rtm-note] connection state change: 2, reason: 1
+INFO    2020-06-30T00:30:33:010  15852; [event-handler] onConnectionStateChanged called, state: 2, reason: 1
+INFO    2020-06-30T00:30:33:010   5516; [rtm-ctrl][ee] max link count 2
+INFO    2020-06-30T00:30:33:010   5516; [rtm-chat][ee] setup connection lost timer
+INFO    2020-06-30T00:30:33:010   5516; [rtm-chat][ee] request link list, with user id: test, key: be3e1b4145af48df897fa1c482c1a5e2
+INFO    2020-06-30T00:30:33:010   5516; [ap] selected: 47.244.4.122:8000
+INFO    2020-06-30T00:30:33:011   5516; connecting to 47.244.4.122:8000 handle 100bf8b0, 5124
+INFO    2020-06-30T00:30:33:011   5516; [ap] creating channel with 47.244.4.122:8000, ts 207800938, flag: 128
+INFO    2020-06-30T00:30:33:011   5516; [ap] selected: 47.107.39.93:8000
+INFO    2020-06-30T00:30:33:011   5516; [ap] creating channel with 47.107.39.93:8000, ts 207800938, flag: 128
+INFO    2020-06-30T00:30:33:011   5516; [ap] selected: 52.58.56.244:8000
+INFO    2020-06-30T00:30:33:011   5516; [ap] creating channel with 52.58.56.244:8000, ts 207800938, flag: 128
+INFO    2020-06-30T00:30:33:014   5972; [rlbs] selected: 52.80.192.229:9700
+INFO    2020-06-30T00:30:33:015   5972; [rlbs] request rs list from 52.80.192.229:9700 with fake ch report_lbs_1593491433014.......
+INFO    2020-06-30T00:30:33:034   5516; [dns] parsed ip 69.172.244.42
+INFO    2020-06-30T00:30:33:034   5516; [dns] parsed ip 35.169.70.181
+INFO    2020-06-30T00:30:33:034   5516; [dns] parsed ip 184.72.16.87
+INFO    2020-06-30T00:30:33:034   5516; [dns] parsed ip 209.177.94.19
+INFO    2020-06-30T00:30:33:034   5516; [dns] parsed ip 107.155.14.132
+INFO    2020-06-30T00:30:33:034   5516; [ap] onParsedDns with err 0, 69.172.244.42, 35.169.70.181, 184.72.16.87, 209.177.94.19, 107.155.14.132, 
+INFO    2020-06-30T00:30:33:035   5516; CacheManager: save cache to storage elapsed 0
+INFO    2020-06-30T00:30:33:041   5972; [dns] parsed ip 209.177.94.19
+INFO    2020-06-30T00:30:33:041   5972; [dns] parsed ip 107.155.14.132
+INFO    2020-06-30T00:30:33:041   5972; [dns] parsed ip 69.172.244.42
+INFO    2020-06-30T00:30:33:041   5972; [dns] parsed ip 35.169.70.181
+INFO    2020-06-30T00:30:33:041   5972; [dns] parsed ip 184.72.16.87
+INFO    2020-06-30T00:30:33:048   5972; CacheManager: save cache to storage elapsed 0
+INFO    2020-06-30T00:30:33:060   5972; [dns] parsed ip 65.255.41.2
+INFO    2020-06-30T00:30:33:060   5972; [dns] parsed ip 107.155.5.220
+INFO    2020-06-30T00:30:33:060   5972; [dns] parsed ip 128.1.75.151
+INFO    2020-06-30T00:30:33:060   5972; [rs] dns parse result code: 0, servers size: 3
+INFO    2020-06-30T00:30:33:060   5972; [rs] updateServers 65.255.41.2:8000, priority 2
+INFO    2020-06-30T00:30:33:060   5972; [rs] updateServers 107.155.5.220:8000, priority 2
+INFO    2020-06-30T00:30:33:060   5972; [rs] updateServers 128.1.75.151:8000, priority 2
+INFO    2020-06-30T00:30:33:060   5972; CacheManager: save cache to storage elapsed 1
+INFO    2020-06-30T00:30:33:242   5516; [ap/t] tcp connected with 00000000441F8290
+INFO    2020-06-30T00:30:33:242   5516; [ap] tcp - creating channel with 47.244.4.122:8000, ts 207800938, flag: 128
+INFO    2020-06-30T00:30:33:448   5516; [ap/u] **responsed from 52.58.56.244:8000, (128).
+INFO    2020-06-30T00:30:33:448   5516; [rtm-ls][ee] update server list(size: 3)
+INFO    2020-06-30T00:30:33:448   5516; [rtm-ls][ee] add new server: env 0, all size: 0, avail size: 0, IP : 18.219.221.68:9130.
+INFO    2020-06-30T00:30:33:448   5516; [rtm-ls][ee] add new server: env 1, all size: 0, avail size: 0, IP : 18.219.221.68:9130.
+INFO    2020-06-30T00:30:33:448   5516; [rtm-ls][ee] add new server: env 0, all size: 1, avail size: 1, IP : 54.81.123.148:9130.
+INFO    2020-06-30T00:30:33:448   5516; [rtm-ls][ee] add new server: env 1, all size: 1, avail size: 1, IP : 54.81.123.148:9130.
+INFO    2020-06-30T00:30:33:448   5516; [rtm-ls][ee] add new server: env 0, all size: 2, avail size: 2, IP : 13.52.94.242:9130.
+INFO    2020-06-30T00:30:33:448   5516; [rtm-ls][ee] add new server: env 1, all size: 2, avail size: 2, IP : 13.52.94.242:9130.
+INFO    2020-06-30T00:30:33:449   5516; [rtm-ctrl][ee] link 0 is initialized
+INFO    2020-06-30T00:30:33:449   5516; [rtm-ctrl][ee] link 1 is initialized
+INFO    2020-06-30T00:30:33:449   5516; [rtm-ls][ee] env 0 selected: 13.52.94.242:9130, ticket: MAAAAAgAcpIDAGrKYgxAIoYVAwBMXAEAxEEBAL9BAQDlv/peAAAAAAQAdGVzdAAAAAAUAMJ4C8w3xrsSdcsbQ9Ig5FmwS3Je
+INFO    2020-06-30T00:30:33:449   5516; [rtm-ctrl][ee] link 0 login with server: 13.52.94.242:9130
+INFO    2020-06-30T00:30:33:449   5516; [rtm-link0][ee] login available times: 2 for server:13.52.94.242:9130
+INFO    2020-06-30T00:30:33:449   5516; connecting to 13.52.94.242:9130 handle 100bd5a0, 5100
+INFO    2020-06-30T00:30:33:449   5516; [rtm-ls][ee] server: 13.52.94.242:9131 is in use, ignored
+INFO    2020-06-30T00:30:33:449   5516; [rtm-ls][ee] env 1 selected: 54.81.123.148:9131, ticket: MAAAAAgAcpIDAGrKYgxAIoYVAwBMXAEAxEEBAL9BAQDlv/peAAAAAAQAdGVzdAAAAAAUAMJ4C8w3xrsSdcsbQ9Ig5FmwS3Je
+INFO    2020-06-30T00:30:33:449   5516; [rtm-ctrl][ee] link 1 login with server: 54.81.123.148:9131
+INFO    2020-06-30T00:30:33:449   5516; [rtm-link1][ee] login available times: 2 for server:54.81.123.148:9131
+INFO    2020-06-30T00:30:33:449   5516; connecting to 54.81.123.148:9131 handle 100be830, 3672
+INFO    2020-06-30T00:30:33:450   5516; [ap/u] **responsed from 52.58.56.244:8000, (128).
+INFO    2020-06-30T00:30:33:450   5516; [rtm-ls][ee] update server list(size: 3)
+INFO    2020-06-30T00:30:33:450   5516; [rtm-ls][ee] existing server, no need to add, IP : 18.219.221.68:9131.
+INFO    2020-06-30T00:30:33:450   5516; [rtm-ls][ee] existing server, no need to add, IP : 18.219.221.68:9131.
+INFO    2020-06-30T00:30:33:450   5516; [rtm-ls][ee] existing server, no need to add, IP : 54.81.123.148:9131.
+INFO    2020-06-30T00:30:33:450   5516; [rtm-ls][ee] existing server, no need to add, IP : 54.81.123.148:9131.
+INFO    2020-06-30T00:30:33:450   5516; [rtm-ls][ee] existing server, no need to add, IP : 13.52.94.242:9131.
+INFO    2020-06-30T00:30:33:450   5516; [rtm-ls][ee] existing server, no need to add, IP : 13.52.94.242:9131.
+WARN    2020-06-30T00:30:33:450   5516; [rtm-ctrl][ee] init links, link count 2 reach limit, return
+WARN    2020-06-30T00:30:33:450   5516; [rtm-ctrl][ee] link 0, addr: 13.52.94.242:9130 has been used, and loggingIn, return
+WARN    2020-06-30T00:30:33:450   5516; [rtm-ctrl][ee] link 1, addr: 54.81.123.148:9131 has been used, and loggingIn, return
+INFO    2020-06-30T00:30:33:463   5516; [rtm-link1][ee] tcp connected with 00000000441F8390 : 54.81.123.148:9131
+INFO    2020-06-30T00:30:33:463   5516; [rtm-link1][ee] send login request(seq 1, elapse 458) to server 54.81.123.148:9131
+INFO    2020-06-30T00:30:33:483   5516; [rtm-link1][ee] **login response (seq 1, code 0,  elapse 477) from 54.81.123.148:9131, and current dest server 54.81.123.148:9131
+INFO    2020-06-30T00:30:33:483   5516; no on-going request, no need to sync
+INFO    2020-06-30T00:30:33:483   5516; [rtm-chat][ee] login success
+INFO    2020-06-30T00:30:33:483   5516; [rtm-chat][ee] connection state change, from 2 to: 3, reason: 2
+INFO    2020-06-30T00:30:33:483   5516; [rtm-note] connection state change: 3, reason: 2
+INFO    2020-06-30T00:30:33:485  15852; [event-handler] onConnectionStateChanged called, state: 3, reason: 2
+INFO    2020-06-30T00:30:33:490   5516; [ap/u] **responsed from 47.244.4.122:8000, (128).
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] update server list(size: 3)
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] add new server: env 0, all size: 3, avail size: 2, IP : 54.191.17.212:9130.
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] add new server: env 1, all size: 3, avail size: 2, IP : 54.191.17.212:9130.
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] existing server, no need to add, IP : 13.52.94.242:9130.
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] existing server, no need to add, IP : 13.52.94.242:9130.
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] existing server, no need to add, IP : 18.219.221.68:9130.
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] existing server, no need to add, IP : 18.219.221.68:9130.
+WARN    2020-06-30T00:30:33:490   5516; [rtm-ctrl][ee] init links, link count 2 reach limit, return
+WARN    2020-06-30T00:30:33:490   5516; [rtm-ctrl][ee] link 0, addr: 13.52.94.242:9130 has been used, and loggingIn, return
+WARN    2020-06-30T00:30:33:490   5516; [rtm-ctrl][ee] link 1, addr: 54.81.123.148:9131 has been used, and loggedIn, return
+INFO    2020-06-30T00:30:33:490   5516; [ap/u] **responsed from 47.244.4.122:8000, (128).
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] update server list(size: 3)
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] existing server, no need to add, IP : 54.191.17.212:9131.
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] existing server, no need to add, IP : 54.191.17.212:9131.
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] existing server, no need to add, IP : 13.52.94.242:9131.
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] existing server, no need to add, IP : 13.52.94.242:9131.
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] existing server, no need to add, IP : 18.219.221.68:9131.
+INFO    2020-06-30T00:30:33:490   5516; [rtm-ls][ee] existing server, no need to add, IP : 18.219.221.68:9131.
+WARN    2020-06-30T00:30:33:490   5516; [rtm-ctrl][ee] init links, link count 2 reach limit, return
+WARN    2020-06-30T00:30:33:490   5516; [rtm-ctrl][ee] link 0, addr: 13.52.94.242:9130 has been used, and loggingIn, return
+WARN    2020-06-30T00:30:33:490   5516; [rtm-ctrl][ee] link 1, addr: 54.81.123.148:9131 has been used, and loggedIn, return
+INFO    2020-06-30T00:30:33:523   5516; [rtm-link0][ee] tcp connected with 00000000441F9790 : 13.52.94.242:9130
+INFO    2020-06-30T00:30:33:524   5516; [rtm-link0][ee] send login request(seq 2, elapse 518) to server 13.52.94.242:9130
+INFO    2020-06-30T00:30:33:603   5516; [rtm-link0][ee] **login response (seq 2, code 0,  elapse 597) from 13.52.94.242:9130, and current dest server 13.52.94.242:9130
+INFO    2020-06-30T00:30:33:603   5516; no on-going request, no need to sync
+INFO    2020-06-30T00:30:33:607   5516; [ap/u] **responsed from 47.107.39.93:8000, (128).
+INFO    2020-06-30T00:30:33:607   5516; [rtm-ls][ee] update server list(size: 3)
+INFO    2020-06-30T00:30:33:607   5516; [rtm-ls][ee] existing server, no need to add, IP : 54.81.123.148:9131.
+INFO    2020-06-30T00:30:33:607   5516; [rtm-ls][ee] existing server, no need to add, IP : 54.81.123.148:9131.
+INFO    2020-06-30T00:30:33:607   5516; [rtm-ls][ee] add new server: env 0, all size: 4, avail size: 3, IP : 52.89.142.186:9131.
+INFO    2020-06-30T00:30:33:607   5516; [rtm-ls][ee] add new server: env 1, all size: 4, avail size: 3, IP : 52.89.142.186:9131.
+INFO    2020-06-30T00:30:33:607   5516; [rtm-ls][ee] existing server, no need to add, IP : 18.219.221.68:9131.
+INFO    2020-06-30T00:30:33:607   5516; [rtm-ls][ee] existing server, no need to add, IP : 18.219.221.68:9131.
+WARN    2020-06-30T00:30:33:607   5516; [rtm-ctrl][ee] init links, link count 2 reach limit, return
+WARN    2020-06-30T00:30:33:607   5516; [rtm-ctrl][ee] link 0, addr: 13.52.94.242:9130 has been used, and loggedIn, return
+WARN    2020-06-30T00:30:33:608   5516; [rtm-ctrl][ee] link 1, addr: 54.81.123.148:9131 has been used, and loggedIn, return
+INFO    2020-06-30T00:30:33:608   5516; [ap/u] **responsed from 47.107.39.93:8000, (128).
+INFO    2020-06-30T00:30:33:608   5516; [rtm-ls][ee] update server list(size: 3)
+INFO    2020-06-30T00:30:33:608   5516; [rtm-ls][ee] existing server, no need to add, IP : 54.81.123.148:9130.
+INFO    2020-06-30T00:30:33:608   5516; [rtm-ls][ee] existing server, no need to add, IP : 54.81.123.148:9130.
+INFO    2020-06-30T00:30:33:608   5516; [rtm-ls][ee] existing server, no need to add, IP : 52.89.142.186:9130.
+INFO    2020-06-30T00:30:33:608   5516; [rtm-ls][ee] existing server, no need to add, IP : 52.89.142.186:9130.
+INFO    2020-06-30T00:30:33:608   5516; [rtm-ls][ee] existing server, no need to add, IP : 18.219.221.68:9130.
+INFO    2020-06-30T00:30:33:608   5516; [rtm-ls][ee] existing server, no need to add, IP : 18.219.221.68:9130.
+WARN    2020-06-30T00:30:33:608   5516; [rtm-ctrl][ee] init links, link count 2 reach limit, return
+WARN    2020-06-30T00:30:33:608   5516; [rtm-ctrl][ee] link 0, addr: 13.52.94.242:9130 has been used, and loggedIn, return
+WARN    2020-06-30T00:30:33:608   5516; [rtm-ctrl][ee] link 1, addr: 54.81.123.148:9131 has been used, and loggedIn, return
+INFO    2020-06-30T00:30:38:019   5972; [rs] **report stats: seq: 20, report list size 0, tx/rx: 3234/960, cache size: 0
+INFO    2020-06-30T00:30:38:019   5972; [rs] report server1: 65.255.41.2:8000
+INFO    2020-06-30T00:30:38:019   5972; [rlbs] selected: 184.72.16.87:9700
+INFO    2020-06-30T00:30:38:019   5972; [rlbs] request rs list from 184.72.16.87:9700 with fake ch report_lbs_1593491438019.......
+INFO    2020-06-30T00:30:38:246   5972; [rlbs/u] responsed from 184.72.16.87:9700 with servers 69.172.244.35:8913
+INFO    2020-06-30T00:30:38:246   5972; [rs] updateServers 69.172.244.35:8913, priority 3
+INFO    2020-06-30T00:30:38:246   5972; [rs] updateServers 69.28.49.169:8913, priority 3
+INFO    2020-06-30T00:30:38:246   5972; [rs] updateServers 128.1.75.151:8913, priority 3
+INFO    2020-06-30T00:30:43:177  23016; [rtm-API] rtm stop service, sync: 0
+INFO    2020-06-30T00:30:43:177   5516; [rtm-link0][ee] send logout request * 3
+INFO    2020-06-30T00:30:43:177   5516; [rtm-link1][ee] send logout request * 3
+INFO    2020-06-30T00:30:43:177  23016; [rtm-note] stop async handler
+INFO    2020-06-30T00:30:43:178  23016; async task notify worker thread to exit and return
