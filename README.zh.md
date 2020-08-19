@@ -56,6 +56,11 @@ Agora Unity3D Sample App是一个开源演示，它将帮助您使用Agora RTM S
 2. 在Xcode的General选项卡下的Targets> Unity-iPhone> Frameworks，Libaries和Embedded Content下，将AgoraRtmIos.framework更改为Embed＆Sign
 3. 按Xcode中的“播放”按钮以构建您的设备
 
+XCode 设定例子（Unity 2017,2018)
+![rtm2018-sign](https://user-images.githubusercontent.com/1261195/90598897-c68b6180-e1a8-11ea-841c-12d06cf635d2.png)
+
+XCode 设定例子(Unity 2019.3)
+![rtm2019-sign](https://user-images.githubusercontent.com/1261195/90599047-05211c00-e1a9-11ea-9b2b-ac8114101a0d.png)
 
 
 

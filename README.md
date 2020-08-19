@@ -53,13 +53,15 @@ To build and run the sample application, get an App ID:
 2. In Xcode under the **General** Tab, under **Targets** > **Unity-iPhone**> **Frameworks, Libaries, and Embedded Content** change **AgoraRtmIos.framework** to **Embed & Sign**
 3. Press the Play button in Xcode to build to your device
 
+Example exported XCode setting (Unity 2017,2018)
+![rtm2018-sign](https://user-images.githubusercontent.com/1261195/90598897-c68b6180-e1a8-11ea-841c-12d06cf635d2.png)
 
-
-
-
+Example exported XCode setting (Unity 2019.3)
+![rtm2019-sign](https://user-images.githubusercontent.com/1261195/90599047-05211c00-e1a9-11ea-9b2b-ac8114101a0d.png)
+If the two Agora frameworks did not show up in the list, drag them from project file tree over.
 ## Resources
 
-- For potential issues, take a look at our [FAQ](https://docs.agora.io/cn/faq) first
+- For potential issues, take a look at our [FAQ](https://docs.agora.io/en/faq) first
 - Dive into [Agora SDK Samples](https://github.com/AgoraIO) to see more tutorials
 - Take a look at [Agora Use Case](https://github.com/AgoraIO-usecase) for more complicated real use case
 - Repositories managed by developer communities can be found at [Agora Community](https://github.com/AgoraIO-Community)
