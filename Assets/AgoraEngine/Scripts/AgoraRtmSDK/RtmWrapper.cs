@@ -15,7 +15,7 @@ namespace io.agora.rtm
 
 #if UNITY_IOS || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
             Instance = new RtmWrapperIOS();
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID && !UNITY_EDITOR
         Instance = new RtmWrapperAndroid();
 #else
         Instance = new RtmWrapperWindows();
