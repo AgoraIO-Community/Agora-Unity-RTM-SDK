@@ -59,6 +59,9 @@ Example exported XCode setting (Unity 2017,2018)
 Example exported XCode setting (Unity 2019.3)
 ![rtm2019-sign](https://user-images.githubusercontent.com/1261195/90599047-05211c00-e1a9-11ea-9b2b-ac8114101a0d.png)
 If the two Agora frameworks did not show up in the list, drag them from project file tree over.
+
+Here is a video recording to show iOS build working,  [link to video](https://bit.ly/3aWvPEa)
+
 ## Resources
 
 - For potential issues, take a look at our [FAQ](https://docs.agora.io/en/faq) first
