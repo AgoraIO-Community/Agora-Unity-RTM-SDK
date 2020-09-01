@@ -610,145 +610,145 @@ namespace io.agora.rtm
         public delegate void OnPeersOnlineStatusChanged(IntPtr kit, int[] status);
         public delegate void OnRtmKitTokenDidExpire(IntPtr kit);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern void init(string appId,
-                                       OnConnectionStateChanged connectionStateChanged,
-                                       OnMessageReceived onMessageReceived,
-                                      OnPeersOnlineStatusChanged onPeersOnlineStatusChanged,
-                                      OnRtmKitTokenDidExpire onTokenExpired);
+                                           OnConnectionStateChanged connectionStateChanged,
+                                           OnMessageReceived onMessageReceived,
+                                          OnPeersOnlineStatusChanged onPeersOnlineStatusChanged,
+                                          OnRtmKitTokenDidExpire onTokenExpired);
 
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern void loginByToken(string token, string userId, OnCompletion onDone);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern void logout(OnCompletion onDone);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern void sendMessageToPeer(string msg, string userId, OnCompletion onDone);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern void sendMessageToPeerWithOptions(string msg, string userId, SendMessageOptions options, OnCompletion callback);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern void renewToken(string token, OnRenewToken callback);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern void queryPeersOnlineStatus(string[] users, int count, OnQueryStatus onDone);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern void getChannelMemberCount(string[] channelIds, int count, OnChannelMemberCount onDone);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern IntPtr createChannelWithId(string channlID, OnMemberJoined omj, OnMemberLeft oml, OnChannelMessageReceived omr, OnMemberCount omc);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern void destroyChannelWithId(string channelId);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern void freeQueryPeersOnlineStatus(PeerOnlineStatus[] users, int count);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern void freeChannelMemberCount(IntPtr data, int count);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern IntPtr getRtmCallKit();
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern string subscribePeersOnlineStatus(string[] peerIds, int count, OnCompletion callback);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern string unsubscribePeersOnlineStatus(string[] peerIds, int count, OnCompletion callback);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern string setParameters(string parameters);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern string setLogFile(string logFile);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern string setLogFileSize(int fileSize);
 
-#if UNITY_IOS
-    [DllImport("__Internal")]
+#if UNITY_IOS && ! UNITY_EDITOR
+        [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
 #endif
         public static extern string setLogFileFilters(int filter);
 
-#if UNITY_IOS
+#if UNITY_IOS && ! UNITY_EDITOR
     [DllImport("__Internal")]
 #else
         [DllImport("AgoraRtmBundle")]
