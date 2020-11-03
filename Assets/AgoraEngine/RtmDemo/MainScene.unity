@@ -990,16 +990,18 @@ MonoBehaviour:
   chatPanel: {fileID: 325879285}
   textPrefab: {fileID: 1044596515752880618, guid: ffde59693ac8ad54d84a9d557b006d96,
     type: 2}
-  chatBox: {fileID: 2114270691}
+  channelMsgInputBox: {fileID: 2114270691}
   peerUserBox: {fileID: 2072494816}
   peerMessageBox: {fileID: 508254002}
   queryUsersBox: {fileID: 498302872}
-  playerMessage: {r: 0.5294118, g: 0.5294118, b: 0.5294118, a: 0.88235295}
-  info: {r: 0.09447986, g: 0.7169812, b: 0.02367392, a: 1}
+  MessageColors:
+    infoColor: {r: 0.10846866, g: 0.6838235, b: 0, a: 1}
+    errorColor: {r: 0.6838235, g: 0, b: 0, a: 1}
+    playerColor: {r: 0.86637944, g: 0.12316176, b: 0.9852941, a: 1}
+    peerColor: {r: 0.059039813, g: 0.18947022, b: 0.6691177, a: 1}
+    channelColor: {r: 0.85294116, g: 0.40588233, b: 0, a: 1}
   appIdDisplayText: {fileID: 1419739165}
   tokenDisplayText: {fileID: 1163824507}
-  screenWidth: 0
-  screenHeight: 0
   messageList: []
 --- !u!4 &436596859
 Transform:
@@ -1366,7 +1368,6 @@ GameObject:
   - component: {fileID: 534669905}
   - component: {fileID: 534669904}
   - component: {fileID: 534669903}
-  - component: {fileID: 534669906}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1430,17 +1431,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &534669906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 534669902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e686ae4afcd90d47a724ff3d41f4961, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &585547452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1835,7 +1825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.972}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2595,7 +2585,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1317321486
 GameObject:
@@ -2896,7 +2886,7 @@ RectTransform:
   - {fileID: 899756353}
   - {fileID: 1359108194}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4319,46 +4309,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1850980721}
---- !u!1 &1858975503
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1858975505}
-  - component: {fileID: 1858975504}
-  m_Layer: 0
-  m_Name: UnityMainThreadDispatcher
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1858975504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1858975503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16173428f7358476fa784f899e396692, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1858975505
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1858975503}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 279.06586, y: 345.9142, z: -15.455631}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1893660985
 GameObject:
   m_ObjectHideFlags: 0
@@ -5166,7 +5116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8301887, g: 0.8262727, b: 0.8262727, a: 1}
+  m_Color: {r: 0.74264705, g: 0.74264705, b: 0.74264705, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
