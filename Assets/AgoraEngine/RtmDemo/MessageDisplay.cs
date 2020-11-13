@@ -7,9 +7,10 @@ namespace io.agora.rtm.demo
     public class MessageDisplay : MonoBehaviour
     {
         [SerializeField] int maxMessages = 25;
-        [SerializeField] GameObject chatPanel, textPrefab;
+        [SerializeField] GameObject chatPanel = null, textPrefab = null;
         [SerializeField] MessageColorStruct MessageColors;
         [SerializeField] List<Message> messageList = new List<Message>();
+        [SerializeField] RawImage ImageDisplay;
 
         public void AddTextToDisplay(string text, Message.MessageType messageType)
         {
@@ -28,6 +29,15 @@ namespace io.agora.rtm.demo
             newMessage.textObj.color = MessageTypeColor(messageType);
             messageList.Add(newMessage);
         }
+
+        public void AddImageToDisplay(byte [] bytes)
+        {
+            // Create a texture. Texture size does not matter, since
+            // LoadImage will replace with with incoming image size.
+            Texture2D texture = new Texture2D(2, 2);
+            texture.LoadImage(bytes);
+            ImageDisplay.texture = texture;
+	    }
 
         Color MessageTypeColor(Message.MessageType messageType)
         {
