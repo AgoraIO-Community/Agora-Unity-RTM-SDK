@@ -33,8 +33,8 @@ public class Test : MonoBehaviour {
 	void Start () {	
 		string version = RtmClient.GetSdkVersion();
 
-		rtmClient2 = new RtmClient("5db0d12c40354100abd7a8a0adaa1fb8", eventHandler2);
-		rtmClient = new RtmClient("5db0d12c40354100abd7a8a0adaa1fb8", eventHandler);
+		rtmClient2 = new RtmClient(#YOUR_APPID, eventHandler2);
+		rtmClient = new RtmClient(#YOUR_APPID, eventHandler);
 		rtmClient.SetLogFile("./rtm_log.txt");
 		rtmClient.Login("", "100");
 		rtmClient2.Login("", "111");
