@@ -12,6 +12,11 @@ namespace io.agora.rtm.demo
         [SerializeField] List<Message> messageList = new List<Message>();
         [SerializeField] RawImage ImageDisplay;
 
+        private void Awake()
+        {
+            ImageDisplay.gameObject.SetActive(false);
+        }
+
         public void AddTextToDisplay(string text, Message.MessageType messageType)
         {
             if (messageList.Count >= maxMessages)
@@ -37,11 +42,13 @@ namespace io.agora.rtm.demo
             Texture2D texture = new Texture2D(2, 2);
             texture.LoadImage(bytes);
             ImageDisplay.texture = texture;
+            ImageDisplay.gameObject.SetActive(true);
 	    }
 
         public void Clear()
         {
             ImageDisplay.texture = null;
+            ImageDisplay.gameObject.SetActive(false);
             foreach (Message msg in messageList) {
                 Destroy(msg.textObj.gameObject);
 	        }

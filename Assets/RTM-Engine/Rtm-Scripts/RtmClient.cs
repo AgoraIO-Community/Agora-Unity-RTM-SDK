@@ -220,7 +220,7 @@ namespace agora_rtm {
 				return null;
 			}
             IntPtr _MessagePtr = createImageMessageByMediaId(_rtmServicePtr, mediaId);
-            return new ImageMessage(_rtmServicePtr, ImageMessage.MESSAGE_FLAG.SEND);
+            return new ImageMessage(_MessagePtr, ImageMessage.MESSAGE_FLAG.SEND);
         }
 
         public int CreateImageMessageByUploading(string filePath, Int64 requestId) {
@@ -239,7 +239,7 @@ namespace agora_rtm {
 				return null;
 			}
             IntPtr _MessagePtr = createFileMessageByMediaId(_rtmServicePtr, mediaId);
-            return new FileMessage(_rtmServicePtr, FileMessage.MESSAGE_FLAG.SEND);
+            return new FileMessage(_MessagePtr, FileMessage.MESSAGE_FLAG.SEND);
         }
 
         public int CreateFileMessageByUploading(string filePath, Int64 requestId) {

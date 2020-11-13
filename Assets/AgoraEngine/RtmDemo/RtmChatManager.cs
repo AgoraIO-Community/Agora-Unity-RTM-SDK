@@ -15,6 +15,8 @@ namespace io.agora.rtm.demo
         private string token = "";
 
         [Header("Application Properties")]
+        // put absolute path like /Users/chengr/Downloads/mono-boad.jpg  in the Inspector
+        [SerializeField] string ImagePath = "";
 
         [SerializeField] InputField userNameInput, channelNameInput;
         [SerializeField] InputField channelMsgInputBox;
@@ -25,7 +27,11 @@ namespace io.agora.rtm.demo
         [SerializeField] Text tokenDisplayText;
 
         [SerializeField] MessageDisplay messageDisplay;
-        [SerializeField] string ImageURL = "/Users/chengr/Downloads/mono-boad.jpg";
+
+
+        [SerializeField] Button UploadImageButton;
+        [SerializeField] Button SendMessageButton;
+        [SerializeField] Button DownloadImageButton;
 
         private RtmClient rtmClient = null;
         private RtmChannel channel;
@@ -58,6 +64,10 @@ namespace io.agora.rtm.demo
         {
             userNameInput.text = PlayerPrefs.GetString("RTM_USER", "");
             channelNameInput.text = PlayerPrefs.GetString("RTM_CHANNEL", "");
+
+            UploadImageButton.interactable = false;
+            DownloadImageButton.interactable = false;
+            SendMessageButton.interactable = false;
         }
 
         // Start is called before the first frame update
@@ -201,37 +211,44 @@ namespace io.agora.rtm.demo
         
         public void UploadImageToPeer()
         {
+            if (!System.IO.File.Exists(ImagePath))
+            {
+                string msg = string.Format("File send:{0} does not exist.  Please provide a valid filepath in the Inspector!", ImagePath);
+                Debug.Log(msg);
+                messageDisplay.AddTextToDisplay(msg, Message.MessageType.Error);
+                return;
+            }
             long requestId = 10002;
-            int rc = rtmClient.CreateImageMessageByUploading(ImageURL, requestId);
+            int rc = rtmClient.CreateImageMessageByUploading(ImagePath, requestId);
 
-            Debug.LogFormat("Sending image {0} ---> rc={1}", ImageURL, rc);
+            Debug.LogFormat("Sending image {0} ---> rc={1}", ImagePath, rc);
         }
 
         public void GetImageByMediaId()
         {
-            //string mediaID = "0d535b2f651da537d7eb0975e806e308deb796076be2501cb72d3901e66c55ad12z2z62737z512z508";
             string mediaID = RcvImageMessage.GetMediaId();
-            // int rc = rtmClient.DownloadMediaToFile(mediaID, "/Users/chengr/Downloads/UnityDownload.jpg", 100022);
             int rc = rtmClient.DownloadMediaToMemory(mediaID, 100023);
-
-
             Debug.LogFormat("Download image {0} ---> rc={1}", mediaID, rc);
         }
 
         public void SendImageToPeer()
         { 
-            ImageMessage message = rtmClient.CreateImageMessageByMediaId(ImageMediaId);
             string peer = peerUserBox.text;
             if (string.IsNullOrEmpty(peer))
             {
                 Debug.LogError("You must enter peer id in the input textfield!");
+                messageDisplay.AddTextToDisplay("You must enter peer id in the input textfield!", Message.MessageType.Error);
                 return;
             }
-            rtmClient.SendMessageToPeer(
-                peerId: peer,
-                message: message,
-                enableOfflineMessaging: true,
-                enableHistoricalMessaging: true);
+            else
+            {
+                ImageMessage message = rtmClient.CreateImageMessageByMediaId(ImageMediaId);
+                rtmClient.SendMessageToPeer(
+                    peerId: peer,
+                    message: message,
+                    enableOfflineMessaging: true,
+                    enableHistoricalMessaging: true);
+            }
         }
 
         #endregion
@@ -289,6 +306,8 @@ namespace io.agora.rtm.demo
             string msg = "channel:" + ChannelName + " OnJoinSuccess id = " + id;
             Debug.Log(msg);
             messageDisplay.AddTextToDisplay(msg, Message.MessageType.Info);
+
+            UploadImageButton.interactable = true;
         }
 
         void OnJoinFailureHandler(int id, JOIN_CHANNEL_ERR errorCode)
@@ -352,7 +371,9 @@ namespace io.agora.rtm.demo
 
         void OnSendMessageResultHandler(int id, long messageId, PEER_MESSAGE_ERR_CODE errorCode)
         {
-            Debug.LogFormat("Sent message with id:{0} MessageId:{1} errorCode:{2}", id, messageId, errorCode);
+            string msg = string.Format("Sent message with id:{0} MessageId:{1} errorCode:{2}", id, messageId, errorCode);
+            Debug.Log(msg);
+            messageDisplay.AddTextToDisplay(msg, errorCode == PEER_MESSAGE_ERR_CODE.PEER_MESSAGE_ERR_OK?Message.MessageType.Info:Message.MessageType.Error);
 	    }
 
         void OnImageMediaUploadResultHandler(int id, long requestId, ImageMessage imageMessage, UPLOAD_MEDIA_ERR_CODE errorCode)
@@ -361,6 +382,7 @@ namespace io.agora.rtm.demo
             Debug.Log(msg);
             messageDisplay.AddTextToDisplay(msg, Message.MessageType.Info);
             ImageMediaId = imageMessage.GetMediaId();
+            SendMessageButton.interactable = errorCode == UPLOAD_MEDIA_ERR_CODE.UPLOAD_MEDIA_ERR_OK;
 	    }
 
         void OnImageMessageReceivedFromPeerHandler(int id, string peerId, ImageMessage imageMessage)
@@ -369,6 +391,7 @@ namespace io.agora.rtm.demo
             Debug.Log(msg);
             messageDisplay.AddTextToDisplay(msg, Message.MessageType.Info);
             RcvImageMessage = imageMessage;
+            DownloadImageButton.interactable = true;
         }
 
         void OnMediaDownloadToFileResultHandler(int id, long requestId, DOWNLOAD_MEDIA_ERR_CODE code)
