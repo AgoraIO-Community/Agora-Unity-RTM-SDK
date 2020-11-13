@@ -103,6 +103,8 @@ namespace io.agora.rtm.demo
             clientEventHandler.OnMediaDownloadToFileResult = OnMediaDownloadToFileResultHandler;
             clientEventHandler.OnMediaDownloadToMemoryResult = OnMediaDownloadToMemoryResultHandler;
 
+            // state
+            clientEventHandler.OnConnectionStateChanged = OnConnectionStateChangedHandler;
 
             bool initialized = ShowDisplayTexts();
             if (initialized)
@@ -405,6 +407,13 @@ namespace io.agora.rtm.demo
             //messageDisplay.AddImageToDisplay(memory, RcvImageMessage.GetWidth(), RcvImageMessage.GetHight());
             messageDisplay.AddImageToDisplay(memory);
         }
+
+        void OnConnectionStateChangedHandler(int id, CONNECTION_STATE state, CONNECTION_CHANGE_REASON reason)
+        {
+            string msg = string.Format("connection state changed id:{0} state:{1} reason:{2}", id, state, reason);
+            Debug.Log(msg);
+            messageDisplay.AddTextToDisplay(msg, Message.MessageType.Info);
+	    }
         #endregion
     }
 
