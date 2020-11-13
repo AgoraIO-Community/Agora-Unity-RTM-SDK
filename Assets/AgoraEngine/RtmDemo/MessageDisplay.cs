@@ -39,6 +39,15 @@ namespace io.agora.rtm.demo
             ImageDisplay.texture = texture;
 	    }
 
+        public void Clear()
+        {
+            ImageDisplay.texture = null;
+            foreach (Message msg in messageList) {
+                Destroy(msg.textObj.gameObject);
+	        }
+            messageList.Clear();
+	    }
+
         Color MessageTypeColor(Message.MessageType messageType)
         {
             Color color = MessageColors.infoColor;
