@@ -1,0 +1,393 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		495B058325491A9C00A9BEC0 /* i_rtm_channel_attribute.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056025491A9A00A9BEC0 /* i_rtm_channel_attribute.mm */; };
+		495B058425491A9C00A9BEC0 /* i_remote_call_invitation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056325491A9A00A9BEC0 /* i_remote_call_invitation.mm */; };
+		495B058525491A9C00A9BEC0 /* LogHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056425491A9A00A9BEC0 /* LogHelper.mm */; };
+		495B058625491A9C00A9BEC0 /* i_rtm_image_message.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056625491A9A00A9BEC0 /* i_rtm_image_message.mm */; };
+		495B058725491A9C00A9BEC0 /* i_rtm_service_event_handler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056725491A9A00A9BEC0 /* i_rtm_service_event_handler.mm */; };
+		495B058825491A9C00A9BEC0 /* i_rtm_file_message.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056C25491A9A00A9BEC0 /* i_rtm_file_message.mm */; };
+		495B058925491A9C00A9BEC0 /* i_rtm_channel_member.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056D25491A9A00A9BEC0 /* i_rtm_channel_member.mm */; };
+		495B058A25491A9C00A9BEC0 /* RtmServiceEventHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056E25491A9A00A9BEC0 /* RtmServiceEventHandler.mm */; };
+		495B058B25491A9C00A9BEC0 /* RtmCallEventHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056F25491A9A00A9BEC0 /* RtmCallEventHandler.mm */; };
+		495B058C25491A9C00A9BEC0 /* ChannelEventHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057325491A9B00A9BEC0 /* ChannelEventHandler.mm */; };
+		495B058D25491A9C00A9BEC0 /* i_rtm_channel_event_handler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057625491A9B00A9BEC0 /* i_rtm_channel_event_handler.mm */; };
+		495B058E25491A9C00A9BEC0 /* i_local_call_invitation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057725491A9B00A9BEC0 /* i_local_call_invitation.mm */; };
+		495B058F25491A9C00A9BEC0 /* i_rtm_channel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057925491A9B00A9BEC0 /* i_rtm_channel.mm */; };
+		495B059025491A9C00A9BEC0 /* i_rtm_call_manager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057B25491A9B00A9BEC0 /* i_rtm_call_manager.mm */; };
+		495B059125491A9C00A9BEC0 /* i_rtm_call_event_handler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057C25491A9C00A9BEC0 /* i_rtm_call_event_handler.mm */; };
+		495B059225491A9C00A9BEC0 /* i_rtm_message.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057D25491A9C00A9BEC0 /* i_rtm_message.mm */; };
+		495B059325491A9C00A9BEC0 /* i_rtm_service.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057E25491A9C00A9BEC0 /* i_rtm_service.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		495B055125491A4300A9BEC0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		495B055325491A4300A9BEC0 /* libagoraRTMCWrapper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libagoraRTMCWrapper.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		495B055F25491A9A00A9BEC0 /* i_rtm_message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_message.h; sourceTree = "<group>"; };
+		495B056025491A9A00A9BEC0 /* i_rtm_channel_attribute.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_channel_attribute.mm; sourceTree = "<group>"; };
+		495B056125491A9A00A9BEC0 /* i_rtm_channel_event_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel_event_handler.h; sourceTree = "<group>"; };
+		495B056225491A9A00A9BEC0 /* i_local_call_invitation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_local_call_invitation.h; sourceTree = "<group>"; };
+		495B056325491A9A00A9BEC0 /* i_remote_call_invitation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_remote_call_invitation.mm; sourceTree = "<group>"; };
+		495B056425491A9A00A9BEC0 /* LogHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LogHelper.mm; sourceTree = "<group>"; };
+		495B056525491A9A00A9BEC0 /* i_rtm_call_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_call_manager.h; sourceTree = "<group>"; };
+		495B056625491A9A00A9BEC0 /* i_rtm_image_message.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_image_message.mm; sourceTree = "<group>"; };
+		495B056725491A9A00A9BEC0 /* i_rtm_service_event_handler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_service_event_handler.mm; sourceTree = "<group>"; };
+		495B056825491A9A00A9BEC0 /* i_rtm_service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_service.h; sourceTree = "<group>"; };
+		495B056925491A9A00A9BEC0 /* i_rtm_channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel.h; sourceTree = "<group>"; };
+		495B056A25491A9A00A9BEC0 /* i_rtm_channel_member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel_member.h; sourceTree = "<group>"; };
+		495B056B25491A9A00A9BEC0 /* LogHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogHelper.h; sourceTree = "<group>"; };
+		495B056C25491A9A00A9BEC0 /* i_rtm_file_message.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_file_message.mm; sourceTree = "<group>"; };
+		495B056D25491A9A00A9BEC0 /* i_rtm_channel_member.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_channel_member.mm; sourceTree = "<group>"; };
+		495B056E25491A9A00A9BEC0 /* RtmServiceEventHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RtmServiceEventHandler.mm; sourceTree = "<group>"; };
+		495B056F25491A9A00A9BEC0 /* RtmCallEventHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RtmCallEventHandler.mm; sourceTree = "<group>"; };
+		495B057025491A9A00A9BEC0 /* i_remote_call_invitation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_remote_call_invitation.h; sourceTree = "<group>"; };
+		495B057125491A9A00A9BEC0 /* i_rtm_service_event_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_service_event_handler.h; sourceTree = "<group>"; };
+		495B057225491A9A00A9BEC0 /* RtmCallEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtmCallEventHandler.h; sourceTree = "<group>"; };
+		495B057325491A9B00A9BEC0 /* ChannelEventHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ChannelEventHandler.mm; sourceTree = "<group>"; };
+		495B057425491A9B00A9BEC0 /* i_rtm_channel_attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel_attribute.h; sourceTree = "<group>"; };
+		495B057525491A9B00A9BEC0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		495B057625491A9B00A9BEC0 /* i_rtm_channel_event_handler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_channel_event_handler.mm; sourceTree = "<group>"; };
+		495B057725491A9B00A9BEC0 /* i_local_call_invitation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_local_call_invitation.mm; sourceTree = "<group>"; };
+		495B057825491A9B00A9BEC0 /* ChannelEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelEventHandler.h; sourceTree = "<group>"; };
+		495B057925491A9B00A9BEC0 /* i_rtm_channel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_channel.mm; sourceTree = "<group>"; };
+		495B057A25491A9B00A9BEC0 /* i_rtm_file_message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_file_message.h; sourceTree = "<group>"; };
+		495B057B25491A9B00A9BEC0 /* i_rtm_call_manager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_call_manager.mm; sourceTree = "<group>"; };
+		495B057C25491A9C00A9BEC0 /* i_rtm_call_event_handler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_call_event_handler.mm; sourceTree = "<group>"; };
+		495B057D25491A9C00A9BEC0 /* i_rtm_message.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_message.mm; sourceTree = "<group>"; };
+		495B057E25491A9C00A9BEC0 /* i_rtm_service.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_service.mm; sourceTree = "<group>"; };
+		495B057F25491A9C00A9BEC0 /* RtmServiceEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtmServiceEventHandler.h; sourceTree = "<group>"; };
+		495B058025491A9C00A9BEC0 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		495B058125491A9C00A9BEC0 /* i_rtm_call_event_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_call_event_handler.h; sourceTree = "<group>"; };
+		495B058225491A9C00A9BEC0 /* i_rtm_image_message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_image_message.h; sourceTree = "<group>"; };
+		495B059625491B9900A9BEC0 /* IAgoraRtmCallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAgoraRtmCallManager.h; sourceTree = "<group>"; };
+		495B059725491B9900A9BEC0 /* IAgoraRtmService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAgoraRtmService.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		495B055025491A4300A9BEC0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		495B054A25491A4300A9BEC0 = {
+			isa = PBXGroup;
+			children = (
+				495B059625491B9900A9BEC0 /* IAgoraRtmCallManager.h */,
+				495B059725491B9900A9BEC0 /* IAgoraRtmService.h */,
+				495B055525491A4300A9BEC0 /* agoraRTMCWrapper */,
+				495B055425491A4300A9BEC0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		495B055425491A4300A9BEC0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				495B055325491A4300A9BEC0 /* libagoraRTMCWrapper.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		495B055525491A4300A9BEC0 /* agoraRTMCWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				495B057825491A9B00A9BEC0 /* ChannelEventHandler.h */,
+				495B057325491A9B00A9BEC0 /* ChannelEventHandler.mm */,
+				495B058025491A9C00A9BEC0 /* common.h */,
+				495B056225491A9A00A9BEC0 /* i_local_call_invitation.h */,
+				495B057725491A9B00A9BEC0 /* i_local_call_invitation.mm */,
+				495B057025491A9A00A9BEC0 /* i_remote_call_invitation.h */,
+				495B056325491A9A00A9BEC0 /* i_remote_call_invitation.mm */,
+				495B058125491A9C00A9BEC0 /* i_rtm_call_event_handler.h */,
+				495B057C25491A9C00A9BEC0 /* i_rtm_call_event_handler.mm */,
+				495B056525491A9A00A9BEC0 /* i_rtm_call_manager.h */,
+				495B057B25491A9B00A9BEC0 /* i_rtm_call_manager.mm */,
+				495B057425491A9B00A9BEC0 /* i_rtm_channel_attribute.h */,
+				495B056025491A9A00A9BEC0 /* i_rtm_channel_attribute.mm */,
+				495B056125491A9A00A9BEC0 /* i_rtm_channel_event_handler.h */,
+				495B057625491A9B00A9BEC0 /* i_rtm_channel_event_handler.mm */,
+				495B056A25491A9A00A9BEC0 /* i_rtm_channel_member.h */,
+				495B056D25491A9A00A9BEC0 /* i_rtm_channel_member.mm */,
+				495B056925491A9A00A9BEC0 /* i_rtm_channel.h */,
+				495B057925491A9B00A9BEC0 /* i_rtm_channel.mm */,
+				495B057A25491A9B00A9BEC0 /* i_rtm_file_message.h */,
+				495B056C25491A9A00A9BEC0 /* i_rtm_file_message.mm */,
+				495B058225491A9C00A9BEC0 /* i_rtm_image_message.h */,
+				495B056625491A9A00A9BEC0 /* i_rtm_image_message.mm */,
+				495B055F25491A9A00A9BEC0 /* i_rtm_message.h */,
+				495B057D25491A9C00A9BEC0 /* i_rtm_message.mm */,
+				495B057125491A9A00A9BEC0 /* i_rtm_service_event_handler.h */,
+				495B056725491A9A00A9BEC0 /* i_rtm_service_event_handler.mm */,
+				495B056825491A9A00A9BEC0 /* i_rtm_service.h */,
+				495B057E25491A9C00A9BEC0 /* i_rtm_service.mm */,
+				495B057525491A9B00A9BEC0 /* Info.plist */,
+				495B056B25491A9A00A9BEC0 /* LogHelper.h */,
+				495B056425491A9A00A9BEC0 /* LogHelper.mm */,
+				495B057225491A9A00A9BEC0 /* RtmCallEventHandler.h */,
+				495B056F25491A9A00A9BEC0 /* RtmCallEventHandler.mm */,
+				495B057F25491A9C00A9BEC0 /* RtmServiceEventHandler.h */,
+				495B056E25491A9A00A9BEC0 /* RtmServiceEventHandler.mm */,
+			);
+			path = agoraRTMCWrapper;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		495B055225491A4300A9BEC0 /* agoraRTMCWrapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 495B055C25491A4300A9BEC0 /* Build configuration list for PBXNativeTarget "agoraRTMCWrapper" */;
+			buildPhases = (
+				495B054F25491A4300A9BEC0 /* Sources */,
+				495B055025491A4300A9BEC0 /* Frameworks */,
+				495B055125491A4300A9BEC0 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = agoraRTMCWrapper;
+			productName = agoraRTMCWrapper;
+			productReference = 495B055325491A4300A9BEC0 /* libagoraRTMCWrapper.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		495B054B25491A4300A9BEC0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1120;
+				ORGANIZATIONNAME = "张涛";
+				TargetAttributes = {
+					495B055225491A4300A9BEC0 = {
+						CreatedOnToolsVersion = 11.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 495B054E25491A4300A9BEC0 /* Build configuration list for PBXProject "agoraRTMCWrapper" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 495B054A25491A4300A9BEC0;
+			productRefGroup = 495B055425491A4300A9BEC0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				495B055225491A4300A9BEC0 /* agoraRTMCWrapper */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		495B054F25491A4300A9BEC0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				495B058F25491A9C00A9BEC0 /* i_rtm_channel.mm in Sources */,
+				495B059025491A9C00A9BEC0 /* i_rtm_call_manager.mm in Sources */,
+				495B058B25491A9C00A9BEC0 /* RtmCallEventHandler.mm in Sources */,
+				495B058925491A9C00A9BEC0 /* i_rtm_channel_member.mm in Sources */,
+				495B058D25491A9C00A9BEC0 /* i_rtm_channel_event_handler.mm in Sources */,
+				495B058425491A9C00A9BEC0 /* i_remote_call_invitation.mm in Sources */,
+				495B058E25491A9C00A9BEC0 /* i_local_call_invitation.mm in Sources */,
+				495B059225491A9C00A9BEC0 /* i_rtm_message.mm in Sources */,
+				495B058725491A9C00A9BEC0 /* i_rtm_service_event_handler.mm in Sources */,
+				495B058525491A9C00A9BEC0 /* LogHelper.mm in Sources */,
+				495B058325491A9C00A9BEC0 /* i_rtm_channel_attribute.mm in Sources */,
+				495B058A25491A9C00A9BEC0 /* RtmServiceEventHandler.mm in Sources */,
+				495B059325491A9C00A9BEC0 /* i_rtm_service.mm in Sources */,
+				495B058C25491A9C00A9BEC0 /* ChannelEventHandler.mm in Sources */,
+				495B059125491A9C00A9BEC0 /* i_rtm_call_event_handler.mm in Sources */,
+				495B058625491A9C00A9BEC0 /* i_rtm_image_message.mm in Sources */,
+				495B058825491A9C00A9BEC0 /* i_rtm_file_message.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		495B055A25491A4300A9BEC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		495B055B25491A4300A9BEC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		495B055D25491A4300A9BEC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W23FQX89GP;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		495B055E25491A4300A9BEC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W23FQX89GP;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		495B054E25491A4300A9BEC0 /* Build configuration list for PBXProject "agoraRTMCWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				495B055A25491A4300A9BEC0 /* Debug */,
+				495B055B25491A4300A9BEC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		495B055C25491A4300A9BEC0 /* Build configuration list for PBXNativeTarget "agoraRTMCWrapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				495B055D25491A4300A9BEC0 /* Debug */,
+				495B055E25491A4300A9BEC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 495B054B25491A4300A9BEC0 /* Project object */;
+}

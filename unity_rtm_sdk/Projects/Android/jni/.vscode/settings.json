@@ -1,0 +1,23 @@
+{
+    "files.associations": {
+        "iterator": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "__config": "cpp",
+        "__functional_base": "cpp",
+        "__functional_base_03": "cpp",
+        "__tree": "cpp",
+        "__tuple": "cpp",
+        "chrono": "cpp",
+        "functional": "cpp",
+        "limits": "cpp",
+        "memory": "cpp",
+        "ratio": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "algorithm": "cpp",
+        "atomic": "cpp",
+        "system_error": "cpp"
+    }
+}

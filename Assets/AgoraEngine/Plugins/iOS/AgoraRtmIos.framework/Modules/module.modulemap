@@ -1,6 +1,0 @@
-framework module AgoraRtmIos {
-  umbrella header "AgoraRtmIos.h"
-
-  export *
-  module * { export * }
-}

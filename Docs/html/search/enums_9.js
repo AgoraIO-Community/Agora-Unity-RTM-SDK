@@ -1,6 +1,0 @@
-var searchData=
-[
-  ['remote_5finvitation_5ferr_5fcode_871',['REMOTE_INVITATION_ERR_CODE',['../namespaceagora_1_1rtm.html#aedb89e7145338eb7a1b05df69f31e26f',1,'agora::rtm::REMOTE_INVITATION_ERR_CODE()'],['../namespaceagora_1_1rtm.html#aedb89e7145338eb7a1b05df69f31e26f',1,'agora::rtm::REMOTE_INVITATION_ERR_CODE()'],['../namespaceagora_1_1rtm.html#aedb89e7145338eb7a1b05df69f31e26f',1,'agora::rtm::REMOTE_INVITATION_ERR_CODE()']]],
-  ['remote_5finvitation_5fstate_872',['REMOTE_INVITATION_STATE',['../namespaceagora_1_1rtm.html#a8dcc0f37c3d22418ba75133999820af6',1,'agora::rtm::REMOTE_INVITATION_STATE()'],['../namespaceagora_1_1rtm.html#a8dcc0f37c3d22418ba75133999820af6',1,'agora::rtm::REMOTE_INVITATION_STATE()'],['../namespaceagora_1_1rtm.html#a8dcc0f37c3d22418ba75133999820af6',1,'agora::rtm::REMOTE_INVITATION_STATE()']]],
-  ['renew_5ftoken_5ferr_5fcode_873',['RENEW_TOKEN_ERR_CODE',['../namespaceagora_1_1rtm.html#ab03a63e5a17b8ed82a4a1565d58a598a',1,'agora::rtm::RENEW_TOKEN_ERR_CODE()'],['../namespaceagora_1_1rtm.html#ab03a63e5a17b8ed82a4a1565d58a598a',1,'agora::rtm::RENEW_TOKEN_ERR_CODE()'],['../namespaceagora_1_1rtm.html#ab03a63e5a17b8ed82a4a1565d58a598a',1,'agora::rtm::RENEW_TOKEN_ERR_CODE()']]]
-];
