@@ -1,13 +1,17 @@
-#Unity RTM SDK
+# Agora Real Time Messaging for Unity
 
-## Build SDK
+This project contains code and SDK for Agora RTM.   Please use the release section to download the Unity package for the SDK import.  The repository contains three subfolders that provide further description in them.
 
-- macOS:
-  + Run build.sh under 'unity_rtm_sdk/Projects/macOS/agoraRTMCWrapper/' dir.
-  + The Unity Mac plugin agoraRTMcWrapper.bundle will release in 'unity_rtm_sdk/Projects/macOS/agoraRTMCWrapper/output/tmp/Release/agoraRTMCWrapper.bundle'.
+## Contents
 
-- iOS:
-  + Run build.sh under 'unity_rtm_sdk/Projects/iOS/agoraRTMCWrapper/' dir.
+ - **API-Example** : simple API call example that shows the usage of the RTM API calls.
+ - **Unity-RTM-Demo**: Unity demo that illustrates main features of the SDK (login, channel joining, sending text message, sending image, invite user, etc.). The demo is also included in the release package.
+ - **unity_rtm_sdk**: necessary code for compile your own MacOS plugin bundle. Note you should always override your production build with your own signature for MacOS builds.
 
-- Android:
-  + Run build.sh under 'unity_rtm_sdk/Projects/Android/build.sh'
+## Resources
+
+ - [API Reference](https://docs.agora.io/en/Real-time-Messaging/API%20Reference/RTM_java/index.html)
+
+## License
+The MIT License (MIT).
+
