@@ -11,17 +11,26 @@
 
 namespace agora {
 namespace unity {
-       RtmCallEventHandler::RtmCallEventHandler(FUNC_onLocalInvitationReceivedByPeer _onLocalInvitationReceivedByPeer,
-            FUNC_onLocalInvitationCanceled _onLocalInvitationCanceled,
-            FUNC_onLocalInvitationFailure _onLocalInvitationFailure,
-            FUNC_onLocalInvitationAccepted _onLocalInvitationAccepted,
-            FUNC_onLocalInvitationRefused _onLocalInvitationRefused,
-            FUNC_onRemoteInvitationRefused _onRemoteInvitationRefused,
-            FUNC_onRemoteInvitationAccepted _onRemoteInvitationAccepted,
-            FUNC_onRemoteInvitationReceived _onRemoteInvitationReceived,
-            FUNC_onRemoteInvitationFailure _onRemoteInvitationFailure,
-                                                FUNC_onRemoteInvitationCanceled _onRemoteInvitationCanceled) {
-           
+       RtmCallEventHandler::RtmCallEventHandler(int index, FUNC_onLocalInvitationReceivedByPeer onLocalInvitationReceivedByPeer,
+            FUNC_onLocalInvitationCanceled onLocalInvitationCanceled,
+            FUNC_onLocalInvitationFailure onLocalInvitationFailure,
+            FUNC_onLocalInvitationAccepted onLocalInvitationAccepted,
+            FUNC_onLocalInvitationRefused onLocalInvitationRefused,
+            FUNC_onRemoteInvitationRefused onRemoteInvitationRefused,
+            FUNC_onRemoteInvitationAccepted onRemoteInvitationAccepted,
+            FUNC_onRemoteInvitationReceived onRemoteInvitationReceived,
+            FUNC_onRemoteInvitationFailure onRemoteInvitationFailure,
+                                                FUNC_onRemoteInvitationCanceled onRemoteInvitationCanceled) {
+           handlerId = index;
+           _onLocalInvitationCanceled = onLocalInvitationCanceled;
+           _onLocalInvitationFailure = onLocalInvitationFailure;
+           _onLocalInvitationAccepted = onLocalInvitationAccepted;
+           _onLocalInvitationRefused = onLocalInvitationRefused;
+           _onRemoteInvitationRefused = onRemoteInvitationRefused;
+           _onRemoteInvitationAccepted = onRemoteInvitationAccepted;
+           _onRemoteInvitationReceived = onRemoteInvitationReceived;
+           _onRemoteInvitationFailure = onRemoteInvitationFailure;
+           _onRemoteInvitationCanceled = onRemoteInvitationCanceled;
        }
         
         RtmCallEventHandler::~RtmCallEventHandler() {
@@ -44,7 +53,7 @@ namespace unity {
        */
         void RtmCallEventHandler::onLocalInvitationReceivedByPeer(agora::rtm:: ILocalCallInvitation *localInvitation) {
             if (_onLocalInvitationReceivedByPeer)
-                _onLocalInvitationReceivedByPeer(localInvitation);
+                _onLocalInvitationReceivedByPeer(handlerId, localInvitation);
         }
             
       /**
@@ -54,7 +63,7 @@ namespace unity {
        */
         void RtmCallEventHandler::onLocalInvitationCanceled(agora::rtm::ILocalCallInvitation *localInvitation) {
             if (_onLocalInvitationCanceled)
-                _onLocalInvitationCanceled(localInvitation);
+                _onLocalInvitationCanceled(handlerId, localInvitation);
         }
             
       /**
@@ -65,7 +74,7 @@ namespace unity {
        */
         void RtmCallEventHandler::onLocalInvitationFailure(agora::rtm::ILocalCallInvitation *localInvitation, agora::rtm::LOCAL_INVITATION_ERR_CODE errorCode) {
             if (_onLocalInvitationFailure)
-                _onLocalInvitationFailure(localInvitation, errorCode);
+                _onLocalInvitationFailure(handlerId, localInvitation, errorCode);
         }
 
 
@@ -77,7 +86,7 @@ namespace unity {
        */
         void RtmCallEventHandler::onLocalInvitationAccepted(agora::rtm::ILocalCallInvitation *localInvitation, const char *response) {
             if (_onLocalInvitationAccepted)
-                _onLocalInvitationAccepted(localInvitation, response);
+                _onLocalInvitationAccepted(handlerId, localInvitation, response);
         }
           
       /**
@@ -88,7 +97,7 @@ namespace unity {
        */
         void RtmCallEventHandler::onLocalInvitationRefused(agora::rtm::ILocalCallInvitation *localInvitation, const char *response) {
             if (_onLocalInvitationRefused)
-                _onLocalInvitationRefused(localInvitation, response);
+                _onLocalInvitationRefused(handlerId, localInvitation, response);
         }
             
       /**
@@ -98,7 +107,7 @@ namespace unity {
        */
         void RtmCallEventHandler::onRemoteInvitationRefused(agora::rtm::IRemoteCallInvitation *remoteInvitation) {
             if (_onRemoteInvitationRefused)
-                _onRemoteInvitationRefused(remoteInvitation);
+                _onRemoteInvitationRefused(handlerId, remoteInvitation);
         }
         
       /**
@@ -108,7 +117,7 @@ namespace unity {
        */
         void RtmCallEventHandler::onRemoteInvitationAccepted(agora::rtm::IRemoteCallInvitation *remoteInvitation) {
             if (_onRemoteInvitationAccepted)
-                _onRemoteInvitationAccepted(remoteInvitation);
+                _onRemoteInvitationAccepted(handlerId, remoteInvitation);
         }
         
       /**
@@ -118,7 +127,7 @@ namespace unity {
        */
         void RtmCallEventHandler::onRemoteInvitationReceived(agora::rtm::IRemoteCallInvitation *remoteInvitation) {
             if (_onRemoteInvitationReceived)
-                _onRemoteInvitationReceived(remoteInvitation);
+                _onRemoteInvitationReceived(handlerId, remoteInvitation);
         }
             
       /**
@@ -129,7 +138,7 @@ namespace unity {
        */
         void RtmCallEventHandler::onRemoteInvitationFailure(agora::rtm::IRemoteCallInvitation *remoteInvitation, agora::rtm::REMOTE_INVITATION_ERR_CODE errorCode) {
             if (_onRemoteInvitationFailure)
-                _onRemoteInvitationFailure(remoteInvitation, errorCode);
+                _onRemoteInvitationFailure(handlerId, remoteInvitation, errorCode);
         }
         
       /**
@@ -139,7 +148,7 @@ namespace unity {
        */
         void RtmCallEventHandler::onRemoteInvitationCanceled(agora::rtm::IRemoteCallInvitation *remoteInvitation) {
             if (_onRemoteInvitationCanceled)
-                _onRemoteInvitationCanceled(remoteInvitation);
+                _onRemoteInvitationCanceled(handlerId, remoteInvitation);
         }
 }
 }

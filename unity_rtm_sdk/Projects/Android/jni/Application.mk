@@ -10,4 +10,3 @@ APP_CFLAGS += -DBUILD_AGORA_GAMING_SDK
 
 #gnustl_static c++_static
 APP_STL := c++_static
-NDK_TOOLCHAIN_VERSION := 4.9

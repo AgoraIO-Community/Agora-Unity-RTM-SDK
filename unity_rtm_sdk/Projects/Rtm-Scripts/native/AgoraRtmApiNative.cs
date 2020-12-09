@@ -38,16 +38,16 @@ namespace agora_rtm {
 		protected delegate void EngineEventOnGetChannelMemberCountResult(int _id, Int64 requestId, string channelMemberCounts , int channelCount, GET_CHANNEL_MEMBER_COUNT_ERR_CODE errorCode);
 		protected delegate void EngineEventOnPeersOnlineStatusChanged(int _id, string peersStatus, int peerCount);
 
-		protected delegate void EngineEventOnLocalInvitationReceivedByPeerHandler(IntPtr localInvitation);
-		protected delegate void EngineEventOnLocalInvitationCanceledHandler(IntPtr localInvitation);
-		protected delegate void EngineEventOnLocalInvitationFailureHandler(IntPtr localInvitation, LOCAL_INVITATION_ERR_CODE errorCode);
-		protected delegate void EngineEventOnLocalInvitationAcceptedHandler(IntPtr localInvitation, string response);
-		protected delegate void EngineEventOnLocalInvitationRefusedHandler(IntPtr localInvitation, string response);
-		protected delegate void EngineEventOnRemoteInvitationRefusedHandler(IntPtr remoteInvitation);
-		protected delegate void EngineEventOnRemoteInvitationAcceptedHandler(IntPtr remoteInvitation);
-		protected delegate void EngineEventOnRemoteInvitationReceivedHandler(IntPtr remoteInvitation);
-		protected delegate void EngineEventOnRemoteInvitationFailureHandler(IntPtr remoteInvitation, REMOTE_INVITATION_ERR_CODE errorCode);
-		protected delegate void EngineEventOnRemoteInvitationCanceledHandler(IntPtr remoteInvitation);
+		protected delegate void EngineEventOnLocalInvitationReceivedByPeerHandler(int _id, IntPtr localInvitation);
+		protected delegate void EngineEventOnLocalInvitationCanceledHandler(int _id, IntPtr localInvitation);
+		protected delegate void EngineEventOnLocalInvitationFailureHandler(int _id, IntPtr localInvitation, LOCAL_INVITATION_ERR_CODE errorCode);
+		protected delegate void EngineEventOnLocalInvitationAcceptedHandler(int _id, IntPtr localInvitation, string response);
+		protected delegate void EngineEventOnLocalInvitationRefusedHandler(int _id, IntPtr localInvitation, string response);
+		protected delegate void EngineEventOnRemoteInvitationRefusedHandler(int _id, IntPtr remoteInvitation);
+		protected delegate void EngineEventOnRemoteInvitationAcceptedHandler(int _id, IntPtr remoteInvitation);
+		protected delegate void EngineEventOnRemoteInvitationReceivedHandler(int _id, IntPtr remoteInvitation);
+		protected delegate void EngineEventOnRemoteInvitationFailureHandler(int _id, IntPtr remoteInvitation, REMOTE_INVITATION_ERR_CODE errorCode);
+		protected delegate void EngineEventOnRemoteInvitationCanceledHandler(int _id, IntPtr remoteInvitation);
 		
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
@@ -448,7 +448,7 @@ namespace agora_rtm {
 		protected static extern void i_remote_call_manager_release(IntPtr remoteCallInvitationPtr);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-		protected static extern IntPtr i_rtm_call_event_handler_createEventHandler(EngineEventOnLocalInvitationReceivedByPeerHandler onLocalInvitationReceivedByPeerHandler,
+		protected static extern IntPtr i_rtm_call_event_handler_createEventHandler(int id, EngineEventOnLocalInvitationReceivedByPeerHandler onLocalInvitationReceivedByPeerHandler,
 																				EngineEventOnLocalInvitationCanceledHandler onLocalInvitationCanceledHandler,
 																				EngineEventOnLocalInvitationFailureHandler onLocalInvitationFailureHandler,
 																				EngineEventOnLocalInvitationAcceptedHandler onLocalInvitationAcceptedHandler,

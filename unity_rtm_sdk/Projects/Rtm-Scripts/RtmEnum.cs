@@ -1241,4 +1241,9 @@ namespace agora_rtm {
        */
       INVITATION_API_CALL_ERR_ALREADY_SENT = 5,
     };
+
+    public struct SendMessageOptions {
+      public bool enableOfflineMessaging;
+      public bool enableHistoricalMessaging;
+    };
 }

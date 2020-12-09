@@ -17,7 +17,7 @@
 #include "../../../include/IAgoraRtmCallManager.h"
 #include "../../../include/IAgoraRtmService.h"
 #elif defined(__ANDROID__) || defined(__linux__)
-#include "../../include/IAgoraRtmCallManager.h"
-#include "../../include/IAgoraRtmService.h"
+#include "../prebuilt/include/IAgoraRtmCallManager.h"
+#include "../prebuilt/include/IAgoraRtmService.h"
 
 #endif

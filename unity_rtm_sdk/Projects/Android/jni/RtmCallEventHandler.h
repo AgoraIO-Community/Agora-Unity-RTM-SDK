@@ -7,37 +7,38 @@
 //
 #pragma once
 
-#include "common.h"
+#include "IAgoraRtmCallManager.h"
 
 namespace agora {
 namespace unity {
 
 #if defined(_WIN32)
-typedef void(__stdcall *FUNC_onLocalInvitationReceivedByPeer)(void *localInvitation);
-typedef void(__stdcall *FUNC_onLocalInvitationCanceled)(void *localInvitation);
-typedef void(__stdcall *FUNC_onLocalInvitationFailure)(void *localInvitation, rtm::LOCAL_INVITATION_ERR_CODE errorCode);
-typedef void(__stdcall *FUNC_onLocalInvitationAccepted)(void *localInvitation, const char *response);
-typedef void(__stdcall *FUNC_onLocalInvitationRefused)(void *localInvitation, const char *response);
-typedef void(__stdcall *FUNC_onRemoteInvitationRefused)(void *remoteInvitation);
-typedef void(__stdcall *FUNC_onRemoteInvitationAccepted)(void *remoteInvitation);
-typedef void(__stdcall *FUNC_onRemoteInvitationReceived)(void *remoteInvitation);
-typedef void(__stdcall *FUNC_onRemoteInvitationFailure)(void *remoteInvitation, rtm::REMOTE_INVITATION_ERR_CODE errorCode);
-typedef void(__stdcall *FUNC_onRemoteInvitationCanceled)(void *remoteInvitation);
+typedef void(__stdcall *FUNC_onLocalInvitationReceivedByPeer)(int index, void *localInvitation);
+typedef void(__stdcall *FUNC_onLocalInvitationCanceled)(int index, void *localInvitation);
+typedef void(__stdcall *FUNC_onLocalInvitationFailure)(int index, void *localInvitation, rtm::LOCAL_INVITATION_ERR_CODE errorCode);
+typedef void(__stdcall *FUNC_onLocalInvitationAccepted)(int index, void *localInvitation, const char *response);
+typedef void(__stdcall *FUNC_onLocalInvitationRefused)(int index, void *localInvitation, const char *response);
+typedef void(__stdcall *FUNC_onRemoteInvitationRefused)(int index, void *remoteInvitation);
+typedef void(__stdcall *FUNC_onRemoteInvitationAccepted)(int index, void *remoteInvitation);
+typedef void(__stdcall *FUNC_onRemoteInvitationReceived)(int index, void *remoteInvitation);
+typedef void(__stdcall *FUNC_onRemoteInvitationFailure)(int index, void *remoteInvitation, rtm::REMOTE_INVITATION_ERR_CODE errorCode);
+typedef void(__stdcall *FUNC_onRemoteInvitationCanceled)(int index, void *remoteInvitation);
 #else
-typedef void(*FUNC_onLocalInvitationReceivedByPeer)(void *localInvitation);
-typedef void(*FUNC_onLocalInvitationCanceled)(void *localInvitation);
-typedef void(*FUNC_onLocalInvitationFailure)(void *localInvitation, rtm::LOCAL_INVITATION_ERR_CODE errorCode);
-typedef void(*FUNC_onLocalInvitationAccepted)(void *localInvitation, const char *response);
-typedef void(*FUNC_onLocalInvitationRefused)(void *localInvitation, const char *response);
-typedef void(*FUNC_onRemoteInvitationRefused)(void *remoteInvitation);
-typedef void(*FUNC_onRemoteInvitationAccepted)(void *remoteInvitation);
-typedef void(*FUNC_onRemoteInvitationReceived)(void *remoteInvitation);
-typedef void(*FUNC_onRemoteInvitationFailure)(void *remoteInvitation, rtm::REMOTE_INVITATION_ERR_CODE errorCode);
-typedef void(*FUNC_onRemoteInvitationCanceled)(void *remoteInvitation);
+typedef void(*FUNC_onLocalInvitationReceivedByPeer)(int index, void *localInvitation);
+typedef void(*FUNC_onLocalInvitationCanceled)(int index, void *localInvitation);
+typedef void(*FUNC_onLocalInvitationFailure)(int index, void *localInvitation, rtm::LOCAL_INVITATION_ERR_CODE errorCode);
+typedef void(*FUNC_onLocalInvitationAccepted)(int index, void *localInvitation, const char *response);
+typedef void(*FUNC_onLocalInvitationRefused)(int index, void *localInvitation, const char *response);
+typedef void(*FUNC_onRemoteInvitationRefused)(int index, void *remoteInvitation);
+typedef void(*FUNC_onRemoteInvitationAccepted)(int index, void *remoteInvitation);
+typedef void(*FUNC_onRemoteInvitationReceived)(int index, void *remoteInvitation);
+typedef void(*FUNC_onRemoteInvitationFailure)(int index, void *remoteInvitation, rtm::REMOTE_INVITATION_ERR_CODE errorCode);
+typedef void(*FUNC_onRemoteInvitationCanceled)(int index, void *remoteInvitation);
 #endif
 
 class RtmCallEventHandler : public agora::rtm::IRtmCallEventHandler {
 private:
+    int handlerId;
     FUNC_onLocalInvitationReceivedByPeer _onLocalInvitationReceivedByPeer = nullptr;
     FUNC_onLocalInvitationCanceled _onLocalInvitationCanceled = nullptr;
     FUNC_onLocalInvitationFailure _onLocalInvitationFailure = nullptr;
@@ -51,7 +52,7 @@ private:
     FUNC_onRemoteInvitationCanceled _onRemoteInvitationCanceled = nullptr;
   
 public:
-    RtmCallEventHandler(FUNC_onLocalInvitationReceivedByPeer _onLocalInvitationReceivedByPeer,
+    RtmCallEventHandler(int index, FUNC_onLocalInvitationReceivedByPeer _onLocalInvitationReceivedByPeer,
         FUNC_onLocalInvitationCanceled _onLocalInvitationCanceled,
         FUNC_onLocalInvitationFailure _onLocalInvitationFailure,
         FUNC_onLocalInvitationAccepted _onLocalInvitationAccepted,
