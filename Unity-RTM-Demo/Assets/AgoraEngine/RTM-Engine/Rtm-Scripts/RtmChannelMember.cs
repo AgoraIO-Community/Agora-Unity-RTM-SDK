@@ -19,10 +19,18 @@ namespace agora_rtm {
 			_ChannelId = channelId;
 		}
 
+		/// <summary>
+		/// Retrieves the user ID of a user in the channel.
+		/// </summary>
+		/// <returns>User ID of a user in the channel.</returns>
 		public string GetUserId() {
 			return _UserId;
 		}
 
+		/// <summary>
+		/// Retrieves the channel ID of the user.
+		/// </summary>
+		/// <returns>Channel ID of the user.</returns>
 		public string GetChannelId() {
 			return _ChannelId;
 		}
