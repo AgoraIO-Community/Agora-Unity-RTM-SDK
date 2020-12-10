@@ -55,6 +55,10 @@ namespace agora_rtm {
             Release();
         }
 
+		/// <summary>
+		/// Gets the size of the uploaded file.
+		/// </summary>
+		/// <returns>The size of the uploaded file in bytes.</returns>
         public Int64 GetSize() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Size;
@@ -67,6 +71,10 @@ namespace agora_rtm {
             return iFile_message_getSize(_MessagePtr);
         }
 
+		/// <summary>
+		/// Gets the media ID of the uploaded file.
+		/// </summary>
+		/// <returns>The media ID of the uploaded file.</returns>
         public string GetMediaId() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _MediaId;
@@ -84,6 +92,10 @@ namespace agora_rtm {
 			}
         }
 
+		/// <summary>
+		/// Sets the thumbnail of the uploaded file.
+		/// </summary>
+		/// <param name="thumbnail">The thumbnail of the uploaded file. Must be binary data. The total size of thumbnail and fileName must not exceed 32 KB.</param>
         public void SetThumbnail(byte[] thumbnail) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -99,6 +111,10 @@ namespace agora_rtm {
             iFile_message_setThumbnail(_MessagePtr, thumbnail, thumbnail.Length);
         }
 
+		/// <summary>
+		/// Gets the thumbnail of the uploaded file.
+		/// </summary>
+		/// <returns>The thumbnail of the uploaded file.</returns>
         public byte[] GetThumbnailData() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Thumbnail;
@@ -115,6 +131,10 @@ namespace agora_rtm {
             return rawData;
         }
 
+		/// <summary>
+		/// Sets the name of the uploaded file.
+		/// </summary>
+		/// <param name="fileName">The name of the uploaded file. The total size of thumbnail and fileName must not exceed 32 KB.</param>
         public void SetFileName(string fileName) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -130,6 +150,10 @@ namespace agora_rtm {
             iFile_message_setFileName(_MessagePtr, fileName);
         }
 
+		/// <summary>
+		/// Gets the name of the uploaded file.
+		/// </summary>
+		/// <returns>The filename of the uploaded file.</returns>
         public string GetFileName() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _FileName;

@@ -67,6 +67,11 @@ namespace io.agora.rtm.demo
             }
         }
 
+        agora_rtm.SendMessageOptions _MessageOptions = new agora_rtm.SendMessageOptions() {
+                    enableOfflineMessaging = true,
+                    enableHistoricalMessaging = true
+	    };
+
         private void Awake()
         {
             userNameInput.text = PlayerPrefs.GetString("RTM_USER", "");
@@ -145,12 +150,12 @@ namespace io.agora.rtm.demo
         {
             if (channel != null)
             {
-                channel.Release();
+                channel.Dispose();
                 channel = null;
             }
             if (rtmClient != null)
             {
-                rtmClient.Release(true);
+                rtmClient.Dispose();
                 rtmClient = null;
             }
         }
@@ -219,8 +224,8 @@ namespace io.agora.rtm.demo
             rtmClient.SendMessageToPeer(
                 peerId: peer,
                 message: rtmClient.CreateMessage(msg),
-                enableOfflineMessaging: true,
-                enableHistoricalMessaging: true);
+                options: _MessageOptions
+           );
 
             peerMessageBox.text = "";
         }
@@ -273,8 +278,8 @@ namespace io.agora.rtm.demo
                 rtmClient.SendMessageToPeer(
                     peerId: peer,
                     message: message,
-                    enableOfflineMessaging: true,
-                    enableHistoricalMessaging: true);
+                    options: _MessageOptions
+                    ); 
             }
         }
 

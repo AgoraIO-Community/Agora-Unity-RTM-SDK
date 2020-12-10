@@ -12,18 +12,100 @@ namespace agora_rtm {
         private static Dictionary<int, RtmChannelEventHandler> channelEventHandlerDic = new Dictionary<int, RtmChannelEventHandler>();
         private IntPtr channelEventHandlerPtr = IntPtr.Zero;
         private int currentIdIndex = 0;
+
+		/// <summary>
+		/// Occurs when successfully joining a channel.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
         public delegate void OnJoinSuccessHandler(int id);
+
+		/// <summary>
+		/// Occurs when failing to join a channel.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="errorCode">The error code.</param>
         public delegate void OnJoinFailureHandler(int id, JOIN_CHANNEL_ERR errorCode);
-        public delegate void OnLeaveHandler(int id, LEAVE_CHANNEL_ERR errorCode);
-        public delegate void OnMessageReceivedHandler(int id, string userId, TextMessage message);
-        public delegate void OnImageMessageReceivedHandler(int id, string userId, ImageMessage message);
-        public delegate void OnFileMessageReceivedHandler(int id, string userId, FileMessage message);
-        public delegate void OnSendMessageResultHandler(int id, Int64 messageId, CHANNEL_MESSAGE_ERR_CODE errorCode);
-        public delegate void OnMemberJoinedHandler(int id, RtmChannelMember member);
-        public delegate void OnMemberLeftHandler(int id, RtmChannelMember member);
-        public delegate void OnGetMembersHandler(int id, RtmChannelMember[] members, int userCount, GET_MEMBERS_ERR errorCode);
-        public delegate void OnAttributesUpdatedHandler(int id, RtmChannelAttribute[] attributesList, int numberOfAttributes);
-        public delegate void OnMemberCountUpdatedHandler(int id, int memberCount);
+        
+		/// <summary>
+		/// Returns the result of the leave method call.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="errorCode">The error code. </param>
+		public delegate void OnLeaveHandler(int id, LEAVE_CHANNEL_ERR errorCode);
+        
+		/// <summary>
+		/// Occurs when receiving a channel message.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="userId">The message sender.</param>
+		/// <param name="message">The received channel message.</param>
+		public delegate void OnMessageReceivedHandler(int id, string userId, TextMessage message);
+        
+		/// <summary>
+		/// Occurs when receiving a channel image message.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="userId">The message sender.</param>
+		/// <param name="message">The received channel image message. </param>
+		public delegate void OnImageMessageReceivedHandler(int id, string userId, ImageMessage message);
+        
+		/// <summary>
+		/// Occurs when receiving a channel file message.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="userId">The message sender.</param>
+		/// <param name="message">The received channel file message. </param>
+		public delegate void OnFileMessageReceivedHandler(int id, string userId, FileMessage message);
+        
+		/// <summary>
+		/// Returns the result of the sendMessage method call.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="messageId">The ID of the sent channel message.</param>
+		/// <param name="errorCode">The error codes. </param>
+		public delegate void OnSendMessageResultHandler(int id, Int64 messageId, CHANNEL_MESSAGE_ERR_CODE errorCode);
+        
+		/// <summary>
+		/// Occurs when a remote user joins the channel.
+		/// When a remote user calls the join method and receives the onJoinSuccess callback (successfully joins the channel), the local user receives this callback.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="member">The user joining the channel.</param>
+		public delegate void OnMemberJoinedHandler(int id, RtmChannelMember member);
+        
+		/// <summary>
+		/// Occurs when a remote member leaves the channel.
+		/// When a remote member in the channel calls the leave method and receives the the onLeave (LEAVE_CHANNEL_ERR_OK) callback, the local user receives this callback.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="member">The channel member that leaves the channel. </param>
+		public delegate void OnMemberLeftHandler(int id, RtmChannelMember member);
+        
+		/// <summary>
+		/// Returns the result of the getMembers method call.
+		/// When the method call succeeds, the SDK returns the member list of the channel.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="members">The member list. </param>
+		/// <param name="userCount">The number of members.</param>
+		/// <param name="errorCode">Error code.</param>
+		public delegate void OnGetMembersHandler(int id, RtmChannelMember[] members, int userCount, GET_MEMBERS_ERR errorCode);
+        
+		/// <summary>
+		/// Occurs when channel attributes are updated, and returns all attributes of the channel.
+		/// This callback is enabled only when the user, who updates the attributes of the channel, sets enableNotificationToChannelMembers as true. Also note that this flag is valid only within the current channel attribute method call.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="attributesList">All attribute of this channel.</param>
+		/// <param name="numberOfAttributes">The total number of the channel attributes.</param>
+		public delegate void OnAttributesUpdatedHandler(int id, RtmChannelAttribute[] attributesList, int numberOfAttributes);
+        
+		/// <summary>
+		/// Occurs when the number of the channel members changes, and returns the new number.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="memberCount">Member count of this channel.</param>
+		public delegate void OnMemberCountUpdatedHandler(int id, int memberCount);
 
         public OnJoinSuccessHandler OnJoinSuccess;
         public OnJoinFailureHandler OnJoinFailure;
