@@ -37,9 +37,9 @@ To build and run the sample application, get an App ID:
 
 ### Run the Application   
 
-1. First download the SDK from the **release section** of this Repo; Import that package to your Unity project. (Assets->Import Package)
+1. First download the SDK from [the **release section** of this Repo](https://github.com/AgoraIO-Community/Unity-RTM/releases); Import that package to your Unity project. (Assets->Import Package)
 2. Open **Assets** > **Scenes** > **MainScene.unity** in your Unity3D Editor
-3. Next go into your Heirarchy window and select **ChatManager**, in the Inspector add your **App ID** to to the **AppID** Input field
+3. Next go into your Hierarchy window and select **ChatManager**, in the Inspector add your **App ID** to to the **AppID** Input field
 4. Optional: to test image upload, fill in the local image path in the "Image Path" field of ChatManager
 ![Unity_2017 chat manager](https://user-images.githubusercontent.com/1261195/99313131-e36d1a80-2813-11eb-9628-be633fb818dc.png)
 
