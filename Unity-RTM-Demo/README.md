@@ -1,5 +1,5 @@
 # Agora Real Time Messaging SDK for Unity
-A Unity SDK including a sample app to show Login /Logout, Log in to/out of channel, Get Channel Member Count, Send/Receive Channel Message, Send Peer Message, Query Member, and token Authentication
+This is the Demo APP to show Login /Logout, Log in to/out of channel, Get Channel Member Count, Send/Receive Channel Message, Send Peer Message, Query Member, invite user and send image.
 
 *其他语言版本： [简体中文](README.zh.md)*
 
@@ -26,7 +26,7 @@ With this sample app, you can:
 
 ## Quick Start
 
-This section shows you how to prepare, build, and run the sample application.
+This section shows you how to prepare, build, and run the sample application. 
 
 ### Obtain an App ID
 
@@ -37,7 +37,7 @@ To build and run the sample application, get an App ID:
 
 ### Run the Application   
 
-1. First donwload the SDK from the release section of this Repo; Import that package to your Unity project.
+1. First download the SDK from the **release section** of this Repo; Import that package to your Unity project. (Assets->Import Package)
 2. Open **Assets** > **Scenes** > **MainScene.unity** in your Unity3D Editor
 3. Next go into your Heirarchy window and select **ChatManager**, in the Inspector add your **App ID** to to the **AppID** Input field
 4. Optional: to test image upload, fill in the local image path in the "Image Path" field of ChatManager
