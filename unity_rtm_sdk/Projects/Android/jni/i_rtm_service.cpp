@@ -126,14 +126,13 @@ AGORA_API int setChannelAttributes(void *rtmInstance, const char* channelId, lon
     agora::rtm::ChannelAttributeOptions channelAttributeOptions;
     channelAttributeOptions.enableNotificationToChannelMembers = enableNotificationToChannelMembers;
 
-	std::vector<const agora::rtm::IRtmChannelAttribute *> test;
-	test.resize(numberOfAttributes);
+	std::vector<const agora::rtm::IRtmChannelAttribute *> channelAttributeList;
 
 	for(int i = 0; i < numberOfAttributes; i++) {
-	    test.push_back(reinterpret_cast<agora::rtm::IRtmChannelAttribute *>(attributes[i]));
+	    channelAttributeList.push_back(reinterpret_cast<agora::rtm::IRtmChannelAttribute *>(attributes[i]));
 	}
 
-    return RTM_SERVICE_INSTANCE->setChannelAttributes(channelId, &test[0], numberOfAttributes, channelAttributeOptions, requestId);
+    return RTM_SERVICE_INSTANCE->setChannelAttributes(channelId, &channelAttributeList[0], numberOfAttributes, channelAttributeOptions, requestId);
 }
 
 AGORA_API int addOrUpdateLocalUserAttributes(void *rtmInstance, void* attributes, int numberOfAttributes, long long requestId)
