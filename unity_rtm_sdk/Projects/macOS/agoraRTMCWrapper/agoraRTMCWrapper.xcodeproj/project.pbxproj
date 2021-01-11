@@ -17,10 +17,8 @@
 		49CE559F2535B3C200C9F6E7 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 495377EB24D056770024B65C /* libc++.tbd */; };
 		49CE55A02535B3C700C9F6E7 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 495377EC24D056830024B65C /* libresolv.tbd */; };
 		49CE55A12535B3CC00C9F6E7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 495377EF24D056B00024B65C /* SystemConfiguration.framework */; };
-		49CE55A32535B3E300C9F6E7 /* libagora_rtm_sdk.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 49CE55A22535B3E300C9F6E7 /* libagora_rtm_sdk.dylib */; };
 		49E50CB425330B0D0019B200 /* i_rtm_channel_event_handler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49E50CB225330B0D0019B200 /* i_rtm_channel_event_handler.mm */; };
 		49E50CC725344E860019B200 /* i_rtm_service_event_handler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49E50CC525344E860019B200 /* i_rtm_service_event_handler.mm */; };
-		49E50CCB25347BD10019B200 /* libagora_rtm_sdk.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4971546425309AF50009610D /* libagora_rtm_sdk.dylib */; };
 		49E8C293250BA11B00409008 /* ChannelEventHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49E8C291250BA11B00409008 /* ChannelEventHandler.mm */; };
 		49E8C296250DEA1200409008 /* i_rtm_service.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49E8C294250DEA1200409008 /* i_rtm_service.mm */; };
 		49E8C299250DF3AE00409008 /* i_rtm_channel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49E8C297250DF3AE00409008 /* i_rtm_channel.mm */; };
@@ -29,7 +27,23 @@
 		49E8C2A5250E29BA00409008 /* i_rtm_message.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49E8C2A3250E29BA00409008 /* i_rtm_message.mm */; };
 		49E8C2A8250E2C6500409008 /* i_rtm_image_message.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49E8C2A6250E2C6500409008 /* i_rtm_image_message.mm */; };
 		49E8C2AB250E2EE800409008 /* i_rtm_file_message.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49E8C2A9250E2EE800409008 /* i_rtm_file_message.mm */; };
+		7B0AB56525AC35CE0073F68C /* libagora_rtm_sdk.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B0AB56425AC35CE0073F68C /* libagora_rtm_sdk.dylib */; };
+		7B0AB56625AC35CF0073F68C /* libagora_rtm_sdk.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 7B0AB56425AC35CE0073F68C /* libagora_rtm_sdk.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7B0AB56725AC35CF0073F68C /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7B0AB56625AC35CF0073F68C /* libagora_rtm_sdk.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		495377DA24D055590024B65C /* agoraRTMCWrapper.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = agoraRTMCWrapper.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,7 +69,6 @@
 		49A6494E2541548D0099BF38 /* i_remote_call_invitation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = i_remote_call_invitation.h; sourceTree = "<group>"; };
 		49A64950254159340099BF38 /* i_rtm_call_event_handler.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_call_event_handler.mm; sourceTree = "<group>"; };
 		49A64951254159340099BF38 /* i_rtm_call_event_handler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = i_rtm_call_event_handler.h; sourceTree = "<group>"; };
-		49CE55A22535B3E300C9F6E7 /* libagora_rtm_sdk.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libagora_rtm_sdk.dylib; sourceTree = "<group>"; };
 		49E50CB225330B0D0019B200 /* i_rtm_channel_event_handler.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_channel_event_handler.mm; sourceTree = "<group>"; };
 		49E50CB325330B0D0019B200 /* i_rtm_channel_event_handler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel_event_handler.h; sourceTree = "<group>"; };
 		49E50CC525344E860019B200 /* i_rtm_service_event_handler.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_service_event_handler.mm; sourceTree = "<group>"; };
@@ -77,6 +90,7 @@
 		49E8C2A7250E2C6500409008 /* i_rtm_image_message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = i_rtm_image_message.h; sourceTree = "<group>"; };
 		49E8C2A9250E2EE800409008 /* i_rtm_file_message.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_file_message.mm; sourceTree = "<group>"; };
 		49E8C2AA250E2EE800409008 /* i_rtm_file_message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = i_rtm_file_message.h; sourceTree = "<group>"; };
+		7B0AB56425AC35CE0073F68C /* libagora_rtm_sdk.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libagora_rtm_sdk.dylib; path = Agora_RTM_SDK_for_Mac/libs/libagora_rtm_sdk.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,8 +101,8 @@
 				49CE559F2535B3C200C9F6E7 /* libc++.tbd in Frameworks */,
 				49CE55A12535B3CC00C9F6E7 /* SystemConfiguration.framework in Frameworks */,
 				49CE559E2535B3BC00C9F6E7 /* CoreTelephony.framework in Frameworks */,
-				49E50CCB25347BD10019B200 /* libagora_rtm_sdk.dylib in Frameworks */,
 				49CE55A02535B3C700C9F6E7 /* libresolv.tbd in Frameworks */,
+				7B0AB56525AC35CE0073F68C /* libagora_rtm_sdk.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +112,6 @@
 		495377D124D055590024B65C = {
 			isa = PBXGroup;
 			children = (
-				49CE55A22535B3E300C9F6E7 /* libagora_rtm_sdk.dylib */,
 				495377DC24D055590024B65C /* agoraRTMCWrapper */,
 				495377DB24D055590024B65C /* Products */,
 				495377E624D055C50024B65C /* Frameworks */,
@@ -161,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				4971546425309AF50009610D /* libagora_rtm_sdk.dylib */,
+				7B0AB56425AC35CE0073F68C /* libagora_rtm_sdk.dylib */,
 				495377F124D056B70024B65C /* CoreTelephony.framework */,
 				495377EF24D056B00024B65C /* SystemConfiguration.framework */,
 				495377EC24D056830024B65C /* libresolv.tbd */,
@@ -180,6 +194,7 @@
 				495377D624D055590024B65C /* Sources */,
 				495377D724D055590024B65C /* Frameworks */,
 				495377D824D055590024B65C /* Resources */,
+				7B0AB56725AC35CF0073F68C /* Embed Libraries */,
 			);
 			buildRules = (
 			);
@@ -227,7 +242,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49CE55A32535B3E300C9F6E7 /* libagora_rtm_sdk.dylib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +401,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Agora_RTM_SDK_for_Mac/libs",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.agora.agoraRTMCWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -411,6 +426,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Agora_RTM_SDK_for_Mac/libs",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.agora.agoraRTMCWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";

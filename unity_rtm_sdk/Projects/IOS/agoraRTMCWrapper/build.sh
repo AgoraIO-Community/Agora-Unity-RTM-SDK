@@ -2,6 +2,10 @@
 
 #use environment variable BUILD_CONFIG and BUILD_TARGET to config build
 
+wget https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_iOS_Unity_v1_4_2.zip
+#unzip
+unzip -o Agora_RTM_SDK_for_iOS_Unity_v1_4_2.zip
+
 BUILD_CONFIG=${BUILD_CONFIG:=Release}
 BUILD_TARGET=${BUILD_TARGET:=clean build}
 
@@ -43,9 +47,15 @@ xcodebuild -project ${module_name}.xcodeproj -target ${module_name} -configurati
 # iphone
 xcodebuild -project ${module_name}.xcodeproj -target ${module_name}  -configuration ${build_config} -sdk ${iphoneos_config} ${BUILD_TARGET} SYMROOT=${output_build_tmp_path} ${EXTRACFLAGS} -UseModernBuildSystem=NO || exit 1
 
+lipo ./${output_build_tmp_path}/${build_config}-${iphonesimulator_config}/lib${module_name}.a -remove arm64 -output ./${output_build_tmp_path}/${build_config}-${iphonesimulator_config}/lib${module_name}.a
+
 # merge
 lipo -create  ./${output_build_tmp_path}/${build_config}-${iphonesimulator_config}/lib${module_name}.a ./${output_build_tmp_path}/${build_config}-${iphoneos_config}/lib${module_name}.a -output ./${output_build_tmp_path}/${build_config}-${iphoneos_config}/lib${module_name}.a || exit 1
 
+rm -rf sdk/
+
+cp -r Agora_RTM_SDK_for_iOS/libs/ sdk/
+cp -r output/tmp/Release-iphoneos/ sdk/
 echo "------ FINISHED --------"
 echo "Created ./${output_build_tmp_path}/${build_config}-${iphoneos_config}/lib${module_name}.a"
 exit 0

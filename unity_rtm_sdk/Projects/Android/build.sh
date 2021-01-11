@@ -27,6 +27,10 @@ cp -r prebuilt/ bin/ || exit 1
 cp -r libs/ bin/ || exit 1
 cp AndroidManifest.xml bin/example-AndroidManifest.xml || exit 1
 
+rm -rf sdk/
+cp -r bin/arm64-v8a/ sdk/arm64-v8a/
+cp -r bin/armeabi-v7a/ sdk/armeabi-v7a/
+cp -r bin/x86/ sdk/x86/
 
 echo "------ FINISHED --------"
 echo "#cp -r bin/ /Users/Shared/Agora/apps/Unity3D/VideoTexture/Assets/Plugins/Android/libs"

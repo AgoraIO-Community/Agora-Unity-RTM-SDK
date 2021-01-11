@@ -2,6 +2,11 @@
 
 #use environment variable BUILD_CONFIG and BUILD_TARGET to config build
 
+wget https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_Mac_Unity_v1_4_2.zip
+#unzip
+unzip -o Agora_RTM_SDK_for_Mac_Unity_v1_4_2.zip
+
+
 BUILD_CONFIG=${BUILD_CONFIG:=Release}
 BUILD_TARGET=${BUILD_TARGET:=clean build}
 
@@ -30,6 +35,10 @@ module_name=agoraRTMCWrapper
 # MAC 
 xcodebuild -project ${module_name}.xcodeproj -target ${module_name} -configuration ${build_config} -sdk ${macosx_config} ${BUILD_TARGET} SYMROOT=${output_build_tmp_path} ${EXTRACFLAGS} || exit 1
 
+rm -rf sdk/
+
+cp -r output/tmp/Release/agoraRTMCWrapper.bundle sdk/
+cp -r Agora_RTM_SDK_for_Mac/libs/libagora_rtm_sdk.dylib sdk/
 
 echo "------ FINISHED --------"
 echo "Created ./${output_build_tmp_path}/${build_config}/${module_name}.bundle"
