@@ -1,4 +1,10 @@
 #!/bin/bash
+#download
+wget https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_Android_Unity_v1_4_2.zip
+#unzip
+unzip -o Agora_RTM_SDK_for_Android_Unity_v1_4_2.zip
+mkdir prebuilt
+cp -r Agora_RTM_SDK_for_Android/libs/* prebuilt/
 
 COMMITNR=`git log --pretty="%h" | head -n 1`
 dirty=`[[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]] && echo "*"`
