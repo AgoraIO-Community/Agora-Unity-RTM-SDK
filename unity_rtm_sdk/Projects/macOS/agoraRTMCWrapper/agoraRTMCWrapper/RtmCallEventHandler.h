@@ -7,7 +7,7 @@
 //
 #pragma once
 
-#include "IAgoraRtmCallManager.h"
+#include "common.h"
 
 namespace agora {
 namespace unity {
