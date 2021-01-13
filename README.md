@@ -1,12 +1,16 @@
 *其他语言版本： [简体中文](README.zh.md)*
 
-# Agora Real Time Messaging for Unity
-
 <br />
 <p align="center">
-  <h1 align="center">Agora RTC Electron SDK</h1>
+  <h1 align="center">Agora Unity RTM SDK</h1>
 </p>
 </br>
+
+## Table of Contents
+* [Contents](#Contents)
+* [QuickStart](#QuickStart)
+* [SDK Release](#SDK_Release)
+* [API_Reference](#API_Reference)
 
 **This project contains source code and demo of  Agora Unity RTM SDK.   Please use the release section to download the Unity package for the SDK import.  The repository contains three subfolders that provide further description in them.**
 
@@ -16,11 +20,9 @@
  - **Unity-RTM-Demo**: Unity demo that illustrates main features of the SDK (login, channel joining, sending text message, ending image, invite user, etc.). The demo is also included in the release package.
  - **unity_rtm_sdk**: Source code of Unity RTM SDK. You can build Unity RTM SDK by source code.
  
-## SDK Release
-- Please check the right-hand side in [the Release section](https://github.com/AgoraIO-Community/Unity-RTM/releases).  This Repo does not contain the actual plugins.
 
 
-## Quick Start
+## QuickStart
 ```
 // new instance of client event handler and init delegate of event.
 RtmClientEventHandler eventHandler = new RtmClientEventHandler();
@@ -69,7 +71,10 @@ rtmChannel2.Join();
 	
 ```
 
-## Resources
+## SDK_Release
+- Please check the right-hand side in [the Release section](https://github.com/AgoraIO-Community/Unity-RTM/releases).  This Repo does not contain the actual plugins.
+
+## API_Reference
 
  - [API Reference](https://docs.agora.io/en/Real-time-Messaging/API%20Reference/RTM_java/index.html)
 
