@@ -37,8 +37,8 @@ xcodebuild -project ${module_name}.xcodeproj -target ${module_name} -configurati
 
 rm -rf sdk/
 
-cp -r output/tmp/Release/agoraRTMCWrapper.bundle sdk/
-cp -r Agora_RTM_SDK_for_Mac/libs/libagora_rtm_sdk.dylib sdk/
+cp -r output/tmp/Release/ sdk/
+# cp -r Agora_RTM_SDK_for_Mac/libs/libagora_rtm_sdk.dylib sdk/
 
 echo "------ FINISHED --------"
 echo "Created ./${output_build_tmp_path}/${build_config}/${module_name}.bundle"
