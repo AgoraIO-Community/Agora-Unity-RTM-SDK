@@ -30,9 +30,9 @@ namespace agora_rtm {
                 return;
             }
             AgoraCallbackObject.GetInstance();
-            _rtmServicePtr = createRtmService_();
+            _rtmServicePtr = createRtmService_rtm();
             _eventHandler = eventHandler;
-            int ret = initialize(_rtmServicePtr, appId, eventHandler.GetRtmClientEventHandlerPtr());
+            int ret = initialize_rtm(_rtmServicePtr, appId, eventHandler.GetRtmClientEventHandlerPtr());
             if (ret != 0) {
                 Debug.LogError("RtmClient create fail, error:  " + ret);
             }
@@ -79,7 +79,7 @@ namespace agora_rtm {
                 _rtmCallManager = null;
             }
 
-            release(_rtmServicePtr, sync);
+            release_rtm(_rtmServicePtr, sync);
             _rtmServicePtr = IntPtr.Zero;
             _eventHandler.Release();
             _eventHandler = null;
@@ -92,7 +92,7 @@ namespace agora_rtm {
         /// The current version of the Agora RTM SDK in the string format. For example, 1.0.0.
         /// </returns>
         public static string GetSdkVersion() {
-            IntPtr sdkVersion = _getRtmSdkVersion_();
+            IntPtr sdkVersion = _getRtmSdkVersion_rtm();
             if (!ReferenceEquals(sdkVersion, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(sdkVersion);
 			} else {
@@ -129,7 +129,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return login(_rtmServicePtr, token, userId);
+            return login_rtm(_rtmServicePtr, token, userId);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return logout(_rtmServicePtr);
+            return logout_rtm(_rtmServicePtr);
         }
         
         /// <summary>
@@ -164,7 +164,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return renewToken(_rtmServicePtr, token);
+            return renewToken_rtm(_rtmServicePtr, token);
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return sendMessageToPeer(_rtmServicePtr, peerId, message.GetPtr(), options.enableOfflineMessaging, options.enableHistoricalMessaging);
+            return sendMessageToPeer_rtm(_rtmServicePtr, peerId, message.GetPtr(), options.enableOfflineMessaging, options.enableHistoricalMessaging);
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return sendMessageToPeer2(_rtmServicePtr, peerId, message.GetPtr());
+            return sendMessageToPeer2_rtm(_rtmServicePtr, peerId, message.GetPtr());
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return downloadMediaToMemory(_rtmServicePtr, mediaId, requestId);
+            return downloadMediaToMemory_rtm(_rtmServicePtr, mediaId, requestId);
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return downloadMediaToFile(_rtmServicePtr, mediaId, filePath, requestId);
+            return downloadMediaToFile_rtm(_rtmServicePtr, mediaId, filePath, requestId);
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return cancelMediaDownload(_rtmServicePtr, requestId);
+            return cancelMediaDownload_rtm(_rtmServicePtr, requestId);
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return cancelMediaUpload(_rtmServicePtr, requestId);
+            return cancelMediaUpload_rtm(_rtmServicePtr, requestId);
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace agora_rtm {
                 }
             }
             
-            IntPtr _rtmChannelPtr = createChannel(_rtmServicePtr, channelId, rtmChannelEventHandler.GetChannelEventHandlerPtr());
+            IntPtr _rtmChannelPtr = createChannel_rtm(_rtmServicePtr, channelId, rtmChannelEventHandler.GetChannelEventHandlerPtr());
             RtmChannel channel = new RtmChannel(_rtmChannelPtr, rtmChannelEventHandler);
             channelDic.Add(channelId, channel);
             return channel;
@@ -362,7 +362,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return null;
 			}
-            IntPtr _MessagePtr = createMessage4(_rtmServicePtr);
+            IntPtr _MessagePtr = createMessage4_rtm(_rtmServicePtr);
             return new TextMessage(_MessagePtr, TextMessage.MESSAGE_FLAG.SEND);
         }
 
@@ -377,7 +377,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return null;
 			}
-            IntPtr _MessagePtr = createMessage3(_rtmServicePtr, text);
+            IntPtr _MessagePtr = createMessage3_rtm(_rtmServicePtr, text);
             return new TextMessage(_MessagePtr, TextMessage.MESSAGE_FLAG.SEND);
         }
 
@@ -387,7 +387,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return null;
 			}
-            IntPtr _MessagePtr = createMessage2(_rtmServicePtr, rawData, rawData.Length);
+            IntPtr _MessagePtr = createMessage2_rtm(_rtmServicePtr, rawData, rawData.Length);
             return new TextMessage(_MessagePtr, TextMessage.MESSAGE_FLAG.SEND);
         }
 
@@ -397,7 +397,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return null;
 			}
-            IntPtr _MessagePtr = createMessage(_rtmServicePtr, rawData, rawData.Length, description);
+            IntPtr _MessagePtr = createMessage_rtm(_rtmServicePtr, rawData, rawData.Length, description);
             return new TextMessage(_MessagePtr, TextMessage.MESSAGE_FLAG.SEND);
         }
 
@@ -416,7 +416,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return null;
 			}
-            IntPtr _MessagePtr = createImageMessageByMediaId(_rtmServicePtr, mediaId);
+            IntPtr _MessagePtr = createImageMessageByMediaId_rtm(_rtmServicePtr, mediaId);
             return new ImageMessage(_MessagePtr, ImageMessage.MESSAGE_FLAG.SEND);
         }
 
@@ -438,7 +438,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
             }
-            return createImageMessageByUploading(_rtmServicePtr, filePath, requestId);
+            return createImageMessageByUploading_rtm(_rtmServicePtr, filePath, requestId);
         }
 
         /// <summary>
@@ -458,7 +458,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return null;
 			}
-            IntPtr _MessagePtr = createFileMessageByMediaId(_rtmServicePtr, mediaId);
+            IntPtr _MessagePtr = createFileMessageByMediaId_rtm(_rtmServicePtr, mediaId);
             return new FileMessage(_MessagePtr, FileMessage.MESSAGE_FLAG.SEND);
         }
 
@@ -482,7 +482,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return createFileMessageByUploading(_rtmServicePtr, filePath, requestId);
+            return createFileMessageByUploading_rtm(_rtmServicePtr, filePath, requestId);
         }
 
         /// <summary>
@@ -497,7 +497,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return null;
 			}
-            IntPtr channelAttribute = createChannelAttribute(_rtmServicePtr);
+            IntPtr channelAttribute = createChannelAttribute_rtm(_rtmServicePtr);
             RtmChannelAttribute attribute = new RtmChannelAttribute(channelAttribute);
             attributeList.Add(attribute);
             return attribute;
@@ -519,7 +519,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return setParameters(_rtmServicePtr, parameters);
+            return setParameters_rtm(_rtmServicePtr, parameters);
         }
         
         /// <summary>
@@ -540,7 +540,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return queryPeersOnlineStatus(_rtmServicePtr, peerIds, peerIds.Length, requestId);
+            return queryPeersOnlineStatus_rtm(_rtmServicePtr, peerIds, peerIds.Length, requestId);
         }
 
         /// <summary>
@@ -559,7 +559,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmService is null");
                 return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
             }
-            return subscribePeersOnlineStatus(_rtmServicePtr, peerIds, peerIds.Length, requestId);
+            return subscribePeersOnlineStatus_rtm(_rtmServicePtr, peerIds, peerIds.Length, requestId);
         }
 
         /// <summary>
@@ -575,7 +575,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmService is null");
                 return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
             }
-            return unsubscribePeersOnlineStatus(_rtmServicePtr, peerIds, peerIds.Length, requestId);
+            return unsubscribePeersOnlineStatus_rtm(_rtmServicePtr, peerIds, peerIds.Length, requestId);
         }
 
         /// <summary>
@@ -594,7 +594,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmService is null");
                 return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
             }
-            return queryPeersBySubscriptionOption(_rtmServicePtr, option, requestId);
+            return queryPeersBySubscriptionOption_rtm(_rtmServicePtr, option, requestId);
         }
 
         /// <summary>
@@ -611,7 +611,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return setLogFileSize(_rtmServicePtr, fileSizeInKBytes);
+            return setLogFileSize_rtm(_rtmServicePtr, fileSizeInKBytes);
         }
 
         /// <summary>
@@ -629,7 +629,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return setLogFilter(_rtmServicePtr, fileter);
+            return setLogFilter_rtm(_rtmServicePtr, fileter);
         }
 
         /// <summary>
@@ -651,7 +651,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return setLogFile(_rtmServicePtr, logFilePath);
+            return setLogFile_rtm(_rtmServicePtr, logFilePath);
         }
 
         /// <summary>
@@ -667,7 +667,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return getChannelMemberCount(_rtmServicePtr, channelIds, channelIds.Length, requestId);
+            return getChannelMemberCount_rtm(_rtmServicePtr, channelIds, channelIds.Length, requestId);
         }
 
         /// <summary>
@@ -684,7 +684,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return getChannelAttributesByKeys(_rtmServicePtr, channelId, attributeKeys, attributeKeys.Length, requestId);
+            return getChannelAttributesByKeys_rtm(_rtmServicePtr, channelId, attributeKeys, attributeKeys.Length, requestId);
         }
 
         /// <summary>
@@ -703,7 +703,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
                 return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
             }
-            return getChannelAttributes(_rtmServicePtr, channelId, requestId);
+            return getChannelAttributes_rtm(_rtmServicePtr, channelId, requestId);
         }
 
         /// <summary>
@@ -726,7 +726,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return clearChannelAttributes(_rtmServicePtr, channelId, enableNotificationToChannelMembers, requestId);
+            return clearChannelAttributes_rtm(_rtmServicePtr, channelId, enableNotificationToChannelMembers, requestId);
         }
 
         /// <summary>
@@ -744,7 +744,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return deleteChannelAttributesByKeys(_rtmServicePtr, channelId, attributeKeys, attributeKeys.Length, enableNotificationToChannelMembers, requestId);
+            return deleteChannelAttributesByKeys_rtm(_rtmServicePtr, channelId, attributeKeys, attributeKeys.Length, enableNotificationToChannelMembers, requestId);
         }
 
         /// <summary>
@@ -764,7 +764,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return getUserAttributesByKeys(_rtmServicePtr, userId, attributeKeys, attributeKeys.Length, requestId);
+            return getUserAttributesByKeys_rtm(_rtmServicePtr, userId, attributeKeys, attributeKeys.Length, requestId);
         }
 
         /// <summary>
@@ -783,7 +783,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return getUserAttributes(_rtmServicePtr, userId, requestId);
+            return getUserAttributes_rtm(_rtmServicePtr, userId, requestId);
         }
 
         /// <summary>
@@ -801,7 +801,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return clearLocalUserAttributes(_rtmServicePtr, requestId);
+            return clearLocalUserAttributes_rtm(_rtmServicePtr, requestId);
         }
 
         /// <summary>
@@ -820,7 +820,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return deleteLocalUserAttributesByKeys(_rtmServicePtr, attributeKeys, attributeKeys.Length, requestId);
+            return deleteLocalUserAttributesByKeys_rtm(_rtmServicePtr, attributeKeys, attributeKeys.Length, requestId);
         }
 
         /// <summary>
@@ -848,7 +848,7 @@ namespace agora_rtm {
                 for (int i = 0; i < attributes.Length; i++) {
                     attributeLists[i] = attributes[i].GetPtr().ToInt64();
                 }
-                return setChannelAttributes(_rtmServicePtr, channelId, attributeLists, attributes.Length, options.enableNotificationToChannelMembers, requestId);
+                return setChannelAttributes_rtm(_rtmServicePtr, channelId, attributeLists, attributes.Length, options.enableNotificationToChannelMembers, requestId);
             }
             return -7;
         } 
@@ -868,7 +868,7 @@ namespace agora_rtm {
                 Debug.LogError("eventHandler is null");
                 return null;
             }
-            IntPtr rtmCallManagerPtr = getRtmCallManager(_rtmServicePtr, eventHandler.GetPtr());
+            IntPtr rtmCallManagerPtr = getRtmCallManager_rtm(_rtmServicePtr, eventHandler.GetPtr());
             if (_rtmCallManager == null) {
                 _rtmCallManager = new RtmCallManager(rtmCallManagerPtr, eventHandler);
             }
