@@ -130,6 +130,7 @@ namespace agora_rtm {
 			}
 		}
 
+		
 		public void SetLastUpdateUserId(string lastUpdateUserId) {
 			_lastUpdateUserId = lastUpdateUserId;
 		}
@@ -188,7 +189,7 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Release all resources used by the IRtmChannelAttribute instance.
+		/// Release all resources used by the #RtmChannelAttribute instance.
 		/// </summary>
 		private void Release() {
 			if (_flag == MESSAGE_FLAG.RECEIVE)
@@ -203,11 +204,17 @@ namespace agora_rtm {
 			_channelAttributePtr = IntPtr.Zero;
 		}
 
+		/// <summary>
+		/// Release all resources used by the #RtmChannelAttribute instance.
+		/// </summary>
 		public void Dispose() {
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
+		/// <summary>
+		/// Release all resources used by the #RtmChannelAttribute instance.
+		/// </summary>
 		public void Dispose(bool disposing) {
 			if (_disposed) return;
 			if (disposing) {}

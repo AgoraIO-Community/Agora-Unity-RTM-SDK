@@ -73,6 +73,9 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Gets the media ID of the uploaded file.
+		/// @note
+		/// - The media ID is automatically populated once the file is uploaded to the file server.
+		/// - The media ID is valid for 7 days because the file server keeps all uploaded files for 7 days only.
 		/// </summary>
 		/// <returns>The media ID of the uploaded file.</returns>
         public string GetMediaId() {
@@ -95,7 +98,7 @@ namespace agora_rtm {
 		/// <summary>
 		/// Sets the thumbnail of the uploaded file.
 		/// </summary>
-		/// <param name="thumbnail">The thumbnail of the uploaded file. Must be binary data. The total size of thumbnail and fileName must not exceed 32 KB.</param>
+		/// <param name="thumbnail">The thumbnail of the uploaded file. Must be binary data. The total size of `thumbnail` and `fileName` must not exceed 32 KB.</param>
         public void SetThumbnail(byte[] thumbnail) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -134,7 +137,7 @@ namespace agora_rtm {
 		/// <summary>
 		/// Sets the name of the uploaded file.
 		/// </summary>
-		/// <param name="fileName">The name of the uploaded file. The total size of thumbnail and fileName must not exceed 32 KB.</param>
+		/// <param name="fileName">The name of the uploaded file. The total size of `thumbnail` and `fileName` must not exceed 32 KB.</param>
         public void SetFileName(string fileName) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{

@@ -63,11 +63,11 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Gets the media ID of the uploaded image.
+		/// @note
+		///  - The media ID is automatically populated once the file is uploaded to the file server.
+		///  - The media ID is valid for 7 days because the Agora server keeps all uploaded images for 7 days only.
 		/// </summary>
-		/// <returns>
-		/// The media ID is automatically populated once the file is uploaded to the file server.
-		/// The media ID is valid for 7 days because the Agora server keeps all uploaded images for 7 days only.
-		/// </returns>
+		/// <returns>The media ID of the uploaded image.</returns>
         public string GetMediaId() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE) 
 				return _MediaId;
@@ -126,7 +126,7 @@ namespace agora_rtm {
 		/// <summary>
 		/// Sets the filename of the uploaded image.
 		/// </summary>
-		/// <param name="fileName">	The filename of the uploaded image. The total size of thumbnail and fileName must not exceed 32 KB.</param>
+		/// <param name="fileName">	The filename of the uploaded image. The total size of `thumbnail` and `fileName` must not exceed 32 KB.</param>
         public void SetFileName(string fileName) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -165,6 +165,9 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Sets the width of the uploaded image.
+		/// @note 
+		/// - If the uploaded image is in JPG, JPEG, BMP, or PNG format, the SDK automatically calculates the width and height of the image. You can call getWidth directly to get the width of the image.
+		/// - Image width that is set by calling this method overrides the width calculated by the SDK.
 		/// </summary>
 		/// <param name="width">The width of the uploaded image.</param>
         public void SetWidth(int width) {
@@ -184,6 +187,9 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Gets the width of the uploaded image.
+		/// @note
+		/// - If the uploaded image is in JPG, JPEG, BMP, or PNG format, the SDK automatically calculates the width and height of the image. You can call this method directly to get the width of the image.
+		/// - Image width that is set by calling #SetWidth overrides the width calculated by the SDK.
 		/// </summary>
 		/// <returns>The width of the uploaded image. Returns 0 if the SDK does not support the format of the uploaded image.</returns>
         public int GetWidth() {
@@ -200,6 +206,9 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Sets the height of the uploaded image.
+		/// @note 
+		/// - If the uploaded image is in JPG, JPEG, BMP, or PNG format, the SDK automatically calculates the width and height of the image. You can call #GetHeight directly to get the height of the image.
+		/// - Image height that is set by calling this method overrides the height calculated by the SDK.
 		/// </summary>
 		/// <param name="height">The height of the uploaded image. Returns 0 if the SDK does not support the format of the uploaded image.</param>
         public void SetHeight(int height) {
@@ -219,6 +228,9 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Gets the height of the uploaded image.
+		/// @note 
+		/// - If the uploaded image is in JPG, JPEG, BMP, or PNG format, the SDK automatically calculates the width and height of the image. You can call this method directly to get the height of the image.
+		/// - Image height that is set by calling #SetHeight overrides the height calculated by the SDK.
 		/// </summary>
 		/// <returns>The height of the uploaded image.</returns>
         public int GetHight() {
@@ -235,6 +247,7 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Sets the width of the thumbnail.
+		/// @note You need to work out the height of the thumbnail by yourself, because the SDK does not work out the value for you.
 		/// </summary>
 		/// <param name="thumbnailWidth">the The width of the thumbnail.</param>
         public void SetThumbnailWidth(int thumbnailWidth) {
@@ -271,6 +284,7 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Sets the height of the thumbnail.
+		/// @note You need to work out the height of the thumbnail by yourself, because the SDK does not work out the value for you.
 		/// </summary>
 		/// <param name="height">The height of the thumbnail.</param>
         public void SetThumbnailHeight(int height) {

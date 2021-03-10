@@ -42,7 +42,7 @@ namespace agora_rtm {
 		/// <summary>
 		/// Allows the callee to get the call invitation content set by the caller.
 		/// </summary>
-		/// <returns>Return the content.</returns>
+		/// <returns>The content.</returns>
 		public string GetContent() {
 			if (_remoteInvitationPrt == IntPtr.Zero)
 			{
@@ -60,7 +60,7 @@ namespace agora_rtm {
 		/// <summary>
 		/// Allows the callee to set a response to the call invitation.
 		/// </summary>
-		/// <param name="response">The callee's response to the call invitation. The response must not exceed 8 KB in length if encoded in UTF-8.</param>
+		/// <param name="response">The callee's response to the call invitation. The `response` must not exceed 8 KB in length if encoded in UTF-8.</param>
 		public void SetResponse(string response) {
 			if (_remoteInvitationPrt == IntPtr.Zero)
 			{
@@ -72,8 +72,8 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Allows the callee to get his/her response to the incoming call invitation.
+		/// @note The callee sets a response to the incoming call invitation using the #SetResponse method.
 		/// </summary>
-		/// <returns></returns>
 		public string GetResponse() {
 			if (_remoteInvitationPrt == IntPtr.Zero)
 			{
@@ -91,7 +91,6 @@ namespace agora_rtm {
 		/// <summary>
 		/// Gets the channel ID.
 		/// </summary>
-		/// <returns></returns>
 		public string GetChannelId() {
 			if (_remoteInvitationPrt == IntPtr.Zero)
 			{
@@ -109,7 +108,7 @@ namespace agora_rtm {
 		/// <summary>
 		/// Allows the callee to get the state of the incoming call invitation.
 		/// </summary>
-		/// <returns>The state of the incoming call invitation See: REMOTE_INVITATION_STATE.</returns>
+		/// <returns>The state of the incoming call invitation. See: #REMOTE_INVITATION_STATE.</returns>
 		public REMOTE_INVITATION_STATE GetState() {
 			if (_remoteInvitationPrt == IntPtr.Zero)
 			{
@@ -124,7 +123,7 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Releases all resources used by the IRemoteCallInvitation instance.
+		/// Releases all resources used by the RemoteInvitation instance.
 		/// </summary>
 		private void Release() {
 			if (_remoteInvitationPrt == IntPtr.Zero)
@@ -135,7 +134,7 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Release unmanaged resources.
+		/// Releases all resources used by the #RemoteInvitation instance.
 		/// </summary>
 		public void Dispose() {
 			Dispose(true);
