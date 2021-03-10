@@ -51,125 +51,125 @@ namespace agora_rtm {
 		
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern IntPtr createRtmService_();
+        protected static extern IntPtr createRtmService_rtm();
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern IntPtr _getRtmSdkVersion_();
+        protected static extern IntPtr _getRtmSdkVersion_rtm();
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int initialize(IntPtr rtmServiceInstance, string appId, IntPtr serviceEventHandler);
+        protected static extern int initialize_rtm(IntPtr rtmServiceInstance, string appId, IntPtr serviceEventHandler);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int setLogFileSize(IntPtr rtmServiceInstance, int fileSizeInKBytes);
+        protected static extern int setLogFileSize_rtm(IntPtr rtmServiceInstance, int fileSizeInKBytes);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int setLogFile(IntPtr rtmServiceInstance, string logFile);
+        protected static extern int setLogFile_rtm(IntPtr rtmServiceInstance, string logFile);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int setLogFilter(IntPtr rtmServiceInstance, int filter);
+        protected static extern int setLogFilter_rtm(IntPtr rtmServiceInstance, int filter);
 	
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int getChannelMemberCount(IntPtr rtmServiceInstance, string [] channelIds, int channelCount, Int64 requestId);
+        protected static extern int getChannelMemberCount_rtm(IntPtr rtmServiceInstance, string [] channelIds, int channelCount, Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int getChannelAttributesByKeys(IntPtr rtmServiceInstance, string channelId, string [] attributeKeys, int numberOfKeys, Int64 requestId);
+        protected static extern int getChannelAttributesByKeys_rtm(IntPtr rtmServiceInstance, string channelId, string [] attributeKeys, int numberOfKeys, Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int getChannelAttributes(IntPtr rtmServiceInstance, string channelId, Int64 requestId);
+        protected static extern int getChannelAttributes_rtm(IntPtr rtmServiceInstance, string channelId, Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int clearChannelAttributes(IntPtr rtmServiceInstance, string channelId, bool enableNotificationToChannelMembers, Int64 requestId);
+        protected static extern int clearChannelAttributes_rtm(IntPtr rtmServiceInstance, string channelId, bool enableNotificationToChannelMembers, Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int deleteChannelAttributesByKeys(IntPtr rtmServiceInstance, string channelId, string [] attributeKeys, int numberOfKeys, bool enableNotificationToChannelMembers, Int64 requestId);
+        protected static extern int deleteChannelAttributesByKeys_rtm(IntPtr rtmServiceInstance, string channelId, string [] attributeKeys, int numberOfKeys, bool enableNotificationToChannelMembers, Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int getUserAttributesByKeys(IntPtr rtmServiceInstance, string userId, string [] attributeKeys, int numberOfKeys, Int64 requestId);
+        protected static extern int getUserAttributesByKeys_rtm(IntPtr rtmServiceInstance, string userId, string [] attributeKeys, int numberOfKeys, Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int getUserAttributes(IntPtr rtmServiceInstance, string userId, Int64 requestId);
+        protected static extern int getUserAttributes_rtm(IntPtr rtmServiceInstance, string userId, Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int clearLocalUserAttributes(IntPtr rtmServiceInstance, Int64 requestId);
+        protected static extern int clearLocalUserAttributes_rtm(IntPtr rtmServiceInstance, Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int deleteLocalUserAttributesByKeys(IntPtr rtmServiceInstance, string [] attributeKeys, int numberOfKeys, Int64 requestId);
+        protected static extern int deleteLocalUserAttributesByKeys_rtm(IntPtr rtmServiceInstance, string [] attributeKeys, int numberOfKeys, Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int queryPeersOnlineStatus(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, Int64 requestId);
+        protected static extern int queryPeersOnlineStatus_rtm(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int subscribePeersOnlineStatus(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, Int64 requestId);
+        protected static extern int subscribePeersOnlineStatus_rtm(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int unsubscribePeersOnlineStatus(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, Int64 requestId);
+        protected static extern int unsubscribePeersOnlineStatus_rtm(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int queryPeersBySubscriptionOption(IntPtr rtmServiceInstance, PEER_SUBSCRIPTION_OPTION option, Int64 requestId);
+        protected static extern int queryPeersBySubscriptionOption_rtm(IntPtr rtmServiceInstance, PEER_SUBSCRIPTION_OPTION option, Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int setParameters(IntPtr rtmServiceInstance, string parameters);
+        protected static extern int setParameters_rtm(IntPtr rtmServiceInstance, string parameters);
 			
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern IntPtr createChannelAttribute(IntPtr rtmServiceInstance);
+        protected static extern IntPtr createChannelAttribute_rtm(IntPtr rtmServiceInstance);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int createImageMessageByUploading(IntPtr rtmServiceInstance, string filePath, Int64 requestId);
+        protected static extern int createImageMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int createFileMessageByUploading(IntPtr rtmServiceInstance, string filePath, Int64 requestId);
+        protected static extern int createFileMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern IntPtr createImageMessageByMediaId(IntPtr rtmServiceInstance, string mediaId);
+        protected static extern IntPtr createImageMessageByMediaId_rtm(IntPtr rtmServiceInstance, string mediaId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern IntPtr createFileMessageByMediaId(IntPtr rtmServiceInstance, string mediaId);
+        protected static extern IntPtr createFileMessageByMediaId_rtm(IntPtr rtmServiceInstance, string mediaId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern IntPtr createMessage(IntPtr rtmServiceInstance, byte[] rawData, int length, string description);
+        protected static extern IntPtr createMessage_rtm(IntPtr rtmServiceInstance, byte[] rawData, int length, string description);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern IntPtr createMessage2(IntPtr rtmServiceInstance, byte[] rawData, int length);
+        protected static extern IntPtr createMessage2_rtm(IntPtr rtmServiceInstance, byte[] rawData, int length);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern IntPtr createMessage3(IntPtr rtmServiceInstance, string message);
+        protected static extern IntPtr createMessage3_rtm(IntPtr rtmServiceInstance, string message);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern IntPtr createMessage4(IntPtr rtmServiceInstance);
+        protected static extern IntPtr createMessage4_rtm(IntPtr rtmServiceInstance);
 	
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern IntPtr createChannel(IntPtr rtmServiceInstance, string channelId, IntPtr channelEventHandlerPtr);
+        protected static extern IntPtr createChannel_rtm(IntPtr rtmServiceInstance, string channelId, IntPtr channelEventHandlerPtr);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int sendMessageToPeer(IntPtr rtmServiceInstance, string peerId, IntPtr message, bool enableOfflineMessaging,
+        protected static extern int sendMessageToPeer_rtm(IntPtr rtmServiceInstance, string peerId, IntPtr message, bool enableOfflineMessaging,
                                     bool enableHistoricalMessaging);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int cancelMediaUpload(IntPtr rtmServiceInstance, Int64 requestId);						
+        protected static extern int cancelMediaUpload_rtm(IntPtr rtmServiceInstance, Int64 requestId);						
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int cancelMediaDownload(IntPtr rtmServiceInstance, Int64 requestId);		
+        protected static extern int cancelMediaDownload_rtm(IntPtr rtmServiceInstance, Int64 requestId);		
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int downloadMediaToFile(IntPtr rtmServiceInstance, string mediaId, string filePath, Int64 requestId);		
+        protected static extern int downloadMediaToFile_rtm(IntPtr rtmServiceInstance, string mediaId, string filePath, Int64 requestId);		
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int downloadMediaToMemory(IntPtr rtmServiceInstance, string mediaId, Int64 requestId);		
+        protected static extern int downloadMediaToMemory_rtm(IntPtr rtmServiceInstance, string mediaId, Int64 requestId);		
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int sendMessageToPeer2(IntPtr rtmServiceInstance, string peerId, IntPtr message);		
+        protected static extern int sendMessageToPeer2_rtm(IntPtr rtmServiceInstance, string peerId, IntPtr message);		
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int renewToken(IntPtr rtmServiceInstance, string token);		
+        protected static extern int renewToken_rtm(IntPtr rtmServiceInstance, string token);		
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int logout(IntPtr rtmServiceInstance);
+        protected static extern int logout_rtm(IntPtr rtmServiceInstance);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int login(IntPtr rtmServiceInstance, string token, string userId);
+        protected static extern int login_rtm(IntPtr rtmServiceInstance, string token, string userId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern void release(IntPtr rtmServiceInstance, bool sync);
+        protected static extern void release_rtm(IntPtr rtmServiceInstance, bool sync);
 
 		/// Channel api
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
@@ -216,7 +216,7 @@ namespace agora_rtm {
         protected static extern void channelAttribute_release(IntPtr channel_attribute_instance);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int setChannelAttributes(IntPtr rtmInstance, string channelId, Int64 [] attributes, int numberOfAttributes, bool enableNotificationToChannelMembers, Int64 requestId);
+        protected static extern int setChannelAttributes_rtm(IntPtr rtmInstance, string channelId, Int64 [] attributes, int numberOfAttributes, bool enableNotificationToChannelMembers, Int64 requestId);
 		/// Message api
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
         protected static extern Int64 imessage_getMessageId(IntPtr file_message_instance);
@@ -380,7 +380,7 @@ namespace agora_rtm {
 
 		//rtm call event manager
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-		protected static extern IntPtr getRtmCallManager(IntPtr service_eventHandler_ptr, IntPtr rtmCallEventHandler);
+		protected static extern IntPtr getRtmCallManager_rtm(IntPtr service_eventHandler_ptr, IntPtr rtmCallEventHandler);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
 		protected static extern int rtm_call_manager_sendLocalInvitation(IntPtr callManagerInstance, IntPtr invitation);
