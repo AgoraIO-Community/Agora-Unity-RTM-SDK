@@ -22,6 +22,7 @@ namespace unity {
             FUNC_onRemoteInvitationFailure onRemoteInvitationFailure,
                                                 FUNC_onRemoteInvitationCanceled onRemoteInvitationCanceled) {
            handlerId = index;
+	   _onLocalInvitationReceivedByPeer = onLocalInvitationReceivedByPeer;
            _onLocalInvitationCanceled = onLocalInvitationCanceled;
            _onLocalInvitationFailure = onLocalInvitationFailure;
            _onLocalInvitationAccepted = onLocalInvitationAccepted;

@@ -36,7 +36,7 @@ namespace agora_rtm {
 			_MediaId = imageMessage.GetMediaId();
 			_FileName = imageMessage.GetFileName();
 			_Width = imageMessage.GetWidth();
-			_Height = imageMessage.GetHight();
+			_Height = imageMessage.GetHeight();
 			_ThumbnailWidth = imageMessage.GetThumbnailWidth();
 			_ThumbnailHeight = imageMessage.GetThumbnailHeight();
 		}
@@ -233,7 +233,7 @@ namespace agora_rtm {
 		/// - Image height that is set by calling #SetHeight overrides the height calculated by the SDK.
 		/// </summary>
 		/// <returns>The height of the uploaded image.</returns>
-        public int GetHight() {
+        public int GetHeight() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Height;
 

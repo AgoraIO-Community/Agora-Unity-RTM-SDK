@@ -87,7 +87,7 @@ namespace agora_rtm {
 		/// </summary>
 		/// <param name="invitation">An LocalCallInvitation object.</param>
 		/// <returns></returns>
-		public int CancelLocalInvitation(RemoteInvitation invitation) {
+		public int CancelLocalInvitation(LocalInvitation invitation) {
 			if (_rtmCallManagerPtr == IntPtr.Zero) 
 			{
 				Debug.LogError("_rtmCallManagerPtr is null");
