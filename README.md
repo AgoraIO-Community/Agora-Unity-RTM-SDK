@@ -12,7 +12,9 @@
 * [SDK Release](#SDK_Release)
 * [API_Reference](#API_Reference)
 
-**This project contains source code and demo of  Agora Unity RTM SDK.   Please use the release section to download the Unity package for the SDK import.  The repository contains three subfolders that provide further description in them.**
+**This project contains source code and demo of  Agora Unity RTM SDK.  
+DO NOT CLONE THE REPO if you just want to get the SDK for your project. <br>
+Please use the release section to download the Unity package for the SDK import. If you like to contribute on maintaining the source, you are more than welcome to clone and make PRs!  The repository contains three subfolders that provide further description in them.**
 
 ## Contents
 
