@@ -3,11 +3,12 @@
 ## Note: replace the team id for signing on agoraRTMCWrapper.xcodeproj/project.pbxproj
 ##	 by setting up our environment variable APPLE_TEAM_ID
 
+PLATFORM="iOS"
 
 
 function download_library {
     DOWNLOAD_URL="https://download.agora.io/rtmsdk/release"
-    DOWNLOAD_FILE="Agora_RTM_SDK_for_iOS_Unity_v1_4_2.zip"
+    DOWNLOAD_FILE="Agora_RTM_SDK_for_iOS_Unity_$RTM_VERSION.zip"
     
     if [[ ! -e $DOWNLOAD_FILE ]]; then
         wget $DOWNLOAD_URL/$DOWNLOAD_FILE
@@ -22,6 +23,23 @@ function make_unity_plugin {
     cp -a output/tmp/Release-iphoneos/ sdk/
 }
 
+function Clean {
+    echo "removing $PLATFORM build intermitten files..."
+    rm -rf sdk *.zip Agora_RTM_SDK_for_$PLATFORM  
+    rm -rf obj libs bin output
+}
+
+if [ "$1" == "clean" ]; then
+    Clean
+    exit 0
+fi
+
+# We will require the setting of RTM_VERSION environmental variable
+if [ -z ${RTM_VERSION+x} ]; then
+    echo "ERROR, environment variable RTM_VERSION (e.g. 'v1_4_2') must be set!"
+    exit 1
+    else echo "$PLATFORM RTM_VERSION = $RTM_VERSION"
+fi
 
 #use environment variable BUILD_CONFIG and BUILD_TARGET to config build
 

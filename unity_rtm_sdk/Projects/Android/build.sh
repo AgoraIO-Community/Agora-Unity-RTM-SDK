@@ -1,9 +1,15 @@
 #!/bin/bash
+## ==============================================================================
 ## build script for RTM plugin for Android on Unity
+##
+## required environmental variables:
+##   $RTM_VERSION
+## ==============================================================================
+PLATFORM="Android"
 
 function download_library {
     DOWNLOAD_URL="https://download.agora.io/rtmsdk/release"
-    DOWNLOAD_FILE="Agora_RTM_SDK_for_Android_Unity_v1_4_2.zip"
+    DOWNLOAD_FILE="Agora_RTM_SDK_for_Android_Unity_$RTM_VERSION.zip"
     
     if [[ ! -e $DOWNLOAD_FILE ]]; then
         wget $DOWNLOAD_URL/$DOWNLOAD_FILE
@@ -23,6 +29,29 @@ function make_unity_plugin {
     cp -a bin/armeabi-v7a $SDKDIR/libs
     cp -a bin/x86 $SDKDIR/libs
 }
+
+function Clean {
+    if [ -e prebuilt ]; then
+	echo "clean ndk lib build..."
+	ndk-build -C jni/ clean 
+    fi
+    echo "removing Android build intermitten files..."
+    rm -rf sdk *.zip Agora_RTM_SDK_for_$PLATFORM 
+    rm -rf obj libs bin prebuilt 
+}
+
+
+if [ "$1" == "clean" ]; then
+    Clean
+    exit 0
+fi
+
+# We will require the setting of RTM_VERSION environmental variable
+if [ -z ${RTM_VERSION+x} ]; then
+    echo "ERROR, environment variable RTM_VERSION (e.g. 'v1_4_2') must be set!"
+    exit 1
+    else echo "$PLATFORM RTM_VERSION = $RTM_VERSION"
+fi
 
 #download
 download_library
