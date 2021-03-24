@@ -17,7 +17,10 @@ cd $SAMPLEDIR
 cp -a $PROJDIR/../Unity-RTM-Demo/Assets/AgoraEngine/RTM-Engine .
 cp -a $PROJDIR/../Unity-RTM-Demo/Assets/AgoraEngine/RtmDemo .
 cd $AgoraRTMSdk
-zip -r $TargetZipball samples libs
 
+# print the tree
+tree samples; tree libs
+
+zip -r $TargetZipball samples libs
 echo "SDK release zip ball is saved in $TargetZipball"
 echo ""
