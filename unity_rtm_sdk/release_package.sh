@@ -1,7 +1,7 @@
 #!/bin/bash
 PROJDIR=$1
 ReleaseDir=$2
-WinDllZip=$3
+WinDllURL=$3
 
 #--------------------------------------
 # release package
@@ -40,9 +40,17 @@ cp -a IOS/sdk/*  $ReleaseDir/libs/Plugins/iOS/
 #
 # windows binaries
 #
-# The CI script has put the file to Windows dirctory
-if [ -n $WinDllZip ]; then
-    cd Windows && unzip -f $WinDllZip 
+# The CI script provides the download location of the zip file
+cd $PROJDIR
+if [ -n $WinDllURL ]; then
+    WinDllZip="ZipDownload/RTM_WinDll.zip"
+    if [ -d ZipDownload ]; then
+	rm -rf ZipDownload
+    fi
+    mkdir ZipDownload
+    wget -O $WinDllZip $WinDllURL
+
+    cd $PROJDIR/Windows && unzip -f $PROJDIR/$WinDllZip 
     cp unity/x86/* $ReleaseDir/libs/Plugins/x86/
     cp unity/x86_64/* $ReleaseDir/libs/Plugins/x86_64/ 
     cp agoraRTMCWrapper/sdk/x86/dll/agora_rtm_sdk.dll $ReleaseDir/libs/Plugins/x86/

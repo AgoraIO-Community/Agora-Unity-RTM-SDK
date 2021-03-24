@@ -24,8 +24,6 @@ CURDIR=`pwd`
 PROJDIR=$CURDIR/Projects
 AgoraRTMSdk=$CURDIR/Release
 
-export RTM_VERSION="v1_4_2"
-
 function Build {
 #--------------------------------------
 # build for Android
