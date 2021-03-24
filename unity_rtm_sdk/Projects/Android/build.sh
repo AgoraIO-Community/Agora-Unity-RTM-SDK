@@ -9,7 +9,7 @@ PLATFORM="Android"
 
 function download_library {
     DOWNLOAD_URL="https://download.agora.io/rtmsdk/release"
-    DOWNLOAD_FILE="Agora_RTM_SDK_for_Android_Unity_$RTM_VERSION.zip"
+    DOWNLOAD_FILE="Agora_RTM_SDK_for_Android_Unity_${RTM_VERSION}.zip"
     
     if [[ ! -e $DOWNLOAD_FILE ]]; then
         wget $DOWNLOAD_URL/$DOWNLOAD_FILE

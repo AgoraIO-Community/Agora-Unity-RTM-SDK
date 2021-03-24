@@ -27,6 +27,8 @@ Android/project.properties
 IOS/Agora_RTM_SDK_for_iOS/
 macOS/Agora_RTM_SDK_for_Mac/
 Windows/agoraRTMCWrapper/sdk/
+Windows/product_sdk/
+Windows/unity
 
 *.zip
 *.app

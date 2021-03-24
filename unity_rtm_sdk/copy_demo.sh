@@ -7,10 +7,17 @@
 #
 #============================================================================== 
 AgoraRTMSdk=$1
+TargetZipball=$2
+
 PROJDIR=`pwd`
+echo proj= $PROJDIR
 SAMPLEDIR=$AgoraRTMSdk/samples/Unity-RTM-Demo/Assets/AgoraEngine
 mkdir -p $SAMPLEDIR || exit 1
 cd $SAMPLEDIR 
 cp -a $PROJDIR/../Unity-RTM-Demo/Assets/AgoraEngine/RTM-Engine .
 cp -a $PROJDIR/../Unity-RTM-Demo/Assets/AgoraEngine/RtmDemo .
+cd $AgoraRTMSdk
+zip -r $TargetZipball samples libs
 
+echo "SDK release zip ball is saved in $TargetZipball"
+echo ""

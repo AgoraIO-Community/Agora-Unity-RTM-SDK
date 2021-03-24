@@ -6,10 +6,12 @@
 #  the invoking environment is Mac, Windows build will require separate scripting
 #  outside this script.  
 #   
-#  Available build targets:
-#	build or all or "" - build the libraries (Windows will be a project zip)
+#  $1 Available build targets:
+#	build or all - build the libraries (Windows will be a project zip)
 #	clean  - clean up the projects
 #	release - bundle the libraries* into Unity structure as samples and libs folders
+#  $2 Path to a WinDll Zip file, used as input for release 
+#  $3 Path to a Zip file as the final output zip file
 #
 #  * It will assume the Windows build is done in separate step and copied to
 #	Projects/Windows/sdk.
@@ -56,12 +58,14 @@ echo "build for Windows is done."
 }
 
 function Release {
-#-------------------------
+#----------------------------------------
 #release package
-#-------------------------
+# $1 = input zip file for Windows
+# $2 = output zip file for releasing
+#----------------------------------------
 echo "release package started..."
 cd $CURDIR || exit 1
-./release_package.sh $PROJDIR $AgoraRTMSdk
+./release_package.sh $PROJDIR $AgoraRTMSdk $1
 echo ">>> release package end"
 
 #optional
@@ -69,7 +73,7 @@ echo ">>> release package end"
 
 echo "copy demo start..." 
 cd $CURDIR || exit 1
-./copy_demo.sh $AgoraRTMSdk 
+./copy_demo.sh $AgoraRTMSdk $2
 echo ">>> copy demo is done."
 }
 
@@ -92,7 +96,7 @@ case "$1" in
 	Clean
 	     ;;
     "release") echo "Release"
-	Release
+	Release $2 $3
 	     ;;
     "" | "all" | "build") echo "All"
 	Build
