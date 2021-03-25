@@ -10,6 +10,7 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 Assets/AgoraEngine/RTM-Engine/Plugins*
+Assets/AgoraEngine/Plugins
 Assets/Plugins*
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
