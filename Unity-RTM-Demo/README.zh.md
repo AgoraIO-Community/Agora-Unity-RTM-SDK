@@ -19,6 +19,7 @@ Agora Unity3D Sample App是一个开源演示，它将帮助您使用Agora RTM S
 - 注销RTM服务器
 - 令牌认证
 
+![Screen Shot 2020-11-16 at 2 02 41 PM](https://user-images.githubusercontent.com/1261195/99313438-6aba8e00-2814-11eb-9a29-07927ee655ca.png)
 
 ## 开发人员环境要求
 - Unity3d 2017或更高版本
