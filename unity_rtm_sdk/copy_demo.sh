@@ -10,7 +10,7 @@ AgoraRTMSdk=$1
 TargetZipball=$2
 
 PROJDIR=`pwd`
-echo proj= $PROJDIR
+echo "$0: proj= $PROJDIR AgoraRTMSdk=$AgoraRTMSdk TargetZipball=$TargetZipball"
 SAMPLEDIR=$AgoraRTMSdk/samples/Unity-RTM-Demo/Assets/AgoraEngine
 mkdir -p $SAMPLEDIR || exit 1
 cd $SAMPLEDIR 
@@ -21,6 +21,16 @@ cd $AgoraRTMSdk
 # print the tree
 tree samples; tree libs
 
-zip -r $TargetZipball samples libs
-echo "SDK release zip ball is saved in $TargetZipball"
+zip -r $TargetZipball samples libs || exit 1
+
+if [[ "${TargetZipball:0:1}" == / || "${TargetZipball:0:2}" == ~[/a-z] ]]
+then
+    # "Absolute path
+    tpath=$TargetZipball
+else
+    # "Relative"
+    tpath="$AgoraRTMSdk/$TargetZipball"
+
+fi
+echo "SDK release zip ball is saved in $tpath"
 echo ""

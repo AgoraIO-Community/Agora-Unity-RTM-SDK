@@ -16,7 +16,8 @@ SET Local_Path=%~dp0
 :: remove trailing slash
 IF %Local_Path:~-1%==\ SET Local_Path=%Local_Path:~0,-1%
 
-SET ZipOutput_Path=%~1
+:: ~f1 is the absolutepath translate of %~1
+SET ZipOutput_Path=%~f1
 IF "%ZipOutput_Path%"=="" (
     SET ZipOutput_Path=%Local_Path%\RTM_WinDLL.zip
 )

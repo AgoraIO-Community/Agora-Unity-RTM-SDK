@@ -50,9 +50,12 @@ echo "build for mac is done."
 # prepare for Windows
 #    * build script will create a zip file of the VS project to run on a PC
 #--------------------------------------
+if [ "$1" == "local" ]; then
 echo "prepare for Windows started..."
 cd $PROJDIR/Windows/ && ./build.sh || exit 1
 echo "build for Windows is done."
+fi
+
 }
 
 function Release {
@@ -73,6 +76,7 @@ echo "copy demo start..."
 cd $CURDIR || exit 1
 ./copy_demo.sh $AgoraRTMSdk $2
 echo ">>> copy demo is done."
+echo "Release (Android, IOS, MAC, Windows ) done."
 }
 
 function Clean {
@@ -96,15 +100,17 @@ case "$1" in
     "release") echo "Release"
 	Release $2 $3
 	     ;;
-    "" | "all" | "build") echo "All"
+    "all" | "build") echo "All"
 	Build
+	;;
+    "") echo "Local"
+	Build local
 	;;
     *) echo "invalide option to $0 [clean release all]"
 	exit 1
 	;;
 esac
 
-echo "All (Android, IOS, MAC) done under $AgoraRTMSdk"
 # open $AgoraRTMSdk
 
 exit 0
