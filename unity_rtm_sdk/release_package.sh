@@ -3,6 +3,7 @@ PROJDIR=$1
 ReleaseDir=$2
 WinDllURL=$3
 
+echo "Release package PROJDIR:$PROJDIR ReleaseDir:$ReleaseDir WinDllURL:$WinDllURL"
 #--------------------------------------
 # release package
 #--------------------------------------
@@ -40,21 +41,23 @@ cp -a IOS/sdk/*  $ReleaseDir/libs/Plugins/iOS/
 #
 # windows binaries
 #
-# The CI script provides the download location of the zip file
 cd $PROJDIR
 if [ -n $WinDllURL ]; then
-    WinDllZip="ZipDownload/RTM_WinDll.zip"
     if [ -d ZipDownload ]; then
 	rm -rf ZipDownload
     fi
-    mkdir ZipDownload
-    wget -O $WinDllZip $WinDllURL
-
-    cd $PROJDIR/Windows && unzip -f $PROJDIR/$WinDllZip 
+    WinDllZip="RTM_WinDll.zip"
+    mkdir ZipDownload && cd ZipDownload
+    wget -O $PROJDIR/ZipDownload/$WinDllZip $WinDllURL
+    if [ ! $? == 0 ]; then
+	echo "error downloading $WinDllURL"
+	exit 1
+    fi
+    pwd
+    unzip $WinDllZip 
+    #unzip -f $PROJDIR/ZipDownload/$WinDllZip -d $PROJDIR/ZipDownload/
     cp unity/x86/* $ReleaseDir/libs/Plugins/x86/
     cp unity/x86_64/* $ReleaseDir/libs/Plugins/x86_64/ 
-    cp agoraRTMCWrapper/sdk/x86/dll/agora_rtm_sdk.dll $ReleaseDir/libs/Plugins/x86/
-    cp agoraRTMCWrapper/sdk/x64/dll/agora_rtm_sdk.dll $ReleaseDir/libs/Plugins/x86_64/ 
 fi
 
 echo "All sdk build done under $ReleaseDir"
