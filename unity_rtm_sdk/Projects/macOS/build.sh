@@ -88,6 +88,7 @@ download_library
 
 # replace team id for signing
 if [ -n $APPLE_TEAM_ID ]; then 
+   echo replace_teamID $APPLE_TEAM_ID
    replace_teamID $APPLE_TEAM_ID
 fi
 
