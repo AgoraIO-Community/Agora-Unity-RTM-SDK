@@ -87,10 +87,10 @@ mkdir -p ./${output_root}/${build_config} || exit 1
 download_library
 
 # replace team id for signing
-if [ -n $APPLE_TEAM_ID ]; then 
-   echo replace_teamID $APPLE_TEAM_ID
-   replace_teamID $APPLE_TEAM_ID
-fi
+# if [ -n $APPLE_TEAM_ID ]; then 
+#    echo replace_teamID $APPLE_TEAM_ID
+#    replace_teamID $APPLE_TEAM_ID
+# fi
 
 module_name=agoraRTMCWrapper
 SDK_DIR=$PWD/sdk
