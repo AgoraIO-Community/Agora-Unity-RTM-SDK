@@ -49,7 +49,7 @@ EXIT /B %ErrLvl%
 echo -------------------------------------------------------------------------------- 
 set MachineArch=%~1
 echo start build unity-sdk-build %MachineArch% bits in %Local_Path%
-call "%Local_Path%\compile-windows.bat" %MachineArch% agoraRTMCWrapper\agoraRTMCWrapper.sln Release 2017
+call "%Local_Path%\compile-windows.bat" %MachineArch% agoraRTMCWrapper\agoraRTMCWrapper.sln Release 2019
 Set ErrorLevel=!ERRORLEVEL!
 echo -------------------------------------------------------------------------------- 
 EXIT /B %ErrorLevel%
