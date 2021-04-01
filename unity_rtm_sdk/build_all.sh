@@ -66,7 +66,7 @@ function Release {
 #----------------------------------------
 echo "release package started..."
 cd $CURDIR || exit 1
-./release_package.sh $PROJDIR $AgoraRTMSdk $1
+./release_package.sh $PROJDIR $AgoraRTMSdk
 echo ">>> release package end"
 
 #optional
@@ -74,7 +74,7 @@ echo ">>> release package end"
 
 echo "copy demo start..." 
 cd $CURDIR || exit 1
-./copy_demo.sh $AgoraRTMSdk $2
+./copy_demo.sh $AgoraRTMSdk $1
 echo ">>> copy demo is done."
 echo "Release (Android, IOS, MAC, Windows ) done."
 }
