@@ -10,8 +10,7 @@
 #	build or all - build the libraries (Windows will be a project zip)
 #	clean  - clean up the projects
 #	release - bundle the libraries* into Unity structure as samples and libs folders
-#  $2 Path to a WinDll Zip file, used as input for release 
-#  $3 Path to a Zip file as the final output zip file
+#  $2 Path to a Zip file as the final output zip file for release
 #
 #  * It will assume the Windows build is done in separate step and copied to
 #	Projects/Windows/sdk.
@@ -61,8 +60,7 @@ fi
 function Release {
 #----------------------------------------
 #release package
-# $1 = input zip file for Windows
-# $2 = output zip file for releasing
+# $1= output zip file for releasing
 #----------------------------------------
 echo "release package started..."
 cd $CURDIR || exit 1
@@ -81,6 +79,7 @@ echo "Release (Android, IOS, MAC, Windows ) done."
 
 function Clean {
     rm -rf $AgoraRTMSdk/*
+    rm -rf $CURDIR/Projects/ZipDownload
     cd $PROJDIR/Android/ && ./build.sh clean
     cd $PROJDIR/iOS/ && ./build.sh clean
     cd $PROJDIR/macOS/ && ./build.sh clean
@@ -94,16 +93,16 @@ function Clean {
 #./clear_data.sh $PROJDIR $AgoraRTMSdk
 # echo "clear data end"
 case "$1" in 
-    "clean") echo "Clean"
+    "clean") echo "------------ Clean ----------------"
 	Clean
 	     ;;
-    "release") echo "Release"
-	Release $2 $3
+    "release") echo "------- Release -----------------"
+	Release $2
 	     ;;
-    "all" | "build") echo "All"
+    "all" | "build") echo "------ All --------------------"
 	Build
 	;;
-    "") echo "Local"
+    "" | "local") echo "----------- Local -------------"
 	Build local
 	;;
     *) echo "invalide option to $0 [clean release all]"
