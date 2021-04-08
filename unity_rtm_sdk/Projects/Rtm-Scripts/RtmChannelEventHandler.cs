@@ -62,7 +62,7 @@ namespace agora_rtm {
 		public delegate void OnFileMessageReceivedHandler(int id, string userId, FileMessage message);
         
 		/// <summary>
-		/// Returns the result of the #SendMessage method call.
+		/// Returns the result of the \ref agora_rtm.RtmChannel.SendMessage "SendMessage" method call.
 		/// </summary>
 		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
 		/// <param name="messageId">the ID of the sent channel message.</param>
@@ -71,11 +71,11 @@ namespace agora_rtm {
         
 		/// <summary>
 		/// Occurs when a remote user joins the channel.
-		/// When a remote user calls the #Join method and receives the #OnJoinSuccessHandler callback (successfully joins the channel), the local user receives this callback.
+		/// When a remote user calls the \ref agora_rtm.RtmChannel.Join	"Join" method and receives the #OnJoinSuccessHandler callback (successfully joins the channel), the local user receives this callback.
 		/// @note This callback is disabled when the number of the channel members exceeds 512.
 		/// </summary>
 		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="member">The user joining the channel. See #ChannelMember.</param>
+		/// <param name="member">The user joining the channel. See ChannelMemberCount.</param>
 		public delegate void OnMemberJoinedHandler(int id, RtmChannelMember member);
         
 		/// <summary>
@@ -88,7 +88,7 @@ namespace agora_rtm {
 		public delegate void OnMemberLeftHandler(int id, RtmChannelMember member);
         
 		/// <summary>
-		/// Returns the result of the #GetMembers method call.
+		/// Returns the result of the \ref agora_rtm.RtmChannel.GetMembers "GetMembers" method call.
 		/// When the method call succeeds, the SDK returns the member list of the channel.
 		/// @note 
 		/// </summary>

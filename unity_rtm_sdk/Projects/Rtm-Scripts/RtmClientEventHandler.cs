@@ -35,8 +35,8 @@ namespace agora_rtm {
 		public delegate void OnRenewTokenResultHandler(int id, string token, RENEW_TOKEN_ERR_CODE errorCode);
 		
 		/// <summary>
-		/// Occurs when the RTM server detects that the RTM token has exceeded the 24-hour validity period and when the SDK is in the #CONNECTION_STATE_RECONNECTING state.
-		/// This callback occurs only when the SDK is reconnecting to the server. You will not receive this callback when the SDK is in the #CONNECTION_STATE_CONNECTED state.
+		/// Occurs when the RTM server detects that the RTM token has exceeded the 24-hour validity period and when the SDK is in the CONNECTION_STATE_RECONNECTING state.
+		/// This callback occurs only when the SDK is reconnecting to the server. You will not receive this callback when the SDK is in the CONNECTION_STATE_CONNECTED state.
 		/// When receiving this callback, generate a new RTM Token on the server and call the \ref agora_rtm.RtmClient.RenewToken "RenewToken" method to pass the new Token on to the server.
 		/// </summary>
 		/// <param name="id">The id of your engine</param>
@@ -160,7 +160,7 @@ namespace agora_rtm {
 		/// </summary>
 		/// <param name="id">The id of your engine</param>
 		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="peersStatus">The online status of the peer. See #PeerOnlineStatus.</param>
+		/// <param name="peersStatus">The online status of the peer. See PeerOnlineStatus.</param>
 		/// <param name="peerCount">The number of the queried peers.</param>
 		/// <param name="errorCode">Error Codes. See #QUERY_PEERS_ONLINE_STATUS_ERR.</param>
 		public delegate void OnQueryPeersOnlineStatusResultHandler(int id, Int64 requestId, PeerOnlineStatus[] peersStatus, int peerCount, QUERY_PEERS_ONLINE_STATUS_ERR errorCode);
@@ -276,7 +276,7 @@ namespace agora_rtm {
 		/// - If the online status of the peers, to whom you subscribe, changes when the SDK is reconnecting to the server, the SDK returns this callback to report whose online status has changed when successfully reconnecting to the server.
 		/// </summary>
 		/// <param name="id">The id of your engine</param>
-		/// <param name="peersStatus">An array of peers' online states. See PeerOnlineStatus. See #PeerOnlineStatus.</param>
+		/// <param name="peersStatus">An array of peers' online states. See PeerOnlineStatus. </param>
 		/// <param name="peerCount">Count of the peers, whose online status changes.</param>
 		public delegate void OnPeersOnlineStatusChangedHandler(int id, PeerOnlineStatus[] peersStatus, int peerCount);
 

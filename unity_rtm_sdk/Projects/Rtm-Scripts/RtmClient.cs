@@ -338,7 +338,7 @@ namespace agora_rtm {
         ///  - The space character.
         ///  - Punctuation characters and other symbols, including: "!", "#", "$", "%", "&", "(", ")", "+", "-", ":", ";", "<", "=", ".", ">", "?", "@", "[", "]", "^", "_", " {", "}", "|", "~", ","
         /// </param>
-        /// <param name="rtmChannelEventHandler">See #RtmChannelEventHandler.</param>
+        /// <param name="rtmChannelEventHandler">See RtmChannelEventHandler.</param>
         /// <returns>
         ///  - An \ref agora_rtm.RtmChannel "RtmChannel" object: Success. If a channel with the same `channelId` does not exist, the method returns the created channel instance. If a channel with the same `channelId` already exists, the method returns the existing channel instance.
         ///  - null: Failure. Possible reasons: The `channelId` is invalid or you have joined the maximum number of channels.
@@ -875,7 +875,7 @@ namespace agora_rtm {
         /// <summary>
         /// Clears all attributes of the local user.
         /// The SDK returns the result by the \ref agora_rtm.RtmClientEventHandler.OnClearLocalUserAttributesResultHandler "OnClearLocalUserAttributesResultHandler" callback.
-        /// @note For #SetLocalUserAttributes, #DeleteLocalUserAttributesByKeys and #ClearLocalUserAttributes taken together: the maximum call frequency is 10 calls every five seconds.
+        /// @note For #DeleteLocalUserAttributesByKeys and #ClearLocalUserAttributes taken together: the maximum call frequency is 10 calls every five seconds.
         /// </summary>
         /// <param name="requestId">The unique ID of this request.</param>
         /// <returns>
@@ -894,7 +894,7 @@ namespace agora_rtm {
         /// <summary>
         /// Deletes the local user's attributes by attribute keys.
         /// The SDK returns the result by the \ref agora_rtm.RtmClientEventHandler.OnDeleteLocalUserAttributesResultHandler "OnDeleteLocalUserAttributesResultHandler" callback.
-        /// @note For #SetLocalUserAttributes, #DeleteLocalUserAttributesByKeys and #ClearLocalUserAttributes taken together: the maximum call frequency is 10 calls every five seconds.
+        /// @note For #DeleteLocalUserAttributesByKeys and #ClearLocalUserAttributes taken together: the maximum call frequency is 10 calls every five seconds.
         /// </summary>
         /// <param name="attributeKeys">An array of the attribute keys to be deleted.</param>
         /// <param name="requestId">The unique ID of this request.</param>
@@ -918,7 +918,7 @@ namespace agora_rtm {
         ///  - You do not have to join the specified channel to update its attributes.
         ///  - The attributes of a channel will be cleared if the channel remains empty (has no members) for a couple of minutes.
         ///  - If more than one user can update the channel attributes, then Agora recommends calling #GetChannelAttributes to update the cache before calling this method.
-        ///  - For #SetLocalUserAttributes, #DeleteLocalUserAttributesByKeys and #ClearLocalUserAttributes taken together: the maximum call frequency is 10 calls every five seconds.
+        ///  - For #DeleteLocalUserAttributesByKeys and #ClearLocalUserAttributes taken together: the maximum call frequency is 10 calls every five seconds.
         /// </summary>
         /// <param name="channelId">The channel ID of the specified channel.</param>
         /// <param name="attributes">An array of channel attributes. See \ref agora_rtm.RtmChannelAttribute "RtmChannelAttribute".</param>
@@ -947,7 +947,7 @@ namespace agora_rtm {
         } 
 
         /// <summary>
-        /// Gets an #RtmCallManager object.
+        /// Gets an RtmCallManager object.
         /// Each #RtmClient object corresponds to a unique \ref agora_rtm.RtmCallManager "RtmCallManager" object. That said, the \ref agora_rtm.RtmCallManager "RtmCallManager" object is #RtmClient-specific.
         /// @note When you do no use \ref agora_rtm.RtmCallManager "RtmCallManager", call the \ref agora_rtm.RtmCallManager.Dispose "Dispose" method to release all of its resources.
         /// </summary>
