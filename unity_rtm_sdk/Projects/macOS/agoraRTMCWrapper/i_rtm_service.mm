@@ -17,6 +17,7 @@ extern "C" {
 
 AGORA_API void* createRtmService_rtm()
 {
+    agora::rtm::internal::setRtmAppType(2);
     return agora::rtm::createRtmService();
 }
 

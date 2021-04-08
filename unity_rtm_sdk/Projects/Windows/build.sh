@@ -12,7 +12,7 @@ PLATFORM="Windows"
 function download_library {
     ARCH=$1
     DOWNLOAD_VERSION=$2
-    DOWNLOAD_URL="https://download.agora.io/rtmsdk/release"
+    DOWNLOAD_URL="http://192.168.99.149:8086/v1.4.3.402/RTMSDK/Windows/${ARCH}"
     ZIP_FILE="Agora_RTM_SDK_for_Windows_${ARCH}_Unity_${DOWNLOAD_VERSION}.zip"
 
     if [[ ! -e $ZIP_FILE ]]; then

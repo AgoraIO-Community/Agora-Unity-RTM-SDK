@@ -8,6 +8,7 @@
 #pragma once
 #include <stdio.h>
 
+#include "rtm_private_api.h"
 #if defined(_WIN64)
 #define AGORARTC_EXPORT
 #pragma comment(lib, "../sdk/x64/lib/agora_rtm_sdk.lib")

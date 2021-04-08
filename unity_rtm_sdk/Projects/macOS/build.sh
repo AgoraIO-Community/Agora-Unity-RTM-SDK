@@ -11,8 +11,8 @@
 PLATFORM="Mac"
 
 function download_library {
-    DOWNLOAD_URL="https://download.agora.io/rtmsdk/release"
-    DOWNLOAD_FILE="Agora_RTM_SDK_for_Mac_Unity_${RTM_VERSION}.zip"
+    DOWNLOAD_URL="http://192.168.99.149:8086/v1.4.3.402/RTMSDK/Mac_Unity/"
+    DOWNLOAD_FILE="Agora_RTM_SDK_for_Mac_Unity_v1.4.3.402_20210408_51.zip"
     
     if [[ ! -e $DOWNLOAD_FILE ]]; then
         wget $DOWNLOAD_URL/$DOWNLOAD_FILE
