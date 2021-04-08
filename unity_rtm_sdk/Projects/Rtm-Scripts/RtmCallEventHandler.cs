@@ -14,65 +14,65 @@ namespace agora_rtm {
 		/// <summary>
 		/// Callback to the caller: occurs when the callee receives the call invitation.
 		/// </summary>
-		/// <param name="localInvitation">An LocalCallInvitation object.</param>
+		/// <param name="localInvitation">A \ref agora_rtm.LocalInvitation "LocalInvitation" object.</param>
 		public delegate void OnLocalInvitationReceivedByPeerHandler(LocalInvitation localInvitation);
 		
 		/// <summary>
 		/// Callback to the caller: occurs when the caller cancels a call invitation.
 		/// </summary>
-		/// <param name="localInvitation">An LocalCallInvitation object.</param>
+		/// <param name="localInvitation">A \ref agora_rtm.LocalInvitation "LocalInvitation" object.</param>
 		public delegate void OnLocalInvitationCanceledHandler(LocalInvitation localInvitation);
 		
 		/// <summary>
 		/// Callback to the caller: occurs when the life cycle of the outgoing call invitation ends in failure.
 		/// </summary>
-		/// <param name="localInvitation">An LocalCallInvitation object.</param>
-		/// <param name="errorCode">The error code. </param>
+		/// <param name="localInvitation">A \ref agora_rtm.LocalInvitation "LocalInvitation" object.</param>
+		/// <param name="errorCode">The error code. See #LOCAL_INVITATION_ERR_CODE. </param>
 		public delegate void OnLocalInvitationFailureHandler(LocalInvitation localInvitation, LOCAL_INVITATION_ERR_CODE errorCode);
 		
 		/// <summary>
 		/// Callback to the caller: occurs when the callee accepts the call invitation.
 		/// </summary>
-		/// <param name="localInvitation">An LocalCallInvitation object.</param>
+		/// <param name="localInvitation">A \ref agora_rtm.LocalInvitation "LocalInvitation" object.</param>
 		/// <param name="response">	The callee's response to the call invitation.</param>
 		public delegate void OnLocalInvitationAcceptedHandler(LocalInvitation localInvitation, string response);
 		
 		/// <summary>
 		/// Callback to the caller: occurs when the callee refuses the call invitation.
 		/// </summary>
-		/// <param name="localInvitation">	An LocalCallInvitation object.</param>
+		/// <param name="localInvitation">A \ref agora_rtm.LocalInvitation "LocalInvitation" object.</param>
 		/// <param name="response">	The callee's response to the call invitation.</param>
 		public delegate void OnLocalInvitationRefusedHandler(LocalInvitation localInvitation, string response);
 		
 		/// <summary>
 		/// Callback for the callee: occurs when the callee refuses a call invitation.
 		/// </summary>
-		/// <param name="remoteInvitation">An RemoteCallInvitation object.</param>
+		/// <param name="remoteInvitation">A \ref agora_rtm.RemoteInvitation "RemoteInvitation" object.</param>
 		public delegate void OnRemoteInvitationRefusedHandler(RemoteInvitation remoteInvitation);
 		
 		/// <summary>
 		/// Callback to the callee: occurs when the callee accepts a call invitation.
 		/// </summary>
-		/// <param name="remoteInvitation">A RemoteCallInvitation object.</param>
+		/// <param name="remoteInvitation">A \ref agora_rtm.RemoteInvitation "RemoteInvitation" object.</param>
 		public delegate void OnRemoteInvitationAcceptedHandler(RemoteInvitation remoteInvitation);
 		
 		/// <summary>
 		/// Callback to the callee: occurs when the callee receives a call invitation.
 		/// </summary>
-		/// <param name="remoteInvitation">	A RemoteCallInvitation object.</param>
+		/// <param name="remoteInvitation">	A \ref agora_rtm.RemoteInvitation "RemoteInvitation" object.</param>
 		public delegate void OnRemoteInvitationReceivedHandler(RemoteInvitation remoteInvitation);
 		
 		/// <summary>
 		/// Callback to the callee: occurs when the life cycle of the incoming call invitation ends in failure.
 		/// </summary>
-		/// <param name="remoteInvitation">	A RemoteCallInvitation object.</param>
-		/// <param name="errorCode">The error code. </param>
+		/// <param name="remoteInvitation">	A \ref agora_rtm.RemoteInvitation "RemoteInvitation" object.</param>
+		/// <param name="errorCode">The error code. See #REMOTE_INVITATION_ERR_CODE. </param>
 		public delegate void OnRemoteInvitationFailureHandler(RemoteInvitation remoteInvitation, REMOTE_INVITATION_ERR_CODE errorCode);
 		
 		/// <summary>
 		/// Callback to the callee: occurs when the caller cancels the call invitation.
 		/// </summary>
-		/// <param name="remoteInvitation">An RemoteCallInvitation object.</param>
+		/// <param name="remoteInvitation">A \ref agora_rtm.RemoteInvitation "RemoteInvitation" object.</param>
 		public delegate void OnRemoteInvitationCanceledHandler(RemoteInvitation remoteInvitation);
 
 		public OnLocalInvitationReceivedByPeerHandler OnLocalInvitationReceivedByPeer;
@@ -102,7 +102,10 @@ namespace agora_rtm {
 			id ++;
 		}
 
-
+        
+		/// <summary>
+		/// Releases all resources used by the #RtmCallEventHandler instance.
+		/// </summary>
 		public void Release() {
 			Debug.Log("_rtmCallEventHandlerPtr Release");
 			if (_rtmCallEventHandlerPtr == IntPtr.Zero) {

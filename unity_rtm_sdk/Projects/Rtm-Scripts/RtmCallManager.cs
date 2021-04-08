@@ -18,9 +18,6 @@ namespace agora_rtm {
 			Dispose(false);
 		}
 
-		/// <summary>
-		/// Releases all resources used by the RtmCallManager instance.
-		/// </summary>
 		private void Release() {
 			if (_rtmCallManagerPtr == IntPtr.Zero)
 			{
@@ -37,8 +34,11 @@ namespace agora_rtm {
 		/// <summary>
 		/// Allows the caller to send a call invitation to the callee.
 		/// </summary>
-		/// <param name="invitation">An LocalCallInvitation object.</param>
-		/// <returns></returns>
+		/// <param name="invitation">An \ref agora_rtm.LocalInvitation "LocalInvitation" object.</param>
+		/// <returns>
+		///  - 0: Success.
+		///  - <0: Failure. See #INVITATION_API_CALL_ERR_CODE for the error code.
+		/// </returns>
 		public int SendLocalInvitation(LocalInvitation invitation) {
 			if (_rtmCallManagerPtr == IntPtr.Zero)
 			{
@@ -51,10 +51,10 @@ namespace agora_rtm {
 		/// <summary>
 		/// Allows the callee to accept an incoming call invitation.
 		/// </summary>
-		/// <param name="invitation">An RemoteCallInvitation object.</param>
+		/// <param name="invitation">An \ref agora_rtm.RemoteInvitation "RemoteInvitation" object.</param>
 		/// <returns>
-		/// 0: Success.
-		/// <0: Failure. 	
+		///  - 0: Success.
+		///  - <0: Failure. See #INVITATION_API_CALL_ERR_CODE for the error code.	
 		/// </returns>
 		public int AcceptRemoteInvitation(RemoteInvitation invitation) {
 			if (_rtmCallManagerPtr == IntPtr.Zero) 
@@ -68,10 +68,10 @@ namespace agora_rtm {
 		/// <summary>
 		/// Allows the callee to decline an incoming call invitation.
 		/// </summary>
-		/// <param name="invitation">An RemoteCallInvitation object.</param>
+		/// <param name="invitation">An \ref agora_rtm.RemoteInvitation "RemoteInvitation" object.</param>
 		/// <returns>
-		/// 0: Success.
-		/// <0: Failure.
+		///  - 0: Success.
+		///  - <0: Failure. See #INVITATION_API_CALL_ERR_CODE for the error code.
 		/// </returns>
 		public int RefuseRemoteInvitation(RemoteInvitation invitation) {
 			if (_rtmCallManagerPtr == IntPtr.Zero) 
@@ -85,8 +85,11 @@ namespace agora_rtm {
 		/// <summary>
 		/// Allows the caller to cancel an outgoing call invitation.
 		/// </summary>
-		/// <param name="invitation">An LocalCallInvitation object.</param>
-		/// <returns></returns>
+		/// <param name="invitation">An \ref agora_rtm.LocalInvitation "LocalInvitation" object.</param>
+		/// <returns>
+	    ///  - 0: Success.
+        ///  - <0: Failure. See #INVITATION_API_CALL_ERR_CODE for the error code.
+		/// </returns>
 		public int CancelLocalInvitation(LocalInvitation invitation) {
 			if (_rtmCallManagerPtr == IntPtr.Zero) 
 			{
@@ -97,11 +100,11 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Creates an LocalCallInvitation object.
+		/// Creates an \ref agora_rtm.LocalInvitation "LocalInvitation" object.
 		/// </summary>
 		/// <param name="calleeId">	The Callee's user ID.</param>
 		/// <returns>
-		/// An ILocalCallInvitation object.
+		/// An \ref agora_rtm.LocalInvitation "LocalInvitation" object.
 		/// </returns>
 		public LocalInvitation CreateLocalCallInvitation(string calleeId) {
 			if (_rtmCallManagerPtr == IntPtr.Zero) 
@@ -111,7 +114,11 @@ namespace agora_rtm {
 			}
 			return new LocalInvitation(rtm_call_manager_createLocalCallInvitation(_rtmCallManagerPtr, calleeId));
 		}
+        
 
+        /// <summary>
+		/// Releases all resources used by the #RtmCallManager instance.
+		/// </summary>
 		public void Dispose() {
 			Dispose(true);
 			GC.SuppressFinalize(this);

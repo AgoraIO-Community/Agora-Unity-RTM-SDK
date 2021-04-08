@@ -24,7 +24,11 @@ namespace agora_rtm {
 
 		public int _Length = 0;
 
-		public Int64 GetMessageId() {
+        /// <summary>
+		/// Retrieves the unique ID of the message.
+		/// </summary>
+		/// <returns>The message ID.</returns>
+   		public Int64 GetMessageId() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE) 
 				return _MessageId;
 
@@ -39,7 +43,7 @@ namespace agora_rtm {
 		/// <summary>
 		/// Retrieves the message type.
 		/// </summary>
-		/// <returns>The message type.</returns>
+		/// <returns>The message type. See #MESSAGE_TYPE.</returns>
 		public MESSAGE_TYPE GetMessageType() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _MessageType;
@@ -128,6 +132,9 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Allows the receiver to retrieve the timestamp of when the messaging server receives this message.
+		/// @note
+		/// - You can infer from the returned timestamp the approximate time as to when this message was sent.
+		/// - The returned timestamp is on a millisecond time-scale. It is for demonstration purposes only, not for strict ordering of messages.
 		/// </summary>
 		/// <returns>The timestamp (ms) of when the messaging server receives this message.</returns>
 		public Int64 GetServerReceiveTs() {
@@ -144,12 +151,13 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Allows the receiver to check whether this message has been cached on the server (Applies to peer-to-peer message only).
-		/// This method returns false if a message is not cached by the server. Only if the sender sends the message as an offline message (sets enableOfflineMessaging as true) when the specified user is offline, does the method return true when the user is back online.
-		/// For now we only cache 200 offline messages for up to seven days for each receiver. When the number of the cached messages reaches this limit, the newest message overrides the oldest one.
+        /// @note 
+		/// - This method returns false if a message is not cached by the server. Only if the sender sends the message as an offline message (sets \ref agora_rtm.SendMessageOptions.enableOfflineMessaging "enableOfflineMessaging" as true) when the specified user is offline, does the method return true when the user is back online.
+		/// - For now we only cache 200 offline messages for up to seven days for each receiver. When the number of the cached messages reaches this limit, the newest message overrides the oldest one.
 		/// </summary>
 		/// <returns>
-		/// true: This message has been cached on the server (the server caches this message and resends it to the receiver when he/she is back online).
-		/// false: This message has not been cached on the server.
+		///  - true: This message has been cached on the server (the server caches this message and resends it to the receiver when he/she is back online).
+		///  - false: This message has not been cached on the server.
 		/// </returns>
 		public bool IsOfflineMessage() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
@@ -162,7 +170,10 @@ namespace agora_rtm {
 			}
 			return imessage_isOfflineMessage(_MessagePtr);
 		}
-
+        
+		/// <summary>
+		/// Releases all resources used by the IMessage instance.
+		/// </summary>
 		protected void Release() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return;

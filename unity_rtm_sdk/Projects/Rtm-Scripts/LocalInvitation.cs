@@ -23,7 +23,6 @@ namespace agora_rtm {
 		/// <summary>
 		/// Allows the caller to get the User ID of the callee.
 		/// </summary>
-		/// <returns></returns>
 		public string GetCalleeId() {
 			if (_localInvitationPtr == IntPtr.Zero)
 			{
@@ -41,7 +40,7 @@ namespace agora_rtm {
 		/// <summary>
 		/// Allows the caller to set the call invitation content.
 		/// </summary>
-		/// <param name="content">The content of the call invitation. The content must not exceed 8 KB in length if encoded in UTF-8.</param>
+		/// <param name="content">The content of the call invitation. The `content` must not exceed 8 KB in length if encoded in UTF-8.</param>
 		public void SetContent(string content) {
 			if (_localInvitationPtr == IntPtr.Zero)
 			{
@@ -53,8 +52,8 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Allows the caller to get the call invitation content.
+		/// @note The caller sets the call invitation content using the #SetContent method.
 		/// </summary>
-		/// <returns></returns>
 		public string GetContent() {
 			if (_localInvitationPtr == IntPtr.Zero)
 			{
@@ -71,6 +70,7 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Sets the channel ID.
+		/// @note To intercommunicate with the legacy Agora Signaling SDK, you MUST set the channel ID. However, even if the callee successfully accepts the call invitation, the Agora RTM SDK does not join the channel of the specified channel ID.
 		/// </summary>
 		/// <param name="channelId">The channel ID to be set.</param>
 		public void SetChannelId(string channelId) {
@@ -85,7 +85,6 @@ namespace agora_rtm {
 		/// <summary>
 		/// Gets the channel ID.
 		/// </summary>
-		/// <returns></returns>
 		public string GetChannelId() {
 			if (_localInvitationPtr == IntPtr.Zero)
 			{
@@ -102,8 +101,8 @@ namespace agora_rtm {
 
 		/// <summary>
 		/// Allows the caller to get the callee's response to the call invitation.
+		/// @note The callee sets his/her response using the \ref agora_rtm.RemoteInvitation.SetResponse "SetResponse" method.
 		/// </summary>
-		/// <returns></returns>
 		public string GetResponse() {
 			if (_localInvitationPtr == IntPtr.Zero)
 			{
@@ -125,7 +124,7 @@ namespace agora_rtm {
 		/// <summary>
 		/// Allows the caller to get the state of the outgoing call invitation.
 		/// </summary>
-		/// <returns>State of the outgoing call invitation. </returns>
+		/// <returns>State of the outgoing call invitation. See: #LOCAL_INVITATION_STATE. </returns>
 		public LOCAL_INVITATION_STATE GetState() {
 			if (_localInvitationPtr == IntPtr.Zero)
 			{
@@ -143,12 +142,16 @@ namespace agora_rtm {
 			i_local_call_invitation_release(_localInvitationPtr);
 			_localInvitationPtr = IntPtr.Zero;
 		}
-
+        
+		/// <summary>
+		/// Releases all resources used by the #LocalInvitation instance.
+		/// </summary>
 		public void Dispose() {
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
+		
 		private void Dispose(bool disposing) {
 			if (_needDispose) {
 				if (_disposed) return;
