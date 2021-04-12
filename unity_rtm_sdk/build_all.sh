@@ -50,21 +50,21 @@ GetUrl
 # build for Android
 #--------------------------------------
 echo "build for android started..." 
-cd $PROJDIR/Android/ && ./build.sh ANDROID_URL || exit 1
+cd $PROJDIR/Android/ && ./build.sh $ANDROID_URL || exit 1
 echo "build for android is done." 
 
 #--------------------------------------
 # build for iOS
 #--------------------------------------
 echo "build for ios started..." 
-cd $PROJDIR/iOS/ && ./build.sh IOS_URL  || exit 1
+cd $PROJDIR/iOS/ && ./build.sh $IOS_URL  || exit 1
 echo "build for ios is done." 
 
 #--------------------------------------
 # build for Mac
 #--------------------------------------
 echo "build for mac started..."
-cd $PROJDIR/macOS/ && ./build.sh MAC_URL || exit 1
+cd $PROJDIR/macOS/ && ./build.sh $MAC_URL || exit 1
 echo "build for mac is done."
 
 #--------------------------------------
