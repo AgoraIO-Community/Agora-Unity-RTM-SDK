@@ -29,7 +29,7 @@ echo "copy mac bundle start"
 #
 # mac bundle
 #
-cp -PRf macOS/sdk/  $ReleaseDir/libs/Plugins/macOS/
+cp -PRf macOS/sdk/*.bundle  $ReleaseDir/libs/Plugins/macOS/
 echo "copy mac bundle end"
 
 #
