@@ -14,8 +14,8 @@ echo "$0: proj= $PROJDIR AgoraRTMSdk=$AgoraRTMSdk TargetZipball=$TargetZipball"
 SAMPLEDIR=$AgoraRTMSdk/samples/Unity-RTM-Demo/Assets/AgoraEngine
 mkdir -p $SAMPLEDIR || exit 1
 cd $SAMPLEDIR 
-cp -a $PROJDIR/../Unity-RTM-Demo/Assets/AgoraEngine/RTM-Engine .
-cp -a $PROJDIR/../Unity-RTM-Demo/Assets/AgoraEngine/RtmDemo .
+cp -PRf $PROJDIR/../Unity-RTM-Demo/Assets/AgoraEngine/RTM-Engine .
+cp -PRf $PROJDIR/../Unity-RTM-Demo/Assets/AgoraEngine/RtmDemo .
 cd $AgoraRTMSdk
 
 # print the tree
