@@ -12,6 +12,7 @@ PLATFORM="Mac"
 
 function download_library {
     DOWNLOAD_URL=$1
+    DOWNLOAD_FILE=`echo $DOWNLOAD_URL | sed 's/\([^ ]*\)\/\([^\/]*\)$/\2/'`
     
     if [[ ! -e $DOWNLOAD_FILE ]]; then
         wget $DOWNLOAD_URL
