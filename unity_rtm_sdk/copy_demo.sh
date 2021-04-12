@@ -19,7 +19,7 @@ cp -a $PROJDIR/../Unity-RTM-Demo/Assets/AgoraEngine/RtmDemo .
 cd $AgoraRTMSdk
 
 # print the tree
-tree samples; tree libs
+# tree samples; tree libs
 
 zip -r $TargetZipball samples libs || exit 1
 
