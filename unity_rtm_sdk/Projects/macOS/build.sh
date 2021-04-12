@@ -102,6 +102,10 @@ rm -rf $SDK_DIR
 
 cp -PRf output/tmp/Release/*.bundle $SDK_DIR
 
+echo $SDK_DIR
+
+ls -a
+
 # Unity needs this dylib in Resources folder
 # (cd sdk/agoraRTMCWrapper.bundle/Contents && mv Frameworks Resources)
 
