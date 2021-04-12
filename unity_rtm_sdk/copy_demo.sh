@@ -21,7 +21,7 @@ cd $AgoraRTMSdk
 # print the tree
 # tree samples; tree libs
 
-zip -r $TargetZipball samples libs || exit 1
+zip -ry $TargetZipball samples libs || exit 1
 
 if [[ "${TargetZipball:0:1}" == / || "${TargetZipball:0:2}" == ~[/a-z] ]]
 then
