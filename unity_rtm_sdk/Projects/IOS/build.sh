@@ -7,11 +7,10 @@ PLATFORM="iOS"
 
 
 function download_library {
-    DOWNLOAD_URL="http://192.168.99.149:8086/v1.4.3.402/RTMSDK/iOS/"
-    DOWNLOAD_FILE="Agora_RTM_SDK_for_iOS_Unity_v1.4.3.402_20210408_24.zip"
+    DOWNLOAD_URL=$1
     
     if [[ ! -e $DOWNLOAD_FILE ]]; then
-        wget $DOWNLOAD_URL/$DOWNLOAD_FILE
+        wget $DOWNLOAD_URL
     fi
     #unzip
     unzip -o $DOWNLOAD_FILE
@@ -67,7 +66,7 @@ fi
 
 mkdir -p ./${output_root}/${build_config} || exit 1
 
-download_library
+download_library $1
 
 module_name=agoraRTMCWrapper
 

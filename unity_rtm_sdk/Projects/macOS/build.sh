@@ -11,11 +11,10 @@
 PLATFORM="Mac"
 
 function download_library {
-    DOWNLOAD_URL="http://192.168.99.149:8086/v1.4.3.402/RTMSDK/Mac_Unity/"
-    DOWNLOAD_FILE="Agora_RTM_SDK_for_Mac_Unity_v1.4.3.402_20210408_51.zip"
+    DOWNLOAD_URL=$1
     
     if [[ ! -e $DOWNLOAD_FILE ]]; then
-        wget $DOWNLOAD_URL/$DOWNLOAD_FILE
+        wget $DOWNLOAD_URL
     fi
     #unzip
     unzip -o $DOWNLOAD_FILE
@@ -84,7 +83,7 @@ fi
 mkdir -p ./${output_root}/${build_config} || exit 1
 
 # download the library file
-download_library
+download_library $1
 
 # replace team id for signing
 # if [ -n $APPLE_TEAM_ID ]; then 

@@ -22,27 +22,49 @@
 CURDIR=`pwd`
 PROJDIR=$CURDIR/Projects
 AgoraRTMSdk=$CURDIR/Release
+URLCONFIG=$CURDIR/url_config.txt
+
+function GetUrl {
+    while read line; do
+        case $line in
+            *"IOS"*)
+                IOS_URL=`echo $line | sed 's/IOS[[:space:]]*=//;s/^[[:space:]]*//'`
+                ;;
+            *"ANDROID"*)
+                ANDROID_URL=`echo $line | sed 's/ANDROID[[:space:]]*=//;s/^[[:space:]]*//'`
+                ;;
+            *"MAC"*)
+                MAC_URL=`echo $line | sed 's/MAC[[:space:]]*=//;s/^[[:space:]]*//'`
+                ;;
+        esac
+    done < "$URLCONFIG"
+}
 
 function Build {
+#--------------------------------------
+# Get the URL of Native SDK for each platform
+#--------------------------------------
+GetUrl
+
 #--------------------------------------
 # build for Android
 #--------------------------------------
 echo "build for android started..." 
-cd $PROJDIR/Android/ && ./build.sh || exit 1
+cd $PROJDIR/Android/ && ./build.sh ANDROID_URL || exit 1
 echo "build for android is done." 
 
 #--------------------------------------
 # build for iOS
 #--------------------------------------
 echo "build for ios started..." 
-cd $PROJDIR/iOS/ && ./build.sh  || exit 1
+cd $PROJDIR/iOS/ && ./build.sh IOS_URL  || exit 1
 echo "build for ios is done." 
 
 #--------------------------------------
 # build for Mac
 #--------------------------------------
 echo "build for mac started..."
-cd $PROJDIR/macOS/ && ./build.sh || exit 1
+cd $PROJDIR/macOS/ && ./build.sh MAC_URL || exit 1
 echo "build for mac is done."
 
 #--------------------------------------

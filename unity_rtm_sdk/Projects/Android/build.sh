@@ -8,11 +8,10 @@
 PLATFORM="Android"
 
 function download_library {
-    DOWNLOAD_URL="https://download.agora.io/rtmsdk/release"
-    DOWNLOAD_FILE="Agora_RTM_SDK_for_Android_Unity_${RTM_VERSION}.zip"
+    DOWNLOAD_URL=$1
     
     if [[ ! -e $DOWNLOAD_FILE ]]; then
-        wget $DOWNLOAD_URL/$DOWNLOAD_FILE
+        wget $DOWNLOAD_URL
     fi
     #unzip
     unzip -o $DOWNLOAD_FILE
@@ -54,7 +53,7 @@ if [ -z ${RTM_VERSION+x} ]; then
 fi
 
 #download
-download_library
+download_library $1
 mkdir prebuilt
 cp -r Agora_RTM_SDK_for_Android/libs/* prebuilt/
 

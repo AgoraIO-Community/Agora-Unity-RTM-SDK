@@ -8,34 +8,36 @@
 ::
 ::=============================================================================
 echo off
-SET RTM_VERSION=%~1
-SET DOWNLOAD_VERSION=%RTM_VERSION%
-SET OUTPUT_PACKAGE="RTM_windows.zip"
+for /F "delims=" %%a in ('pwd') do SET CURDIR=%%a
+SET OUTPUT_PACKAGE=RTM_windows.zip
+SET URL_CONFIG=%CURDIR%\url_config.txt
 mkdir agoraRTMCWrapper\sdk
-CALL :download_library x86 , %DOWNLOAD_VERSION%
+CALL :download_library x86
 echo x86 download_library error=%ERRORLEVEL%
-CALL :download_library x64 , %DOWNLOAD_VERSION%
+CALL :download_library x64
 echo x64 download_library error=%ERRORLEVEL%
 
 REM Preparing step
-cd agoraRTMCWrapper
+
 SET ARCH=x86
-powershell -command "& .\prep-win-project.bat %ARCH% ..\Agora_RTM_SDK_for_Windows_%ARCH%_Unity_%DOWNLOAD_VERSION%.zip"
+for /F "delims=" %%a in ('python .\GetUrl.py %ARCH% filename') do SET ZIP_FILE=%%a
+powershell -command "& %CURDIR%\agoraRTMCWrapper\prep-win-project.bat %ARCH% %CURDIR%\%ZIP_FILE%"
 echo -------------- prep %ARCh% error=%ERRORLEVEL%
 SET ARCH=x64
-powershell -command "& .\prep-win-project.bat %ARCH% ..\Agora_RTM_SDK_for_Windows_%ARCH%_Unity_%DOWNLOAD_VERSION%.zip"
+for /F "delims=" %%a in ('python .\GetUrl.py %ARCH% filename') do SET ZIP_FILE=%%a
+powershell -command "& %CURDIR%\agoraRTMCWrapper\prep-win-project.bat %ARCH% %CURDIR%\%ZIP_FILE%"
 echo -------------- prep %ARCh% error=%ERRORLEVEL%
 
-powershell -command "& .\unity-sdk-build-windows-release.bat ..\RTM_WinDLL.zip"
+powershell -command "& %CURDIR%\agoraRTMCWrapper\unity-sdk-build-windows-release.bat %CURDIR%\RTM_WinDLL.zip"
 
 EXIT /B %ERRORLEVEL%
 
 :download_library
 SET ARCH=%~1
-SET DOWNLOAD_VERSION=%~2
-SET DOWNLOAD_URL=https://download.agora.io/rtmsdk/release
-SET ZIP_FILE=Agora_RTM_SDK_for_Windows_%ARCH%_Unity_%DOWNLOAD_VERSION%.zip
-echo %DOWNLOAD_URL%/%ZIP_FILE%
-powershell -command "& wget %DOWNLOAD_URL%/%ZIP_FILE% -OutFile %ZIP_FILE%"
+for /F "delims=" %%a in ('python .\GetUrl.py %ARCH%') do SET DOWNLOAD_URL=%%a
+for /F "delims=" %%a in ('python .\GetUrl.py %ARCH% filename') do SET ZIP_FILE=%%a
+echo %DOWNLOAD_URL%
+echo %ZIP_FILE%
+powershell -command "& wget %DOWNLOAD_URL% -OutFile %ZIP_FILE%"
 echo wget error=%ERRORLEVEL%
 EXIT /B %ERRORLEVEL%
