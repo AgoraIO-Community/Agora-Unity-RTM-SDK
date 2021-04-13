@@ -9,6 +9,7 @@ using UnityEditor.iOS.Xcode.Extensions;
 namespace agora_rtm {
     public class BL_BuildPostProcess
     {
+	const string defaultLocationInProj = "AgoraEngine/RTM-Engine/Plugins/iOS";
 
         [PostProcessBuild]
         public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
@@ -30,9 +31,21 @@ namespace agora_rtm {
 
         // The followings are the addtional frameworks to add to the project
         static string[] ProjectFrameworks = new string[] {
-        "CoreTelephony.framework",
-        "libresolv.9.dylib"
-    };
+	    "CoreTelephony.framework",
+	    "libresolv.9.dylib"
+	};
+
+        static string[] EmbeddedFrameworks = new string[] {
+	    "AgoraRtmKit.framework",
+	    "AgoraCore.framework"
+	};
+
+	static void EmbedFramework(PBXProject proj, string target, string frameworkPath)
+	{
+	    string RTMFrameWorkPath = Path.Combine(defaultLocationInProj, frameworkPath);
+	    string fileGuid = proj.AddFile(RTMFrameWorkPath, "Frameworks/" + RTMFrameWorkPath, PBXSourceTree.Sdk);
+	    PBXProjectExtensions.AddFileToEmbedFrameworks(proj, target, fileGuid);
+	}
 
         static void LinkLibraries(string path)
         {
@@ -53,8 +66,12 @@ namespace agora_rtm {
 
             // embedded frameworks
 #if UNITY_2019_1_OR_NEWER
-        target = proj.GetUnityMainTargetGuid();
+	    target = proj.GetUnityMainTargetGuid();
 #endif
+	    foreach (string framework in EmbeddedFrameworks) 
+	    {
+		EmbedFramework(proj, target, framework);
+	    }
 
             proj.SetBuildProperty(target, "LD_RUNPATH_SEARCH_PATHS", "$(inherited) @executable_path/Frameworks");
 
