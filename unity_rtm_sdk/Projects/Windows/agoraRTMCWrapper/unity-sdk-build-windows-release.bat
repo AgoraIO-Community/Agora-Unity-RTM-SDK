@@ -67,10 +67,12 @@ if exist %Local_Path%\unity (
 mkdir %Local_Path%\unity\x86
 copy %Local_Path%\agoraRTMCWrapper\Release\Win32\agoraRTMCWrapper.dll %Local_Path%\unity\x86
 copy %Local_Path%\sdk\x86\dll\agora_rtm_sdk.dll %Local_Path%\unity\x86
+copy %Local_Path%\sdk\x86\dll\libagora-core.dll %Local_Path%\unity\x86
 
 mkdir %Local_path%\unity\x86_64
 copy %Local_Path%\agoraRTMCWrapper\Release\x64\agoraRTMCWrapper.dll %Local_Path%\unity\x86_64
 copy %Local_Path%\sdk\x64\dll\agora_rtm_sdk.dll %Local_Path%\unity\x86_64
+copy %Local_Path%\sdk\x64\dll\libagora-core.dll %Local_Path%\unity\x86_64
 
 powershell -command "& Compress-Archive %Local_Path%\unity %ZipFile%"
 Set ErrorLevel=!ERRORLEVEL!
