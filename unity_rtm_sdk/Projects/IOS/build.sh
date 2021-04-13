@@ -20,8 +20,8 @@ function download_library {
 function make_unity_plugin {
     rm -rf sdk
     mkdir sdk
-    cp -PRf Agora_RTM_SDK_for_iOS/libs/AgoraRtmKit.all.framework/iphone/ sdk/
-    cp -PRf Agora_RTM_SDK_for_iOS/libs/AgoraCore.all.framework/for_iphone/ sdk/
+    cp -PRf Agora_RTM_SDK_for_iOS/libs/AgoraCore.all.framework/iphone/ sdk/
+    cp -PRf Agora_RTM_SDK_for_iOS/libs/AgoraRtmKit.all.framework/for_iphone/ sdk/
     cp -PRf output/tmp/Release-iphoneos/ sdk/
 }
 
