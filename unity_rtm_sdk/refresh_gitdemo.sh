@@ -7,7 +7,7 @@ DEMO=../Unity-RTM-Demo/Assets/AgoraEngine/RTM-Engine
 if [ -d $SDK/libs/Plugins ]; then
     echo "Replacing $DEMO plugins with files from $SDK"
     rm -rf $DEMO/Plugins
-    cp -a $SDK/libs/Plugins $DEMO
+    cp -PRf $SDK/libs/Plugins $DEMO
 fi
 
 if [ -d $SDK/libs/Rtm-Scripts ]; then

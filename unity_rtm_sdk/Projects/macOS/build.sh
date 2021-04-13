@@ -100,10 +100,10 @@ xcodebuild -project ${module_name}.xcodeproj -target ${module_name} -configurati
 
 rm -rf $SDK_DIR
 
-cp -r output/tmp/Release/ $SDK_DIR
+cp -PRf output/tmp/Release/ $SDK_DIR
 
 # Unity needs this dylib in Resources folder
-(cd sdk/agoraRTMCWrapper.bundle/Contents && mv Frameworks Resources)
+# (cd sdk/agoraRTMCWrapper.bundle/Contents && mv Frameworks Resources)
 
 echo "------ FINISHED --------"
 # echo "Created ./${output_build_tmp_path}/${build_config}/${module_name}.bundle"

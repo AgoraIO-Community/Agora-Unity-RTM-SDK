@@ -23,19 +23,19 @@ cp -r Rtm-Scripts $ReleaseDir/libs   || exit 1
 #
 # android plugin
 #
-cp -a Android/sdk/*.plugin $ReleaseDir/libs/Plugins/Android/
+cp -PRf Android/sdk/*.plugin $ReleaseDir/libs/Plugins/Android/
 
 echo "copy mac bundle start"
 #
 # mac bundle
 #
-cp -a macOS/sdk/*.bundle  $ReleaseDir/libs/Plugins/macOS/
+cp -PRf macOS/sdk/  $ReleaseDir/libs/Plugins/macOS/
 echo "copy mac bundle end"
 
 #
 # ios binaries
 #
-cp -a IOS/sdk/*  $ReleaseDir/libs/Plugins/iOS/
+cp -PRf IOS/sdk/*  $ReleaseDir/libs/Plugins/iOS/
 
 #
 # windows binaries
