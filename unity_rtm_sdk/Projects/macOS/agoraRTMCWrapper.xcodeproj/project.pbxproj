@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7B028BCF26248F9D009DD3F8 /* AgoraCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B028BCD26248F9D009DD3F8 /* AgoraCore.framework */; };
-		7B028BD026248F9D009DD3F8 /* AgoraCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7B028BCD26248F9D009DD3F8 /* AgoraCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7B028BD126248F9D009DD3F8 /* AgoraRtmKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B028BCE26248F9D009DD3F8 /* AgoraRtmKit.framework */; };
 		7B028BD226248F9D009DD3F8 /* AgoraRtmKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7B028BCE26248F9D009DD3F8 /* AgoraRtmKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7B028BD526248FB0009DD3F8 /* AgoraCore.framework in Resources */ = {isa = PBXBuildFile; fileRef = 7B028BD326248FB0009DD3F8 /* AgoraCore.framework */; };
@@ -41,7 +39,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				7B028BD226248F9D009DD3F8 /* AgoraRtmKit.framework in Embed Frameworks */,
-				7B028BD026248F9D009DD3F8 /* AgoraCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -99,7 +96,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B028BD126248F9D009DD3F8 /* AgoraRtmKit.framework in Frameworks */,
-				7B028BCF26248F9D009DD3F8 /* AgoraCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
