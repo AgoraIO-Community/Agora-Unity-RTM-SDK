@@ -400,6 +400,9 @@ namespace io.agora.rtm.demo
             if (errorCode == GET_MEMBERS_ERR.GET_MEMBERS_ERR_OK)
             {
                 messageDisplay.AddTextToDisplay("Total members = " + userCount, Message.MessageType.Info);
+                foreach(RtmChannelMember member in members) {
+                    messageDisplay.AddTextToDisplay("   member:> " + member.GetUserId(), Message.MessageType.Info);
+                }
             } else { 
                 messageDisplay.AddTextToDisplay("something is wrong with GetMembers:" + errorCode.ToString(), Message.MessageType.Error);
 	        }
