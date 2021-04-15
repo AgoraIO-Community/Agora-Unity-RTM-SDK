@@ -9,7 +9,7 @@ using UnityEditor.iOS.Xcode.Extensions;
 namespace agora_rtm {
     public class BL_BuildPostProcess
     {
-	const string defaultLocationInProj = "AgoraEngine/RTM-Engine/Plugins/iOS";
+	    const string defaultLocationInProj = "AgoraEngine/RTM-Engine/Plugins/iOS";
 
         [PostProcessBuild]
         public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
@@ -23,7 +23,7 @@ namespace agora_rtm {
         static string GetTargetGuid(PBXProject proj)
         {
 #if UNITY_2019_3_OR_NEWER
-        return proj.GetUnityFrameworkTargetGuid();
+            return proj.GetUnityFrameworkTargetGuid();
 #else
             return proj.TargetGuidByName("Unity-iPhone");
 #endif
@@ -31,21 +31,20 @@ namespace agora_rtm {
 
         // The followings are the addtional frameworks to add to the project
         static string[] ProjectFrameworks = new string[] {
-	    "CoreTelephony.framework",
-	    "libresolv.9.dylib"
-	};
+            "CoreTelephony.framework",
+            "libresolv.9.dylib"
+	    };
 
         static string[] EmbeddedFrameworks = new string[] {
-	    "AgoraRtmKit.framework",
-	    "AgoraCore.framework"
-	};
+	        "AgoraRtmKit.framework"
+	    };
 
-	static void EmbedFramework(PBXProject proj, string target, string frameworkPath)
-	{
-	    string RTMFrameWorkPath = Path.Combine(defaultLocationInProj, frameworkPath);
-	    string fileGuid = proj.AddFile(RTMFrameWorkPath, "Frameworks/" + RTMFrameWorkPath, PBXSourceTree.Sdk);
-	    PBXProjectExtensions.AddFileToEmbedFrameworks(proj, target, fileGuid);
-	}
+        static void EmbedFramework(PBXProject proj, string target, string frameworkPath)
+        {
+            string RTMFrameWorkPath = Path.Combine(defaultLocationInProj, frameworkPath);
+            string fileGuid = proj.AddFile(RTMFrameWorkPath, "Frameworks/" + RTMFrameWorkPath, PBXSourceTree.Sdk);
+            PBXProjectExtensions.AddFileToEmbedFrameworks(proj, target, fileGuid);
+        }
 
         static void LinkLibraries(string path)
         {
