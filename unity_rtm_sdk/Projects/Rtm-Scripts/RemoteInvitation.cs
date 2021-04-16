@@ -71,7 +71,7 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Allows the callee to get his/her response to the incoming call invitation.
+		/// Allows the callee to get his/her response to the incoming call invitation.c
 		/// </summary>
 		/// <returns></returns>
 		public string GetResponse() {
