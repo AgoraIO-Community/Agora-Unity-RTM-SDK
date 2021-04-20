@@ -12,67 +12,67 @@ namespace agora_rtm {
         private IntPtr _rtmCallEventHandlerPtr = IntPtr.Zero;
         private int currentIdIndex = 0;
 		/// <summary>
-		/// Callback to the caller: occurs when the callee receives the call invitation.
+		/// 被叫已收到呼叫邀请回调。
 		/// </summary>
-		/// <param name="localInvitation">A \ref agora_rtm.LocalInvitation "LocalInvitation" object.</param>
+		/// <param name="localInvitation">一个 \ref agora_rtm.LocalInvitation "LocalInvitation" 对象。</param>
 		public delegate void OnLocalInvitationReceivedByPeerHandler(LocalInvitation localInvitation);
 		
 		/// <summary>
-		/// Callback to the caller: occurs when the caller cancels a call invitation.
+		/// 呼叫邀请已被取消回调。
 		/// </summary>
-		/// <param name="localInvitation">A \ref agora_rtm.LocalInvitation "LocalInvitation" object.</param>
+		/// <param name="localInvitation">一个 \ref agora_rtm.LocalInvitation "LocalInvitation" 对象。</param>
 		public delegate void OnLocalInvitationCanceledHandler(LocalInvitation localInvitation);
 		
 		/// <summary>
-		/// Callback to the caller: occurs when the life cycle of the outgoing call invitation ends in failure.
+		/// 呼叫邀请过程失败回调。
 		/// </summary>
-		/// <param name="localInvitation">A \ref agora_rtm.LocalInvitation "LocalInvitation" object.</param>
-		/// <param name="errorCode">The error code. See #LOCAL_INVITATION_ERR_CODE. </param>
+		/// <param name="localInvitation">一个 \ref agora_rtm.LocalInvitation "LocalInvitation" 对象。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.LOCAL_INVITATION_ERR_CODE "LOCAL_INVITATION_ERR_CODE"。</param>
 		public delegate void OnLocalInvitationFailureHandler(LocalInvitation localInvitation, LOCAL_INVITATION_ERR_CODE errorCode);
 		
 		/// <summary>
-		/// Callback to the caller: occurs when the callee accepts the call invitation.
+		/// 被叫已接受呼叫邀请回调。
 		/// </summary>
-		/// <param name="localInvitation">A \ref agora_rtm.LocalInvitation "LocalInvitation" object.</param>
-		/// <param name="response">	The callee's response to the call invitation.</param>
+		/// <param name="localInvitation">一个 \ref agora_rtm.LocalInvitation "LocalInvitation" 对象。</param>
+		/// <param name="response">	被叫设置的响应内容。</param>
 		public delegate void OnLocalInvitationAcceptedHandler(LocalInvitation localInvitation, string response);
 		
 		/// <summary>
-		/// Callback to the caller: occurs when the callee refuses the call invitation.
+		/// 被叫已拒绝呼叫邀请回调。
 		/// </summary>
-		/// <param name="localInvitation">A \ref agora_rtm.LocalInvitation "LocalInvitation" object.</param>
-		/// <param name="response">	The callee's response to the call invitation.</param>
+		/// <param name="localInvitation">一个 \ref agora_rtm.LocalInvitation "LocalInvitation" 对象。</param>
+		/// <param name="response">被叫设置的响应内容。</param>
 		public delegate void OnLocalInvitationRefusedHandler(LocalInvitation localInvitation, string response);
 		
 		/// <summary>
-		/// Callback for the callee: occurs when the callee refuses a call invitation.
+		/// 拒绝呼叫邀请成功回调。
 		/// </summary>
-		/// <param name="remoteInvitation">A \ref agora_rtm.RemoteInvitation "RemoteInvitation" object.</param>
+		/// <param name="remoteInvitation">一个 \ref agora_rtm.RemoteInvitation "RemoteInvitation" 对象。</param>
 		public delegate void OnRemoteInvitationRefusedHandler(RemoteInvitation remoteInvitation);
 		
 		/// <summary>
-		/// Callback to the callee: occurs when the callee accepts a call invitation.
+		/// 接受呼叫邀请成功回调。
 		/// </summary>
-		/// <param name="remoteInvitation">A \ref agora_rtm.RemoteInvitation "RemoteInvitation" object.</param>
+		/// <param name="remoteInvitation">一个 \ref agora_rtm.RemoteInvitation "RemoteInvitation" 对象。</param>
 		public delegate void OnRemoteInvitationAcceptedHandler(RemoteInvitation remoteInvitation);
 		
 		/// <summary>
-		/// Callback to the callee: occurs when the callee receives a call invitation.
+		/// 收到呼叫邀请回调。
 		/// </summary>
-		/// <param name="remoteInvitation">	A \ref agora_rtm.RemoteInvitation "RemoteInvitation" object.</param>
+		/// <param name="remoteInvitation">一个 \ref agora_rtm.RemoteInvitation "RemoteInvitation" 对象。</param>
 		public delegate void OnRemoteInvitationReceivedHandler(RemoteInvitation remoteInvitation);
 		
 		/// <summary>
-		/// Callback to the callee: occurs when the life cycle of the incoming call invitation ends in failure.
+		/// 来自主叫的呼叫邀请过程失败回调。
 		/// </summary>
-		/// <param name="remoteInvitation">	A \ref agora_rtm.RemoteInvitation "RemoteInvitation" object.</param>
-		/// <param name="errorCode">The error code. See #REMOTE_INVITATION_ERR_CODE. </param>
+		/// <param name="remoteInvitation">一个 \ref agora_rtm.RemoteInvitation "RemoteInvitation" 对象。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.REMOTE_INVITATION_ERR_CODE "REMOTE_INVITATION_ERR_CODE"。</param>
 		public delegate void OnRemoteInvitationFailureHandler(RemoteInvitation remoteInvitation, REMOTE_INVITATION_ERR_CODE errorCode);
 		
 		/// <summary>
-		/// Callback to the callee: occurs when the caller cancels the call invitation.
+		/// 主叫已取消呼叫邀请回调。
 		/// </summary>
-		/// <param name="remoteInvitation">A \ref agora_rtm.RemoteInvitation "RemoteInvitation" object.</param>
+		/// <param name="remoteInvitation">一个 \ref agora_rtm.RemoteInvitation "RemoteInvitation" 对象。</param>
 		public delegate void OnRemoteInvitationCanceledHandler(RemoteInvitation remoteInvitation);
 
 		public OnLocalInvitationReceivedByPeerHandler OnLocalInvitationReceivedByPeer;
@@ -102,10 +102,7 @@ namespace agora_rtm {
 			id ++;
 		}
 
-        
-		/// <summary>
-		/// Releases all resources used by the #RtmCallEventHandler instance.
-		/// </summary>
+
 		public void Release() {
 			Debug.Log("_rtmCallEventHandlerPtr Release");
 			if (_rtmCallEventHandlerPtr == IntPtr.Zero) {

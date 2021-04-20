@@ -11,273 +11,281 @@ namespace agora_rtm {
 		private IntPtr _rtmClientEventHandlerPtr = IntPtr.Zero;
 		private static Dictionary<int, RtmClientEventHandler> clientEventHandlerHandlerDic = new Dictionary<int, RtmClientEventHandler>();
 		/// <summary>
-		/// Occurs when a user logs in the Agora RTM system.
-		/// The local user receives this callback when the \ref agora_rtm.RtmClient.Login "Login" method call succeeds.
+		/// 登录 Agora RTM 系统成功回调。
+		/// 当用户调用 \ref agora_rtm.RtmClient.Login "Login" 方法成功加入频道时，本地用户会收到此回调。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
+		/// <param name="id">引擎 ID</param>
 		public delegate void OnLoginSuccessHandler(int id);
 
 		/// <summary>
-		/// Occurs when a user fails to log in the Agora RTM system. The local user receives this callback when the \ref agora_rtm.RtmClient.Login "Login" method call fails.
+		/// 登录 Agora RTM 系统失败回调。
+		/// 当 \ref agora_rtm.RtmClient.Login "Login" 方法调用失败时，本地用户会收到此回调。
 		/// </summary>
 		/// <param name="id">
-		/// The id of your engine
+		/// 引擎 ID 
 		/// </param>
-		/// <param name="errorCode">Error codes related to login. See #LOGIN_ERR_CODE for the error codes.</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.LOGIN_ERR_CODE "LOGIN_ERR_CODE"。</param>
 		public delegate void OnLoginFailureHandler(int id, LOGIN_ERR_CODE errorCode);
 
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.RenewToken "RenewToken" method call.
+		/// 报告 \ref agora_rtm.RtmClient.RenewToken "RenewToken" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="token">Your new token.</param>
-		/// <param name="errorCode">The error code.  See #RENEW_TOKEN_ERR_CODE. </param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="token">新的 Token。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.RENEW_TOKEN_ERR_CODE "RENEW_TOKEN_ERR_CODE"。</param>
 		public delegate void OnRenewTokenResultHandler(int id, string token, RENEW_TOKEN_ERR_CODE errorCode);
 		
 		/// <summary>
-		/// Occurs when the RTM server detects that the RTM token has exceeded the 24-hour validity period and when the SDK is in the CONNECTION_STATE_RECONNECTING state.
-		/// This callback occurs only when the SDK is reconnecting to the server. You will not receive this callback when the SDK is in the CONNECTION_STATE_CONNECTED state.
-		/// When receiving this callback, generate a new RTM Token on the server and call the \ref agora_rtm.RtmClient.RenewToken "RenewToken" method to pass the new Token on to the server.
+		///（SDK 断线重连时触发）当前使用的 RTM Token 已超过 24 小时的签发有效期。
+		/// 该回调仅会在 SDK 处于 \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" 状态时因 RTM 后台监测到 Token 签发有效期过期而触发。SDK 处于 \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_CONNECTED "CONNECTION_STATE_CONNECTED" 状态时该回调不会被触发。
+		/// 收到该回调时，请尽快在你的业务服务端生成新的 Token 并调用 \ref agora_rtm.RtmClient.RenewToken "RenewToken" 方法把新的 Token 传给 Token 验证服务器。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
+		/// <param name="id">引擎 ID</param>
 		public delegate void OnTokenExpiredHandler(int id);
 
 		/// <summary>
-		/// Occurs when a user logs out of the Agora RTM system.
+		/// 登出 Agora RTM 服务回调。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="errorCode">The error code. See #LOGOUT_ERR_CODE for the error codes. </param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.LOGOUT_ERR_CODE "LOGOUT_ERR_CODE"。 </param>
 		public delegate void OnLogoutHandler(int id, LOGOUT_ERR_CODE errorCode);
 
 		/// <summary>
-		/// Occurs when the connection state changes between the SDK and the Agora RTM system.
+		/// SDK 与 Agora RTM 系统的连接状态发生改变回调。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="state">The new connection state. See #CONNECTION_STATE.</param>
-		/// <param name="reason">The reason for the connection state change. See #CONNECTION_CHANGE_REASON.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="state">新连接状态。详见 \ref agora_rtm.CONNECTION_STATE "CONNECTION_STATE"。</param>
+		/// <param name="reason">连接状态改变原因。详见 \ref agora_rtm.CONNECTION_CHANGE_REASON "CONNECTION_CHANGE_REASON"。</param>
 		public delegate void OnConnectionStateChangedHandler(int id, CONNECTION_STATE state, CONNECTION_CHANGE_REASON reason);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.SendMessageToPeer "SendMessageToPeer" method call.
+		/// 报告 \ref agora_rtm.RtmClient.SendMessageToPeer "SendMessageToPeer" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="messageId">The ID of the sent message.</param>
-		/// <param name="errorCode">The peer-to-peer message state. See #PEER_MESSAGE_ERR_CODE. </param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="messageId">点对点消息的 ID。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.PEER_MESSAGE_ERR_CODE "PEER_MESSAGE_ERR_CODE"。</param>
 		public delegate void OnSendMessageResultHandler(int id, Int64 messageId, PEER_MESSAGE_ERR_CODE errorCode);
 		
 		/// <summary>
-		/// Occurs when receiving a peer-to-peer message.
+		/// 收到点对点消息回调。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="peerId">The ID of the message sender.</param>
-		/// <param name="message">The received peer-to-peer message. See \ref agora_rtm.IMessage "IMessage".</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="peerId">发送该消息的对端用户 ID。</param>
+		/// <param name="message">接收到的消息。详见 \ref agora_rtm.IMessage "IMessage"。</param>
 		public delegate void OnMessageReceivedFromPeerHandler(int id, string peerId, TextMessage message);
 		
 		/// <summary>
-		/// Occurs when receiving a peer-to-peer image message.
+		/// 收到点对点图片消息回调。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="peerId">The ID of the message sender.</param>
-		/// <param name="message">The received peer-to-peer image message. See \ref agora_rtm.ImageMessage "ImageMessage".</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="peerId">发送该消息的对端用户 ID。</param>
+		/// <param name="message">T接收到的图片消息。 详见 \ref agora_rtm.ImageMessage "ImageMessage"。</param>
 		public delegate void OnImageMessageReceivedFromPeerHandler(int id, string peerId, ImageMessage message);
 		
 		/// <summary>
-		/// Occurs when receiving a peer-to-peer file message.
+		/// 收到点对点文件消息回调。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="peerId">The ID of the message sender.</param>
-		/// <param name="message">The received peer-to-peer file message. See \ref agora_rtm.FileMessage "FileMessage".</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="peerId">发送该消息的对端用户 ID。</param>
+		/// <param name="message">接收到的文件消息。详见 \ref agora_rtm.FileMessage "FileMessage"。</param>
 		public delegate void OnFileMessageReceivedFromPeerHandler(int id, string peerId, FileMessage message);
 		
 		/// <summary>
-		/// Reports the progress of an ongoing upload task.
-		/// @note
-		///  - If the upload task is ongoing, the SDK returns this callback once every second.
-		///  - If the upload task comes to a halt, the SDK stops returning this callback until the task is going again.
+		/// 主动回调：上传任务的上传进度回调。
+		/// @note 
+		///  - 如果上传任务正在不断进行中，SDK 每秒返回该回调一次。
+		///  - 如果上传任务停顿，SDK 会暂停返回该回调直到上传任务重新进行。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of the upload request.</param>
-		/// <param name="progress">The progress of the ongoing upload task. See \ref agora_rtm.MediaOperationProgress "MediaOperationProgress".</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次上传请求的的唯一 ID。</param>
+		/// <param name="progress">文件或图片的上传进度。详见 \ref agora_rtm.MediaOperationProgress "MediaOperationProgress"。</param>
 		public delegate void OnMediaUploadingProgressHandler(int id, Int64 requestId, MediaOperationProgress progress);
 		
 		/// <summary>
-		/// Reports the progress of an ongoing download task.
+		/// 主动回调：下载任务的下载进度回调。
 		/// @note
-		///  - If the download task is ongoing, the SDK returns this callback once every second.
-		///  - If the download task comes to a halt, the SDK stops returning this callback until the task is going again.
+		///  - 如果下载任务正在不断进行中，SDK 每秒返回该回调一次。
+		///  - 如果下载任务停顿，SDK 会暂停返回该回调直到上传任务重新进行。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of the download request.</param>
-		/// <param name="progress">The progress of the ongoing download task. See \ref agora_rtm.MediaOperationProgress "MediaOperationProgress". </param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次下载请求的的唯一 ID。</param>
+		/// <param name="progress">文件或图片的下载进度。详见 \ref agora_rtm.MediaOperationProgress "MediaOperationProgress"。</param>
 		public delegate void OnMediaDownloadingProgressHandler(int id, Int64 requestId, MediaOperationProgress progress);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.CreateFileMessageByUploading "CreateFileMessageByUploading" method call.
+		/// 报告 \ref agora_rtm.RtmClient.CreateFileMessageByUploading "CreateFileMessageByUploading" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of the upload request.</param>
-		/// <param name="fileMessage">An \ref agora_rtm.FileMessage "FileMessage" instance.</param>
-		/// <param name="code">Error Codes. See #UPLOAD_MEDIA_ERR_CODE.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次上传请求的唯一 ID。</param>
+		/// <param name="fileMessage">一个 \ref agora_rtm.FileMessage "FileMessage" 实例。</param>
+		/// <param name="code">错误码。详见 \ref agora_rtm.UPLOAD_MEDIA_ERR_CODE "UPLOAD_MEDIA_ERR_CODE".</param>
 		public delegate void OnFileMediaUploadResultHandler(int id, Int64 requestId, FileMessage fileMessage, UPLOAD_MEDIA_ERR_CODE code);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.CreateImageMessageByUploading "CreateImageMessageByUploading" method call.
+		/// 报告 \ref agora_rtm.RtmClient.CreateImageMessageByUploading "CreateImageMessageByUploading" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of the upload request.</param>
-		/// <param name="imageMessage">An ImageMessage instance.</param>
-		/// <param name="code">Error Codes. See #UPLOAD_MEDIA_ERR_CODE.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次上传请求的唯一 ID。</param>
+		/// <param name="imageMessage">是一个 \ref agora_rtm.ImageMessage "ImageMessage" 实例。</param>
+		/// <param name="code">错误码。详见 \ref agora_rtm.UPLOAD_MEDIA_ERR_CODE "UPLOAD_MEDIA_ERR_CODE"。</param>
 		public delegate void OnImageMediaUploadResultHandler(int id, Int64 requestId, ImageMessage imageMessage, UPLOAD_MEDIA_ERR_CODE code);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.DownloadMediaToFile "DownloadMediaToFile" method call.
+		/// 报告 \ref agora_rtm.RtmClient.DownloadMediaToFile "DownloadMediaToFile" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of the download request.</param>
-		/// <param name="code">Error Codes. See #DOWNLOAD_MEDIA_ERR_CODE.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次下载请求的唯一 ID。</param>
+		/// <param name="code">错误码。详见 \ref agora_rtm.DOWNLOAD_MEDIA_ERR_CODE "DOWNLOAD_MEDIA_ERR_CODE".</param>
 		public delegate void OnMediaDownloadToFileResultHandler(int id, Int64 requestId, DOWNLOAD_MEDIA_ERR_CODE code);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.DownloadMediaToMemory "DownloadMediaToMemory" method call.
+		/// 报告 \ref agora_rtm.RtmClient.DownloadMediaToMemory "DownloadMediaToMemory" 方法的调用结果。
+		/// @note 回调结束后，SDK 会立刻释放下载的图片或文件。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of the download request.</param>
-		/// <param name="memory">The memory address where the downloaded file or image is stored.</param>
-		/// <param name="length">The size of the downloaded file or image.</param>
-		/// <param name="code">Error Codes. See #DOWNLOAD_MEDIA_ERR_CODE.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次下载请求的唯一 ID。</param>
+		/// <param name="memory">下载文件或图片的内存存放地址。</param>
+		/// <param name="length">下载文件或图片的数据长度。</param>
+		/// <param name="code">错误码。详见 \ref agora_rtm.DOWNLOAD_MEDIA_ERR_CODE "DOWNLOAD_MEDIA_ERR_CODE"。</param>
 		public delegate void OnMediaDownloadToMemoryResultHandler(int id, Int64 requestId, byte[] memory, Int64 length, DOWNLOAD_MEDIA_ERR_CODE code);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.CancelMediaDownload "CancelMediaDownload" or \ref agora_rtm.RtmClient.CancelMediaUpload "CancelMediaUpload" method call.
+		/// 报告 \ref agora_rtm.RtmClient.CancelMediaDownload "CancelMediaDownload" 或 \ref agora_rtm.RtmClient.CancelMediaUpload "CancelMediaUpload" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of the cancel request.</param>
-		/// <param name="code">Error Codes. See #CANCEL_MEDIA_ERR_CODE.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次取消请求的唯一 ID。</param>
+		/// <param name="code">错误码。详见 \ref agora_rtm.CANCEL_MEDIA_ERR_CODE "CANCEL_MEDIA_ERR_CODE"。</param>
 		public delegate void OnMediaCancelResultHandler(int id, Int64 requestId, CANCEL_MEDIA_ERR_CODE code);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.QueryPeersOnlineStatus "QueryPeersOnlineStatus" method call.
+		/// 报告 \ref agora_rtm.RtmClient.QueryPeersOnlineStatus "QueryPeersOnlineStatus" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="peersStatus">The online status of the peer. See PeerOnlineStatus.</param>
-		/// <param name="peerCount">The number of the queried peers.</param>
-		/// <param name="errorCode">Error Codes. See #QUERY_PEERS_ONLINE_STATUS_ERR.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="peersStatus">用户的在线状态。详见 \ref agora_rtm.QUERY_PEERS_ONLINE_STATUS_ERR "QUERY_PEERS_ONLINE_STATUS_ERR"。</param>
+		/// <param name="peerCount">指定用户的数量。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.QUERY_PEERS_ONLINE_STATUS_ERR "QUERY_PEERS_ONLINE_STATUS_ERR"。</param>
 		public delegate void OnQueryPeersOnlineStatusResultHandler(int id, Int64 requestId, PeerOnlineStatus[] peersStatus, int peerCount, QUERY_PEERS_ONLINE_STATUS_ERR errorCode);
 		
 		/// <summary>
-		/// Returns the result of the \ref agora_rtm.RtmClient.SubscribePeersOnlineStatus "SubscribePeersOnlineStatus" or \ref agora_rtm.RtmClient.UnsubscribePeersOnlineStatus	"UnsubscribePeersOnlineStatus" method call.
+		/// 报告 \ref agora_rtm.RtmClient.SubscribePeersOnlineStatus "SubscribePeersOnlineStatus" 或 \ref agora_rtm.RtmClient.UnsubscribePeersOnlineStatus	"UnsubscribePeersOnlineStatus" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes. See #PEER_SUBSCRIPTION_STATUS_ERR.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.PEER_SUBSCRIPTION_STATUS_ERR "PEER_SUBSCRIPTION_STATUS_ERR"。</param>
 		public delegate void OnSubscriptionRequestResultHandler(int id, Int64 requestId, PEER_SUBSCRIPTION_STATUS_ERR errorCode);
 		
 		/// <summary>
-		/// Returns the result of the \ref agora_rtm.RtmClient.QueryPeersBySubscriptionOption "QueryPeersBySubscriptionOption" method call.
+		/// 报告 \ref agora_rtm.RtmClient.QueryPeersBySubscriptionOption "QueryPeersBySubscriptionOption" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="peerIds">A user ID array of the specified users, to whom you subscribe.</param>
-		/// <param name="peerCount">Count of the peers.</param>
-		/// <param name="errorCode">Error Codes. See #QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="peerIds">用户 ID 列表。</param>
+		/// <param name="peerCount">某订阅类型被订阅的用户人数。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR "QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR"。</param>
 		public delegate void OnQueryPeersBySubscriptionOptionResultHandler(int id, Int64 requestId, string[] peerIds, int peerCount, QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR errorCode);
 		
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes. See #ATTRIBUTE_OPERATION_ERR.</param>
+		/// @cond not-for-doc
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.ATTRIBUTE_OPERATION_ERR "ATTRIBUTE_OPERATION_ERR".</param>
 		public delegate void OnSetLocalUserAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
+		/// @endcond
 		
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes. See #ATTRIBUTE_OPERATION_ERR.</param>
+		/// @cond not-for-doc
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.ATTRIBUTE_OPERATION_ERR "ATTRIBUTE_OPERATION_ERR"。</param>
 		public delegate void OnAddOrUpdateLocalUserAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
+		/// @endcond
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.DeleteLocalUserAttributesByKeys "DeleteLocalUserAttributesByKeys" method call.
+		/// 报告 \ref agora_rtm.RtmClient.DeleteLocalUserAttributesByKeys "DeleteLocalUserAttributesByKeys" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes. See #ATTRIBUTE_OPERATION_ERR.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.ATTRIBUTE_OPERATION_ERR "ATTRIBUTE_OPERATION_ERR"。</param>
 		public delegate void OnDeleteLocalUserAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.ClearLocalUserAttributes "ClearLocalUserAttributes" method call.
+		/// 报告 \ref agora_rtm.RtmClient.ClearLocalUserAttributes "ClearLocalUserAttributes" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes. See #ATTRIBUTE_OPERATION_ERR.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.ATTRIBUTE_OPERATION_ERR "ATTRIBUTE_OPERATION_ERR"。</param>
 		public delegate void OnClearLocalUserAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.GetUserAttributes "GetUserAttributes" or \ref agora_rtm.RtmClient.GetUserAttributesByKeys "GetUserAttributesByKeys" method call.
+		/// 报告 \ref agora_rtm.RtmClient.GetUserAttributes "GetUserAttributes" 或 \ref agora_rtm.RtmClient.GetUserAttributesByKeys "GetUserAttributesByKeys" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="userId">The user ID of the specified user.</param>
-		/// <param name="attributes">An array of the returned attributes. See \ref agora_rtm.RtmAttribute "RtmAttribute".</param>
-		/// <param name="numberOfAttributes">The total number of the user's attributes</param>
-		/// <param name="errorCode">Error Codes. See #ATTRIBUTE_OPERATION_ERR.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="userId">指定用户的用户 ID。</param>
+		/// <param name="attributes">返回的属性数组。详见 \ref agora_rtm.RtmAttribute "RtmAttribute"。</param>
+		/// <param name="numberOfAttributes">用户属性数组的长度。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.ATTRIBUTE_OPERATION_ERR "ATTRIBUTE_OPERATION_ERR"。</param>
 		public delegate void OnGetUserAttributesResultHandler(int id, Int64 requestId, string userId, RtmAttribute[] attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.SetChannelAttributes "SetChannelAttributes" method call.
+		/// 报告 \ref agora_rtm.RtmClient.SetChannelAttributes "SetChannelAttributes" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes. See #ATTRIBUTE_OPERATION_ERR.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.ATTRIBUTE_OPERATION_ERR "ATTRIBUTE_OPERATION_ERR"。</param>
 		public delegate void OnSetChannelAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
 		
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes.</param>
+		/// @cond not-for-doc
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="errorCode">错误码。</param>
 		public delegate void OnAddOrUpdateChannelAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
+		/// @endcond
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.DeleteChannelAttributesByKeys "DeleteChannelAttributesByKeys" method call.
+		/// 报告 \ref agora_rtm.RtmClient.DeleteChannelAttributesByKeys "DeleteChannelAttributesByKeys" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes. See #ATTRIBUTE_OPERATION_ERR.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.ATTRIBUTE_OPERATION_ERR "ATTRIBUTE_OPERATION_ERR"。</param>
 		public delegate void OnDeleteChannelAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.ClearChannelAttributes "ClearChannelAttributes" method call.
+		/// 报告 \ref agora_rtm.RtmClient.ClearChannelAttributes "ClearChannelAttributes" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes. See #ATTRIBUTE_OPERATION_ERR.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.ATTRIBUTE_OPERATION_ERR "ATTRIBUTE_OPERATION_ERR"。</param>
 		public delegate void OnClearChannelAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.GetChannelAttributes "GetChannelAttributes" or "GetChannelAttributesByKeys" method call.
+		/// 报告 \ref agora_rtm.RtmClient.GetChannelAttributes "GetChannelAttributes" 或 "GetChannelAttributesByKeys" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="attributes">An array of the returned channel attributes.</param>
-		/// <param name="numberOfAttributes">The total number of the attributes.</param>
-		/// <param name="errorCode">Error Codes. See #ATTRIBUTE_OPERATION_ERR.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="attributes">频道属性数组。</param>
+		/// <param name="numberOfAttributes">频道属性的条数。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.ATTRIBUTE_OPERATION_ERR "ATTRIBUTE_OPERATION_ERR".</param>
 		public delegate void OnGetChannelAttributesResultHandler(int id, Int64 requestId, RtmChannelAttribute[] attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode);
 		
 		/// <summary>
-		/// Reports the result of the \ref agora_rtm.RtmClient.GetChannelMemberCount "GetChannelMemberCount" method call.
+		/// 报告 \ref agora_rtm.RtmClient.GetChannelMemberCount "GetChannelMemberCount" 方法的调用结果。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="channelMemberCounts">An array of the channel member counts.</param>
-		/// <param name="channelCount">The total number of the channels.</param>
-		/// <param name="errorCode">Error Codes. See #GET_CHANNEL_MEMBER_COUNT_ERR_CODE.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="requestId">标识本次请求的的唯一 ID。</param>
+		/// <param name="channelMemberCounts">频道成员人数数组。</param>
+		/// <param name="channelCount">频道数量。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.GET_CHANNEL_MEMBER_COUNT_ERR_CODE "GET_CHANNEL_MEMBER_COUNT_ERR_CODE"。</param>
 		public delegate void OnGetChannelMemberCountResultHandler(int id, Int64 requestId, ChannelMemberCount[] channelMemberCounts , int channelCount, GET_CHANNEL_MEMBER_COUNT_ERR_CODE errorCode);
 		
 		/// <summary>
-		/// Occurs when the online status of the peers, to whom you subscribe, changes.
-		/// - When the subscription to the online status of specified peers succeeds, the SDK returns this callback to report the online status of peers, to whom you subscribe.
-		/// - When the online status of the peers, to whom you subscribe, changes, the SDK returns this callback to report whose online status has changed.
-		/// - If the online status of the peers, to whom you subscribe, changes when the SDK is reconnecting to the server, the SDK returns this callback to report whose online status has changed when successfully reconnecting to the server.
+		/// 被订阅用户在线状态改变回调。
+		/// - 首次订阅在线状态成功时，SDK 也会返回本回调，显示所有被订阅用户的在线状态。
+		/// - 每当被订阅用户的在线状态发生改变，SDK 都会通过该回调通知订阅方。
+		/// - 如果 SDK 在断线重连过程中有被订阅用户的在线状态发生改变，SDK 会在重连成功时通过该回调通知订阅方。
 		/// </summary>
-		/// <param name="id">The id of your engine</param>
-		/// <param name="peersStatus">An array of peers' online states. See PeerOnlineStatus. </param>
-		/// <param name="peerCount">Count of the peers, whose online status changes.</param>
+		/// <param name="id">引擎 ID</param>
+		/// <param name="peersStatus">用户在线状态列表。详见 \ref agora_rtm.PeerOnlineStatus "PeerOnlineStatus"。</param>
+		/// <param name="peerCount">在线状态发生变化的被订阅用户人数。</param>
 		public delegate void OnPeersOnlineStatusChangedHandler(int id, PeerOnlineStatus[] peersStatus, int peerCount);
 
 		public OnLoginSuccessHandler OnLoginSuccess;

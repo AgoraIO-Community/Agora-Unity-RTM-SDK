@@ -5,7 +5,7 @@ namespace agora_rtm {
     public enum COMMON_ERR_CODE {
           ERROR_NULL_PTR = -7
     }
-
+    /// @cond not-for-doc
     public enum INIT_ERR_CODE {
           
           /**
@@ -33,7 +33,7 @@ namespace agora_rtm {
            */
           INIT_ERR_INVALID_ARGUMENT = 4,
     };
-     
+    /// @endcond  
       
     /**
      @brief Error codes related to login.
@@ -81,7 +81,7 @@ namespace agora_rtm {
       LOGIN_ERR_NOT_AUTHORIZED = 7,
        
       /**
-       8: The user has already logged in or is logging in the Agora RTM system, or the user has not called the \ref agora::rtm::IRtmService::logout "logout" method to leave the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" state.
+       8: The user has already logged in or is logging in the Agora RTM system, or the user has not called the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" state.
        */
       LOGIN_ERR_ALREADY_LOGGED_IN = 8,
        
@@ -91,14 +91,16 @@ namespace agora_rtm {
       LOGIN_ERR_TIMEOUT = 9,
        
       /**
-       10: The call frequency of the \ref agora::rtm::IRtmService::login "login" method exceeds the limit of two queries per second.
+       10: The call frequency of the \ref agora_rtm.RtmClient.Login "Login" method exceeds the limit of two queries per second.
        */
       LOGIN_ERR_TOO_OFTEN = 10,
-        
+
+      /// @cond  
       /**
        101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
       */
       LOGIN_ERR_NOT_INITIALIZED = 101,
+      /// @endcond
     };
       
     /**
@@ -115,14 +117,16 @@ namespace agora_rtm {
        1: **RESERVED FOR FUTURE USE**
        */
       LOGOUT_ERR_REJECTED = 1,
-        
+
+      /// @cond 
       /**
        101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
        */
       LOGOUT_ERR_NOT_INITIALIZED = 101,
+      /// @endcond
         
       /**
-       102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before the user logs out of the Agora RTM system.
+       102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before the user logs out of the Agora RTM system.
        */
       LOGOUT_ERR_USER_NOT_LOGGED_IN = 102,
     };
@@ -166,14 +170,16 @@ namespace agora_rtm {
        6: The token is invalid.
        */
       RENEW_TOKEN_ERR_INVALID_TOKEN = 6,
-         
+      
+      /// @cond
       /**
        101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
        */
       RENEW_TOKEN_ERR_NOT_INITIALIZED = 101,
+      /// @endcond
         
       /**
-       102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before renewing the token.
+       102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before renewing the token.
        */
       RENEW_TOKEN_ERR_USER_NOT_LOGGED_IN = 102,
     };
@@ -186,39 +192,38 @@ namespace agora_rtm {
       /**
        1: The initial state. The SDK is disconnected from the Agora RTM system.
        
-       When the user calls the \ref agora::rtm::IRtmService::login "login" method, the SDK starts to log in the Agora RTM system, triggers the \ref agora::rtm::IRtmServiceEventHandler::onConnectionStateChanged "onConnectionStateChanged" callback, and switches to the \ref agora::rtm::CONNECTION_STATE_CONNECTING "CONNECTION_STATE_CONNECTING" state.
+       When the user calls the \ref agora_rtm.RtmClient.Login "Login" method, the SDK starts to log in the Agora RTM system, triggers the \ref agora_rtm.RtmClientEventHandler.OnConnectionStateChangedHandler "OnConnectionStateChangedHandler" callback, and switches to the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_CONNECTING "CONNECTION_STATE_CONNECTING" state.
        */
       CONNECTION_STATE_DISCONNECTED = 1,
         
       /**
        2: The SDK is logging in the Agora RTM system.
 
-       - If the user successfully logs in the Agora RTM system and receives the \ref agora::rtm::IRtmServiceEventHandler::onLoginSuccess "onLoginSuccess" callback, the SDK triggers the \ref agora::rtm::IRtmServiceEventHandler::onConnectionStateChanged "onConnectionStateChanged" callback and switches to the \ref agora::rtm::CONNECTION_STATE_CONNECTED "CONNECTION_STATE_CONNECTED" state.
-       - If the user fails to login the Agora RTM system and receives the \ref agora::rtm::IRtmServiceEventHandler::onLoginFailure "onLoginFailure" callback, the SDK triggers the \ref agora::rtm::IRtmServiceEventHandler::onConnectionStateChanged "onConnectionStateChanged" callback and switches to the \ref agora::rtm::CONNECTION_STATE_DISCONNECTED "CONNECTION_STATE_DISCONNECTED" state.
+       - If the user fails to login the Agora RTM system and receives the \ref agora_rtm.RtmClientEventHandler.OnLoginFailureHandler "OnLoginFailureHandler" callback, the SDK triggers the \ref agora_rtm.RtmClientEventHandler.OnConnectionStateChangedHandler "OnConnectionStateChangedHandler" callback and switches to the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_DISCONNECTED "CONNECTION_STATE_DISCONNECTED" state.
        */
       CONNECTION_STATE_CONNECTING = 2,
         
       /**
        3: The SDK has logged in the Agora RTM system.
 
-       - If the connection state between the SDK and the Agora RTM system is interrupted because of network issues, the SDK triggers the \ref agora::rtm::IRtmServiceEventHandler::onConnectionStateChanged "onConnectionStateChanged" callback and switches to the \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
-       - If the login is banned by the server because, for example, another instance logs in the Agora RTM system with the same user ID, the \ref agora::rtm::IRtmServiceEventHandler::onConnectionStateChanged "onConnectionStateChanged" callback is triggered, and the SDK is switched to the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" state.
-       - If the user calls the \ref agora::rtm::IRtmService::logout "logout" method to log out of the Agora RTM system and receives the \ref agora::rtm::IRtmServiceEventHandler::onLogout "onLogout" callback (error code = `LOGOUT_ERR_OK`), the SDK triggers the \ref agora::rtm::IRtmServiceEventHandler::onConnectionStateChanged "onConnectionStateChanged" callback and switches to the \ref agora::rtm::CONNECTION_STATE_DISCONNECTED "CONNECTION_STATE_DISCONNECTED" state.
+       - If the connection state between the SDK and the Agora RTM system is interrupted because of network issues, the SDK triggers the \ref agora_rtm.RtmClientEventHandler.OnConnectionStateChangedHandler "OnConnectionStateChangedHandler" callback and switches to the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
+       - If the login is banned by the server because, for example, another instance logs in the Agora RTM system with the same user ID, the \ref agora_rtm.RtmClientEventHandler.OnConnectionStateChangedHandler "OnConnectionStateChangedHandler" callback is triggered, and the SDK is switched to the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" state.
+       - If the user calls the \ref agora_rtm.RtmClient.Logout "Logout" method to log out of the Agora RTM system and receives the \ref agora_rtm.RtmClientEventHandler.OnLogoutHandler "OnLogoutHandler" callback (error code = `LOGOUT_ERR_OK`), the SDK triggers the \ref agora_rtm.RtmClientEventHandler.OnConnectionStateChangedHandler "OnConnectionStateChangedHandler" callback and switches to the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_DISCONNECTED "CONNECTION_STATE_DISCONNECTED" state.
        */
       CONNECTION_STATE_CONNECTED = 3,
         
       /**
        4: The connection state between the SDK and the Agora RTM system is interrupted due to network issues, and the SDK keeps re-logging in the Agora RTM system.
 
-       - If the SDK successfully re-logs in the Agora RTM system, the SDK triggers the \ref agora::rtm::IRtmServiceEventHandler::onConnectionStateChanged "onConnectionStateChanged" callback and switches to the \ref agora::rtm::CONNECTION_STATE_CONNECTED "CONNECTION_STATE_CONNECTED" state. The SDK automatically adds the user back to the channels he or she was in when the connection was interrupted, and synchronizes the local user's attributes with the server. 
-       - If the SDK cannot re-log in the Agora RTM system, it stays in the \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state and keeps re-logging in the system.
+       - If the SDK successfully re-logs in the Agora RTM system, the SDK triggers the \ref agora_rtm.RtmClientEventHandler.OnConnectionStateChangedHandler "OnConnectionStateChangedHandler" callback and switches to the \ref agora_rtm.RtmClientEventHandler.CONNECTION_STATE_CONNECTED "CONNECTION_STATE_CONNECTED" state. The SDK automatically adds the user back to the channels he or she was in when the connection was interrupted, and synchronizes the local user's attributes with the server. 
+       - If the SDK cannot re-log in the Agora RTM system, it stays in the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING " state and keeps re-logging in the system.
        */
       CONNECTION_STATE_RECONNECTING = 4,
         
       /**
        5: The SDK gives up logging in the Agora RTM system, mainly because another instance has logged in the Agora RTM system with the same user ID.
        
-       You must call the \ref agora::rtm::IRtmService::logout "logout" method to leave this state before calling the \ref agora::rtm::IRtmService::login "login" method again.
+       You must call the \ref agora_rtm.RtmClient.Logout "Logout" method to leave this state before calling the \ref agora_rtm.RtmClient.Login "Login" method again.
        */
       CONNECTION_STATE_ABORTED = 5,
     };
@@ -254,7 +259,7 @@ namespace agora_rtm {
       CONNECTION_CHANGE_REASON_INTERRUPTED = 5,
         
       /**
-       6: The user has called the \ref agora::rtm::IRtmService::logout "logout" method to log out of the Agora RTM system.
+       6: The user has called the \ref agora_rtm.RtmClient.Logout "Logout" method to log out of the Agora RTM system.
        */
       CONNECTION_CHANGE_REASON_LOGOUT = 6,
         
@@ -285,7 +290,7 @@ namespace agora_rtm {
       PEER_MESSAGE_ERR_FAILURE = 1,
         
       /**
-       2: A timeout occurs when sending the peer-to-peer message. The current timeout is set as 10 seconds. Possible reasons: The user is in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
+       2: A timeout occurs when sending the peer-to-peer message. The current timeout is set as 10 seconds. Possible reasons: The user is in the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
        */
       PEER_MESSAGE_ERR_SENT_TIMEOUT = 2,
         
@@ -300,7 +305,7 @@ namespace agora_rtm {
       PEER_MESSAGE_ERR_CACHED_BY_SERVER = 4,
         
      /**
-      5: The method call frequency exceeds the limit of (RTM SDK for Windows C++) 180 calls every three seconds or (RTM SDK for Linux C++) 1500 calls every three seconds, with channel and peer messages taken together..
+      5: The method call frequency exceeds the limit of 180 calls every three seconds, with channel and peer messages taken together.
       */
       PEER_MESSAGE_ERR_TOO_OFTEN = 5,
         
@@ -318,14 +323,16 @@ namespace agora_rtm {
        8: The message receiver‘s SDK is of an earlier version and hence cannot recognize this message.
        */
       PEER_MESSAGE_ERR_IMCOMPATIBLE_MESSAGE = 8,
-        
+     
+     /// @cond   
      /**
       101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
       */
       PEER_MESSAGE_ERR_NOT_INITIALIZED = 101,
+      /// @endcond
     
      /**
-      102: The sender does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before sending the peer-to-peer message.
+      102: The sender does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before sending the peer-to-peer message.
       */
       PEER_MESSAGE_ERR_USER_NOT_LOGGED_IN = 102,
     };
@@ -356,7 +363,7 @@ namespace agora_rtm {
       JOIN_CHANNEL_ERR_INVALID_ARGUMENT = 3,
         
       /**
-       4: A timeout occurs when joining the channel. The current timeout is set as five seconds. Possible reasons: The user is in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
+       4: A timeout occurs when joining the channel. The current timeout is set as five seconds. Possible reasons: The user is in the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING " state.
        */
       JOIN_CHANNEL_TIMEOUT = 4,
         
@@ -379,14 +386,16 @@ namespace agora_rtm {
        8: The frequency of joining the same channel exceeds two times every five seconds.
        */
       JOIN_CHANNEL_ERR_JOIN_SAME_CHANNEL_TOO_OFTEN = 8,
-        
+
+     /// @cond   
      /**
       101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
       */
       JOIN_CHANNEL_ERR_NOT_INITIALIZED = 101,
+      /// @endcond
         
      /**
-      102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before joining the channel.
+      102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before joining the channel.
       */
       JOIN_CHANNEL_ERR_USER_NOT_LOGGED_IN = 102,
     };
@@ -415,14 +424,16 @@ namespace agora_rtm {
        3: The user is not in the channel.
        */
       LEAVE_CHANNEL_ERR_NOT_IN_CHANNEL = 3,
-        
+
+      /// @cond  
       /**
        101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
        */
       LEAVE_CHANNEL_ERR_NOT_INITIALIZED = 101,
+      /// @endcond
     
       /**
-       102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before calling the \ref agora::rtm::IChannel::leave "leave" method.
+       102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before calling the \ref agora_rtm.RtmChannel.Leave "Leave" method.
        */
       LEAVE_CHANNEL_ERR_USER_NOT_LOGGED_IN = 102,
     };
@@ -459,12 +470,12 @@ namespace agora_rtm {
       CHANNEL_MESSAGE_ERR_FAILURE = 1,
              
       /**
-       2: The SDK does not receive a response from the server in 10 seconds. The current timeout is set as 10 seconds. Possible reasons: The user is in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
+       2: The SDK does not receive a response from the server in 10 seconds. The current timeout is set as 10 seconds. Possible reasons: The user is in the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING " state.
        */
       CHANNEL_MESSAGE_ERR_SENT_TIMEOUT = 2,
         
       /**
-       3: The method call frequency exceeds the limit of (RTM SDK for Windows C++) 180 calls every three seconds or (RTM SDK for Linux C++) 1500 calls every three seconds, with channel and peer messages taken together..
+       3: The method call frequency exceeds the limit of (RTM SDK for Windows C++) 180 calls every three seconds, with channel and peer messages taken together..
        */
       CHANNEL_MESSAGE_ERR_TOO_OFTEN = 3,
         
@@ -472,14 +483,16 @@ namespace agora_rtm {
        4: The message is null or exceeds 32 KB in length.
        */
       CHANNEL_MESSAGE_ERR_INVALID_MESSAGE = 4,
-        
+
+      /// @cond  
       /**
        101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
        */
       CHANNEL_MESSAGE_ERR_NOT_INITIALIZED = 101,
+      /// @endcond
     
       /**
-       102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before sending out a channel message.
+       102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before sending out a channel message.
        */
       CHANNEL_MESSAGE_ERR_USER_NOT_LOGGED_IN = 102,
     };
@@ -505,7 +518,7 @@ namespace agora_rtm {
       GET_MEMBERS_ERR_REJECTED = 2,
         
       /**
-       3: A timeout occurs when retrieving a member list of the channel. The current timeout is set as five seconds. Possible reasons: The user is in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
+       3: A timeout occurs when retrieving a member list of the channel. The current timeout is set as five seconds. Possible reasons: The user is in the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING " state.
        */
       GET_MEMBERS_ERR_TIMEOUT = 3,
         
@@ -518,14 +531,16 @@ namespace agora_rtm {
        5: The user is not in channel.
        */
       GET_MEMBERS_ERR_NOT_IN_CHANNEL = 5,
-        
+
+      /// @cond  
       /**
        101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
        */
       GET_MEMBERS_ERR_NOT_INITIALIZED = 101,
+      /// @endcond
         
       /**
-       102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before retrieving a member list.
+       102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before retrieving a member list.
        */
       GET_MEMBERS_ERR_USER_NOT_LOGGED_IN = 102,
     };
@@ -556,22 +571,24 @@ namespace agora_rtm {
       QUERY_PEERS_ONLINE_STATUS_ERR_REJECTED = 3,
         
       /**
-       4: The SDK fails to receive a response from the server in 10 seconds. The current timeout is set as 10 seconds. Possible reasons: The user is in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
+       4: The SDK fails to receive a response from the server in 10 seconds. The current timeout is set as 10 seconds. Possible reasons: The user is in the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING " state.
        */
       QUERY_PEERS_ONLINE_STATUS_ERR_TIMEOUT = 4,
         
       /**
-       5: The method call frequency exceeds the limit of (RTM SDK for Windows C++) 10 calls every five seconds or (RTM SDK for Linux C++) 100 calls every five seconds.
+       5: The method call frequency exceeds the limit of (RTM SDK for Windows C++) 10 calls every five seconds.
        */
       QUERY_PEERS_ONLINE_STATUS_ERR_TOO_OFTEN = 5,
-        
+
+      /// @cond  
       /**
        101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
        */
       QUERY_PEERS_ONLINE_STATUS_ERR_NOT_INITIALIZED = 101,
+      /// @endcond
     
       /**
-       102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before querying the online status.
+       102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before querying the online status.
        */
       QUERY_PEERS_ONLINE_STATUS_ERR_USER_NOT_LOGGED_IN = 102,
     };
@@ -633,7 +650,7 @@ namespace agora_rtm {
       PEER_SUBSCRIPTION_STATUS_ERR_REJECTED = 3,
 
       /**
-       4: The SDK fails to receive a response from the server within 10 seconds. The current timeout is set as 10 seconds. Possible reasons: The user is in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
+       4: The SDK fails to receive a response from the server within 10 seconds. The current timeout is set as 10 seconds. Possible reasons: The user is in the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING " state.
        */
       PEER_SUBSCRIPTION_STATUS_ERR_TIMEOUT = 4,
 
@@ -646,14 +663,16 @@ namespace agora_rtm {
        6: The number of peers, to whom you subscribe, exceeds the limit of 512.
        */
       PEER_SUBSCRIPTION_STATUS_ERR_OVERFLOW = 6,
-
+      
+      /// @cond
       /**
        101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
        */
       PEER_SUBSCRIPTION_STATUS_ERR_NOT_INITIALIZED = 101,
+      /// @endcond
 
       /**
-       102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before this operation.
+       102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before this operation.
        */
       PEER_SUBSCRIPTION_STATUS_ERR_USER_NOT_LOGGED_IN = 102,
     };
@@ -674,7 +693,7 @@ namespace agora_rtm {
       QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR_FAILURE = 1,
 
       /**
-       2: The SDK fails to receive a response from the server within 5 seconds. The current timeout is set as 5 seconds. Possible reasons: The user is in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
+       2: The SDK fails to receive a response from the server within 5 seconds. The current timeout is set as 5 seconds. Possible reasons: The user is in the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING " state.
        */
       QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR_TIMEOUT = 2,
 
@@ -682,14 +701,16 @@ namespace agora_rtm {
        3: The method call frequency exceeds the limit of 10 queries every five seconds.
        */
       QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR_TOO_OFTEN = 3,
-
+      
+      /// @cond
       /**
        101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
        */
       QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR_NOT_INITIALIZED = 101,
+      /// @endcond
 
       /**
-       102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before the query.
+       102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before the query.
        */
       QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR_USER_NOT_LOGGED_IN = 102,
     };
@@ -730,10 +751,9 @@ namespace agora_rtm {
         /**
          5: The method call frequency exceeds the limit.
          
-         - For \ref agora::rtm::IRtmService::setLocalUserAttributes "setLocalUserAttributes", \ref agora::rtm::IRtmService::addOrUpdateLocalUserAttributes "addOrUpdateLocalUserAttributes", \ref agora::rtm::IRtmService::deleteLocalUserAttributesByKeys "deleteLocalUserAttributesByKeys" and \ref agora::rtm::IRtmService::clearLocalUserAttributes "clearLocalUserAttributes" taken together: the maximum call frequency is (RTM SDK for Windows C++) 10 calls every five seconds or (RTM SDK for Linux C++) 100 calls every five seconds.
-         - For \ref agora::rtm::IRtmService::getUserAttributes "getUserAttributes" and \ref agora::rtm::IRtmService::getUserAttributesByKeys "getUserAttributesByKeys" taken together, the maximum call frequency is (RTM SDK for Windows C++) 40 calls every five seconds or (RTM SDK for Linux C++) 400 calls every five seconds.
-         - For \ref agora::rtm::IRtmService::setChannelAttributes "setChannelAttributes", \ref agora::rtm::IRtmService::addOrUpdateChannelAttributes "addOrUpdateChannelAttributes", \ref agora::rtm::IRtmService::deleteChannelAttributesByKeys "deleteChannelAttributesByKeys" and \ref agora::rtm::IRtmService::clearChannelAttributes "clearChannelAttributes" taken together: the maximum call frequency is (RTM SDK for Windows C++) 10 calls every five seconds or (RTM SDK for Linux C++) 100 calls every five seconds.
-         - For \ref agora::rtm::IRtmService::getChannelAttributes "getChannelAttributes" and \ref agora::rtm::IRtmService::getChannelAttributesByKeys "getChannelAttributesByKeys" taken together, the maximum call frequency is (RTM SDK for Windows C++) 10 calls every five seconds or (RTM SDK for Linux C++) 400 calls every five seconds.
+         - For \ref agora_rtm.RtmClient.GetUserAttributes "GetUserAttributes" and \ref agora_rtm.RtmClient.GetUserAttributesByKeys "GetUserAttributesByKeys" taken together, the maximum call frequency is 40 calls every five seconds.
+         - For \ref agora_rtm.RtmClient.SetChannelAttributes "SetChannelAttributes", \ref agora_rtm.RtmClient.DeleteChannelAttributesByKeys "DeleteChannelAttributesByKeys" and \ref agora_rtm.RtmClient.ClearChannelAttributes "ClearChannelAttributes" taken together: the maximum call frequency is 10 calls every five seconds.
+         - For \ref agora_rtm.RtmClient.GetChannelAttributes "GetChannelAttributes" and \ref agora_rtm.RtmClient.GetChannelAttributesByKeys "GetChannelAttributesByKeys" taken together, the maximum call frequency is 10 calls every five seconds.
          */
         ATTRIBUTE_OPERATION_ERR_TOO_OFTEN = 5,
         
@@ -743,17 +763,19 @@ namespace agora_rtm {
         ATTRIBUTE_OPERATION_ERR_USER_NOT_FOUND = 6,
         
         /**
-         7: A timeout occurs during the attribute operation. The current timeout is set as five seconds. Possible reasons: The user is in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
+         7: A timeout occurs during the attribute operation. The current timeout is set as five seconds. Possible reasons: The user is in the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING " state.
          */
         ATTRIBUTE_OPERATION_ERR_TIMEOUT = 7,
         
+        /// @cond
         /**
          101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
          */
         ATTRIBUTE_OPERATION_ERR_NOT_INITIALIZED = 101,
+        /// @endcond
         
         /**
-         102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before the attribute operation.
+         102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before the attribute operation.
          */
         ATTRIBUTE_OPERATION_ERR_USER_NOT_LOGGED_IN = 102,
     };
@@ -792,14 +814,16 @@ namespace agora_rtm {
          5:@p channelCount is greater than 32. 
          */
         GET_CHANNEL_MEMBER_COUNT_ERR_EXCEED_LIMIT = 5,
-         
+
+        /// @cond 
         /**
          101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
          */
         GET_CHANNEL_MEMBER_COUNT_ERR_NOT_INITIALIZED = 101,
+        /// @endcond
         
         /**
-         102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before this operation.
+         102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before this operation.
          */
         GET_CHANNEL_MEMBER_COUNT_ERR_USER_NOT_LOGGED_IN = 102,
     };
@@ -840,18 +864,20 @@ namespace agora_rtm {
           /**
            6: The file or image download task is aborted for either of the following reasons:
 
-           - The user is in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" state. 
+           - The user is in the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" state. 
            - The user has cancelled the download task.
            */
           DOWNLOAD_MEDIA_ERR_INTERRUPTED = 6,
           
+          /// @cond
           /**
            101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
            */
           DOWNLOAD_MEDIA_ERR_NOT_INITIALIZED = 101,
+          /// @endcond
           
           /**
-           102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before this operation.
+           102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before this operation.
            */
           DOWNLOAD_MEDIA_ERR_NOT_LOGGED_IN = 102,
     };
@@ -892,18 +918,20 @@ namespace agora_rtm {
           /**
            6: The file or image upload task is aborted for either of the following reasons:
            
-           - The user in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" state. 
+           - The user in the \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" state. 
            - The user has cancelled the upload task.
            */
           UPLOAD_MEDIA_ERR_INTERRUPTED = 6,
           
+          /// @cond
           /**
            101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
            */
           UPLOAD_MEDIA_ERR_NOT_INITIALIZED = 101,
+          /// @endcond
           
           /**
-           102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before this operation.
+           102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before this operation.
            */
           UPLOAD_MEDIA_ERR_NOT_LOGGED_IN = 102,
       };
@@ -927,13 +955,15 @@ namespace agora_rtm {
            */
           CANCEL_MEDIA_ERR_NOT_EXIST = 2,
           
+          /// @cond
           /**
            101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
            */
           CANCEL_MEDIA_ERR_NOT_INITIALIZED = 101,
+          /// @endcond
           
           /**
-           102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before this operation.
+           102: The user does not call the \ref agora_rtm.RtmClient.Login "Login" method, or the method call of \ref agora_rtm.RtmClient.Login "Login" does not succeed before this operation.
            */
           CANCEL_MEDIA_ERR_NOT_LOGGED_IN = 102,
       };
@@ -966,7 +996,7 @@ namespace agora_rtm {
         MESSAGE_TYPE_IMAGE = 4,
     };
 
-        /**
+     /**
      @brief The data structure holding an RTM user and the user's online status.
      */
     public struct PeerOnlineStatus
@@ -978,7 +1008,7 @@ namespace agora_rtm {
       public string peerId;
         
       /**
-       @deprecated Deprecated as of v1.2.0. Use \ref agora::rtm::PeerOnlineStatus::onlineState "onlineState" instead.
+       @deprecated Use \ref agora_rtm.PeerOnlineStatus.onlineState "onlineState" instead.
        
        The online status of the peer.
        
@@ -991,13 +1021,13 @@ namespace agora_rtm {
        The online state of the peer. See #PEER_ONLINE_STATE.
        
        @note
-       - The server will never return the `unreachable` state, if you <i>query</i> the online status of specified peers (\ref agora::rtm::IRtmService::queryPeersOnlineStatus "queryPeersOnlineStatus"). See also: \ref agora::rtm::IRtmServiceEventHandler::onQueryPeersOnlineStatusResult "onQueryPeersOnlineStatusResult".
-       - The server may return the `unreachable` state, if you <i>subscribe to</i> the online status of specified peers (\ref agora::rtm::IRtmService::subscribePeersOnlineStatus "subscribePeersOnlineStatus"). See also: \ref agora::rtm::IRtmServiceEventHandler::onPeersOnlineStatusChanged "onPeersOnlineStatusChanged".
+       - The server will never return the `unreachable` state, if you <i>query</i> the online status of specified peers (\ref agora_rtm.RtmClient.QueryPeersOnlineStatus "QueryPeersOnlineStatus"). See also: \ref agora_rtm.RtmClientEventHandler.OnQueryPeersOnlineStatusResultHandler "OnQueryPeersOnlineStatusResultHandler".
+       - The server may return the `unreachable` state, if you <i>subscribe to</i> the online status of specified peers (\ref agora_rtm.RtmClient.SubscribePeersOnlineStatus "SubscribePeersOnlineStatus"). See also: \ref agora_rtm.RtmClientEventHandler.OnPeersOnlineStatusChangedHandler "OnPeersOnlineStatusChangedHandler".
        */
       public PEER_ONLINE_STATE onlineState;
     };
 
-        /**
+     /**
      @brief A data structure representing the upload ratio or download ratio.
      */
     public struct MediaOperationProgress
@@ -1012,9 +1042,7 @@ namespace agora_rtm {
         public Int64 currentSize;
     };
 
-     /**
-      @brief Data structure holding channel attribute-specific options.
-      */
+     
     public struct ChannelAttributeOptions{  
         /**
          Indicates whether or not to notify all channel members of a channel attribute change.
@@ -1045,7 +1073,7 @@ namespace agora_rtm {
         public string value;
     };
 
-        /**
+     /**
      @brief The data structure holding a channel ID and the current channel member count.
      */  
     public struct ChannelMemberCount
@@ -1054,7 +1082,6 @@ namespace agora_rtm {
        The ID of the channel.
        */
       public string channelId;
-       // count of channel, 0 if channel not found.
       /**
        The current member count of the channel.
 
@@ -1243,7 +1270,24 @@ namespace agora_rtm {
     };
 
     public struct SendMessageOptions {
+      
+      /// <summary>
+		  /// Set the message as an offline message.
+		  /// @note This setting applies to the peer-to-peer message only, not to the channel message.
+		  /// </summary>
+		  /// <returns>
+      /// - true: Set the message as an offline message.
+      /// - false: (default) Do not set the message as an offline message.
+      /// </returns>
       public bool enableOfflineMessaging;
+
+      /// <summary>
+		  /// **PRIVATE BETA** Save the message to message history.
+		  /// </summary>
+		  /// <returns>
+      /// - true: Save the message to message history.
+      /// - false: (default) Do not save the message to message history.
+      /// </returns>
       public bool enableHistoricalMessaging;
     };
 }
