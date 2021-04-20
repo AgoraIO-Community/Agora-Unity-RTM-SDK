@@ -25,10 +25,10 @@ namespace agora_rtm {
 		public int _Length = 0;
 
         /// <summary>
-		/// Retrieves the unique ID of the message.
+		/// 获取消息 ID。
 		/// </summary>
-		/// <returns>The message ID.</returns>
-   		public Int64 GetMessageId() {
+		/// <returns>消息的唯一 ID，在消息对象创建时自动生成。</returns>
+		public Int64 GetMessageId() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE) 
 				return _MessageId;
 
@@ -41,9 +41,9 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Retrieves the message type.
+		/// 获取消息类型。
 		/// </summary>
-		/// <returns>The message type. See #MESSAGE_TYPE.</returns>
+		/// <returns>消息类型。详见 #MESSAGE_TYPE 。</returns>
 		public MESSAGE_TYPE GetMessageType() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _MessageType;
@@ -57,9 +57,10 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Sets the content of the text message or the text description of the raw message.
+		/// 设置文本消息正文或自定义二进制消息的文字描述。
+		/// @note 最大长度为 32 KB。如果消息为自定义二进制消息，请确保文字描述和二进制消息的总大小不超过 32 KB。
 		/// </summary>
-		/// <param name="text">The content of the text message or the text description of the raw message.</param>
+		/// <param name="text">待设置的消息正文。</param>
 		public void SetText(string text) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -76,9 +77,9 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Retrieves the content of the text message or the text description of the raw message.
+		/// 获取文本消息正文或自定义二进制消息的文字描述。
 		/// </summary>
-		/// <returns>The content of the text message or the text description of the raw message.</returns>
+		/// <returns>文本消息正文或自定义二进制消息的文字描述。</returns>
 		public string GetText() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _MessageText;
@@ -97,9 +98,9 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Retrieves the payload of the raw message.
+		/// 获取自定义消息在内存中的首地址。
 		/// </summary>
-		/// <returns>The payload of the raw message.</returns>
+		/// <returns>自定义消息在内存中的首地址。</returns>
 		public byte[] GetRawMessageData() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _RawMessageData;
@@ -115,9 +116,9 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		///  Get the length of the raw message.
+		/// 获取自定义消息的长度。
 		/// </summary>
-		/// <returns>The length of the raw message</returns>
+		/// <returns>自定义消息的长度（字节）。</returns>
 		public int GetRawMessageLength() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Length;
@@ -131,12 +132,12 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Allows the receiver to retrieve the timestamp of when the messaging server receives this message.
-		/// @note
-		/// - You can infer from the returned timestamp the approximate time as to when this message was sent.
-		/// - The returned timestamp is on a millisecond time-scale. It is for demonstration purposes only, not for strict ordering of messages.
+		/// 供消息接收者获取消息服务器接收到消息的时间戳。
+		/// @note 
+		/// - 你不能设置时间戳，但是你可以从该时间戳推断出消息的大致发送时间。
+		/// - 时间戳仅用于展示，不建议用于消息的严格排序。
 		/// </summary>
-		/// <returns>The timestamp (ms) of when the messaging server receives this message.</returns>
+		/// <returns>消息服务器接收到消息的时间戳（毫秒）。</returns>
 		public Int64 GetServerReceiveTs() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Ts;
@@ -150,14 +151,14 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Allows the receiver to check whether this message has been cached on the server (Applies to peer-to-peer message only).
-        /// @note 
-		/// - This method returns false if a message is not cached by the server. Only if the sender sends the message as an offline message (sets \ref agora_rtm.SendMessageOptions.enableOfflineMessaging "enableOfflineMessaging" as true) when the specified user is offline, does the method return true when the user is back online.
-		/// - For now we only cache 200 offline messages for up to seven days for each receiver. When the number of the cached messages reaches this limit, the newest message overrides the oldest one.
+		/// 供消息接收者检查消息是否在服务端被保存过（仅适用于点对点消息）。
+		/// @note
+		/// - 如果消息没有被消息服务器保存过，该方法将返回 false。也就是说：只有当消息发送者通过设置 \ref agora_rtm.SendMessageOptions.enableOfflineMessaging "enableOfflineMessaging=true" 发送离线消息且在发送离线消息时对端不在线，对端重新上线后调用该方法会返回 true。
+		/// - 目前我们只为每个接收端保存 200 条离线消息最长七天。当保存的离线消息超出限制时，最老的信息将会被最新的消息替换。
 		/// </summary>
 		/// <returns>
-		///  - true: This message has been cached on the server (the server caches this message and resends it to the receiver when he/she is back online).
-		///  - false: This message has not been cached on the server.
+		///  - true: 被保存过（消息服务器保存了该条消息且在对端重新上线后重新发送成功）。
+		///  - false: 未被保存过。
 		/// </returns>
 		public bool IsOfflineMessage() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
@@ -172,7 +173,7 @@ namespace agora_rtm {
 		}
         
 		/// <summary>
-		/// Releases all resources used by the IMessage instance.
+		/// 释放当前 IMessage 实例使用的所有资源。
 		/// </summary>
 		protected void Release() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
