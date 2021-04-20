@@ -14,108 +14,112 @@ namespace agora_rtm {
         private int currentIdIndex = 0;
 
 		/// <summary>
-		/// Occurs when successfully joining a channel.
-		/// When the local user calls the \ref agora_rtm.RtmChannel.Join "Join" method and successfully joins the channel:
-		/// - The SDK triggers this callback;
-		/// - All remote users in the channel receive the \ref agora_rtm.RtmChannelEventHandler.OnMemberJoinedHandler "OnMemberJoinedHandler" callback.
+		/// 加入频道成功回调。
+		/// 本地用户调用 \ref agora_rtm.RtmChannel.Join "Join" 方法成功加入频道后：
+		/// - SDK 触发此回调；
+		/// - 频道内所有远端用户收到 \ref agora_rtm.RtmChannelEventHandler.OnMemberJoinedHandler "OnMemberJoinedHandler" 回调。
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
+		/// <param name="id">#RtmChannelEventHandler ID</param>
         public delegate void OnJoinSuccessHandler(int id);
 
 		/// <summary>
-		/// Occurs when failing to join a channel.
-		/// The local user receives this callback when the \ref agora_rtm.RtmChannel.Join "Join" method call fails.
+		/// 加入频道失败回调。
+		/// SDK 会在用户 \ref agora_rtm.RtmChannel.Join "Join" 方法失败后触发此回调。
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="errorCode">The error code. See #JOIN_CHANNEL_ERR.</param>
+		/// <param name="id">#RtmChannelEventHandler ID</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.JOIN_CHANNEL_ERR "JOIN_CHANNEL_ERR"。</param>
         public delegate void OnJoinFailureHandler(int id, JOIN_CHANNEL_ERR errorCode);
         
 		/// <summary>
-		/// Returns the result of the leave method call.
+		/// 离开频道回调。
 		/// </summary>
-		/// <param name="id">the ID of the RtmChannelEventHandler</param>
-		/// <param name="errorCode">The error code. See #LEAVE_CHANNEL_ERR. </param>
+		/// <param name="id">#RtmChannelEventHandler ID</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.LEAVE_CHANNEL_ERR "LEAVE_CHANNEL_ERR"。</param>
 		public delegate void OnLeaveHandler(int id, LEAVE_CHANNEL_ERR errorCode);
         
 		/// <summary>
-		/// Occurs when receiving a channel message.
+		/// 收到频道消息回调。
+		/// 当远端用户调用 \ref agora_rtm.RtmChannel.SendMessage "SendMessage" 方法成功发送频道消息后，在相同频道的本地用户会收到此回调。
 		/// </summary>
-		/// <param name="id">the ID of the RtmChannelEventHandler</param>
-		/// <param name="userId">the ID of the message sender.</param>
-		/// <param name="message">The received channel message. See \ref agora_rtm.IMessage "IMessage".</param>
+		/// <param name="id">#RtmChannelEventHandler ID</param>
+		/// <param name="userId">消息发送者的用户 ID。</param>
+		/// <param name="message">接收到的频道消息内容。详见 \ref agora_rtm.IMessage "IMessage"。</param>
 		public delegate void OnMessageReceivedHandler(int id, string userId, TextMessage message);
         
 		/// <summary>
-		/// Occurs when receiving a channel image message.
+		/// 收到频道图片消息回调。
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="userId">the ID of the message sender.</param>
-		/// <param name="message">The received channel image message. See \ref agora_rtm.ImageMessage "ImageMessage".</param>
+		/// <param name="id">#RtmChannelEventHandler ID</param>
+		/// <param name="userId">消息发送者的用户 ID。</param>
+		/// <param name="message">接收到的频道消息内容。详见 \ref agora_rtm.ImageMessage "ImageMessage"。</param>
 		public delegate void OnImageMessageReceivedHandler(int id, string userId, ImageMessage message);
         
 		/// <summary>
-		/// Occurs when receiving a channel file message.
+		/// 收到频道文件消息回调。
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="userId">The the ID of the message sender.</param>
-		/// <param name="message">The received channel file message. See \ref agora_rtm.FileMessage "FileMessage".</param>
+		/// <param name="id">#RtmChannelEventHandler ID</param>
+		/// <param name="userId">消息发送者的用户 ID。</param>
+		/// <param name="message">接收到的频道消息内容。详见 \ref agora_rtm.FileMessage "FileMessage"。</param>
 		public delegate void OnFileMessageReceivedHandler(int id, string userId, FileMessage message);
         
 		/// <summary>
-		/// Returns the result of the \ref agora_rtm.RtmChannel.SendMessage "SendMessage" method call.
+		/// 报告 \ref agora_rtm.RtmChannel.SendMessage "SendMessage" 方法的调用结果。
+	    /// 本地用户调用 \ref agora_rtm.RtmChannel.SendMessage "SendMessage" 方法成功发送频道消息后：
+		/// - SDK 触发此回调；
+		/// - 频道内所有远端用户收到 #OnMessageReceived 回调。
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="messageId">the ID of the sent channel message.</param>
-		/// <param name="errorCode">The error codes. See #CHANNEL_MESSAGE_ERR_CODE.</param>
+		/// <param name="id">#RtmChannelEventHandler ID</param>
+		/// <param name="messageId">频道消息的 ID。</param>
+		/// <param name="errorCode">错误码。详见 \ref agora_rtm.CHANNEL_MESSAGE_ERR_CODE "CHANNEL_MESSAGE_ERR_CODE"。</param>
 		public delegate void OnSendMessageResultHandler(int id, Int64 messageId, CHANNEL_MESSAGE_ERR_CODE errorCode);
         
 		/// <summary>
-		/// Occurs when a remote user joins the channel.
-		/// When a remote user calls the \ref agora_rtm.RtmChannel.Join	"Join" method and receives the #OnJoinSuccessHandler callback (successfully joins the channel), the local user receives this callback.
-		/// @note This callback is disabled when the number of the channel members exceeds 512.
+		/// 远端用户加入频道回调。
+		/// 当有远端用户调用 \ref agora_rtm.RtmChannel.Join "Join" 方法加入频道并收到 #OnJoinSuccessHandler 回调时，在相同频道的本地用户会收到此回调。
+		/// note 频道人数超过 512 人时后台会关闭上下线通知。
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="member">The user joining the channel. See ChannelMemberCount.</param>
+		/// <param name="id">#RtmChannelEventHandler ID</param>
+		/// <param name="member">加入频道的远端用户。详见 \ref agora_rtm.ChannelMemberCount "ChannelMember"。</param>
 		public delegate void OnMemberJoinedHandler(int id, RtmChannelMember member);
         
 		/// <summary>
-		/// Occurs when a remote member leaves the channel.
-		/// When a remote member in the channel calls the \ref agora_rtm.RtmChannel.Leave "Leave" method and receives the the #OnLeaveHandler (LEAVE_CHANNEL_ERR_OK) callback, the local user receives this callback.
-		/// @note This callback is disabled when the number of the channel members exceeds 512.
+		/// 频道成员离开频道回调。
+		/// 当有频道成员调用 \ref agora_rtm.RtmChannel.Leave "Leave" 方法离开频道并收到 #OnLeaveHandler (LEAVE_CHANNEL_ERR_OK) 回调时，在相同频道的本地用户会收到此回调。
+		/// @note 频道人数超过 512 人时后台会关闭上下线通知。
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="member">The channel member that leaves the channel. See \ref agora_rtm.RtmChannelMember "ChannelMember".</param>
+		/// <param name="id">#RtmChannelEventHandler ID</param>
+		/// <param name="member">离开频道的频道成员。详见 \ref agora_rtm.RtmChannelMember "ChannelMember"。</param>
 		public delegate void OnMemberLeftHandler(int id, RtmChannelMember member);
         
 		/// <summary>
-		/// Returns the result of the \ref agora_rtm.RtmChannel.GetMembers "GetMembers" method call.
-		/// When the method call succeeds, the SDK returns the member list of the channel.
-		/// @note 
+		/// 报告 \ref agora_rtm.RtmChannel.GetMembers "GetMembers" 方法的调用结果。
+		/// 当方法调用成功时，SDK 会返回 \ref agora_rtm.RtmChannel "RtmChannel" 频道成员列表。
+		/// @note 该方法的调用频率上限为每 2 秒 5 次。
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="members">The member list. See \ref agora_rtm.RtmChannel "RtmChannel".</param>
-		/// <param name="userCount">The number of members.</param>
-		/// <param name="errorCode">Error code. See #GET_MEMBERS_ERR.</param>
+		/// <param name="id">#RtmChannelEventHandler ID</param>
+		/// <param name="members">频道成员列表。详见 \ref agora_rtm.RtmChannel "RtmChannel"。</param>
+		/// <param name="userCount">频道成员数量。</param>
+		/// <param name="errorCode">错误代码。详见 \ref agora_rtm.GET_MEMBERS_ERR "GET_MEMBERS_ERR"。</param>
 		public delegate void OnGetMembersHandler(int id, RtmChannelMember[] members, int userCount, GET_MEMBERS_ERR errorCode);
         
 		/// <summary>
-		/// Occurs when channel attributes are updated, and returns all attributes of the channel.
-		/// @note This callback is enabled only when the user, who updates the attributes of the channel, sets \ref agora_rtm.ChannelAttributeOptions.enableNotificationToChannelMembers "enableNotificationToChannelMembers" as `true`. Also note that this flag is valid only within the current channel attribute method call.
+		/// 频道属性更新回调。报告所在频道的所有属性。
+		/// @note 只有当频道属性更新者将 \ref agora_rtm.ChannelAttributeOptions.enableNotificationToChannelMembers "enableNotificationToChannelMembers" 设为 `true` 后，该回调才会被触发。请注意：该标志位为一次性标志位，仅对当前频道属性操作有效。
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="attributesList">All attribute of this channel.</param>
-		/// <param name="numberOfAttributes">The total number of the channel attributes.</param>
+		/// <param name="id">#RtmChannelEventHandler ID</param>
+		/// <param name="attributesList">当前频道的所有属性。</param>
+		/// <param name="numberOfAttributes">频道属性的条数。</param>
 		public delegate void OnAttributesUpdatedHandler(int id, RtmChannelAttribute[] attributesList, int numberOfAttributes);
         
 		/// <summary>
-		/// Occurs when the number of the channel members changes, and returns the new number.
-		/// @note
-		/// - When the number of channel members ≤ 512, the SDK returns this callback when the number changes at the frequency of once per second.
-		/// - When the number of channel members exceeds 512, the SDK returns this callback when the number changes at the frequency of once every three seconds.
-		/// - You will receive this callback when successfully joining an RTM channel, so Agora recommends implementing this callback to receive timely updates on the number of the channel members.
+		/// 频道成员人数更新回调。报告最新频道成员人数。
+		/// @note SDK 会在频道成员人数更新时返回该回调：
+		/// - 频道成员人数 ≤ 512 时，回调触发频率为每秒 1 次。
+		/// - 频道成员人数超过 512 时，回调触发频率为每 3 秒 1 次。
+		/// - 用户在成功加入频道时会收到该回调。你可以通过监听该回调获取加入频道时的频道成员人数和后继人数更新。
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="memberCount">Member count of this channel.</param>
+		/// <param name="id">#RtmChannelEventHandler ID</param>
+		/// <param name="memberCount">最新频道成员人数。</param>
 		public delegate void OnMemberCountUpdatedHandler(int id, int memberCount);
 
         public OnJoinSuccessHandler OnJoinSuccess;

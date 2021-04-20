@@ -21,7 +21,7 @@ namespace agora_rtm {
 		}
         
 		/// <summary>
-		/// Allows the caller to get the User ID of the callee.
+		/// 供主叫获取被叫的用户 ID。
 		/// </summary>
 		public string GetCalleeId() {
 			if (_localInvitationPtr == IntPtr.Zero)
@@ -38,9 +38,9 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Allows the caller to set the call invitation content.
+		/// 供主叫设置呼叫邀请内容。
 		/// </summary>
-		/// <param name="content">The content of the call invitation. The `content` must not exceed 8 KB in length if encoded in UTF-8.</param>
+		/// <param name="content">邀请响应。若编码为 UTF-8， `content` 的对应的字节长度不得超过 8 KB。</param>
 		public void SetContent(string content) {
 			if (_localInvitationPtr == IntPtr.Zero)
 			{
@@ -51,8 +51,7 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Allows the caller to get the call invitation content.
-		/// @note The caller sets the call invitation content using the #SetContent method.
+		/// 供主叫获取自己通过 #SetContent 方法设置的呼叫邀请内容
 		/// </summary>
 		public string GetContent() {
 			if (_localInvitationPtr == IntPtr.Zero)
@@ -69,10 +68,10 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Sets the channel ID.
-		/// @note To intercommunicate with the legacy Agora Signaling SDK, you MUST set the channel ID. However, even if the callee successfully accepts the call invitation, the Agora RTM SDK does not join the channel of the specified channel ID.
+		/// 设置频道 ID。
+		/// @note 与老信令 SDK 互通时你必须设置频道 ID。不过即使在被叫成功接受呼叫邀请后，Agora RTM SDK 也不会把主叫加入指定频道。
 		/// </summary>
-		/// <param name="channelId">The channel ID to be set.</param>
+		/// <param name="channelId">频道 ID。</param>
 		public void SetChannelId(string channelId) {
 			if (_localInvitationPtr == IntPtr.Zero)
 			{
@@ -83,7 +82,7 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Gets the channel ID.
+		/// 获取频道 ID。
 		/// </summary>
 		public string GetChannelId() {
 			if (_localInvitationPtr == IntPtr.Zero)
@@ -100,8 +99,7 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Allows the caller to get the callee's response to the call invitation.
-		/// @note The callee sets his/her response using the \ref agora_rtm.RemoteInvitation.SetResponse "SetResponse" method.
+		/// 供主叫获取被叫通过 \ref agora_rtm.RemoteInvitation.SetResponse "SetResponse" 方法设置的呼叫邀请响应。
 		/// </summary>
 		public string GetResponse() {
 			if (_localInvitationPtr == IntPtr.Zero)
@@ -122,9 +120,9 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Allows the caller to get the state of the outgoing call invitation.
+		/// 供主叫获取呼叫邀请状态。
 		/// </summary>
-		/// <returns>State of the outgoing call invitation. See: #LOCAL_INVITATION_STATE. </returns>
+		/// <returns>呼叫邀请状态。详见 \ref agora_rtm.LOCAL_INVITATION_STATE "LOCAL_INVITATION_STATE"。</returns>
 		public LOCAL_INVITATION_STATE GetState() {
 			if (_localInvitationPtr == IntPtr.Zero)
 			{
@@ -142,16 +140,15 @@ namespace agora_rtm {
 			i_local_call_invitation_release(_localInvitationPtr);
 			_localInvitationPtr = IntPtr.Zero;
 		}
-        
+
 		/// <summary>
-		/// Releases all resources used by the #LocalInvitation instance.
+		/// 释放当前 #LocalInvitation 实例使用的所有资源。
 		/// </summary>
 		public void Dispose() {
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
-		
 		private void Dispose(bool disposing) {
 			if (_needDispose) {
 				if (_disposed) return;

@@ -51,9 +51,9 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Sets the key of the channel attribute.
+		/// 设置频道属性的属性名。
 		/// </summary>
-		/// <param name="key">Key of channel attribute. Must be visible characters and not exceed 32 Bytes.</param>
+		/// <param name="key">频道属性的属性名。必须为可见字符且长度不得超过 32 字节。</param>
 		public void SetKey(string key) {
 			if (_flag == MESSAGE_FLAG.RECEIVE) {
 				_key = key;
@@ -69,9 +69,9 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Gets the key of the channel attribute.
+		/// 获取频道属性的属性名。
 		/// </summary>
-		/// <returns>Key of the channel attribute.</returns>
+		/// <returns>频道属性的属性名。</returns>
 		public string GetKey() {
 			if (_flag == MESSAGE_FLAG.RECEIVE) {
 				return _key;
@@ -91,9 +91,9 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Sets the value of the channel attribute.
+		/// 设置频道属性的属性值。
 		/// </summary>
-		/// <param name="value">Value of the channel attribute. Must not exceed 8 KB in length.</param>
+		/// <param name="value">频道属性的属性值。长度不得超过 8 KB。</param>
 		public void SetValue(string value) {
 			if (_flag == MESSAGE_FLAG.RECEIVE) {
 				_value = value;
@@ -109,9 +109,9 @@ namespace agora_rtm {
 		}
 
 		/// <summary>
-		/// Gets the value of the channel attribute.
+		/// 获取频道属性的属性值。
 		/// </summary>
-		/// <returns>Value of the channel attribute.</returns>
+		/// <returns>频道属性的属性值。</returns>
 		public string GetValue() {
 			if (_flag == MESSAGE_FLAG.RECEIVE) {
 				return _value;
@@ -130,15 +130,16 @@ namespace agora_rtm {
 			}
 		}
 
-		
+		/// @cond not-for-doc
 		public void SetLastUpdateUserId(string lastUpdateUserId) {
 			_lastUpdateUserId = lastUpdateUserId;
 		}
+		/// @endcond
 
 		/// <summary>
-		/// Gets the User ID of the user who makes the latest update to the channel attribute.
+		/// 获取最近一次更新频道属性用户的 ID。
 		/// </summary>
-		/// <returns>User ID of the user who makes the latest update to the channel attribute.</returns>
+		/// <returns>最近一次更新频道属性用户的 ID。</returns>
 		public string GetLastUpdateUserId() {
 			if (_flag == MESSAGE_FLAG.RECEIVE) {
 				return _lastUpdateUserId;
@@ -156,15 +157,17 @@ namespace agora_rtm {
 				return "";
 			}
 		}
-
+ 
+        /// @cond not-for-doc
 		public void SetLastUpdateTs(Int64 ts) {
 			_lastUpdateTs = ts;
 		}
+		/// @endcond
 
 		/// <summary>
-		/// Gets the timestamp of when the channel attribute was last updated.
+		/// 获取频道属性最近一次更新的时间戳。
 		/// </summary>
-		/// <returns>Timestamp of when the channel attribute was last updated in milliseconds.</returns>
+		/// <returns>频道属性最近一次更新的时间戳（毫秒）。</returns>
 		public Int64 GetLastUpdateTs() {
 			if (_flag == MESSAGE_FLAG.RECEIVE) {
 				return _lastUpdateTs;
@@ -188,9 +191,6 @@ namespace agora_rtm {
 			return _channelAttributePtr;
 		}
 
-		/// <summary>
-		/// Release all resources used by the #RtmChannelAttribute instance.
-		/// </summary>
 		private void Release() {
 			if (_flag == MESSAGE_FLAG.RECEIVE)
 				return;
@@ -204,16 +204,15 @@ namespace agora_rtm {
 			_channelAttributePtr = IntPtr.Zero;
 		}
 
-		/// <summary>
-		/// Release all resources used by the #RtmChannelAttribute instance.
-		/// </summary>
+        /// @cond not-for-doc
 		public void Dispose() {
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
+		/// @endcond
 
 		/// <summary>
-		/// Release all resources used by the #RtmChannelAttribute instance.
+		/// 释放 #RtmChannelAttribute 实例使用的所有资源。
 		/// </summary>
 		public void Dispose(bool disposing) {
 			if (_disposed) return;

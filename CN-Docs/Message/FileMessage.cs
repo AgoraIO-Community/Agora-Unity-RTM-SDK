@@ -56,9 +56,9 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Gets the size of the uploaded file.
+		/// 获取上传文件的大小。
 		/// </summary>
-		/// <returns>The size of the uploaded file in bytes.</returns>
+		/// <returns>上传文件的大小，单位为字节。</returns>
         public Int64 GetSize() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Size;
@@ -72,12 +72,12 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Gets the media ID of the uploaded file.
+		/// 获取上传文件的 media ID。
 		/// @note
-		/// - The media ID is automatically populated once the file is uploaded to the file server.
-		/// - The media ID is valid for 7 days because the file server keeps all uploaded files for 7 days only.
+		/// - 文件成功上传到服务器后，SDK 会自动分配一个 media ID。
+		/// - media ID 的有效期为 7 天，因为每份上传文件只能在文件服务器保留 7 天。
 		/// </summary>
-		/// <returns>The media ID of the uploaded file.</returns>
+		/// <returns>上传文件的 media ID。</returns>
         public string GetMediaId() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _MediaId;
@@ -96,9 +96,9 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Sets the thumbnail of the uploaded file.
+		/// 指定上传文件的缩略图（二进制文件）。
 		/// </summary>
-		/// <param name="thumbnail">The thumbnail of the uploaded file. Must be binary data. The total size of `thumbnail` and `fileName` must not exceed 32 KB.</param>
+		/// <param name="thumbnail">上传文件的缩略图。必须是二进制文件。`thumbnail` 和 `fileName` 数据长度加起来的大小不得超过 32 KB。</param>
         public void SetThumbnail(byte[] thumbnail) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -115,9 +115,9 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Gets the thumbnail of the uploaded file.
+		/// 获取上传文件的缩略图。
 		/// </summary>
-		/// <returns>The thumbnail of the uploaded file.</returns>
+		/// <returns>上传文件的缩略图。</returns>
         public byte[] GetThumbnailData() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Thumbnail;
@@ -135,9 +135,9 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Sets the name of the uploaded file.
+		/// 设置上传文件的文件名。
 		/// </summary>
-		/// <param name="fileName">The name of the uploaded file. The total size of `thumbnail` and `fileName` must not exceed 32 KB.</param>
+		/// <param name="fileName">上传文件的文件名。`thumbnail` 和 `fileName` 加起来的大小不得超过 32 KB。</param>
         public void SetFileName(string fileName) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -154,9 +154,9 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Gets the name of the uploaded file.
+		/// 获取上传文件的文件名。
 		/// </summary>
-		/// <returns>The filename of the uploaded file.</returns>
+		/// <returns>上传文件的文件名。</returns>
         public string GetFileName() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _FileName;

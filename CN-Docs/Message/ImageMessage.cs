@@ -46,9 +46,9 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Gets the size of the uploaded image.
+		/// 获取上传图片的大小。
 		/// </summary>
-		/// <returns>The size of the uploaded image in bytes.</returns>
+		/// <returns>上传图片的大小，单位为字节。</returns>
         public Int64 GetSize() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Size;
@@ -62,12 +62,12 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Gets the media ID of the uploaded image.
+		/// 获取上传图片的 media ID。
 		/// @note
-		///  - The media ID is automatically populated once the file is uploaded to the file server.
-		///  - The media ID is valid for 7 days because the Agora server keeps all uploaded images for 7 days only.
+		///  - 图片成功上传到服务器后，SDK 会自动分配一个 media ID。
+		///  - media ID 的有效期为 7 天，因为每份上传图片只能在文件服务器保留 7 天。
 		/// </summary>
-		/// <returns>The media ID of the uploaded image.</returns>
+		/// <returns>上传图片的 media ID。</returns>
         public string GetMediaId() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE) 
 				return _MediaId;
@@ -86,9 +86,9 @@ namespace agora_rtm {
         }
 		
 		/// <summary>
-		/// Sets the thumbnail of the uploaded image.
+		/// 指定上传图片的缩略图。
 		/// </summary>
-		/// <param name="thumbnail">The thumbnail of the uploaded image.</param>
+		/// <param name="thumbnail">上传图片的缩略图。</param>
         public void SetThumbnail(byte[] thumbnail) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE) {
 				_Thumbnail = thumbnail;
@@ -104,9 +104,9 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Gets the thumbnail data of the uploaded image.
+		/// 获取上传图片的缩略图。
 		/// </summary>
-		/// <returns>The thumbnail data of the uploaded image.</returns>
+		/// <returns>上传图片的缩略图。</returns>
         public byte[] GetThumbnail() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Thumbnail;
@@ -124,9 +124,9 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Sets the filename of the uploaded image.
+		/// 设置上传图片的文件名称。
 		/// </summary>
-		/// <param name="fileName">	The filename of the uploaded image. The total size of `thumbnail` and `fileName` must not exceed 32 KB.</param>
+		/// <param name="fileName">	上传图片的文件名称。`thumbnail` 和 `fileName` 总体大小不能超过 32 KB.</param>
         public void SetFileName(string fileName) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -143,9 +143,9 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Gets the filename of the uploaded image.
+		/// 获取上传图片的文件名称。
 		/// </summary>
-		/// <returns>The filename of the uploaded image.</returns>
+		/// <returns>上传图片的文件名称。</returns>
         public string GetFileName() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _FileName;
@@ -164,12 +164,12 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Sets the width of the uploaded image.
-		/// @note 
-		/// - If the uploaded image is in JPG, JPEG, BMP, or PNG format, the SDK automatically calculates the width and height of the image. You can call getWidth directly to get the width of the image.
-		/// - Image width that is set by calling this method overrides the width calculated by the SDK.
+		/// 设置上传图片的宽度。
+		/// @note
+		/// - 如果上传图片的格式为 JPG、JPEG、BMP，或 PNG，SDK 会自动计算图片的宽和高。你可以通过调用 #GetWidth 方法直接获取图片的宽度。
+		/// - 用户自行设置的图片宽度会覆盖由 SDK 计算得出的图片宽度。
 		/// </summary>
-		/// <param name="width">The width of the uploaded image.</param>
+		/// <param name="width">上传图片的宽度。</param>
         public void SetWidth(int width) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -186,12 +186,12 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Gets the width of the uploaded image.
+		/// 获取上传图片的宽度。
 		/// @note
-		/// - If the uploaded image is in JPG, JPEG, BMP, or PNG format, the SDK automatically calculates the width and height of the image. You can call this method directly to get the width of the image.
-		/// - Image width that is set by calling #SetWidth overrides the width calculated by the SDK.
+		/// - 如果上传图片的格式为 JPG、JPEG、BMP，或 PNG，SDK 会自动计算图片的宽和高。你可以通过调用本方法直接获取图片的宽度。
+		/// - 用户通过调用 #SetWidth 方法自行设置的图片宽度会覆盖由 SDK 计算得出的图片宽度。
 		/// </summary>
-		/// <returns>The width of the uploaded image. Returns 0 if the SDK does not support the format of the uploaded image.</returns>
+		/// <returns>上传图片的宽度。如果SDK不支持上传图像的格式，则返回0。</returns>
         public int GetWidth() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Width;
@@ -205,12 +205,12 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Sets the height of the uploaded image.
+		/// 设置上传图片的高度。
 		/// @note 
-		/// - If the uploaded image is in JPG, JPEG, BMP, or PNG format, the SDK automatically calculates the width and height of the image. You can call #GetHeight directly to get the height of the image.
-		/// - Image height that is set by calling this method overrides the height calculated by the SDK.
+		/// - 如果上传图片的格式为 JPG、JPEG、BMP，或 PNG，SDK 会自动计算图片的宽和高。你可以通过调用 #GetHeight 方法直接获取图片的高度。
+		/// - 用户自行设置的图片高度会覆盖由 SDK 计算得出的图片高度。
 		/// </summary>
-		/// <param name="height">The height of the uploaded image. Returns 0 if the SDK does not support the format of the uploaded image.</param>
+		/// <param name="height">上传图片的高度。</param>
         public void SetHeight(int height) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -227,12 +227,12 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Gets the height of the uploaded image.
-		/// @note 
-		/// - If the uploaded image is in JPG, JPEG, BMP, or PNG format, the SDK automatically calculates the width and height of the image. You can call this method directly to get the height of the image.
-		/// - Image height that is set by calling #SetHeight overrides the height calculated by the SDK.
+		/// 获取上传图片的高度。
+		/// @note
+		/// - 如果上传图片的格式为 JPG、JPEG、BMP，或 PNG，SDK 会自动计算图片的宽和高。你可以通过调用本方法直接获取图片的高度。
+		/// - 用户通过调用 #SetHeight 方法自行设置的图片高度会覆盖由 SDK 计算得出的图片高度。
 		/// </summary>
-		/// <returns>The height of the uploaded image.</returns>
+		/// <returns>上传图片的高度。</returns>
         public int GetHeight() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Height;
@@ -246,10 +246,10 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Sets the width of the thumbnail.
-		/// @note You need to work out the height of the thumbnail by yourself, because the SDK does not work out the value for you.
+		/// 设置缩略图的宽度。
+		/// @note 须自行计算，SDK 不会计算缩略图的宽度。
 		/// </summary>
-		/// <param name="thumbnailWidth">the The width of the thumbnail.</param>
+		/// <param name="thumbnailWidth">缩略图的宽度。</param>
         public void SetThumbnailWidth(int thumbnailWidth) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -267,9 +267,9 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Gets the width of the thumbnail.
+		/// 获取缩略图的宽度。
 		/// </summary>
-		/// <returns>The width of the thumbnail.</returns>
+		/// <returns>缩略图的宽度。</returns>
         public int GetThumbnailWidth() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _ThumbnailWidth;
@@ -283,10 +283,10 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Sets the height of the thumbnail.
-		/// @note You need to work out the height of the thumbnail by yourself, because the SDK does not work out the value for you.
+		/// 设置缩略图的高度。
+		/// @note 须自行计算，SDK 不会计算缩略图的高度。
 		/// </summary>
-		/// <param name="height">The height of the thumbnail.</param>
+		/// <param name="height">缩略图的高度。</param>
         public void SetThumbnailHeight(int height) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -303,9 +303,9 @@ namespace agora_rtm {
         }
 
 		/// <summary>
-		/// Gets the height of the thumbnail.
+		/// 获取缩略图的高度。
 		/// </summary>
-		/// <returns>The height of the thumbnail.</returns>
+		/// <returns>缩略图的高度。</returns>
         public int GetThumbnailHeight() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _ThumbnailHeight;
