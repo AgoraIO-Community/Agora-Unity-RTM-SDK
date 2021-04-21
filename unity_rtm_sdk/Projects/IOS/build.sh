@@ -5,6 +5,7 @@
 
 PLATFORM="iOS"
 
+CURDIR=$(pwd)
 
 function download_library {
     DOWNLOAD_URL=$1

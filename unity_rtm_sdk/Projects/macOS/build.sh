@@ -10,6 +10,8 @@
 ## ==============================================================================
 PLATFORM="Mac"
 
+CURDIR=$(pwd)
+
 function download_library {
     DOWNLOAD_URL=$1
     DOWNLOAD_FILE="MacOS_Native.zip"
