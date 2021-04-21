@@ -20,6 +20,7 @@
     #include "../sdk/x86/include/IAgoraRtmCallManager.h"
     #include "../sdk/x86/include/IAgoraRtmService.h"
 #elif defined(__APPLE__)
+    #include <TargetConditionals.h>
     #if TARGET_OS_MAC
         #include "../Agora_RTM_SDK_for_Mac/libs/AgoraRtmKit.framework/Headers/IAgoraRtmCallManager.h"
         #include "../Agora_RTM_SDK_for_Mac/libs/AgoraRtmKit.framework/Headers/IAgoraRtmService.h"
