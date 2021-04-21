@@ -21,12 +21,15 @@
     #include "../sdk/x86/include/IAgoraRtmService.h"
 #elif defined(__APPLE__)
     #include <TargetConditionals.h>
-    #if TARGET_OS_MAC
-        #include "../Agora_RTM_SDK_for_Mac/libs/AgoraRtmKit.framework/Headers/IAgoraRtmCallManager.h"
-        #include "../Agora_RTM_SDK_for_Mac/libs/AgoraRtmKit.framework/Headers/IAgoraRtmService.h"
-    #else
+    #if TARGET_IPHONE_SIMULATOR
         #include "../Agora_RTM_SDK_for_iOS/libs/AgoraRtmKit.xcframework/ios-arm64_armv7/AgoraRtmKit.framework/Headers/IAgoraRtmCallManager.h"
         #include "../Agora_RTM_SDK_for_iOS/libs/AgoraRtmKit.xcframework/ios-arm64_armv7/AgoraRtmKit.framework/Headers/IAgoraRtmService.h"
+    #elif TARGET_OS_IPHONE
+        #include "../Agora_RTM_SDK_for_iOS/libs/AgoraRtmKit.xcframework/ios-arm64_armv7/AgoraRtmKit.framework/Headers/IAgoraRtmCallManager.h"
+        #include "../Agora_RTM_SDK_for_iOS/libs/AgoraRtmKit.xcframework/ios-arm64_armv7/AgoraRtmKit.framework/Headers/IAgoraRtmService.h"
+    #elif TARGET_OS_MAC
+        #include "../Agora_RTM_SDK_for_Mac/libs/AgoraRtmKit.framework/Headers/IAgoraRtmCallManager.h"
+        #include "../Agora_RTM_SDK_for_Mac/libs/AgoraRtmKit.framework/Headers/IAgoraRtmService.h"
     #endif
 #elif defined(__ANDROID__) || defined(__linux__)
     #include "../prebuilt/include/IAgoraRtmCallManager.h"
