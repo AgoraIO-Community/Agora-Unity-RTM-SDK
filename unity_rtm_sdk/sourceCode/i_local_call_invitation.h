@@ -9,18 +9,25 @@
 #pragma once
 #include "common.h"
 
-AGORA_API const char *i_local_call_invitation_getCalleeId(void *localCallInvitationPtr);
+AGORA_API const char* i_local_call_invitation_getCalleeId(
+    void* localCallInvitationPtr);
 
-AGORA_API void i_local_call_invitation_setContent(void *localCallInvitationPtr, const char *content);
+AGORA_API void i_local_call_invitation_setContent(void* localCallInvitationPtr,
+                                                  const char* content);
 
-AGORA_API const char *i_local_call_invitation_getContent(void *localCallInvitationPtr);
+AGORA_API const char* i_local_call_invitation_getContent(
+    void* localCallInvitationPtr);
 
-AGORA_API void i_local_call_invitation_setChannelId(void *localCallInvitationPtr, const char *channelId);
+AGORA_API void i_local_call_invitation_setChannelId(
+    void* localCallInvitationPtr,
+    const char* channelId);
 
-AGORA_API const char *i_local_call_invitation_getChannelId(void *localCallInvitationPtr);
+AGORA_API const char* i_local_call_invitation_getChannelId(
+    void* localCallInvitationPtr);
 
-AGORA_API const char *i_local_call_invitation_getResponse(void *localCallInvitationPtr);
+AGORA_API const char* i_local_call_invitation_getResponse(
+    void* localCallInvitationPtr);
 
-AGORA_API int i_local_call_invitation_getState(void *localCallInvitationPtr);
+AGORA_API int i_local_call_invitation_getState(void* localCallInvitationPtr);
 
-AGORA_API void i_local_call_invitation_release(void *localCallInvitationPtr);
+AGORA_API void i_local_call_invitation_release(void* localCallInvitationPtr);

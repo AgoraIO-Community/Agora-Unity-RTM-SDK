@@ -9,62 +9,57 @@
 #ifndef AGORA_LOG_HELPER_H
 #define AGORA_LOG_HELPER_H
 
-#include <iostream>
-#include <fstream>
 #include <stdarg.h>
+#include <fstream>
+#include <iostream>
 
 namespace agora {
 namespace unity {
 class LogHelper {
-private:
-    FILE* fileStream = nullptr;
-    
-public:
-    LogHelper() {
+ private:
+  FILE* fileStream = nullptr;
 
-    }
-    
-    ~LogHelper() {
-        stopLogService();
-    }
-    
-    static LogHelper& getInstance() {
-        static LogHelper logHelper;
-        return logHelper;
-    }
-    
+ public:
+  LogHelper() {}
 
-public:
-    void startLogService(const char *filePath) {
-        if (fileStream)
-            return;
-        
-        if (filePath)
-            fileStream = fopen(filePath, "ab+");
-    }
+  ~LogHelper() { stopLogService(); }
 
-    void stopLogService() {
-        if (fileStream) {
-            fflush(fileStream);
-            fclose(fileStream);
-            fileStream = nullptr;
-        }
-    }
+  static LogHelper& getInstance() {
+    static LogHelper logHelper;
+    return logHelper;
+  }
 
-    void writeLog(const char *format, ...) {
-        va_list la;
-        va_start(la, format);
-        
-        if (!fileStream)
-            return;
-        
-        vfprintf(fileStream, format, la);
-        va_end(la);
-        fprintf(fileStream, "\n");
-        fflush(fileStream);
+ public:
+  void startLogService(const char* filePath) {
+    if (fileStream)
+      return;
+
+    if (filePath)
+      fileStream = fopen(filePath, "ab+");
+  }
+
+  void stopLogService() {
+    if (fileStream) {
+      fflush(fileStream);
+      fclose(fileStream);
+      fileStream = nullptr;
     }
+  }
+
+  void writeLog(const char* format, ...) {
+    va_list la;
+    va_start(la, format);
+
+    if (!fileStream)
+      return;
+
+    vfprintf(fileStream, format, la);
+    va_end(la);
+    fprintf(fileStream, "\n");
+    fflush(fileStream);
+  }
 };
-}
-}
+}  // namespace unity
+}  // namespace agora
 
 #endif

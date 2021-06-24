@@ -7,9 +7,12 @@
 //
 
 #pragma once
-#include "common.h"
 #include "ChannelEventHandler.h"
+#include "common.h"
 
-AGORA_API void* channel_event_handler_createEventHandler(int _id, struct CChannelEventHandler *channelEventHandler);
+AGORA_API void* channel_event_handler_createEventHandler(
+    int _id,
+    struct CChannelEventHandler* channelEventHandler);
 
-AGORA_API void channel_event_handler_releaseEventHandler(void *channelEventHandlerInstance);
+AGORA_API void channel_event_handler_releaseEventHandler(
+    void* channelEventHandlerInstance);

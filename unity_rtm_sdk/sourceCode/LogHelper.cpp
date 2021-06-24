@@ -8,8 +8,8 @@
 
 #include "LogHelper.h"
 
-void startLogService(const char *filePath);
+void startLogService(const char* filePath);
 
 void stopLogService();
 
-void writeLog(const char *format, ...);
+void writeLog(const char* format, ...);

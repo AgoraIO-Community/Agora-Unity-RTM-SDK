@@ -8,104 +8,113 @@
 
 #include "i_rtm_message.h"
 
-extern "C"
-{
-#define MESSAGE_INSTANCE static_cast<agora::rtm::IMessage *>(message_instance)
+extern "C" {
+#define MESSAGE_INSTANCE static_cast<agora::rtm::IMessage*>(message_instance)
 }
 
+AGORA_API long long imessage_getMessageId(void* message_instance) {
+  return MESSAGE_INSTANCE->getMessageId();
+}
+
+/**
+ Retrieves the message type.
+
+ @return The message type. See #MESSAGE_TYPE.
+ */
+AGORA_API int imessage_getMessageType(void* message_instance) {
+  return int(MESSAGE_INSTANCE->getMessageType());
+}
+
+/**
+ Sets the content of a text message, or the text description of a raw message.
+
+ @param str The text message to be set. Must not exceed 32 KB in length. If the
+ message is a raw message, ensure that the overall size of the text description
+ and the raw message data does not exceed 32 KB.
+ */
+AGORA_API void imessage_setText(void* message_instance, const char* str) {
+  MESSAGE_INSTANCE->setText(str);
+}
+
+/**
+ Retrieves the content of a text message, or the text description of a raw
+ message.
+
+ @return The content of the received text message, or the text description of
+ the received raw message.
+ */
+AGORA_API const char* imessage_getText(void* message_instance) {
+  return MESSAGE_INSTANCE->getText();
+}
+
+/**
+ Retrieves the starting address of the raw message in the memory.
+
+ @return The starting address of the raw message in the memory.
+ */
+AGORA_API const char* imessage_getRawMessageData(void* message_instance) {
+  return MESSAGE_INSTANCE->getRawMessageData();
+}
+
+/**
+ Retrieves the length of the raw message.
+
+ @return The length of the raw message in Bytes.
+ */
+AGORA_API int imessage_getRawMessageLength(void* message_instance) {
+  return MESSAGE_INSTANCE->getRawMessageLength();
+}
+/**
+ Allows the receiver to retrieve the timestamp of when the messaging server
+ receives this message.
+
+ @note
+ - You can infer from the returned timestamp the *approximate* time as to when
+ this message was sent.
+ - The returned timestamp is on a millisecond time-scale. It is for
+ demonstration purposes only, not for strict ordering of messages.
 
 
-AGORA_API long long imessage_getMessageId(void *message_instance)
-{
-    return MESSAGE_INSTANCE->getMessageId();
+ @return The timestamp (ms) of when the messaging server receives this message.
+ */
+AGORA_API long long imessage_getServerReceivedTs(void* message_instance) {
+  return MESSAGE_INSTANCE->getServerReceivedTs();
 }
-     
-   /**
-    Retrieves the message type.
 
-    @return The message type. See #MESSAGE_TYPE.
-    */
-AGORA_API int imessage_getMessageType(void *message_instance)
-{
-    return int(MESSAGE_INSTANCE->getMessageType());
+/**
+ Allows the receiver to check whether this message has been cached on the server
+ (Applies to peer-to-peer message only).
+
+ @note
+ - This method returns false if a message is not cached by the server. Only if
+ the sender sends the message as an offline message (sets \ref
+ agora::rtm::SendMessageOptions::enableOfflineMessaging "enableOfflineMessaging"
+ as true) when the specified user is offline, does the method return true when
+ the user is back online.
+ - For now we only cache 200 offline messages for up to seven days for each
+ message receiver. When the number of the cached messages reaches this limit,
+ the newest message overrides the oldest one.
+
+ @return
+ - true: This message has been cached on the server (the server caches this
+ message and re-sends it to the receiver when he/she is back online).
+ - false: This message has not been cached on the server.
+ */
+AGORA_API bool imessage_isOfflineMessage(void* message_instance) {
+  return MESSAGE_INSTANCE->isOfflineMessage();
 }
-     
-   /**
-    Sets the content of a text message, or the text description of a raw message.
-    
-    @param str The text message to be set. Must not exceed 32 KB in length. If the message is a raw message, ensure that the overall size of the text description and the raw message data does not exceed 32 KB.
-    */
-AGORA_API void imessage_setText(void *message_instance, const char *str)
-{
-    MESSAGE_INSTANCE->setText(str);
-}
-     
-   /**
-    Retrieves the content of a text message, or the text description of a raw message.
-    
-    @return The content of the received text message, or the text description of the received raw message.
-    */
-AGORA_API const char *imessage_getText(void *message_instance)
-{
-    return MESSAGE_INSTANCE->getText();
-}
-   
-   /**
-    Retrieves the starting address of the raw message in the memory.
-    
-    @return The starting address of the raw message in the memory.
-    */
-AGORA_API const char *imessage_getRawMessageData(void *message_instance)
-{
-    return MESSAGE_INSTANCE->getRawMessageData();
-}
- 
-   /**
-    Retrieves the length of the raw message.
-    
-    @return The length of the raw message in Bytes.
-    */
-AGORA_API int imessage_getRawMessageLength(void *message_instance)
-{
-    return MESSAGE_INSTANCE->getRawMessageLength();
-}
-   /**
-    Allows the receiver to retrieve the timestamp of when the messaging server receives this message.
-    
-    @note
-    - You can infer from the returned timestamp the *approximate* time as to when this message was sent.
-    - The returned timestamp is on a millisecond time-scale. It is for demonstration purposes only, not for strict ordering of messages.
-    
-    
-    @return The timestamp (ms) of when the messaging server receives this message.
-    */
-AGORA_API long long imessage_getServerReceivedTs(void *message_instance)
-{
-    return MESSAGE_INSTANCE->getServerReceivedTs();
-}
-     
-   /**
-    Allows the receiver to check whether this message has been cached on the server (Applies to peer-to-peer message only).
-    
-    @note
-    - This method returns false if a message is not cached by the server. Only if the sender sends the message as an offline message (sets \ref agora::rtm::SendMessageOptions::enableOfflineMessaging "enableOfflineMessaging" as true) when the specified user is offline, does the method return true when the user is back online.
-    - For now we only cache 200 offline messages for up to seven days for each message receiver. When the number of the cached messages reaches this limit, the newest message overrides the oldest one.
-    
-    @return
-    - true: This message has been cached on the server (the server caches this message and re-sends it to the receiver when he/she is back online).
-    - false: This message has not been cached on the server.
-    */
-AGORA_API bool imessage_isOfflineMessage(void *message_instance)
-{
-    return MESSAGE_INSTANCE->isOfflineMessage();
-}
-     
-   /**
-    Releases all resources used by the \ref agora::rtm::IMessage "IMessage" instance.
-    
-    @note For the message receiver: please access and save the content of the IMessage instance when receiving the \ref agora::rtm::IChannelEventHandler::onMessageReceived "onMessageReceived" or the \ref agora::rtm::IRtmServiceEventHandler::onMessageReceivedFromPeer "onMessageReceivedFromPeer" callback. The SDK will release the IMessage instance when the callback ends.
-    */
-AGORA_API void imessage_release(void *message_instance)
-{
-    return MESSAGE_INSTANCE->release();
+
+/**
+ Releases all resources used by the \ref agora::rtm::IMessage "IMessage"
+ instance.
+
+ @note For the message receiver: please access and save the content of the
+ IMessage instance when receiving the \ref
+ agora::rtm::IChannelEventHandler::onMessageReceived "onMessageReceived" or the
+ \ref agora::rtm::IRtmServiceEventHandler::onMessageReceivedFromPeer
+ "onMessageReceivedFromPeer" callback. The SDK will release the IMessage
+ instance when the callback ends.
+ */
+AGORA_API void imessage_release(void* message_instance) {
+  return MESSAGE_INSTANCE->release();
 }
