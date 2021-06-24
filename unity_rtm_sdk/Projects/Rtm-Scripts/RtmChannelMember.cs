@@ -4,7 +4,7 @@ using System;
 using AOT;
 
 namespace agora_rtm {
-	public sealed class RtmChannelMember : IRtmApiNative {
+	public sealed class RtmChannelMember {
 		private string _UserId {
 			get;
 			set;

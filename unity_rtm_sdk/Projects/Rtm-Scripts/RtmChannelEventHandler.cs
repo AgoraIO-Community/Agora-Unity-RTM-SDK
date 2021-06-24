@@ -4,117 +4,107 @@ using System.Collections.Generic;
 using System;
 using AOT;
 
-
-
 namespace agora_rtm {
-    public sealed class RtmChannelEventHandler : IRtmApiNative { 
+    public sealed class RtmChannelEventHandler { 
         private static int _id = 0;
         private static Dictionary<int, RtmChannelEventHandler> channelEventHandlerDic = new Dictionary<int, RtmChannelEventHandler>();
         private IntPtr channelEventHandlerPtr = IntPtr.Zero;
         private int currentIdIndex = 0;
+		private CChannelEvent cChannelEvent;
 
 		/// <summary>
 		/// Occurs when successfully joining a channel.
-		/// When the local user calls the \ref agora_rtm.RtmChannel.Join "Join" method and successfully joins the channel:
-		/// - The SDK triggers this callback;
-		/// - All remote users in the channel receive the \ref agora_rtm.RtmChannelEventHandler.OnMemberJoinedHandler "OnMemberJoinedHandler" callback.
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
         public delegate void OnJoinSuccessHandler(int id);
 
 		/// <summary>
 		/// Occurs when failing to join a channel.
-		/// The local user receives this callback when the \ref agora_rtm.RtmChannel.Join "Join" method call fails.
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="errorCode">The error code. See #JOIN_CHANNEL_ERR.</param>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="errorCode">The error code.</param>
         public delegate void OnJoinFailureHandler(int id, JOIN_CHANNEL_ERR errorCode);
         
 		/// <summary>
 		/// Returns the result of the leave method call.
 		/// </summary>
-		/// <param name="id">the ID of the RtmChannelEventHandler</param>
-		/// <param name="errorCode">The error code. See #LEAVE_CHANNEL_ERR. </param>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="errorCode">The error code. </param>
 		public delegate void OnLeaveHandler(int id, LEAVE_CHANNEL_ERR errorCode);
         
 		/// <summary>
 		/// Occurs when receiving a channel message.
 		/// </summary>
-		/// <param name="id">the ID of the RtmChannelEventHandler</param>
-		/// <param name="userId">the ID of the message sender.</param>
-		/// <param name="message">The received channel message. See \ref agora_rtm.IMessage "IMessage".</param>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="userId">The message sender.</param>
+		/// <param name="message">The received channel message.</param>
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void OnMessageReceivedHandler(int id, string userId, TextMessage message);
         
 		/// <summary>
 		/// Occurs when receiving a channel image message.
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="userId">the ID of the message sender.</param>
-		/// <param name="message">The received channel image message. See \ref agora_rtm.ImageMessage "ImageMessage".</param>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="userId">The message sender.</param>
+		/// <param name="message">The received channel image message. </param>
+		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		public delegate void OnImageMessageReceivedHandler(int id, string userId, ImageMessage message);
         
 		/// <summary>
 		/// Occurs when receiving a channel file message.
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="userId">The the ID of the message sender.</param>
-		/// <param name="message">The received channel file message. See \ref agora_rtm.FileMessage "FileMessage".</param>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="userId">The message sender.</param>
+		/// <param name="message">The received channel file message. </param>
 		public delegate void OnFileMessageReceivedHandler(int id, string userId, FileMessage message);
         
 		/// <summary>
-		/// Returns the result of the \ref agora_rtm.RtmChannel.SendMessage "SendMessage" method call.
+		/// Returns the result of the sendMessage method call.
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="messageId">the ID of the sent channel message.</param>
-		/// <param name="errorCode">The error codes. See #CHANNEL_MESSAGE_ERR_CODE.</param>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="messageId">The ID of the sent channel message.</param>
+		/// <param name="errorCode">The error codes. </param>
 		public delegate void OnSendMessageResultHandler(int id, Int64 messageId, CHANNEL_MESSAGE_ERR_CODE errorCode);
         
 		/// <summary>
 		/// Occurs when a remote user joins the channel.
-		/// When a remote user calls the \ref agora_rtm.RtmChannel.Join	"Join" method and receives the #OnJoinSuccessHandler callback (successfully joins the channel), the local user receives this callback.
-		/// @note This callback is disabled when the number of the channel members exceeds 512.
+		/// When a remote user calls the join method and receives the onJoinSuccess callback (successfully joins the channel), the local user receives this callback.
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="member">The user joining the channel. See ChannelMemberCount.</param>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="member">The user joining the channel.</param>
 		public delegate void OnMemberJoinedHandler(int id, RtmChannelMember member);
         
 		/// <summary>
 		/// Occurs when a remote member leaves the channel.
-		/// When a remote member in the channel calls the \ref agora_rtm.RtmChannel.Leave "Leave" method and receives the the #OnLeaveHandler (LEAVE_CHANNEL_ERR_OK) callback, the local user receives this callback.
-		/// @note This callback is disabled when the number of the channel members exceeds 512.
+		/// When a remote member in the channel calls the leave method and receives the the onLeave (LEAVE_CHANNEL_ERR_OK) callback, the local user receives this callback.
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="member">The channel member that leaves the channel. See \ref agora_rtm.RtmChannelMember "ChannelMember".</param>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="member">The channel member that leaves the channel. </param>
 		public delegate void OnMemberLeftHandler(int id, RtmChannelMember member);
         
 		/// <summary>
-		/// Returns the result of the \ref agora_rtm.RtmChannel.GetMembers "GetMembers" method call.
+		/// Returns the result of the getMembers method call.
 		/// When the method call succeeds, the SDK returns the member list of the channel.
-		/// @note 
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
-		/// <param name="members">The member list. See \ref agora_rtm.RtmChannel "RtmChannel".</param>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="members">The member list. </param>
 		/// <param name="userCount">The number of members.</param>
-		/// <param name="errorCode">Error code. See #GET_MEMBERS_ERR.</param>
+		/// <param name="errorCode">Error code.</param>
 		public delegate void OnGetMembersHandler(int id, RtmChannelMember[] members, int userCount, GET_MEMBERS_ERR errorCode);
         
 		/// <summary>
 		/// Occurs when channel attributes are updated, and returns all attributes of the channel.
-		/// @note This callback is enabled only when the user, who updates the attributes of the channel, sets \ref agora_rtm.ChannelAttributeOptions.enableNotificationToChannelMembers "enableNotificationToChannelMembers" as `true`. Also note that this flag is valid only within the current channel attribute method call.
+		/// This callback is enabled only when the user, who updates the attributes of the channel, sets enableNotificationToChannelMembers as true. Also note that this flag is valid only within the current channel attribute method call.
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
 		/// <param name="attributesList">All attribute of this channel.</param>
 		/// <param name="numberOfAttributes">The total number of the channel attributes.</param>
 		public delegate void OnAttributesUpdatedHandler(int id, RtmChannelAttribute[] attributesList, int numberOfAttributes);
         
 		/// <summary>
 		/// Occurs when the number of the channel members changes, and returns the new number.
-		/// @note
-		/// - When the number of channel members ≤ 512, the SDK returns this callback when the number changes at the frequency of once per second.
-		/// - When the number of channel members exceeds 512, the SDK returns this callback when the number changes at the frequency of once every three seconds.
-		/// - You will receive this callback when successfully joining an RTM channel, so Agora recommends implementing this callback to receive timely updates on the number of the channel members.
 		/// </summary>
-		/// <param name="id">the ID of the #RtmChannelEventHandler</param>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
 		/// <param name="memberCount">Member count of this channel.</param>
 		public delegate void OnMemberCountUpdatedHandler(int id, int memberCount);
 
@@ -133,19 +123,24 @@ namespace agora_rtm {
 
         public RtmChannelEventHandler() {
             currentIdIndex = _id;
+
+			cChannelEvent = new CChannelEvent
+			{
+				onJoinSuccess = Marshal.GetFunctionPointerForDelegate(new OnJoinSuccessHandler(OnJoinSuccessCallback)),
+				onJoinFailure = Marshal.GetFunctionPointerForDelegate(new OnJoinFailureHandler(OnJoinFailureCallback)),
+				onLeave = Marshal.GetFunctionPointerForDelegate(new OnLeaveHandler(OnLeaveCallback)),
+				onMessageReceived = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMessageReceived(OnMessageReceivedCallback)),
+				onImageMessageReceived = Marshal.GetFunctionPointerForDelegate(new EngineEventOnImageMessageReceived(OnImageMessageReceivedCallback)),
+				onFileMessageReceived = Marshal.GetFunctionPointerForDelegate(new EngineEventOnFileMessageReceived(OnFileMessageReceivedCallback)),
+				onSendMessageResult = Marshal.GetFunctionPointerForDelegate(new OnSendMessageResultHandler(OnSendMessageResultCallback)),
+				onMemberJoined = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMemberJoined(OnMemberJoinedCallback)),
+				onMemberLeft = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMemberLeft(OnMemberLeftCallback)),
+				onGetMember = Marshal.GetFunctionPointerForDelegate(new EngineEventOnGetMember(OnGetMemberCallback)),
+				onMemberCountUpdated = Marshal.GetFunctionPointerForDelegate(new OnMemberCountUpdatedHandler(OnMemberCountUpdatedCallback)),
+				onAttributesUpdated = Marshal.GetFunctionPointerForDelegate(new EngineEventOnAttributesUpdated(OnAttributesUpdatedCallback))
+			};
 			channelEventHandlerDic.Add(currentIdIndex, this);
-            channelEventHandlerPtr = channel_event_handler_createEventHandler(currentIdIndex, OnJoinSuccessCallback,
-                                                                                              OnJoinFailureCallback,
-                                                                                              OnLeaveCallback,
-                                                                                              OnMessageReceivedCallback,
-                                                                                              OnImageMessageReceivedCallback,
-                                                                                              OnFileMessageReceivedCallback,
-                                                                                              OnSendMessageResultCallback,
-                                                                                              OnMemberJoinedCallback,
-                                                                                              OnMemberLeftCallback,
-                                                                                              OnGetMemberCallback,
-                                                                                              OnMemberCountUpdatedCallback,
-                                                                                              OnAttributesUpdatedCallback);
+            channelEventHandlerPtr = IRtmApiNative.channel_event_handler_createEventHandler(currentIdIndex, ref cChannelEvent);
             _id ++;
         }
 
@@ -197,8 +192,8 @@ namespace agora_rtm {
         {
 			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnMessageReceived != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-                    TextMessage textMessage = new TextMessage(messagePtr, TextMessage.MESSAGE_FLAG.SEND);
-					TextMessage _textMessage = new TextMessage(textMessage, TextMessage.MESSAGE_FLAG.RECEIVE);
+                    TextMessage textMessage = new TextMessage(messagePtr, MESSAGE_FLAG.SEND);
+					TextMessage _textMessage = new TextMessage(textMessage, MESSAGE_FLAG.RECEIVE);
 					textMessage.SetMessagePtr(IntPtr.Zero);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnMessageReceived != null) {
@@ -214,8 +209,8 @@ namespace agora_rtm {
         {
 			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnImageMessageReceived != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-                    ImageMessage imageMessage = new ImageMessage(messagePtr, ImageMessage.MESSAGE_FLAG.SEND);
-					ImageMessage _imageMessage = new ImageMessage(imageMessage, ImageMessage.MESSAGE_FLAG.RECEIVE);
+                    ImageMessage imageMessage = new ImageMessage(messagePtr, MESSAGE_FLAG.SEND);
+					ImageMessage _imageMessage = new ImageMessage(imageMessage, MESSAGE_FLAG.RECEIVE);
 					imageMessage.SetMessagePtr(IntPtr.Zero);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnImageMessageReceived != null) {
@@ -231,8 +226,8 @@ namespace agora_rtm {
         {
 			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnFileMessageReceived != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-                    FileMessage fileMessage = new FileMessage(messagePtr, FileMessage.MESSAGE_FLAG.SEND);
-					FileMessage _fileMessage = new FileMessage(fileMessage, FileMessage.MESSAGE_FLAG.RECEIVE);
+                    FileMessage fileMessage = new FileMessage(messagePtr, MESSAGE_FLAG.SEND);
+					FileMessage _fileMessage = new FileMessage(fileMessage, MESSAGE_FLAG.RECEIVE);
 					fileMessage.SetMessagePtr(IntPtr.Zero);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnFileMessageReceived != null) {
@@ -263,8 +258,8 @@ namespace agora_rtm {
             Debug.Log("OnMemberJoinedCallback");
 			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnMemberJoined != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-                    string userId = Marshal.PtrToStringAnsi(channel_member_getUserId(channelMemberPtr));
-                    string channelId = Marshal.PtrToStringAnsi(channel_member_getChannelId(channelMemberPtr));
+                    string userId = Marshal.PtrToStringAnsi(IRtmApiNative.channel_member_getUserId(channelMemberPtr));
+                    string channelId = Marshal.PtrToStringAnsi(IRtmApiNative.channel_member_getChannelId(channelMemberPtr));
                     RtmChannelMember rtmChannelMember = new RtmChannelMember(userId, channelId);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnMemberJoined != null) {
@@ -280,8 +275,8 @@ namespace agora_rtm {
         {
 			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnMemberLeft != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-                    string userId = Marshal.PtrToStringAnsi(channel_member_getUserId(channelMemberPtr));
-                    string channelId = Marshal.PtrToStringAnsi(channel_member_getChannelId(channelMemberPtr));
+                    string userId = Marshal.PtrToStringAnsi(IRtmApiNative.channel_member_getUserId(channelMemberPtr));
+                    string channelId = Marshal.PtrToStringAnsi(IRtmApiNative.channel_member_getChannelId(channelMemberPtr));
                     RtmChannelMember rtmChannelMember = new RtmChannelMember(userId, channelId);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnMemberLeft != null) {
@@ -358,7 +353,7 @@ namespace agora_rtm {
                 return;
             }
             channelEventHandlerDic.Remove(currentIdIndex);
-            channel_event_handler_releaseEventHandler(channelEventHandlerPtr);
+			IRtmApiNative.channel_event_handler_releaseEventHandler(channelEventHandlerPtr);
             channelEventHandlerPtr = IntPtr.Zero;
 		}
 	}

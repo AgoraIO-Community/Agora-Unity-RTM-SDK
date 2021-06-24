@@ -4,7 +4,7 @@ using System;
 using AOT;
 
 namespace agora_rtm {
-    public abstract class IMessage : IRtmApiNative {
+    public abstract class IMessage {
 
 		protected MESSAGE_FLAG _MessageFlag = MESSAGE_FLAG.RECEIVE;
 
@@ -24,11 +24,7 @@ namespace agora_rtm {
 
 		public int _Length = 0;
 
-        /// <summary>
-		/// Retrieves the unique ID of the message.
-		/// </summary>
-		/// <returns>The message ID.</returns>
-   		public Int64 GetMessageId() {
+		public Int64 GetMessageId() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE) 
 				return _MessageId;
 
@@ -37,13 +33,13 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null ptr");
 				return _MessageId;
 			}
-			return imessage_getMessageId(_MessagePtr);
+			return IRtmApiNative.imessage_getMessageId(_MessagePtr);
 		}
 
 		/// <summary>
 		/// Retrieves the message type.
 		/// </summary>
-		/// <returns>The message type. See #MESSAGE_TYPE.</returns>
+		/// <returns>The message type.</returns>
 		public MESSAGE_TYPE GetMessageType() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _MessageType;
@@ -53,7 +49,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null ptr");
 				return _MessageType;
 			}
-			return (MESSAGE_TYPE)imessage_getMessageType(_MessagePtr);
+			return (MESSAGE_TYPE)IRtmApiNative.imessage_getMessageType(_MessagePtr);
 		}
 
 		/// <summary>
@@ -72,7 +68,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-			imessage_setText(_MessagePtr, text);
+			IRtmApiNative.imessage_setText(_MessagePtr, text);
 		}
 
 		/// <summary>
@@ -88,9 +84,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return _MessageText;
 			}
-			IntPtr textPtr = imessage_getText(_MessagePtr);
+			IntPtr textPtr = IRtmApiNative.imessage_getText(_MessagePtr);
 			if (!ReferenceEquals(textPtr, IntPtr.Zero)) {
-				return Marshal.PtrToStringAnsi(imessage_getText(_MessagePtr));
+				return Marshal.PtrToStringAnsi(IRtmApiNative.imessage_getText(_MessagePtr));
 			} else {
 				return "";
 			}
@@ -109,7 +105,7 @@ namespace agora_rtm {
 				return _RawMessageData;
 			}
 			_RawMessageData = new byte[GetRawMessageLength()];
-			IntPtr _RawMessagePtr = imessage_getRawMessageData(_MessagePtr);
+			IntPtr _RawMessagePtr = IRtmApiNative.imessage_getRawMessageData(_MessagePtr);
             Marshal.Copy(_RawMessagePtr, _RawMessageData, 0, GetRawMessageLength());
 			return _RawMessageData;
 		}
@@ -127,14 +123,11 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return _Length;
 			}
-			return imessage_getRawMessageLength(_MessagePtr);
+			return IRtmApiNative.imessage_getRawMessageLength(_MessagePtr);
 		}
 
 		/// <summary>
 		/// Allows the receiver to retrieve the timestamp of when the messaging server receives this message.
-		/// @note
-		/// - You can infer from the returned timestamp the approximate time as to when this message was sent.
-		/// - The returned timestamp is on a millisecond time-scale. It is for demonstration purposes only, not for strict ordering of messages.
 		/// </summary>
 		/// <returns>The timestamp (ms) of when the messaging server receives this message.</returns>
 		public Int64 GetServerReceiveTs() {
@@ -146,18 +139,17 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return imessage_getServerReceivedTs(_MessagePtr);
+			return IRtmApiNative.imessage_getServerReceivedTs(_MessagePtr);
 		}
 
 		/// <summary>
 		/// Allows the receiver to check whether this message has been cached on the server (Applies to peer-to-peer message only).
-        /// @note 
-		/// - This method returns false if a message is not cached by the server. Only if the sender sends the message as an offline message (sets \ref agora_rtm.SendMessageOptions.enableOfflineMessaging "enableOfflineMessaging" as true) when the specified user is offline, does the method return true when the user is back online.
-		/// - For now we only cache 200 offline messages for up to seven days for each receiver. When the number of the cached messages reaches this limit, the newest message overrides the oldest one.
+		/// This method returns false if a message is not cached by the server. Only if the sender sends the message as an offline message (sets enableOfflineMessaging as true) when the specified user is offline, does the method return true when the user is back online.
+		/// For now we only cache 200 offline messages for up to seven days for each receiver. When the number of the cached messages reaches this limit, the newest message overrides the oldest one.
 		/// </summary>
 		/// <returns>
-		///  - true: This message has been cached on the server (the server caches this message and resends it to the receiver when he/she is back online).
-		///  - false: This message has not been cached on the server.
+		/// true: This message has been cached on the server (the server caches this message and resends it to the receiver when he/she is back online).
+		/// false: This message has not been cached on the server.
 		/// </returns>
 		public bool IsOfflineMessage() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
@@ -168,12 +160,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return false;
 			}
-			return imessage_isOfflineMessage(_MessagePtr);
+			return IRtmApiNative.imessage_isOfflineMessage(_MessagePtr);
 		}
-        
-		/// <summary>
-		/// Releases all resources used by the IMessage instance.
-		/// </summary>
+
 		protected void Release() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return;
@@ -181,7 +170,7 @@ namespace agora_rtm {
 			if (_MessagePtr == IntPtr.Zero)
 				return;
 
-			imessage_release(_MessagePtr);
+			IRtmApiNative.imessage_release(_MessagePtr);
 			_MessagePtr = IntPtr.Zero;
 		}
 

@@ -11,67 +11,18 @@
 
 namespace agora {
     namespace unity {
-    
-        #if defined(_WIN32)
-        typedef void(__stdcall *FUNC_channel_onJoinSuccess)(int _id);
-        typedef void(__stdcall *FUNC_channel_onJoinFailure)(int _id, int errorCode);
-        typedef void(__stdcall *FUNC_channel_onLeave)(int _id, int errorCode);
-        typedef void(__stdcall *FUNC_channel_onMessageReceived)(int _id, const char *userId, const rtm::IMessage *message);
-        typedef void(__stdcall *FUNC_channel_onImageMessageReceived)(int _id, const char *userId, const rtm::IMessage *message);
-        typedef void(__stdcall *FUNC_channel_onFileMessageReceived)(int _id, const char *userId, const rtm::IMessage *message);
-        typedef void(__stdcall *FUNC_channel_onSendMessageResult)(int _id, long long messageId, int state);
-        typedef void(__stdcall *FUNC_channel_onMemberJoined)(int _id, void *member);
-        typedef void(__stdcall *FUNC_channel_onMemberLeft)(int _id, void *member);
-        typedef void(__stdcall *FUNC_channel_onGetMembers)(int _id, const char *members, int userCount, int errorCode);
-        typedef void(__stdcall *FUNC_channel_onMemberCountUpdated)(int _id, int memberCount);
-        typedef void(__stdcall *FUNC_channel_onAttributeUpdate)(int _id, const char *attributes, int numberOfAttributes);
-        #else
-        typedef void(*FUNC_channel_onJoinSuccess)(int _id);
-        typedef void(*FUNC_channel_onJoinFailure)(int _id, int errorCode);
-        typedef void(*FUNC_channel_onLeave)(int _id, int errorCode);
-        typedef void(*FUNC_channel_onMessageReceived)(int _id, const char *userId, const rtm::IMessage *message);
-        typedef void(*FUNC_channel_onImageMessageReceived)(int _id, const char *userId, const rtm::IMessage *message);
-        typedef void(*FUNC_channel_onFileMessageReceived)(int _id, const char *userId, const rtm::IMessage *message);
-        typedef void(*FUNC_channel_onSendMessageResult)(int _id, long long messageId, int state);
-        typedef void(*FUNC_channel_onMemberJoined)(int _id, void *member);
-        typedef void(*FUNC_channel_onMemberLeft)(int _id, void *member);
-        typedef void(*FUNC_channel_onGetMembers)(int _id, const char *members, int userCount, int errorCode);
-        typedef void(*FUNC_channel_onMemberCountUpdated)(int _id, int memberCount);
-        typedef void(*FUNC_channel_onAttributeUpdate)(int _id, const char *attributes, int numberOfAttributes);
-        #endif
-    
         class ChannelEventHandler : public rtm::IChannelEventHandler {
         private:
             int handlerId;
-            FUNC_channel_onJoinSuccess _joinSuccess = nullptr;
-            FUNC_channel_onJoinFailure _joinFailure = nullptr;
-            FUNC_channel_onLeave _onLeave = nullptr;
-            FUNC_channel_onMessageReceived _onMessageReceived = nullptr;
-            FUNC_channel_onImageMessageReceived _onImageMessageReceived = nullptr;
-            FUNC_channel_onFileMessageReceived _onFileMessageReceived = nullptr;
-            FUNC_channel_onSendMessageResult _onSendMessageResult = nullptr;
-            FUNC_channel_onMemberJoined _onMemberJoined = nullptr;
-            FUNC_channel_onMemberLeft _onMemberLeft = nullptr;
-            FUNC_channel_onGetMembers _onGetMembers = nullptr;
-            FUNC_channel_onMemberCountUpdated _onMemberCountUpdated = nullptr;
-            FUNC_channel_onAttributeUpdate _onAttributeUpdate = nullptr;
+            CChannelEventHandler* _c_channel_event_handler;
             
         public:
             ChannelEventHandler();
-            ChannelEventHandler(int _id, FUNC_channel_onJoinSuccess joinSuccess,
-                                FUNC_channel_onJoinFailure joinFailure,
-                                FUNC_channel_onLeave onLeave,
-                                FUNC_channel_onMessageReceived onMessageReceived,
-                                FUNC_channel_onImageMessageReceived onImageMessageReceived,
-                                FUNC_channel_onFileMessageReceived onFileMessageReceived,
-                                FUNC_channel_onSendMessageResult onSendMessage,
-                                FUNC_channel_onMemberJoined onMemberJoined,
-                                FUNC_channel_onMemberLeft onMemberLeft,
-                                FUNC_channel_onGetMembers onGetMembers,
-                                FUNC_channel_onMemberCountUpdated onMemberCountUpdated,
-                                FUNC_channel_onAttributeUpdate onAttributeUpdate);
+            ChannelEventHandler(int id, CChannelEventHandler* channelEventHandler);
             
             virtual ~ChannelEventHandler();
+
+            void clear();
             
             virtual void onJoinSuccess() override;
                

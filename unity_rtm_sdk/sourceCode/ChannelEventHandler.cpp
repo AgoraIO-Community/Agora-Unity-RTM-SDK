@@ -11,59 +11,30 @@
 namespace agora {
     namespace unity {
     
-     ChannelEventHandler::ChannelEventHandler() {
+     ChannelEventHandler::ChannelEventHandler():_c_channel_event_handler(nullptr) {
         
      }
     
-     ChannelEventHandler::ChannelEventHandler(int _id, FUNC_channel_onJoinSuccess joinSuccess,
-                                    FUNC_channel_onJoinFailure joinFailure,
-                                    FUNC_channel_onLeave onLeave,
-                                    FUNC_channel_onMessageReceived onMessageReceived,
-                                    FUNC_channel_onImageMessageReceived onImageMessageReceived,
-                                    FUNC_channel_onFileMessageReceived onFileMessageReceived,
-                                    FUNC_channel_onSendMessageResult onSendMessage,
-                                    FUNC_channel_onMemberJoined onMemberJoined,
-                                    FUNC_channel_onMemberLeft onMemberLeft,
-                                    FUNC_channel_onGetMembers onGetMembers,
-                                    FUNC_channel_onMemberCountUpdated onMemberCountUpdated,
-                                    FUNC_channel_onAttributeUpdate
-                                        onAttributeUpdate)
+     ChannelEventHandler::ChannelEventHandler(int id, CChannelEventHandler* channelEventHandler):handlerId(id),_c_channel_event_handler(channelEventHandler)
     {
-        handlerId = _id;
-        _joinSuccess = joinSuccess;
-        _joinFailure = joinFailure;
-        _onLeave = onLeave;
-        _onMessageReceived = onMessageReceived;
-        _onImageMessageReceived = onImageMessageReceived;
-        _onFileMessageReceived = onFileMessageReceived;
-        _onSendMessageResult = onSendMessage;
-        _onMemberJoined = onMemberJoined;
-        _onMemberLeft = onMemberLeft;
-        _onGetMembers = onGetMembers;
-        _onMemberCountUpdated = onMemberCountUpdated;
-        _onAttributeUpdate = onAttributeUpdate;
+
     }
                     
     ChannelEventHandler::~ChannelEventHandler()
     {
-        _joinSuccess = nullptr;
-        _joinFailure = nullptr;
-        _onLeave = nullptr;
-        _onMessageReceived = nullptr;
-        _onImageMessageReceived = nullptr;
-        _onFileMessageReceived = nullptr;
-        _onSendMessageResult = nullptr;
-        _onMemberJoined = nullptr;
-        _onMemberLeft = nullptr;
-        _onGetMembers = nullptr;
-        _onMemberCountUpdated = nullptr;
+        this->clear();
+    }
+
+    void ChannelEventHandler::clear()
+    {
+        _c_channel_event_handler = nullptr;
     }
                     
     void ChannelEventHandler::onJoinSuccess()
     {
         agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onJoinSuccess");
-        if(_joinSuccess)
-            _joinSuccess(handlerId);
+        if(_c_channel_event_handler)
+            _c_channel_event_handler->onJoinSuccess(handlerId);
     }
 
        
@@ -77,8 +48,8 @@ namespace agora {
     void ChannelEventHandler::onJoinFailure(rtm::JOIN_CHANNEL_ERR errorCode)
     {
         agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onJoinFailure");
-        if (_joinFailure)
-            _joinFailure(handlerId, int(errorCode));
+        if (_c_channel_event_handler)
+            _c_channel_event_handler->onJoinFailure(handlerId, int(errorCode));
     }
 
      /**
@@ -89,8 +60,8 @@ namespace agora {
     void ChannelEventHandler::onLeave(rtm::LEAVE_CHANNEL_ERR errorCode)
     {
         agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onLeave");
-        if (_onLeave)
-            _onLeave(handlerId, int(errorCode));
+        if (_c_channel_event_handler)
+            _c_channel_event_handler->onLeave(handlerId, int(errorCode));
     }
 
      /**
@@ -102,8 +73,8 @@ namespace agora {
     void ChannelEventHandler::onMessageReceived(const char *userId, const rtm::IMessage *message)
     {
         agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onMessageReceived");
-        if (_onMessageReceived)
-            _onMessageReceived(handlerId, userId, message);
+        if (_c_channel_event_handler)
+            _c_channel_event_handler->onMessageReceived(handlerId, userId, message);
     }
        /**
         Occurs when receiving a channel image message.
@@ -114,8 +85,8 @@ namespace agora {
     void ChannelEventHandler::onImageMessageReceived(const char *userId, const rtm::IImageMessage* message)
     {
         agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onImageMessageReceived");
-        if (_onImageMessageReceived)
-            _onImageMessageReceived(handlerId, userId, message);
+        if (_c_channel_event_handler)
+            _c_channel_event_handler->onImageMessageReceived(handlerId, userId, message);
     }
        
        /**
@@ -127,8 +98,8 @@ namespace agora {
     void ChannelEventHandler::onFileMessageReceived(const char *userId, const rtm::IFileMessage* message)
     {
         agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onFileMessageReceived");
-        if (_onFileMessageReceived)
-            _onFileMessageReceived(handlerId, userId, message);
+        if (_c_channel_event_handler)
+            _c_channel_event_handler->onFileMessageReceived(handlerId, userId, message);
     }
 
      /**
@@ -140,8 +111,8 @@ namespace agora {
     void ChannelEventHandler::onSendMessageResult(long long messageId, rtm::CHANNEL_MESSAGE_ERR_CODE state)
     {
         agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onSendMessageResult");
-        if (_onSendMessageResult)
-            _onSendMessageResult(handlerId, messageId, int(state));
+        if (_c_channel_event_handler)
+            _c_channel_event_handler->onSendMessageResult(handlerId, messageId, int(state));
     }
        
      /**
@@ -156,8 +127,8 @@ namespace agora {
     void ChannelEventHandler::onMemberJoined(rtm::IChannelMember *member)
     {
         agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onMemberJoined");
-        if (_onMemberJoined)
-            _onMemberJoined(handlerId, member);
+        if (_c_channel_event_handler)
+            _c_channel_event_handler->onMemberJoined(handlerId, member);
     }
        
      /**
@@ -172,8 +143,8 @@ namespace agora {
     void ChannelEventHandler::onMemberLeft(rtm::IChannelMember *member)
     {
         agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onMemberLeft");
-        if (_onMemberLeft)
-            _onMemberLeft(handlerId, member);
+        if (_c_channel_event_handler)
+            _c_channel_event_handler->onMemberLeft(handlerId, member);
     }
        
      /**
@@ -189,7 +160,7 @@ namespace agora {
     {
         agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onGetMembers");
         
-        if (_onGetMembers)
+        if (_c_channel_event_handler)
           {
               char szMsg[520] = {};
               std::string strPostMsg = "";
@@ -202,7 +173,7 @@ namespace agora {
                   }
               }
               sprintf(szMsg, "%s", strPostMsg.data());
-              _onGetMembers(handlerId, szMsg, userCount, errorCode);
+              _c_channel_event_handler->onGetMembers(handlerId, szMsg, userCount, errorCode);
           }
     }
        
@@ -216,7 +187,7 @@ namespace agora {
 //              */
     void ChannelEventHandler::onAttributesUpdated(const rtm::IRtmChannelAttribute* attributes[], int numberOfAttributes)
     {
-        if (_onAttributeUpdate)
+        if (_c_channel_event_handler)
           {
               char szMsg[520] = {};
               std::string strPostMsg = "";
@@ -229,7 +200,7 @@ namespace agora {
                   }
               }
               sprintf(szMsg, "%s", strPostMsg.data());
-              _onAttributeUpdate(handlerId, szMsg, numberOfAttributes);
+              _c_channel_event_handler->onAttributeUpdate(handlerId, szMsg, numberOfAttributes);
           }
     }
 //
@@ -246,8 +217,8 @@ namespace agora {
     void ChannelEventHandler::onMemberCountUpdated(int memberCount)
     {
         agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onMemberCountUpdated");
-        if (_onMemberCountUpdated)
-            _onMemberCountUpdated(handlerId, memberCount);
+        if (_c_channel_event_handler)
+            _c_channel_event_handler->onMemberCountUpdated(handlerId, memberCount);
     }
     }
 }
