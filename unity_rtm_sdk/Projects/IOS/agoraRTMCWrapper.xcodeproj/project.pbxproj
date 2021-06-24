@@ -7,23 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		495B058325491A9C00A9BEC0 /* i_rtm_channel_attribute.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056025491A9A00A9BEC0 /* i_rtm_channel_attribute.mm */; };
-		495B058425491A9C00A9BEC0 /* i_remote_call_invitation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056325491A9A00A9BEC0 /* i_remote_call_invitation.mm */; };
-		495B058525491A9C00A9BEC0 /* LogHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056425491A9A00A9BEC0 /* LogHelper.mm */; };
-		495B058625491A9C00A9BEC0 /* i_rtm_image_message.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056625491A9A00A9BEC0 /* i_rtm_image_message.mm */; };
-		495B058725491A9C00A9BEC0 /* i_rtm_service_event_handler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056725491A9A00A9BEC0 /* i_rtm_service_event_handler.mm */; };
-		495B058825491A9C00A9BEC0 /* i_rtm_file_message.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056C25491A9A00A9BEC0 /* i_rtm_file_message.mm */; };
-		495B058925491A9C00A9BEC0 /* i_rtm_channel_member.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056D25491A9A00A9BEC0 /* i_rtm_channel_member.mm */; };
-		495B058A25491A9C00A9BEC0 /* RtmServiceEventHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056E25491A9A00A9BEC0 /* RtmServiceEventHandler.mm */; };
-		495B058B25491A9C00A9BEC0 /* RtmCallEventHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B056F25491A9A00A9BEC0 /* RtmCallEventHandler.mm */; };
-		495B058C25491A9C00A9BEC0 /* ChannelEventHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057325491A9B00A9BEC0 /* ChannelEventHandler.mm */; };
-		495B058D25491A9C00A9BEC0 /* i_rtm_channel_event_handler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057625491A9B00A9BEC0 /* i_rtm_channel_event_handler.mm */; };
-		495B058E25491A9C00A9BEC0 /* i_local_call_invitation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057725491A9B00A9BEC0 /* i_local_call_invitation.mm */; };
-		495B058F25491A9C00A9BEC0 /* i_rtm_channel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057925491A9B00A9BEC0 /* i_rtm_channel.mm */; };
-		495B059025491A9C00A9BEC0 /* i_rtm_call_manager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057B25491A9B00A9BEC0 /* i_rtm_call_manager.mm */; };
-		495B059125491A9C00A9BEC0 /* i_rtm_call_event_handler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057C25491A9C00A9BEC0 /* i_rtm_call_event_handler.mm */; };
-		495B059225491A9C00A9BEC0 /* i_rtm_message.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057D25491A9C00A9BEC0 /* i_rtm_message.mm */; };
-		495B059325491A9C00A9BEC0 /* i_rtm_service.mm in Sources */ = {isa = PBXBuildFile; fileRef = 495B057E25491A9C00A9BEC0 /* i_rtm_service.mm */; };
+		7B2C77D526844D7E00DC4B6B /* i_rtm_channel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77B226844D7D00DC4B6B /* i_rtm_channel.cpp */; };
+		7B2C77D626844D7E00DC4B6B /* LogHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77B426844D7E00DC4B6B /* LogHelper.cpp */; };
+		7B2C77D726844D7E00DC4B6B /* i_rtm_file_message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77B726844D7E00DC4B6B /* i_rtm_file_message.cpp */; };
+		7B2C77D826844D7E00DC4B6B /* i_rtm_call_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77B826844D7E00DC4B6B /* i_rtm_call_manager.cpp */; };
+		7B2C77D926844D7E00DC4B6B /* RtmCallEventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77B926844D7E00DC4B6B /* RtmCallEventHandler.cpp */; };
+		7B2C77DA26844D7E00DC4B6B /* i_rtm_channel_attribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77BE26844D7E00DC4B6B /* i_rtm_channel_attribute.cpp */; };
+		7B2C77DB26844D7E00DC4B6B /* i_rtm_image_message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77BF26844D7E00DC4B6B /* i_rtm_image_message.cpp */; };
+		7B2C77DC26844D7E00DC4B6B /* i_rtm_message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77C026844D7E00DC4B6B /* i_rtm_message.cpp */; };
+		7B2C77DD26844D7E00DC4B6B /* i_rtm_service.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77C126844D7E00DC4B6B /* i_rtm_service.cpp */; };
+		7B2C77DE26844D7E00DC4B6B /* i_rtm_channel_member.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77CA26844D7E00DC4B6B /* i_rtm_channel_member.cpp */; };
+		7B2C77DF26844D7E00DC4B6B /* i_rtm_service_event_handler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77CB26844D7E00DC4B6B /* i_rtm_service_event_handler.cpp */; };
+		7B2C77E026844D7E00DC4B6B /* i_local_call_invitation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77CC26844D7E00DC4B6B /* i_local_call_invitation.cpp */; };
+		7B2C77E126844D7E00DC4B6B /* i_rtm_channel_event_handler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77CD26844D7E00DC4B6B /* i_rtm_channel_event_handler.cpp */; };
+		7B2C77E226844D7E00DC4B6B /* ChannelEventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77CE26844D7E00DC4B6B /* ChannelEventHandler.cpp */; };
+		7B2C77E326844D7E00DC4B6B /* i_remote_call_invitation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77CF26844D7E00DC4B6B /* i_remote_call_invitation.cpp */; };
+		7B2C77E426844D7E00DC4B6B /* RtmServiceEventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77D126844D7E00DC4B6B /* RtmServiceEventHandler.cpp */; };
+		7B2C77E526844D7E00DC4B6B /* i_rtm_call_event_handler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77D226844D7E00DC4B6B /* i_rtm_call_event_handler.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,44 +40,44 @@
 
 /* Begin PBXFileReference section */
 		495B055325491A4300A9BEC0 /* libagoraRTMCWrapper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libagoraRTMCWrapper.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		495B055F25491A9A00A9BEC0 /* i_rtm_message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_message.h; sourceTree = "<group>"; };
-		495B056025491A9A00A9BEC0 /* i_rtm_channel_attribute.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_channel_attribute.mm; sourceTree = "<group>"; };
-		495B056125491A9A00A9BEC0 /* i_rtm_channel_event_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel_event_handler.h; sourceTree = "<group>"; };
-		495B056225491A9A00A9BEC0 /* i_local_call_invitation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_local_call_invitation.h; sourceTree = "<group>"; };
-		495B056325491A9A00A9BEC0 /* i_remote_call_invitation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_remote_call_invitation.mm; sourceTree = "<group>"; };
-		495B056425491A9A00A9BEC0 /* LogHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LogHelper.mm; sourceTree = "<group>"; };
-		495B056525491A9A00A9BEC0 /* i_rtm_call_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_call_manager.h; sourceTree = "<group>"; };
-		495B056625491A9A00A9BEC0 /* i_rtm_image_message.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_image_message.mm; sourceTree = "<group>"; };
-		495B056725491A9A00A9BEC0 /* i_rtm_service_event_handler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_service_event_handler.mm; sourceTree = "<group>"; };
-		495B056825491A9A00A9BEC0 /* i_rtm_service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_service.h; sourceTree = "<group>"; };
-		495B056925491A9A00A9BEC0 /* i_rtm_channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel.h; sourceTree = "<group>"; };
-		495B056A25491A9A00A9BEC0 /* i_rtm_channel_member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel_member.h; sourceTree = "<group>"; };
-		495B056B25491A9A00A9BEC0 /* LogHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogHelper.h; sourceTree = "<group>"; };
-		495B056C25491A9A00A9BEC0 /* i_rtm_file_message.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_file_message.mm; sourceTree = "<group>"; };
-		495B056D25491A9A00A9BEC0 /* i_rtm_channel_member.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_channel_member.mm; sourceTree = "<group>"; };
-		495B056E25491A9A00A9BEC0 /* RtmServiceEventHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RtmServiceEventHandler.mm; sourceTree = "<group>"; };
-		495B056F25491A9A00A9BEC0 /* RtmCallEventHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RtmCallEventHandler.mm; sourceTree = "<group>"; };
-		495B057025491A9A00A9BEC0 /* i_remote_call_invitation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_remote_call_invitation.h; sourceTree = "<group>"; };
-		495B057125491A9A00A9BEC0 /* i_rtm_service_event_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_service_event_handler.h; sourceTree = "<group>"; };
-		495B057225491A9A00A9BEC0 /* RtmCallEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtmCallEventHandler.h; sourceTree = "<group>"; };
-		495B057325491A9B00A9BEC0 /* ChannelEventHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ChannelEventHandler.mm; sourceTree = "<group>"; };
-		495B057425491A9B00A9BEC0 /* i_rtm_channel_attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel_attribute.h; sourceTree = "<group>"; };
-		495B057525491A9B00A9BEC0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		495B057625491A9B00A9BEC0 /* i_rtm_channel_event_handler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_channel_event_handler.mm; sourceTree = "<group>"; };
-		495B057725491A9B00A9BEC0 /* i_local_call_invitation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_local_call_invitation.mm; sourceTree = "<group>"; };
-		495B057825491A9B00A9BEC0 /* ChannelEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelEventHandler.h; sourceTree = "<group>"; };
-		495B057925491A9B00A9BEC0 /* i_rtm_channel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_channel.mm; sourceTree = "<group>"; };
-		495B057A25491A9B00A9BEC0 /* i_rtm_file_message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_file_message.h; sourceTree = "<group>"; };
-		495B057B25491A9B00A9BEC0 /* i_rtm_call_manager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_call_manager.mm; sourceTree = "<group>"; };
-		495B057C25491A9C00A9BEC0 /* i_rtm_call_event_handler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_call_event_handler.mm; sourceTree = "<group>"; };
-		495B057D25491A9C00A9BEC0 /* i_rtm_message.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_message.mm; sourceTree = "<group>"; };
-		495B057E25491A9C00A9BEC0 /* i_rtm_service.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = i_rtm_service.mm; sourceTree = "<group>"; };
-		495B057F25491A9C00A9BEC0 /* RtmServiceEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtmServiceEventHandler.h; sourceTree = "<group>"; };
-		495B058025491A9C00A9BEC0 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
-		495B058125491A9C00A9BEC0 /* i_rtm_call_event_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_call_event_handler.h; sourceTree = "<group>"; };
-		495B058225491A9C00A9BEC0 /* i_rtm_image_message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_image_message.h; sourceTree = "<group>"; };
 		495B059625491B9900A9BEC0 /* IAgoraRtmCallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAgoraRtmCallManager.h; sourceTree = "<group>"; };
 		495B059725491B9900A9BEC0 /* IAgoraRtmService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAgoraRtmService.h; sourceTree = "<group>"; };
+		7B2C77B126844D7D00DC4B6B /* i_rtm_call_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_call_manager.h; sourceTree = "<group>"; };
+		7B2C77B226844D7D00DC4B6B /* i_rtm_channel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_rtm_channel.cpp; sourceTree = "<group>"; };
+		7B2C77B326844D7E00DC4B6B /* i_rtm_image_message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_image_message.h; sourceTree = "<group>"; };
+		7B2C77B426844D7E00DC4B6B /* LogHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LogHelper.cpp; sourceTree = "<group>"; };
+		7B2C77B526844D7E00DC4B6B /* i_local_call_invitation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_local_call_invitation.h; sourceTree = "<group>"; };
+		7B2C77B626844D7E00DC4B6B /* i_rtm_service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_service.h; sourceTree = "<group>"; };
+		7B2C77B726844D7E00DC4B6B /* i_rtm_file_message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_rtm_file_message.cpp; sourceTree = "<group>"; };
+		7B2C77B826844D7E00DC4B6B /* i_rtm_call_manager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_rtm_call_manager.cpp; sourceTree = "<group>"; };
+		7B2C77B926844D7E00DC4B6B /* RtmCallEventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtmCallEventHandler.cpp; sourceTree = "<group>"; };
+		7B2C77BA26844D7E00DC4B6B /* i_rtm_call_event_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_call_event_handler.h; sourceTree = "<group>"; };
+		7B2C77BB26844D7E00DC4B6B /* i_rtm_channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel.h; sourceTree = "<group>"; };
+		7B2C77BC26844D7E00DC4B6B /* RtmCallEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtmCallEventHandler.h; sourceTree = "<group>"; };
+		7B2C77BD26844D7E00DC4B6B /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		7B2C77BE26844D7E00DC4B6B /* i_rtm_channel_attribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_rtm_channel_attribute.cpp; sourceTree = "<group>"; };
+		7B2C77BF26844D7E00DC4B6B /* i_rtm_image_message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_rtm_image_message.cpp; sourceTree = "<group>"; };
+		7B2C77C026844D7E00DC4B6B /* i_rtm_message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_rtm_message.cpp; sourceTree = "<group>"; };
+		7B2C77C126844D7E00DC4B6B /* i_rtm_service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_rtm_service.cpp; sourceTree = "<group>"; };
+		7B2C77C226844D7E00DC4B6B /* ChannelEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelEventHandler.h; sourceTree = "<group>"; };
+		7B2C77C326844D7E00DC4B6B /* rtm_private_api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rtm_private_api.h; sourceTree = "<group>"; };
+		7B2C77C426844D7E00DC4B6B /* i_rtm_file_message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_file_message.h; sourceTree = "<group>"; };
+		7B2C77C526844D7E00DC4B6B /* i_rtm_service_event_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_service_event_handler.h; sourceTree = "<group>"; };
+		7B2C77C626844D7E00DC4B6B /* i_rtm_channel_event_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel_event_handler.h; sourceTree = "<group>"; };
+		7B2C77C726844D7E00DC4B6B /* i_rtm_message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_message.h; sourceTree = "<group>"; };
+		7B2C77C826844D7E00DC4B6B /* RtmServiceEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtmServiceEventHandler.h; sourceTree = "<group>"; };
+		7B2C77C926844D7E00DC4B6B /* LogHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogHelper.h; sourceTree = "<group>"; };
+		7B2C77CA26844D7E00DC4B6B /* i_rtm_channel_member.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_rtm_channel_member.cpp; sourceTree = "<group>"; };
+		7B2C77CB26844D7E00DC4B6B /* i_rtm_service_event_handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_rtm_service_event_handler.cpp; sourceTree = "<group>"; };
+		7B2C77CC26844D7E00DC4B6B /* i_local_call_invitation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_local_call_invitation.cpp; sourceTree = "<group>"; };
+		7B2C77CD26844D7E00DC4B6B /* i_rtm_channel_event_handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_rtm_channel_event_handler.cpp; sourceTree = "<group>"; };
+		7B2C77CE26844D7E00DC4B6B /* ChannelEventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChannelEventHandler.cpp; sourceTree = "<group>"; };
+		7B2C77CF26844D7E00DC4B6B /* i_remote_call_invitation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_remote_call_invitation.cpp; sourceTree = "<group>"; };
+		7B2C77D026844D7E00DC4B6B /* i_remote_call_invitation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_remote_call_invitation.h; sourceTree = "<group>"; };
+		7B2C77D126844D7E00DC4B6B /* RtmServiceEventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RtmServiceEventHandler.cpp; sourceTree = "<group>"; };
+		7B2C77D226844D7E00DC4B6B /* i_rtm_call_event_handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = i_rtm_call_event_handler.cpp; sourceTree = "<group>"; };
+		7B2C77D326844D7E00DC4B6B /* i_rtm_channel_attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel_attribute.h; sourceTree = "<group>"; };
+		7B2C77D426844D7E00DC4B6B /* i_rtm_channel_member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i_rtm_channel_member.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,42 +112,42 @@
 		495B055525491A4300A9BEC0 /* agoraRTMCWrapper */ = {
 			isa = PBXGroup;
 			children = (
-				495B057825491A9B00A9BEC0 /* ChannelEventHandler.h */,
-				495B057325491A9B00A9BEC0 /* ChannelEventHandler.mm */,
-				495B058025491A9C00A9BEC0 /* common.h */,
-				495B056225491A9A00A9BEC0 /* i_local_call_invitation.h */,
-				495B057725491A9B00A9BEC0 /* i_local_call_invitation.mm */,
-				495B057025491A9A00A9BEC0 /* i_remote_call_invitation.h */,
-				495B056325491A9A00A9BEC0 /* i_remote_call_invitation.mm */,
-				495B058125491A9C00A9BEC0 /* i_rtm_call_event_handler.h */,
-				495B057C25491A9C00A9BEC0 /* i_rtm_call_event_handler.mm */,
-				495B056525491A9A00A9BEC0 /* i_rtm_call_manager.h */,
-				495B057B25491A9B00A9BEC0 /* i_rtm_call_manager.mm */,
-				495B057425491A9B00A9BEC0 /* i_rtm_channel_attribute.h */,
-				495B056025491A9A00A9BEC0 /* i_rtm_channel_attribute.mm */,
-				495B056125491A9A00A9BEC0 /* i_rtm_channel_event_handler.h */,
-				495B057625491A9B00A9BEC0 /* i_rtm_channel_event_handler.mm */,
-				495B056A25491A9A00A9BEC0 /* i_rtm_channel_member.h */,
-				495B056D25491A9A00A9BEC0 /* i_rtm_channel_member.mm */,
-				495B056925491A9A00A9BEC0 /* i_rtm_channel.h */,
-				495B057925491A9B00A9BEC0 /* i_rtm_channel.mm */,
-				495B057A25491A9B00A9BEC0 /* i_rtm_file_message.h */,
-				495B056C25491A9A00A9BEC0 /* i_rtm_file_message.mm */,
-				495B058225491A9C00A9BEC0 /* i_rtm_image_message.h */,
-				495B056625491A9A00A9BEC0 /* i_rtm_image_message.mm */,
-				495B055F25491A9A00A9BEC0 /* i_rtm_message.h */,
-				495B057D25491A9C00A9BEC0 /* i_rtm_message.mm */,
-				495B057125491A9A00A9BEC0 /* i_rtm_service_event_handler.h */,
-				495B056725491A9A00A9BEC0 /* i_rtm_service_event_handler.mm */,
-				495B056825491A9A00A9BEC0 /* i_rtm_service.h */,
-				495B057E25491A9C00A9BEC0 /* i_rtm_service.mm */,
-				495B057525491A9B00A9BEC0 /* Info.plist */,
-				495B056B25491A9A00A9BEC0 /* LogHelper.h */,
-				495B056425491A9A00A9BEC0 /* LogHelper.mm */,
-				495B057225491A9A00A9BEC0 /* RtmCallEventHandler.h */,
-				495B056F25491A9A00A9BEC0 /* RtmCallEventHandler.mm */,
-				495B057F25491A9C00A9BEC0 /* RtmServiceEventHandler.h */,
-				495B056E25491A9A00A9BEC0 /* RtmServiceEventHandler.mm */,
+				7B2C77CE26844D7E00DC4B6B /* ChannelEventHandler.cpp */,
+				7B2C77C226844D7E00DC4B6B /* ChannelEventHandler.h */,
+				7B2C77BD26844D7E00DC4B6B /* common.h */,
+				7B2C77CC26844D7E00DC4B6B /* i_local_call_invitation.cpp */,
+				7B2C77B526844D7E00DC4B6B /* i_local_call_invitation.h */,
+				7B2C77CF26844D7E00DC4B6B /* i_remote_call_invitation.cpp */,
+				7B2C77D026844D7E00DC4B6B /* i_remote_call_invitation.h */,
+				7B2C77D226844D7E00DC4B6B /* i_rtm_call_event_handler.cpp */,
+				7B2C77BA26844D7E00DC4B6B /* i_rtm_call_event_handler.h */,
+				7B2C77B826844D7E00DC4B6B /* i_rtm_call_manager.cpp */,
+				7B2C77B126844D7D00DC4B6B /* i_rtm_call_manager.h */,
+				7B2C77BE26844D7E00DC4B6B /* i_rtm_channel_attribute.cpp */,
+				7B2C77D326844D7E00DC4B6B /* i_rtm_channel_attribute.h */,
+				7B2C77CD26844D7E00DC4B6B /* i_rtm_channel_event_handler.cpp */,
+				7B2C77C626844D7E00DC4B6B /* i_rtm_channel_event_handler.h */,
+				7B2C77CA26844D7E00DC4B6B /* i_rtm_channel_member.cpp */,
+				7B2C77D426844D7E00DC4B6B /* i_rtm_channel_member.h */,
+				7B2C77B226844D7D00DC4B6B /* i_rtm_channel.cpp */,
+				7B2C77BB26844D7E00DC4B6B /* i_rtm_channel.h */,
+				7B2C77B726844D7E00DC4B6B /* i_rtm_file_message.cpp */,
+				7B2C77C426844D7E00DC4B6B /* i_rtm_file_message.h */,
+				7B2C77BF26844D7E00DC4B6B /* i_rtm_image_message.cpp */,
+				7B2C77B326844D7E00DC4B6B /* i_rtm_image_message.h */,
+				7B2C77C026844D7E00DC4B6B /* i_rtm_message.cpp */,
+				7B2C77C726844D7E00DC4B6B /* i_rtm_message.h */,
+				7B2C77CB26844D7E00DC4B6B /* i_rtm_service_event_handler.cpp */,
+				7B2C77C526844D7E00DC4B6B /* i_rtm_service_event_handler.h */,
+				7B2C77C126844D7E00DC4B6B /* i_rtm_service.cpp */,
+				7B2C77B626844D7E00DC4B6B /* i_rtm_service.h */,
+				7B2C77B426844D7E00DC4B6B /* LogHelper.cpp */,
+				7B2C77C926844D7E00DC4B6B /* LogHelper.h */,
+				7B2C77C326844D7E00DC4B6B /* rtm_private_api.h */,
+				7B2C77B926844D7E00DC4B6B /* RtmCallEventHandler.cpp */,
+				7B2C77BC26844D7E00DC4B6B /* RtmCallEventHandler.h */,
+				7B2C77D126844D7E00DC4B6B /* RtmServiceEventHandler.cpp */,
+				7B2C77C826844D7E00DC4B6B /* RtmServiceEventHandler.h */,
 			);
 			path = agoraRTMCWrapper;
 			sourceTree = "<group>";
@@ -209,23 +209,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				495B058F25491A9C00A9BEC0 /* i_rtm_channel.mm in Sources */,
-				495B059025491A9C00A9BEC0 /* i_rtm_call_manager.mm in Sources */,
-				495B058B25491A9C00A9BEC0 /* RtmCallEventHandler.mm in Sources */,
-				495B058925491A9C00A9BEC0 /* i_rtm_channel_member.mm in Sources */,
-				495B058D25491A9C00A9BEC0 /* i_rtm_channel_event_handler.mm in Sources */,
-				495B058425491A9C00A9BEC0 /* i_remote_call_invitation.mm in Sources */,
-				495B058E25491A9C00A9BEC0 /* i_local_call_invitation.mm in Sources */,
-				495B059225491A9C00A9BEC0 /* i_rtm_message.mm in Sources */,
-				495B058725491A9C00A9BEC0 /* i_rtm_service_event_handler.mm in Sources */,
-				495B058525491A9C00A9BEC0 /* LogHelper.mm in Sources */,
-				495B058325491A9C00A9BEC0 /* i_rtm_channel_attribute.mm in Sources */,
-				495B058A25491A9C00A9BEC0 /* RtmServiceEventHandler.mm in Sources */,
-				495B059325491A9C00A9BEC0 /* i_rtm_service.mm in Sources */,
-				495B058C25491A9C00A9BEC0 /* ChannelEventHandler.mm in Sources */,
-				495B059125491A9C00A9BEC0 /* i_rtm_call_event_handler.mm in Sources */,
-				495B058625491A9C00A9BEC0 /* i_rtm_image_message.mm in Sources */,
-				495B058825491A9C00A9BEC0 /* i_rtm_file_message.mm in Sources */,
+				7B2C77E326844D7E00DC4B6B /* i_remote_call_invitation.cpp in Sources */,
+				7B2C77DA26844D7E00DC4B6B /* i_rtm_channel_attribute.cpp in Sources */,
+				7B2C77DC26844D7E00DC4B6B /* i_rtm_message.cpp in Sources */,
+				7B2C77D626844D7E00DC4B6B /* LogHelper.cpp in Sources */,
+				7B2C77DE26844D7E00DC4B6B /* i_rtm_channel_member.cpp in Sources */,
+				7B2C77DF26844D7E00DC4B6B /* i_rtm_service_event_handler.cpp in Sources */,
+				7B2C77DD26844D7E00DC4B6B /* i_rtm_service.cpp in Sources */,
+				7B2C77E126844D7E00DC4B6B /* i_rtm_channel_event_handler.cpp in Sources */,
+				7B2C77E026844D7E00DC4B6B /* i_local_call_invitation.cpp in Sources */,
+				7B2C77D526844D7E00DC4B6B /* i_rtm_channel.cpp in Sources */,
+				7B2C77E526844D7E00DC4B6B /* i_rtm_call_event_handler.cpp in Sources */,
+				7B2C77E226844D7E00DC4B6B /* ChannelEventHandler.cpp in Sources */,
+				7B2C77D926844D7E00DC4B6B /* RtmCallEventHandler.cpp in Sources */,
+				7B2C77D726844D7E00DC4B6B /* i_rtm_file_message.cpp in Sources */,
+				7B2C77D826844D7E00DC4B6B /* i_rtm_call_manager.cpp in Sources */,
+				7B2C77DB26844D7E00DC4B6B /* i_rtm_image_message.cpp in Sources */,
+				7B2C77E426844D7E00DC4B6B /* RtmServiceEventHandler.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
