@@ -1,6 +1,6 @@
 ::=============================================================================
 :: This script assumes the native Windows has been downloaded to the
-:: current directory.  It will extract the neccessary files for the 
+:: current directory.  It will extract the neccessary files for the
 :: VS Project to run.
 ::
 ::  Input: %1 : x86 or x64
@@ -14,6 +14,12 @@ CALL :download_library x86
 echo x86 download_library error=%ERRORLEVEL%
 CALL :download_library x64
 echo x64 download_library error=%ERRORLEVEL%
+
+REM Copy sourceCode
+for /F "delims=" %%a in ('powershell -command "pwd"') do SET CURDIR=%%a
+SET SOURCE_CODE_PATH=%CURDIR%/../../sourceCode/
+SET DST_PATH=%CURDIR%/agoraRTMCWrapper/agoraRTMCWrapper/
+powershell -command "cp -r %SOURCE_CODE_PATH%/* %DST_PATH%"
 
 REM Preparing step
 SET ARCH=x86

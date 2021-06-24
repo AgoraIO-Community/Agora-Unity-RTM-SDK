@@ -5,16 +5,26 @@
 
 PLATFORM="iOS"
 
+CURDIR=$(pwd)
 
 function download_library {
     DOWNLOAD_URL=$1
     DOWNLOAD_FILE="IOS_Native.zip"
-    
+
     if [[ ! -e $DOWNLOAD_FILE ]]; then
         wget $DOWNLOAD_URL -O $DOWNLOAD_FILE
     fi
     #unzip
     unzip -o $DOWNLOAD_FILE
+}
+
+function copy_source_code() {
+    echo "Copy source code start"
+    local SOURCE_CODE_PATH="${CURDIR}/../../sourceCode/"
+    local DST_PATH="${CURDIR}/agoraRTMCWrapper/"
+    cp -r ${SOURCE_CODE_PATH}* $DST_PATH
+    find $DST_PATH -type f -exec rename 's/\.cpp/\.mm/' '{}' \;
+    echo "Copy source code end"
 }
 
 function make_unity_plugin {
@@ -26,7 +36,7 @@ function make_unity_plugin {
 
 function Clean {
     echo "removing $PLATFORM build intermitten files..."
-    rm -rf sdk *.zip Agora_RTM_SDK_for_$PLATFORM  
+    rm -rf sdk *.zip Agora_RTM_SDK_for_$PLATFORM
     rm -rf obj libs bin output
 }
 
@@ -62,6 +72,9 @@ fi
 mkdir -p ./${output_root}/${build_config} || exit 1
 
 download_library $1
+
+# Copy sourceCode
+copy_source_code
 
 module_name=agoraRTMCWrapper
 

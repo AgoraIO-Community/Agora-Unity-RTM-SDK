@@ -7,15 +7,25 @@
 ## ==============================================================================
 PLATFORM="Android"
 
+CURDIR=$(pwd)
+
 function download_library {
     DOWNLOAD_URL=$1
     DOWNLOAD_FILE="Android_Native.zip"
-    
+
     if [[ ! -e $DOWNLOAD_FILE ]]; then
         wget $DOWNLOAD_URL -O $DOWNLOAD_FILE
     fi
     #unzip
     unzip -o $DOWNLOAD_FILE
+}
+
+function copy_source_code {
+    echo "Copy source code start"
+    local SOURCE_CODE_PATH="${CURDIR}/../../sourceCode/"
+    local DST_PATH="${CURDIR}/jni/"
+    cp -r ${SOURCE_CODE_PATH}* $DST_PATH
+    echo "Copy source code end"
 }
 
 function make_unity_plugin {
@@ -33,11 +43,11 @@ function make_unity_plugin {
 function Clean {
     if [ -e prebuilt ]; then
 	echo "clean ndk lib build..."
-	ndk-build -C jni/ clean 
+	ndk-build -C jni/ clean
     fi
     echo "removing Android build intermitten files..."
-    rm -rf sdk *.zip Agora_RTM_SDK_for_$PLATFORM 
-    rm -rf obj libs bin prebuilt 
+    rm -rf sdk *.zip Agora_RTM_SDK_for_$PLATFORM
+    rm -rf obj libs bin prebuilt
 }
 
 
@@ -50,6 +60,9 @@ fi
 download_library $1
 mkdir prebuilt
 cp -r Agora_RTM_SDK_for_Android/libs/* prebuilt/
+
+# Copy sourceCode
+copy_source_code
 
 COMMITNR=`git log --pretty="%h" | head -n 1`
 dirty=`[[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]] && echo "*"`

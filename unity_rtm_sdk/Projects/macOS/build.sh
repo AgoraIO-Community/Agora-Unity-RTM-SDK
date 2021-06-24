@@ -10,15 +10,26 @@
 ## ==============================================================================
 PLATFORM="Mac"
 
+CURDIR=$(pwd)
+
 function download_library {
     DOWNLOAD_URL=$1
     DOWNLOAD_FILE="MacOS_Native.zip"
-    
+
     if [[ ! -e $DOWNLOAD_FILE ]]; then
         wget $DOWNLOAD_URL -O $DOWNLOAD_FILE
     fi
     #unzip
     unzip -o $DOWNLOAD_FILE
+}
+
+function copy_source_code() {
+    echo "Copy source code start"
+    local SOURCE_CODE_PATH="${CURDIR}/../../sourceCode/"
+    local DST_PATH="${CURDIR}/agoraRTMCWrapper/"
+    cp -r ${SOURCE_CODE_PATH}* $DST_PATH
+    find $DST_PATH -type f -exec rename 's/\.cpp/\.mm/' '{}' \;
+    echo "Copy source code end"
 }
 
 function replace_teamID {
@@ -41,7 +52,7 @@ function replace_teamID {
 
 function Clean {
     echo "removing $PLATFORM build intermitten files..."
-    rm -rf sdk *.zip Agora_RTM_SDK_for_$PLATFORM  
+    rm -rf sdk *.zip Agora_RTM_SDK_for_$PLATFORM
     rm -rf obj libs bin output
 }
 
@@ -66,7 +77,7 @@ export macosx_config="macosx"
 echo ******** Settings ********
 echo BUILD_CONFIG=$BUILD_CONFIG
 echo BUILD_TARGET=$BUILD_TARGET
-echo BUILD_TARGET CLEAN =  "${BUILD_TARGET#clean}" 
+echo BUILD_TARGET CLEAN =  "${BUILD_TARGET#clean}"
 echo
 
 # contains clean target?
@@ -79,8 +90,11 @@ mkdir -p ./${output_root}/${build_config} || exit 1
 # download the library file
 download_library $1
 
+# Copy sourceCode
+copy_source_code
+
 # replace team id for signing
-# if [ -n $APPLE_TEAM_ID ]; then 
+# if [ -n $APPLE_TEAM_ID ]; then
 #    echo replace_teamID $APPLE_TEAM_ID
 #    replace_teamID $APPLE_TEAM_ID
 # fi
@@ -88,7 +102,7 @@ download_library $1
 module_name=agoraRTMCWrapper
 SDK_DIR=$PWD/sdk
 
-# MAC 
+# MAC
 xcodebuild -project ${module_name}.xcodeproj -target ${module_name} -configuration ${build_config} -sdk ${macosx_config} ${BUILD_TARGET} SYMROOT=${output_build_tmp_path} ${EXTRACFLAGS} || exit 1
 
 rm -rf $SDK_DIR
