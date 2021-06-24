@@ -75,6 +75,41 @@ namespace agora_rtm {
 		internal IntPtr onAttributesUpdated;
 	};
 
+	internal struct CRtmServiceEventHandler
+	{
+		internal IntPtr onLoginSuccess;
+		internal IntPtr onLoginFailure;
+		internal IntPtr onRenewTokenResult;
+		internal IntPtr onTokenExpired;
+		internal IntPtr onLogout;
+		internal IntPtr onConnectionStateChanged;
+		internal IntPtr onSendMessageResult;
+		internal IntPtr onMessageReceivedFromPeer;
+		internal IntPtr onImageMessageReceivedFromPeer;
+		internal IntPtr onFileMessageReceivedFromPeer;
+		internal IntPtr onMediaUploadingProgress;
+		internal IntPtr onMediaDownloadingProgress;
+		internal IntPtr onFileMediaUploadResult;
+		internal IntPtr onImageMediaUploadResult;
+		internal IntPtr onMediaDownloadToFileResult;
+		internal IntPtr onMediaDownloadToMemoryResult;
+		internal IntPtr onMediaCancelResult;
+		internal IntPtr onQueryPeersOnlineStatusResult;
+		internal IntPtr onSubscriptionRequestResult;
+		internal IntPtr onQueryPeersBySubscriptionOptionResult;
+		internal IntPtr onPeersOnlineStatusChanged;
+		internal IntPtr onSetLocalUserAttributesResult;
+		internal IntPtr onDeleteLocalUserAttributesResult;
+		internal IntPtr onClearLocalUserAttributesResult;
+		internal IntPtr onGetUserAttributesResult;
+		internal IntPtr onSetChannelAttributesResult;
+		internal IntPtr onAddOrUpdateLocalUserAttributesResult;
+		internal IntPtr onDeleteChannelAttributesResult;
+		internal IntPtr onClearChannelAttributesResult;
+		internal IntPtr onGetChannelAttributesResult;
+		internal IntPtr onGetChannelMemberCountResult;
+	}
+
 	internal class IRtmApiNative {
 
 		#region DllImport
@@ -371,37 +406,7 @@ namespace agora_rtm {
 		internal static extern void channel_event_handler_releaseEventHandler(IntPtr channel_eventHandler_ptr);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-		internal static extern IntPtr service_event_handler_createEventHandle(int id, RtmClientEventHandler.OnLoginSuccessHandler onLoginSuccess,
-																				RtmClientEventHandler.OnLoginFailureHandler onLoginFailure,
-																				RtmClientEventHandler.OnRenewTokenResultHandler onRenewTokenResult,
-																				RtmClientEventHandler.OnTokenExpiredHandler onTokenExpired,
-																				RtmClientEventHandler.OnLogoutHandler onLogout,
-																				RtmClientEventHandler.OnConnectionStateChangedHandler onConnectionStateChanged,
-																				RtmClientEventHandler.OnSendMessageResultHandler onSendMessageResult,
-																				EngineEventOnMessageReceived onMessageReceivedFromPeer,
-																				EngineEventOnImageMessageReceived onImageMessageReceivedFromPeer,
-																				EngineEventOnFileMessageReceived onFileMessageReceivedFromPeer,
-																				EngineEventOnMediaUploadingProgress onMediaUploadingProgress,
-																				EngineEventOnMediaDownloadingProgress onMediaDownloadingProgress,
-																				EngineEventOnFileMediaUploadResult onFileMediaUploadResult,
-																				EngineEventOnImageMediaUploadResult onImageMessageUploadResult,
-																				RtmClientEventHandler.OnMediaDownloadToFileResultHandler onMediaDownloadToFileResult,
-																				EngineEventOnMediaDownloadToMemoryResult onMediaDownloadToMemoryResult,
-																				RtmClientEventHandler.OnMediaCancelResultHandler onMediaCancelResult,
-																				EngineEventOnQueryPeersOnlineStatusResult onQueryPeersOnlineStatus,
-																				RtmClientEventHandler.OnSubscriptionRequestResultHandler onSubscriptionRequestResult,
-																				RtmClientEventHandler.OnQueryPeersBySubscriptionOptionResultHandler onQueryPeersBySubscriptionOptionResult,
-																				EngineEventOnPeersOnlineStatusChanged onPeersOnlineStatusChanged,
-																				RtmClientEventHandler.OnSetLocalUserAttributesResultHandler onSetLocalUserAttributesResult,
-																				RtmClientEventHandler.OnDeleteLocalUserAttributesResultHandler onDeleteLocalUserAttributesResult,
-																				RtmClientEventHandler.OnClearLocalUserAttributesResultHandler onClearLocalUserAttributesResult,
-																				EngineEventOnGetUserAttributesResultHandler onGetUserAttributesResult,
-																				RtmClientEventHandler.OnSetChannelAttributesResultHandler onSetChannelAttributesResult,
-																				RtmClientEventHandler.OnAddOrUpdateLocalUserAttributesResultHandler onAddOrUpdateLocalUserAttributesResult,
-																				RtmClientEventHandler.OnDeleteChannelAttributesResultHandler onDeleteChannelAttributesResult,
-																				RtmClientEventHandler.OnClearChannelAttributesResultHandler onClearChannelAttributesResult,
-																				EngineEventOnGetChannelAttributesResult onGetChannelAttributesResult,
-																				EngineEventOnGetChannelMemberCountResult onGetChannelMemberCountResult);
+		internal static extern IntPtr service_event_handler_createEventHandle(int id, ref CRtmServiceEventHandler cRtmServiceEventHandler);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
 		internal static extern IntPtr service_event_handler_releaseEventHandler(IntPtr service_eventHandler_ptr);

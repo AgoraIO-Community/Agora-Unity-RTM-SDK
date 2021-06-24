@@ -40,6 +40,7 @@
 #define AGORA_CALL
 #endif
 
+// channel callback function pointer
 typedef void(AGORA_CALL* FUNC_channel_onJoinSuccess)(int _id);
 typedef void(AGORA_CALL* FUNC_channel_onJoinFailure)(int _id, int errorCode);
 typedef void(AGORA_CALL* FUNC_channel_onLeave)(int _id, int errorCode);
@@ -71,6 +72,159 @@ typedef void(AGORA_CALL* FUNC_channel_onAttributeUpdate)(
     const char* attributes,
     int numberOfAttributes);
 
+// call manager function pointer
+
+typedef void(AGORA_CALL* FUNC_onLocalInvitationReceivedByPeer)(
+    int index,
+    void* localInvitation);
+typedef void(AGORA_CALL* FUNC_onLocalInvitationCanceled)(int index,
+                                                         void* localInvitation);
+typedef void(AGORA_CALL* FUNC_onLocalInvitationFailure)(
+    int index,
+    void* localInvitation,
+    agora::rtm::LOCAL_INVITATION_ERR_CODE errorCode);
+typedef void(AGORA_CALL* FUNC_onLocalInvitationAccepted)(int index,
+                                                         void* localInvitation,
+                                                         const char* response);
+typedef void(AGORA_CALL* FUNC_onLocalInvitationRefused)(int index,
+                                                        void* localInvitation,
+                                                        const char* response);
+typedef void(AGORA_CALL* FUNC_onRemoteInvitationRefused)(
+    int index,
+    void* remoteInvitation);
+typedef void(AGORA_CALL* FUNC_onRemoteInvitationAccepted)(
+    int index,
+    void* remoteInvitation);
+typedef void(AGORA_CALL* FUNC_onRemoteInvitationReceived)(
+    int index,
+    void* remoteInvitation);
+typedef void(AGORA_CALL* FUNC_onRemoteInvitationFailure)(
+    int index,
+    void* remoteInvitation,
+    agora::rtm::REMOTE_INVITATION_ERR_CODE errorCode);
+typedef void(AGORA_CALL* FUNC_onRemoteInvitationCanceled)(
+    int index,
+    void* remoteInvitation);
+
+// rtm service function pointer
+
+typedef void(AGORA_CALL* FUNC_onLoginSuccess)(int handlerId);
+typedef void(AGORA_CALL* FUNC_onLoginFailure)(int handlerId, int errorCode);
+typedef void(AGORA_CALL* FUNC_onRenewTokenResult)(int handlerId,
+                                                  const char* token,
+                                                  int errorCode);
+typedef void(AGORA_CALL* FUNC_onTokenExpired)(int handlerId);
+typedef void(AGORA_CALL* FUNC_onLogout)(int handlerId, int errorCode);
+typedef void(AGORA_CALL* FUNC_onConnectionStateChanged)(int handlerId,
+                                                        int state,
+                                                        int reason);
+typedef void(AGORA_CALL* FUNC_onSendMessageResult)(int handlerId,
+                                                   long long messageId,
+                                                   int errorCode);
+typedef void(AGORA_CALL* FUNC_onMessageReceivedFromPeer)(int handlerId,
+                                                         const char* peerId,
+                                                         void* message);
+typedef void(AGORA_CALL* FUNC_onImageMessageReceivedFromPeer)(
+    int handlerId,
+    const char* peerId,
+    void* message);
+typedef void(AGORA_CALL* FUNC_onFileMessageReceivedFromPeer)(int handlerId,
+                                                             const char* peerId,
+                                                             void* message);
+typedef void(AGORA_CALL* FUNC_onMediaUploadingProgress)(int handlerId,
+                                                        long long requestId,
+                                                        long long totalSize,
+                                                        long long currentSize);
+typedef void(AGORA_CALL* FUNC_onMediaDownloadingProgress)(
+    int handlerId,
+    long long requestId,
+    long long totalSize,
+    long long currentSize);
+typedef void(AGORA_CALL* FUNC_onFileMediaUploadResult)(int handlerId,
+                                                       long long requestId,
+                                                       void* fileMessage,
+                                                       int code);
+typedef void(AGORA_CALL* FUNC_onImageMediaUploadResult)(int handlerId,
+                                                        long long requestId,
+                                                        void* imageMessage,
+                                                        int code);
+typedef void(AGORA_CALL* FUNC_onMediaDownloadToFileResult)(int handlerId,
+                                                           long long requestId,
+                                                           int code);
+typedef void(AGORA_CALL* FUNC_onMediaDownloadToMemoryResult)(
+    int handlerId,
+    long long requestId,
+    const char* memory,
+    long long length,
+    int code);
+typedef void(AGORA_CALL* FUNC_onMediaCancelResult)(int handlerId,
+                                                   long long requestId,
+                                                   int code);
+typedef void(AGORA_CALL* FUNC_onQueryPeersOnlineStatusResult)(
+    int handlerId,
+    long long requestId,
+    void* peersStatus,
+    int peerCount,
+    int errorCode);
+typedef void(AGORA_CALL* FUNC_onSubscriptionRequestResult)(int handlerId,
+                                                           long long requestId,
+                                                           int errorCode);
+typedef void(AGORA_CALL* FUNC_onQueryPeersBySubscriptionOptionResult)(
+    int handlerId,
+    long long requestId,
+    const char* peerIds[],
+    int peerCount,
+    int errorCode);
+typedef void(AGORA_CALL* FUNC_onPeersOnlineStatusChanged)(
+    int handlerId,
+    const char* peersStatus,
+    int peerCount);
+typedef void(AGORA_CALL* FUNC_onSetLocalUserAttributesResult)(
+    int handlerId,
+    long long requestId,
+    int errorCode);
+typedef void(AGORA_CALL* FUNC_onDeleteLocalUserAttributesResult)(
+    int handlerId,
+    long long requestId,
+    int errorCode);
+typedef void(AGORA_CALL* FUNC_onClearLocalUserAttributesResult)(
+    int handlerId,
+    long long requestId,
+    int errorCode);
+typedef void(AGORA_CALL* FUNC_onGetUserAttributesResult)(int handlerId,
+                                                         long long requestId,
+                                                         const char* userId,
+                                                         const char* attribute,
+                                                         int numberOfAttributes,
+                                                         int errorCode);
+typedef void(AGORA_CALL* FUNC_onSetChannelAttributesResult)(int handlerId,
+                                                            long long requestId,
+                                                            int errorCode);
+typedef void(AGORA_CALL* FUNC_onAddOrUpdateLocalUserAttributesResult)(
+    int handlerId,
+    long long requestId,
+    int errorCode);
+typedef void(AGORA_CALL* FUNC_onDeleteChannelAttributesResult)(
+    int handlerId,
+    long long requestId,
+    int errorCode);
+typedef void(AGORA_CALL* FUNC_onClearChannelAttributesResult)(
+    int handlerId,
+    long long requestId,
+    int errorCode);
+typedef void(AGORA_CALL* FUNC_onGetChannelAttributesResult)(
+    int handlerId,
+    long long requestId,
+    const char* attributes,
+    int numberOfAttributes,
+    int errorCode);
+typedef void(AGORA_CALL* FUNC_onGetChannelMemberCountResult)(
+    int handlerId,
+    long long requestId,
+    void* channelMemberCounts,
+    int channelCount,
+    int errorCode);
+
 typedef struct CChannelEventHandler {
   FUNC_channel_onJoinSuccess onJoinSuccess;
   FUNC_channel_onJoinFailure onJoinFailure;
@@ -85,3 +239,42 @@ typedef struct CChannelEventHandler {
   FUNC_channel_onMemberCountUpdated onMemberCountUpdated;
   FUNC_channel_onAttributeUpdate onAttributeUpdate;
 } CChannelEventHandler;
+
+typedef struct CRtmServiceEventHandler {
+  FUNC_onLoginSuccess _onLoginSuccess;
+  FUNC_onLoginFailure _onLoginFailure;
+  FUNC_onRenewTokenResult _onRenewTokenResult;
+  FUNC_onTokenExpired _onTokenExpired;
+  FUNC_onLogout _onLogout;
+  FUNC_onConnectionStateChanged _onConnectionStateChanged;
+  FUNC_onSendMessageResult _onSendMessageResult;
+  FUNC_onMessageReceivedFromPeer _onMessageReceivedFromPeer;
+  FUNC_onImageMessageReceivedFromPeer _onImageMessageReceivedFromPeer;
+  FUNC_onFileMessageReceivedFromPeer _onFileMessageReceivedFromPeer;
+  FUNC_onMediaUploadingProgress _onMediaUploadingProgress;
+  FUNC_onMediaDownloadingProgress _onMediaDownloadingProgress;
+  FUNC_onFileMediaUploadResult _onFileMediaUploadResult;
+  FUNC_onImageMediaUploadResult _onImageMediaUploadResult;
+  FUNC_onMediaDownloadToFileResult _onMediaDownloadToFileResult;
+  FUNC_onMediaDownloadToMemoryResult _onMediaDownloadToMemoryResult;
+  FUNC_onMediaCancelResult _onMediaCancelResult;
+  FUNC_onQueryPeersOnlineStatusResult _onQueryPeersOnlineStatusResult;
+  FUNC_onSubscriptionRequestResult _onSubscriptionRequestResult;
+  FUNC_onQueryPeersBySubscriptionOptionResult
+      _onQueryPeersBySubscriptionOptionResult;
+  FUNC_onPeersOnlineStatusChanged _onPeersOnlineStatusChanged;
+  FUNC_onSetLocalUserAttributesResult _onSetLocalUserAttributesResult;
+  FUNC_onDeleteLocalUserAttributesResult _onDeleteLocalUserAttributesResult =
+      nullptr;
+  FUNC_onClearLocalUserAttributesResult _onClearLocalUserAttributesResult =
+      nullptr;
+  FUNC_onGetUserAttributesResult _onGetUserAttributesResult;
+  FUNC_onSetChannelAttributesResult _onSetChannelAttributesResult;
+  FUNC_onAddOrUpdateLocalUserAttributesResult
+      _onAddOrUpdateLocalUserAttributesResult;
+  FUNC_onDeleteChannelAttributesResult _onDeleteChannelAttributesResult =
+      nullptr;
+  FUNC_onClearChannelAttributesResult _onClearChannelAttributesResult;
+  FUNC_onGetChannelAttributesResult _onGetChannelAttributesResult;
+  FUNC_onGetChannelMemberCountResult _onGetChannelMemberCountResult;
+} CRtmServiceEventHandler;

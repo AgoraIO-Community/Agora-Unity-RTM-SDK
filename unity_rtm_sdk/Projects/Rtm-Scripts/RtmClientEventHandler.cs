@@ -314,43 +314,46 @@ namespace agora_rtm {
 		public OnGetChannelAttributesResultHandler OnGetChannelAttributesResult;
 		public OnGetChannelMemberCountResultHandler OnGetChannelMemberCountResult;
 		public OnPeersOnlineStatusChangedHandler OnPeersOnlineStatusChanged;
-
+		private CRtmServiceEventHandler _rtmServiceEventHandler;
 
 		public RtmClientEventHandler() {
 			currentIdIndex = _id;
 			clientEventHandlerHandlerDic.Add(currentIdIndex, this);
-			_rtmClientEventHandlerPtr = IRtmApiNative.service_event_handler_createEventHandle(currentIdIndex, OnLoginSuccessCallback,
-																				OnLoginFailureCallback,
-																				OnRenewTokenResultCallback,
-																				OnTokenExpiredCallback,
-																				OnLogoutCallback,
-																				OnConnectionStateChangedCallback,
-																				OnSendMessageResultCallback,
-																				OnMessageReceivedFromPeerCallback,
-																				OnImageMessageReceivedFromPeerCallback,
-																				OnFileMessageReceivedFromPeerCallback,
-																				OnMediaUploadingProgressCallback,
-																				OnMediaDownloadingProgressCallback,
-																				OnFileMediaUploadResultCallback,
-																				OnImageMediaUploadResultCallback,
-																				OnMediaDownloadToFileResultCallback,
-																				OnMediaDownloadToMemoryResultCallback,
-																				OnMediaCancelResultCallback,
-																				OnQueryPeersOnlineStatusResultCallback,
-																				OnSubscriptionRequestResultCallback,
-																				OnQueryPeersBySubscriptionOptionResultCallback,
-																				OnPeersOnlineStatusChangedCallback,
-																				OnSetLocalUserAttributesResultCallback,
-																				OnDeleteLocalUserAttributesResultCallback,
-																				OnClearLocalUserAttributesResultCallback,
-																				OnGetUserAttributesResultCallback,
-																				OnSetChannelAttributesResultCallback,
-																				OnAddOrUpdateLocalUserAttributesResultCallback,
-																				OnDeleteChannelAttributesResultCallback,
-																				OnClearChannelAttributesResultCallback,
-																				OnGetChannelAttributesResultCallback,
-																				OnGetChannelMemberCountResultCallback);
-			_id ++;
+			_rtmServiceEventHandler = new CRtmServiceEventHandler {
+				onLoginSuccess = Marshal.GetFunctionPointerForDelegate(new OnLoginSuccessHandler(OnLoginSuccessCallback)),
+				onLoginFailure = Marshal.GetFunctionPointerForDelegate(new OnLoginFailureHandler(OnLoginFailureCallback)),
+				onRenewTokenResult = Marshal.GetFunctionPointerForDelegate(new OnRenewTokenResultHandler(OnRenewTokenResultCallback)),
+				onTokenExpired = Marshal.GetFunctionPointerForDelegate(new OnTokenExpiredHandler(OnTokenExpiredCallback)),
+				onLogout = Marshal.GetFunctionPointerForDelegate(new OnLogoutHandler(OnLogoutCallback)),
+				onConnectionStateChanged = Marshal.GetFunctionPointerForDelegate(new OnConnectionStateChangedHandler(OnConnectionStateChangedCallback)),
+				onSendMessageResult = Marshal.GetFunctionPointerForDelegate(new OnSendMessageResultHandler(OnSendMessageResultCallback)),
+				onMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMessageReceived(OnMessageReceivedFromPeerCallback)),
+				onImageMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(new EngineEventOnImageMessageReceived(OnImageMessageReceivedFromPeerCallback)),
+				onFileMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(new EngineEventOnFileMessageReceived(OnFileMessageReceivedFromPeerCallback)),
+				onMediaUploadingProgress = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMediaUploadingProgress(OnMediaUploadingProgressCallback)),
+				onMediaDownloadingProgress = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMediaDownloadingProgress(OnMediaDownloadingProgressCallback)),
+				onFileMediaUploadResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnFileMediaUploadResult(OnFileMediaUploadResultCallback)),
+				onImageMediaUploadResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnImageMediaUploadResult(OnImageMediaUploadResultCallback)),
+				onMediaDownloadToFileResult = Marshal.GetFunctionPointerForDelegate(new OnMediaDownloadToFileResultHandler(OnMediaDownloadToFileResultCallback)),
+				onMediaDownloadToMemoryResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMediaDownloadToMemoryResult(OnMediaDownloadToMemoryResultCallback)),
+				onMediaCancelResult = Marshal.GetFunctionPointerForDelegate(new OnMediaCancelResultHandler(OnMediaCancelResultCallback)),
+				onQueryPeersOnlineStatusResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnQueryPeersOnlineStatusResult(OnQueryPeersOnlineStatusResultCallback)), 
+				onSubscriptionRequestResult = Marshal.GetFunctionPointerForDelegate(new OnSubscriptionRequestResultHandler(OnSubscriptionRequestResultCallback)),
+				onQueryPeersBySubscriptionOptionResult = Marshal.GetFunctionPointerForDelegate(new OnQueryPeersBySubscriptionOptionResultHandler(OnQueryPeersBySubscriptionOptionResultCallback)),
+				onPeersOnlineStatusChanged = Marshal.GetFunctionPointerForDelegate(new EngineEventOnPeersOnlineStatusChanged(OnPeersOnlineStatusChangedCallback)),
+				onSetLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnSetLocalUserAttributesResultHandler(OnSetLocalUserAttributesResultCallback)),
+				onDeleteLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnDeleteLocalUserAttributesResultHandler(OnDeleteLocalUserAttributesResultCallback)),
+				onClearLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnClearLocalUserAttributesResultHandler(OnClearLocalUserAttributesResultCallback)),
+				onGetUserAttributesResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnGetUserAttributesResultHandler(OnGetUserAttributesResultCallback)),
+				onSetChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnSetChannelAttributesResultHandler(OnSetLocalUserAttributesResultCallback)),
+				onAddOrUpdateLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnAddOrUpdateLocalUserAttributesResultHandler(OnAddOrUpdateLocalUserAttributesResultCallback)),
+				onDeleteChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnDeleteChannelAttributesResultHandler(OnDeleteChannelAttributesResultCallback)),
+				onClearChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnClearChannelAttributesResultHandler(OnClearChannelAttributesResultCallback)),
+				onGetChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnGetChannelAttributesResult(OnGetChannelAttributesResultCallback)),
+				onGetChannelMemberCountResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnGetChannelMemberCountResult(OnGetChannelMemberCountResultCallback)),
+			};
+            _rtmClientEventHandlerPtr = IRtmApiNative.service_event_handler_createEventHandle(currentIdIndex, ref _rtmServiceEventHandler);
+            _id ++;
 		}
 
 		public void Release() {

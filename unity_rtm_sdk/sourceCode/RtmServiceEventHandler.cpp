@@ -12,107 +12,13 @@ namespace agora {
 namespace unity {
 RtmServiceEventHandler::RtmServiceEventHandler(
     int _id,
-    FUNC_onLoginSuccess onLoginSuccess,
-    FUNC_onLoginFailure onLoginFailure,
-    FUNC_onRenewTokenResult onRenewTokenResult,
-    FUNC_onTokenExpired onTokenExpired,
-    FUNC_onLogout onLogout,
-    FUNC_onConnectionStateChanged onConnectionStateChanged,
-    FUNC_onSendMessageResult onSendMessageResult,
-    FUNC_onMessageReceivedFromPeer onMessageReceivedFromPeer,
-    FUNC_onImageMessageReceivedFromPeer onImageMessageReceivedFromPeer,
-    FUNC_onFileMessageReceivedFromPeer onFileMessageReceivedFromPeer,
-    FUNC_onMediaUploadingProgress onMediaUploadingProgress,
-    FUNC_onMediaDownloadingProgress onMediaDownloadingProgress,
-    FUNC_onFileMediaUploadResult onFileMediaUploadResult,
-    FUNC_onImageMediaUploadResult onImageMediaUploadResult,
-    FUNC_onMediaDownloadToFileResult onMediaDownloadToFileResult,
-    FUNC_onMediaDownloadToMemoryResult onMediaDownloadToMemoryResult,
-    FUNC_onMediaCancelResult onMediaCancelResult,
-    FUNC_onQueryPeersOnlineStatusResult onQueryPeersOnlineStatusResult,
-    FUNC_onSubscriptionRequestResult onSubscriptionRequestResult,
-    FUNC_onQueryPeersBySubscriptionOptionResult
-        onQueryPeersBySubscriptionOptionResult,
-    FUNC_onPeersOnlineStatusChanged onPeersOnlineStatusChanged,
-    FUNC_onSetLocalUserAttributesResult onSetLocalUserAttributesResult,
-    FUNC_onDeleteLocalUserAttributesResult onDeleteLocalUserAttributesResult,
-    FUNC_onClearLocalUserAttributesResult onClearLocalUserAttributesResult,
-    FUNC_onGetUserAttributesResult onGetUserAttributesResult,
-    FUNC_onSetChannelAttributesResult onSetChannelAttributesResult,
-    FUNC_onAddOrUpdateLocalUserAttributesResult
-        onAddOrUpdateLocalUserAttributesResult,
-    FUNC_onDeleteChannelAttributesResult onDeleteChannelAttributesResult,
-    FUNC_onClearChannelAttributesResult onClearChannelAttributesResult,
-    FUNC_onGetChannelAttributesResult onGetChannelAttributesResult,
-    FUNC_onGetChannelMemberCountResult onGetChannelMemberCountResult) {
+    CRtmServiceEventHandler* handler) {
   handlerId = _id;
-  _onLoginSuccess = onLoginSuccess;
-  _onLoginFailure = onLoginFailure;
-  _onRenewTokenResult = onRenewTokenResult;
-  _onTokenExpired = onTokenExpired;
-  _onLogout = onLogout;
-  _onConnectionStateChanged = onConnectionStateChanged;
-  _onSendMessageResult = onSendMessageResult;
-  _onMessageReceivedFromPeer = onMessageReceivedFromPeer;
-  _onImageMessageReceivedFromPeer = onImageMessageReceivedFromPeer;
-  _onFileMessageReceivedFromPeer = onFileMessageReceivedFromPeer;
-  _onMediaUploadingProgress = onMediaUploadingProgress;
-  _onMediaDownloadingProgress = onMediaDownloadingProgress;
-  _onFileMediaUploadResult = onFileMediaUploadResult;
-  _onImageMediaUploadResult = onImageMediaUploadResult;
-  _onMediaDownloadToFileResult = onMediaDownloadToFileResult;
-  _onMediaDownloadToMemoryResult = onMediaDownloadToMemoryResult;
-  _onMediaCancelResult = onMediaCancelResult;
-  _onQueryPeersOnlineStatusResult = onQueryPeersOnlineStatusResult;
-  _onSubscriptionRequestResult = onSubscriptionRequestResult;
-  _onQueryPeersBySubscriptionOptionResult =
-      onQueryPeersBySubscriptionOptionResult;
-  _onPeersOnlineStatusChanged = onPeersOnlineStatusChanged;
-  _onSetLocalUserAttributesResult = onSetLocalUserAttributesResult;
-  _onDeleteLocalUserAttributesResult = onDeleteLocalUserAttributesResult;
-  _onClearLocalUserAttributesResult = onClearLocalUserAttributesResult;
-  _onGetUserAttributesResult = onGetUserAttributesResult;
-  _onSetChannelAttributesResult = onSetChannelAttributesResult;
-  _onAddOrUpdateLocalUserAttributesResult =
-      onAddOrUpdateLocalUserAttributesResult;
-  _onDeleteChannelAttributesResult = onDeleteChannelAttributesResult;
-  _onClearChannelAttributesResult = onClearChannelAttributesResult;
-  _onGetChannelAttributesResult = onGetChannelAttributesResult;
-  _onGetChannelMemberCountResult = onGetChannelMemberCountResult;
+  _c_rtm_service_event_handler = handler;
 }
 
 RtmServiceEventHandler::~RtmServiceEventHandler() {
-  _onLoginSuccess = nullptr;
-  _onLoginFailure = nullptr;
-  _onRenewTokenResult = nullptr;
-  _onTokenExpired = nullptr;
-  _onLogout = nullptr;
-  _onConnectionStateChanged = nullptr;
-  _onSendMessageResult = nullptr;
-  _onMessageReceivedFromPeer = nullptr;
-  _onImageMessageReceivedFromPeer = nullptr;
-  _onFileMessageReceivedFromPeer = nullptr;
-  _onMediaUploadingProgress = nullptr;
-  _onMediaDownloadingProgress = nullptr;
-  _onFileMediaUploadResult = nullptr;
-  _onImageMediaUploadResult = nullptr;
-  _onMediaDownloadToFileResult = nullptr;
-  _onMediaDownloadToMemoryResult = nullptr;
-  _onMediaCancelResult = nullptr;
-  _onQueryPeersOnlineStatusResult = nullptr;
-  _onSubscriptionRequestResult = nullptr;
-  _onQueryPeersBySubscriptionOptionResult = nullptr;
-  _onPeersOnlineStatusChanged = nullptr;
-  _onSetLocalUserAttributesResult = nullptr;
-  _onDeleteLocalUserAttributesResult = nullptr;
-  _onClearLocalUserAttributesResult = nullptr;
-  _onGetUserAttributesResult = nullptr;
-  _onSetChannelAttributesResult = nullptr;
-  _onAddOrUpdateLocalUserAttributesResult = nullptr;
-  _onDeleteChannelAttributesResult = nullptr;
-  _onClearChannelAttributesResult = nullptr;
-  _onGetChannelAttributesResult = nullptr;
-  _onGetChannelMemberCountResult = nullptr;
+  _c_rtm_service_event_handler = nullptr;
 }
 
 /**
@@ -124,8 +30,8 @@ agora::rtm::IRtmService::login "login" method call succeeds.
 void RtmServiceEventHandler::onLoginSuccess() {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onLoginSuccess");
-  if (_onLoginSuccess)
-    _onLoginSuccess(handlerId);
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onLoginSuccess(handlerId);
 }
 
 /**
@@ -139,8 +45,8 @@ void RtmServiceEventHandler::onLoginFailure(
     agora::rtm::LOGIN_ERR_CODE errorCode) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onLoginFailure");
-  if (_onLoginFailure)
-    _onLoginFailure(handlerId, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onLoginFailure(handlerId, int(errorCode));
 }
 
 /**
@@ -153,8 +59,9 @@ method call.
 void RtmServiceEventHandler::onRenewTokenResult(
     const char* token,
     agora::rtm::RENEW_TOKEN_ERR_CODE errorCode) {
-  if (_onRenewTokenResult)
-    _onRenewTokenResult(handlerId, token, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onRenewTokenResult(handlerId, token,
+                                                      int(errorCode));
 }
 
 /**
@@ -170,8 +77,8 @@ the \ref agora::rtm::IRtmService::renewToken "renewToken" method to pass the new
 Token on to the server.
 */
 void RtmServiceEventHandler::onTokenExpired() {
-  if (_onTokenExpired)
-    _onTokenExpired(handlerId);
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onTokenExpired(handlerId);
 }
 
 /**
@@ -182,8 +89,8 @@ agora::rtm::IRtmService::logout "logout" method. See \ref
 agora::rtm::LOGOUT_ERR_CODE "LOGOUT_ERR_CODE" for the error codes.
 */
 void RtmServiceEventHandler::onLogout(agora::rtm::LOGOUT_ERR_CODE errorCode) {
-  if (_onLogout)
-    _onLogout(handlerId, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onLogout(handlerId, int(errorCode));
 }
 
 /**
@@ -199,8 +106,9 @@ void RtmServiceEventHandler::onConnectionStateChanged(
     agora::rtm::CONNECTION_CHANGE_REASON reason) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onConnectionStateChanged");
-  if (_onConnectionStateChanged)
-    _onConnectionStateChanged(handlerId, int(state), int(reason));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onConnectionStateChanged(
+        handlerId, int(state), int(reason));
 }
 
 /**
@@ -216,8 +124,9 @@ void RtmServiceEventHandler::onSendMessageResult(
     agora::rtm::PEER_MESSAGE_ERR_CODE errorCode) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onSendMessageResult");
-  if (_onSendMessageResult)
-    _onSendMessageResult(handlerId, messageId, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onSendMessageResult(handlerId, messageId,
+                                                       int(errorCode));
 }
 
 /**
@@ -232,8 +141,9 @@ void RtmServiceEventHandler::onMessageReceivedFromPeer(
     const agora::rtm::IMessage* message) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onMessageReceivedFromPeer");
-  if (_onMessageReceivedFromPeer)
-    _onMessageReceivedFromPeer(handlerId, peerId, (void*)message);
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onMessageReceivedFromPeer(handlerId, peerId,
+                                                             (void*)message);
 }
 
 /**
@@ -248,8 +158,9 @@ void RtmServiceEventHandler::onImageMessageReceivedFromPeer(
     const agora::rtm::IImageMessage* message) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onImageMessageReceivedFromPeer");
-  if (_onImageMessageReceivedFromPeer)
-    _onImageMessageReceivedFromPeer(handlerId, peerId, (void*)message);
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onImageMessageReceivedFromPeer(
+        handlerId, peerId, (void*)message);
 }
 
 /**
@@ -264,8 +175,9 @@ void RtmServiceEventHandler::onFileMessageReceivedFromPeer(
     const agora::rtm::IFileMessage* message) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onFileMessageReceivedFromPeer");
-  if (_onFileMessageReceivedFromPeer)
-    _onFileMessageReceivedFromPeer(handlerId, peerId, (void*)message);
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onFileMessageReceivedFromPeer(
+        handlerId, peerId, (void*)message);
 }
 
 /**
@@ -286,9 +198,9 @@ void RtmServiceEventHandler::onMediaUploadingProgress(
     const agora::rtm::MediaOperationProgress& progress) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onMediaUploadingProgress");
-  if (_onMediaUploadingProgress)
-    _onMediaUploadingProgress(handlerId, requestId, progress.totalSize,
-                              progress.currentSize);
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onMediaUploadingProgress(
+        handlerId, requestId, progress.totalSize, progress.currentSize);
 }
 
 /**
@@ -309,9 +221,9 @@ void RtmServiceEventHandler::onMediaDownloadingProgress(
     const agora::rtm::MediaOperationProgress& progress) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onMediaDownloadingProgress");
-  if (_onMediaDownloadingProgress)
-    _onMediaDownloadingProgress(handlerId, requestId, progress.totalSize,
-                                progress.currentSize);
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onMediaDownloadingProgress(
+        handlerId, requestId, progress.totalSize, progress.currentSize);
 }
 
 /**
@@ -329,8 +241,9 @@ void RtmServiceEventHandler::onFileMediaUploadResult(
     agora::rtm::UPLOAD_MEDIA_ERR_CODE code) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onFileMediaUploadResult");
-  if (_onFileMediaUploadResult)
-    _onFileMediaUploadResult(handlerId, requestId, fileMessage, int(code));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onFileMediaUploadResult(
+        handlerId, requestId, fileMessage, int(code));
 }
 
 /**
@@ -348,8 +261,9 @@ void RtmServiceEventHandler::onImageMediaUploadResult(
     agora::rtm::UPLOAD_MEDIA_ERR_CODE code) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onImageMediaUploadResult");
-  if (_onImageMediaUploadResult)
-    _onImageMediaUploadResult(handlerId, requestId, imageMessage, int(code));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onImageMediaUploadResult(
+        handlerId, requestId, imageMessage, int(code));
 }
 
 /**
@@ -364,8 +278,9 @@ void RtmServiceEventHandler::onMediaDownloadToFileResult(
     agora::rtm::DOWNLOAD_MEDIA_ERR_CODE code) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onMediaDownloadToFileResult");
-  if (_onMediaDownloadToFileResult)
-    _onMediaDownloadToFileResult(handlerId, requestId, int(code));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onMediaDownloadToFileResult(
+        handlerId, requestId, int(code));
 }
 
 /**
@@ -387,9 +302,9 @@ void RtmServiceEventHandler::onMediaDownloadToMemoryResult(
     agora::rtm::DOWNLOAD_MEDIA_ERR_CODE code) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onMediaDownloadToMemoryResult");
-  if (_onMediaDownloadToMemoryResult)
-    _onMediaDownloadToMemoryResult(handlerId, requestId, memory, length,
-                                   int(code));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onMediaDownloadToMemoryResult(
+        handlerId, requestId, memory, length, int(code));
 }
 
 /**
@@ -403,8 +318,9 @@ Reports the result of the \ref agora::rtm::IRtmService::cancelMediaDownload
 void RtmServiceEventHandler::onMediaCancelResult(
     long long requestId,
     agora::rtm::CANCEL_MEDIA_ERR_CODE code) {
-  if (_onMediaCancelResult)
-    _onMediaCancelResult(handlerId, requestId, int(code));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onMediaCancelResult(handlerId, requestId,
+                                                       int(code));
 }
 
 /**
@@ -421,7 +337,7 @@ void RtmServiceEventHandler::onQueryPeersOnlineStatusResult(
     const agora::rtm::PeerOnlineStatus* peersStatus,
     int peerCount,
     agora::rtm::QUERY_PEERS_ONLINE_STATUS_ERR errorCode) {
-  if (_onQueryPeersOnlineStatusResult) {
+  if (_c_rtm_service_event_handler) {
     char szMsg[520] = {};
     std::string strPostMsg = "";
     for (int i = 0; i < peerCount; i++) {
@@ -431,8 +347,8 @@ void RtmServiceEventHandler::onQueryPeersOnlineStatusResult(
       peersStatus++;
     }
     sprintf(szMsg, "%s", strPostMsg.data());
-    _onQueryPeersOnlineStatusResult(handlerId, requestId, szMsg, peerCount,
-                                    errorCode);
+    _c_rtm_service_event_handler->_onQueryPeersOnlineStatusResult(
+        handlerId, requestId, szMsg, peerCount, errorCode);
   }
 }
 
@@ -448,8 +364,9 @@ or \ref agora::rtm::IRtmService::unsubscribePeersOnlineStatus
 void RtmServiceEventHandler::onSubscriptionRequestResult(
     long long requestId,
     agora::rtm::PEER_SUBSCRIPTION_STATUS_ERR errorCode) {
-  if (_onSubscriptionRequestResult)
-    _onSubscriptionRequestResult(handlerId, requestId, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onSubscriptionRequestResult(
+        handlerId, requestId, int(errorCode));
 }
 
 /**
@@ -467,9 +384,9 @@ void RtmServiceEventHandler::onQueryPeersBySubscriptionOptionResult(
     const char* peerIds[],
     int peerCount,
     agora::rtm::QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR errorCode) {
-  if (_onQueryPeersBySubscriptionOptionResult)
-    _onQueryPeersBySubscriptionOptionResult(handlerId, requestId, peerIds,
-                                            peerCount, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onQueryPeersBySubscriptionOptionResult(
+        handlerId, requestId, peerIds, peerCount, int(errorCode));
 }
 
 /**
@@ -490,7 +407,7 @@ online status has changed when successfully reconnecting to the server.
 void RtmServiceEventHandler::onPeersOnlineStatusChanged(
     const agora::rtm::PeerOnlineStatus peersStatus[],
     int peerCount) {
-  if (_onPeersOnlineStatusChanged) {
+  if (_c_rtm_service_event_handler) {
     char szMsg[520] = {};
     std::string strPostMsg = "";
     for (int i = 0; i < peerCount; i++) {
@@ -500,7 +417,8 @@ void RtmServiceEventHandler::onPeersOnlineStatusChanged(
       strPostMsg = szMsg;
     }
     sprintf(szMsg, "%s", strPostMsg.data());
-    _onPeersOnlineStatusChanged(handlerId, szMsg, peerCount);
+    _c_rtm_service_event_handler->_onPeersOnlineStatusChanged(handlerId, szMsg,
+                                                              peerCount);
   }
 }
 
@@ -514,8 +432,9 @@ Reports the result of the \ref agora::rtm::IRtmService::setLocalUserAttributes
 void RtmServiceEventHandler::onSetLocalUserAttributesResult(
     long long requestId,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-  if (_onSetLocalUserAttributesResult)
-    _onSetLocalUserAttributesResult(handlerId, requestId, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onSetLocalUserAttributesResult(
+        handlerId, requestId, int(errorCode));
 }
 
 /**
@@ -529,9 +448,9 @@ agora::rtm::IRtmService::addOrUpdateLocalUserAttributes
 void RtmServiceEventHandler::onAddOrUpdateLocalUserAttributesResult(
     long long requestId,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-  if (_onAddOrUpdateLocalUserAttributesResult)
-    _onAddOrUpdateLocalUserAttributesResult(handlerId, requestId,
-                                            int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onAddOrUpdateLocalUserAttributesResult(
+        handlerId, requestId, int(errorCode));
 }
 
 /**
@@ -545,8 +464,9 @@ agora::rtm::IRtmService::deleteLocalUserAttributesByKeys
 void RtmServiceEventHandler::onDeleteLocalUserAttributesResult(
     long long requestId,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-  if (_onDeleteLocalUserAttributesResult)
-    _onDeleteLocalUserAttributesResult(handlerId, requestId, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onDeleteLocalUserAttributesResult(
+        handlerId, requestId, int(errorCode));
 }
 
 /**
@@ -561,8 +481,9 @@ void RtmServiceEventHandler::onClearLocalUserAttributesResult(
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onClearLocalUserAttributesResult");
-  if (_onClearLocalUserAttributesResult)
-    _onClearLocalUserAttributesResult(handlerId, requestId, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onClearLocalUserAttributesResult(
+        handlerId, requestId, int(errorCode));
 }
 
 /**
@@ -595,9 +516,10 @@ void RtmServiceEventHandler::onGetUserAttributesResult(
 
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onGetUserAttributesResult");
-  if (_onGetUserAttributesResult)
-    _onGetUserAttributesResult(handlerId, requestId, userId, szMsg,
-                               numberOfAttributes, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onGetUserAttributesResult(
+        handlerId, requestId, userId, szMsg, numberOfAttributes,
+        int(errorCode));
 }
 
 /**
@@ -612,8 +534,9 @@ void RtmServiceEventHandler::onSetChannelAttributesResult(
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onSetChannelAttributesResult");
-  if (_onSetChannelAttributesResult)
-    _onSetChannelAttributesResult(handlerId, requestId, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onSetChannelAttributesResult(
+        handlerId, requestId, int(errorCode));
 }
 
 /**
@@ -629,9 +552,9 @@ void RtmServiceEventHandler::onAddOrUpdateChannelAttributesResult(
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onAddOrUpdateChannelAttributesResult");
-  if (_onAddOrUpdateLocalUserAttributesResult)
-    _onAddOrUpdateLocalUserAttributesResult(handlerId, requestId,
-                                            int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onAddOrUpdateLocalUserAttributesResult(
+        handlerId, requestId, int(errorCode));
 }
 
 /**
@@ -647,8 +570,9 @@ void RtmServiceEventHandler::onDeleteChannelAttributesResult(
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onDeleteChannelAttributesResult");
-  if (_onDeleteChannelAttributesResult)
-    _onDeleteChannelAttributesResult(handlerId, requestId, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onDeleteChannelAttributesResult(
+        handlerId, requestId, int(errorCode));
 }
 
 /**
@@ -663,8 +587,9 @@ void RtmServiceEventHandler::onClearChannelAttributesResult(
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onClearChannelAttributesResult");
-  if (_onClearChannelAttributesResult)
-    _onClearChannelAttributesResult(handlerId, requestId, int(errorCode));
+  if (_c_rtm_service_event_handler)
+    _c_rtm_service_event_handler->_onClearChannelAttributesResult(
+        handlerId, requestId, int(errorCode));
 }
 /**
 Reports the result of the \ref agora::rtm::IRtmService::getChannelAttributes
@@ -682,7 +607,7 @@ void RtmServiceEventHandler::onGetChannelAttributesResult(
     const agora::rtm::IRtmChannelAttribute* attributes[],
     int numberOfAttributes,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-  if (_onGetChannelAttributesResult) {
+  if (_c_rtm_service_event_handler) {
     char szMsg[520] = {};
     std::string strPostMsg = "";
     for (int i = 0; i < numberOfAttributes; i++) {
@@ -697,8 +622,8 @@ void RtmServiceEventHandler::onGetChannelAttributesResult(
       }
     }
     sprintf(szMsg, "%s", strPostMsg.data());
-    _onGetChannelAttributesResult(handlerId, requestId, szMsg,
-                                  numberOfAttributes, int(errorCode));
+    _c_rtm_service_event_handler->_onGetChannelAttributesResult(
+        handlerId, requestId, szMsg, numberOfAttributes, int(errorCode));
   }
 }
 
@@ -718,7 +643,7 @@ void RtmServiceEventHandler::onGetChannelMemberCountResult(
     agora::rtm::GET_CHANNEL_MEMBER_COUNT_ERR_CODE errorCode) {
   agora::unity::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onGetChannelMemberCountResult");
-  if (_onGetChannelMemberCountResult) {
+  if (_c_rtm_service_event_handler) {
     char szMsg[520] = {};
     std::string strPostMsg = "";
     for (int i = 0; i < channelCount; i++) {
@@ -731,8 +656,8 @@ void RtmServiceEventHandler::onGetChannelMemberCountResult(
       }
     }
     sprintf(szMsg, "%s", strPostMsg.data());
-    _onGetChannelAttributesResult(handlerId, requestId, szMsg, channelCount,
-                                  int(errorCode));
+    _c_rtm_service_event_handler->_onGetChannelAttributesResult(
+        handlerId, requestId, szMsg, channelCount, int(errorCode));
   }
 }
 }  // namespace unity
