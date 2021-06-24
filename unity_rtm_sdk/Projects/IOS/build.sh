@@ -45,13 +45,6 @@ if [ "$1" == "clean" ]; then
     exit 0
 fi
 
-# We will require the setting of RTM_VERSION environmental variable
-if [ -z ${RTM_VERSION+x} ]; then
-    echo "ERROR, environment variable RTM_VERSION (e.g. 'v1_4_2') must be set!"
-    exit 1
-    else echo "$PLATFORM RTM_VERSION = $RTM_VERSION"
-fi
-
 #use environment variable BUILD_CONFIG and BUILD_TARGET to config build
 
 BUILD_CONFIG=${BUILD_CONFIG:=Release}
