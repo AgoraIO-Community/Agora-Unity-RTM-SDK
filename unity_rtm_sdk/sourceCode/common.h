@@ -264,16 +264,13 @@ typedef struct CRtmServiceEventHandler {
       _onQueryPeersBySubscriptionOptionResult;
   FUNC_onPeersOnlineStatusChanged _onPeersOnlineStatusChanged;
   FUNC_onSetLocalUserAttributesResult _onSetLocalUserAttributesResult;
-  FUNC_onDeleteLocalUserAttributesResult _onDeleteLocalUserAttributesResult =
-      nullptr;
-  FUNC_onClearLocalUserAttributesResult _onClearLocalUserAttributesResult =
-      nullptr;
+  FUNC_onDeleteLocalUserAttributesResult _onDeleteLocalUserAttributesResult;
+  FUNC_onClearLocalUserAttributesResult _onClearLocalUserAttributesResult;
   FUNC_onGetUserAttributesResult _onGetUserAttributesResult;
   FUNC_onSetChannelAttributesResult _onSetChannelAttributesResult;
   FUNC_onAddOrUpdateLocalUserAttributesResult
       _onAddOrUpdateLocalUserAttributesResult;
-  FUNC_onDeleteChannelAttributesResult _onDeleteChannelAttributesResult =
-      nullptr;
+  FUNC_onDeleteChannelAttributesResult _onDeleteChannelAttributesResult;
   FUNC_onClearChannelAttributesResult _onClearChannelAttributesResult;
   FUNC_onGetChannelAttributesResult _onGetChannelAttributesResult;
   FUNC_onGetChannelMemberCountResult _onGetChannelMemberCountResult;
