@@ -14,13 +14,13 @@
 #pragma comment(lib, "../sdk/x64/lib/agora_rtm_sdk.lib")
 #include "../sdk/x64/include/IAgoraRtmCallManager.h"
 #include "../sdk/x64/include/IAgoraRtmService.h"
-#define AGORA_CALL __cedc
+#define AGORA_CALL __stdcall
 #elif defined(_WIN32)
 #define AGORARTC_EXPORT
 #pragma comment(lib, "../sdk/x86/lib/agora_rtm_sdk.lib")
 #include "../sdk/x86/include/IAgoraRtmCallManager.h"
 #include "../sdk/x86/include/IAgoraRtmService.h"
-#define AGORA_CALL __cedc
+#define AGORA_CALL __stdcall
 #elif defined(__APPLE__)
 #include <TargetConditionals.h>
 #if TARGET_IPHONE_SIMULATOR
