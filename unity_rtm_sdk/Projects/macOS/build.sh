@@ -28,7 +28,7 @@ function copy_source_code() {
     local SOURCE_CODE_PATH="${CURDIR}/../../sourceCode/"
     local DST_PATH="${CURDIR}/agoraRTMCWrapper/"
     cp -r ${SOURCE_CODE_PATH}* $DST_PATH
-    find $DST_PATH -type f -exec rename 's/\.cpp/\.mm/' '{}' \;
+#    find $DST_PATH -type f -exec rename 's/\.cpp/\.mm/' '{}' \;
     echo "Copy source code end"
 }
 
