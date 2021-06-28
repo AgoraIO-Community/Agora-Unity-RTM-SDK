@@ -275,3 +275,16 @@ typedef struct CRtmServiceEventHandler {
   FUNC_onGetChannelAttributesResult _onGetChannelAttributesResult;
   FUNC_onGetChannelMemberCountResult _onGetChannelMemberCountResult;
 } CRtmServiceEventHandler;
+
+typedef struct CRtmCallEventHandler {
+  FUNC_onLocalInvitationReceivedByPeer _onLocalInvitationReceivedByPeer;
+  FUNC_onLocalInvitationCanceled _onLocalInvitationCanceled;
+  FUNC_onLocalInvitationFailure _onLocalInvitationFailure;
+  FUNC_onLocalInvitationAccepted _onLocalInvitationAccepted;
+  FUNC_onLocalInvitationRefused _onLocalInvitationRefused;
+  FUNC_onRemoteInvitationRefused _onRemoteInvitationRefused;
+  FUNC_onRemoteInvitationAccepted _onRemoteInvitationAccepted;
+  FUNC_onRemoteInvitationReceived _onRemoteInvitationReceived;
+  FUNC_onRemoteInvitationFailure _onRemoteInvitationFailure;
+  FUNC_onRemoteInvitationCanceled _onRemoteInvitationCanceled;
+} CRtmCallEventHandler;

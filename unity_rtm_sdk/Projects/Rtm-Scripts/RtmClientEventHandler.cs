@@ -366,7 +366,7 @@ namespace agora_rtm {
 			_rtmClientEventHandlerPtr = IntPtr.Zero;
 		}
 
-		public IntPtr GetRtmClientEventHandlerPtr() {
+		public IntPtr GetPtr() {
 			return _rtmClientEventHandlerPtr;
 		}
 		

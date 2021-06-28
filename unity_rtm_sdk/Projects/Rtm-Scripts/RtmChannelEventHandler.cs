@@ -144,7 +144,7 @@ namespace agora_rtm {
             _id ++;
         }
 
-        public IntPtr GetChannelEventHandlerPtr() {
+        internal IntPtr GetPtr() {
             return channelEventHandlerPtr;
         }
 

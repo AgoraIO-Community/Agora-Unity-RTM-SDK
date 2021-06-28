@@ -119,7 +119,7 @@ namespace agora_rtm {
 			return (REMOTE_INVITATION_STATE)IRtmApiNative.i_remote_call_manager_getState(_remoteInvitationPrt);		
 		}
 
-		public IntPtr GetPtr() {
+		internal IntPtr GetPtr() {
 			return _remoteInvitationPrt;
 		}
 

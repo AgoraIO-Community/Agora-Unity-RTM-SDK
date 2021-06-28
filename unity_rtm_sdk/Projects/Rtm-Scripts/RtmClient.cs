@@ -32,7 +32,7 @@ namespace agora_rtm {
             AgoraCallbackObject.GetInstance();
             _rtmServicePtr = IRtmApiNative.createRtmService_rtm();
             _eventHandler = eventHandler;
-            int ret = IRtmApiNative.initialize_rtm(_rtmServicePtr, appId, eventHandler.GetRtmClientEventHandlerPtr());
+            int ret = IRtmApiNative.initialize_rtm(_rtmServicePtr, appId, eventHandler.GetPtr());
             if (ret != 0) {
                 Debug.LogError("RtmClient create fail, error:  " + ret);
             }
@@ -343,7 +343,7 @@ namespace agora_rtm {
                 }
             }
             
-            IntPtr _rtmChannelPtr = IRtmApiNative.createChannel_rtm(_rtmServicePtr, channelId, rtmChannelEventHandler.GetChannelEventHandlerPtr());
+            IntPtr _rtmChannelPtr = IRtmApiNative.createChannel_rtm(_rtmServicePtr, channelId, rtmChannelEventHandler.GetPtr());
             RtmChannel channel = new RtmChannel(_rtmChannelPtr, rtmChannelEventHandler);
             channelDic.Add(channelId, channel);
             return channel;

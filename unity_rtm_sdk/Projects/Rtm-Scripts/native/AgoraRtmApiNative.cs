@@ -75,6 +75,7 @@ namespace agora_rtm {
 		internal IntPtr onAttributesUpdated;
 	};
 
+	[StructLayout(LayoutKind.Sequential)]
 	internal struct CRtmServiceEventHandler
 	{
 		internal IntPtr onLoginSuccess;
@@ -109,6 +110,20 @@ namespace agora_rtm {
 		internal IntPtr onGetChannelAttributesResult;
 		internal IntPtr onGetChannelMemberCountResult;
 	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	internal struct CRtmCallEventHandler {
+		internal IntPtr _onLocalInvitationReceivedByPeer;
+		internal IntPtr _onLocalInvitationCanceled;
+		internal IntPtr _onLocalInvitationFailure;
+		internal IntPtr _onLocalInvitationAccepted;
+		internal IntPtr _onLocalInvitationRefused;
+		internal IntPtr _onRemoteInvitationRefused;
+		internal IntPtr _onRemoteInvitationAccepted;
+		internal IntPtr _onRemoteInvitationReceived;
+		internal IntPtr _onRemoteInvitationFailure;
+		internal IntPtr _onRemoteInvitationCanceled;
+	};
 
 	internal class IRtmApiNative {
 
@@ -481,21 +496,10 @@ namespace agora_rtm {
 		internal static extern void i_remote_call_manager_release(IntPtr remoteCallInvitationPtr);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-		internal static extern IntPtr i_rtm_call_event_handler_createEventHandler(int id, EngineEventOnLocalInvitationReceivedByPeerHandler onLocalInvitationReceivedByPeerHandler,
-																				EngineEventOnLocalInvitationCanceledHandler onLocalInvitationCanceledHandler,
-																				EngineEventOnLocalInvitationFailureHandler onLocalInvitationFailureHandler,
-																				EngineEventOnLocalInvitationAcceptedHandler onLocalInvitationAcceptedHandler,
-																				EngineEventOnLocalInvitationRefusedHandler onLocalInvitationRefusedHandler,
-																				EngineEventOnRemoteInvitationRefusedHandler onRemoteInvitationRefusedHandler,
-																				EngineEventOnRemoteInvitationAcceptedHandler onRemoteInvitationAcceptedHandler,
-																				EngineEventOnRemoteInvitationReceivedHandler onRemoteInvitationReceivedHandler,
-																				EngineEventOnRemoteInvitationFailureHandler onRemoteInvitationFailureHandler,
-																				EngineEventOnRemoteInvitationCanceledHandler onRemoteInvitationCanceledHandler);
+		internal static extern IntPtr i_rtm_call_event_handler_createEventHandler(int id, IntPtr cRtmCallEventHandler);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
 		internal static extern void i_rtm_call_event_releaseEventHandler(IntPtr remoteCallInvitationPtr);
-
-
 
 #endregion engine callbacks
 	}

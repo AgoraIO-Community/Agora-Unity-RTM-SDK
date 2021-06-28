@@ -118,7 +118,7 @@ namespace agora_rtm {
 			}	
 		}
 
-		public IntPtr GetPtr() {
+		internal IntPtr GetPtr() {
 			return _localInvitationPtr;
 		}
 

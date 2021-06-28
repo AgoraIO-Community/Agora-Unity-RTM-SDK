@@ -12,40 +12,13 @@ namespace agora {
 namespace unity {
 RtmCallEventHandler::RtmCallEventHandler(
     int index,
-    FUNC_onLocalInvitationReceivedByPeer onLocalInvitationReceivedByPeer,
-    FUNC_onLocalInvitationCanceled onLocalInvitationCanceled,
-    FUNC_onLocalInvitationFailure onLocalInvitationFailure,
-    FUNC_onLocalInvitationAccepted onLocalInvitationAccepted,
-    FUNC_onLocalInvitationRefused onLocalInvitationRefused,
-    FUNC_onRemoteInvitationRefused onRemoteInvitationRefused,
-    FUNC_onRemoteInvitationAccepted onRemoteInvitationAccepted,
-    FUNC_onRemoteInvitationReceived onRemoteInvitationReceived,
-    FUNC_onRemoteInvitationFailure onRemoteInvitationFailure,
-    FUNC_onRemoteInvitationCanceled onRemoteInvitationCanceled) {
+    CRtmCallEventHandler* cRtmCallEventHandler) {
   handlerId = index;
-  _onLocalInvitationReceivedByPeer = onLocalInvitationReceivedByPeer;
-  _onLocalInvitationCanceled = onLocalInvitationCanceled;
-  _onLocalInvitationFailure = onLocalInvitationFailure;
-  _onLocalInvitationAccepted = onLocalInvitationAccepted;
-  _onLocalInvitationRefused = onLocalInvitationRefused;
-  _onRemoteInvitationRefused = onRemoteInvitationRefused;
-  _onRemoteInvitationAccepted = onRemoteInvitationAccepted;
-  _onRemoteInvitationReceived = onRemoteInvitationReceived;
-  _onRemoteInvitationFailure = onRemoteInvitationFailure;
-  _onRemoteInvitationCanceled = onRemoteInvitationCanceled;
+  _c_rtm_call_event_handler = cRtmCallEventHandler;
 }
 
 RtmCallEventHandler::~RtmCallEventHandler() {
-  _onLocalInvitationReceivedByPeer = nullptr;
-  _onLocalInvitationCanceled = nullptr;
-  _onLocalInvitationFailure = nullptr;
-  _onLocalInvitationAccepted = nullptr;
-  _onLocalInvitationRefused = nullptr;
-  _onRemoteInvitationRefused = nullptr;
-  _onRemoteInvitationAccepted = nullptr;
-  _onRemoteInvitationReceived = nullptr;
-  _onRemoteInvitationFailure = nullptr;
-  _onRemoteInvitationCanceled = nullptr;
+  _c_rtm_call_event_handler = nullptr;
 }
 
 /**
@@ -55,8 +28,9 @@ RtmCallEventHandler::~RtmCallEventHandler() {
    */
 void RtmCallEventHandler::onLocalInvitationReceivedByPeer(
     agora::rtm::ILocalCallInvitation* localInvitation) {
-  if (_onLocalInvitationReceivedByPeer)
-    _onLocalInvitationReceivedByPeer(handlerId, localInvitation);
+  if (_c_rtm_call_event_handler)
+    _c_rtm_call_event_handler->_onLocalInvitationReceivedByPeer(
+        handlerId, localInvitation);
 }
 
 /**
@@ -66,8 +40,9 @@ void RtmCallEventHandler::onLocalInvitationReceivedByPeer(
  */
 void RtmCallEventHandler::onLocalInvitationCanceled(
     agora::rtm::ILocalCallInvitation* localInvitation) {
-  if (_onLocalInvitationCanceled)
-    _onLocalInvitationCanceled(handlerId, localInvitation);
+  if (_c_rtm_call_event_handler)
+    _c_rtm_call_event_handler->_onLocalInvitationCanceled(handlerId,
+                                                          localInvitation);
 }
 
 /**
@@ -80,8 +55,9 @@ void RtmCallEventHandler::onLocalInvitationCanceled(
 void RtmCallEventHandler::onLocalInvitationFailure(
     agora::rtm::ILocalCallInvitation* localInvitation,
     agora::rtm::LOCAL_INVITATION_ERR_CODE errorCode) {
-  if (_onLocalInvitationFailure)
-    _onLocalInvitationFailure(handlerId, localInvitation, errorCode);
+  if (_c_rtm_call_event_handler)
+    _c_rtm_call_event_handler->_onLocalInvitationFailure(
+        handlerId, localInvitation, errorCode);
 }
 
 /**
@@ -93,8 +69,9 @@ void RtmCallEventHandler::onLocalInvitationFailure(
 void RtmCallEventHandler::onLocalInvitationAccepted(
     agora::rtm::ILocalCallInvitation* localInvitation,
     const char* response) {
-  if (_onLocalInvitationAccepted)
-    _onLocalInvitationAccepted(handlerId, localInvitation, response);
+  if (_c_rtm_call_event_handler)
+    _c_rtm_call_event_handler->_onLocalInvitationAccepted(
+        handlerId, localInvitation, response);
 }
 
 /**
@@ -106,8 +83,9 @@ void RtmCallEventHandler::onLocalInvitationAccepted(
 void RtmCallEventHandler::onLocalInvitationRefused(
     agora::rtm::ILocalCallInvitation* localInvitation,
     const char* response) {
-  if (_onLocalInvitationRefused)
-    _onLocalInvitationRefused(handlerId, localInvitation, response);
+  if (_c_rtm_call_event_handler)
+    _c_rtm_call_event_handler->_onLocalInvitationRefused(
+        handlerId, localInvitation, response);
 }
 
 /**
@@ -117,8 +95,9 @@ void RtmCallEventHandler::onLocalInvitationRefused(
  */
 void RtmCallEventHandler::onRemoteInvitationRefused(
     agora::rtm::IRemoteCallInvitation* remoteInvitation) {
-  if (_onRemoteInvitationRefused)
-    _onRemoteInvitationRefused(handlerId, remoteInvitation);
+  if (_c_rtm_call_event_handler)
+    _c_rtm_call_event_handler->_onRemoteInvitationRefused(handlerId,
+                                                          remoteInvitation);
 }
 
 /**
@@ -128,8 +107,9 @@ void RtmCallEventHandler::onRemoteInvitationRefused(
  */
 void RtmCallEventHandler::onRemoteInvitationAccepted(
     agora::rtm::IRemoteCallInvitation* remoteInvitation) {
-  if (_onRemoteInvitationAccepted)
-    _onRemoteInvitationAccepted(handlerId, remoteInvitation);
+  if (_c_rtm_call_event_handler)
+    _c_rtm_call_event_handler->_onRemoteInvitationAccepted(handlerId,
+                                                           remoteInvitation);
 }
 
 /**
@@ -139,8 +119,9 @@ void RtmCallEventHandler::onRemoteInvitationAccepted(
  */
 void RtmCallEventHandler::onRemoteInvitationReceived(
     agora::rtm::IRemoteCallInvitation* remoteInvitation) {
-  if (_onRemoteInvitationReceived)
-    _onRemoteInvitationReceived(handlerId, remoteInvitation);
+  if (_c_rtm_call_event_handler)
+    _c_rtm_call_event_handler->_onRemoteInvitationReceived(handlerId,
+                                                           remoteInvitation);
 }
 
 /**
@@ -153,8 +134,9 @@ void RtmCallEventHandler::onRemoteInvitationReceived(
 void RtmCallEventHandler::onRemoteInvitationFailure(
     agora::rtm::IRemoteCallInvitation* remoteInvitation,
     agora::rtm::REMOTE_INVITATION_ERR_CODE errorCode) {
-  if (_onRemoteInvitationFailure)
-    _onRemoteInvitationFailure(handlerId, remoteInvitation, errorCode);
+  if (_c_rtm_call_event_handler)
+    _c_rtm_call_event_handler->_onRemoteInvitationFailure(
+        handlerId, remoteInvitation, errorCode);
 }
 
 /**
@@ -164,8 +146,9 @@ void RtmCallEventHandler::onRemoteInvitationFailure(
  */
 void RtmCallEventHandler::onRemoteInvitationCanceled(
     agora::rtm::IRemoteCallInvitation* remoteInvitation) {
-  if (_onRemoteInvitationCanceled)
-    _onRemoteInvitationCanceled(handlerId, remoteInvitation);
+  if (_c_rtm_call_event_handler)
+    _c_rtm_call_event_handler->_onRemoteInvitationCanceled(handlerId,
+                                                           remoteInvitation);
 }
 }  // namespace unity
 }  // namespace agora
