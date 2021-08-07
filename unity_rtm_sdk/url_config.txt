@@ -1,5 +1,5 @@
-IOS=https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_iOS_Unity_v1_4_4.zip
-ANDROID=https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_Android_Unity_v1_4_4.zip
-MAC=https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_Mac_Unity_v1_4_4.zip
-WIN_x86=https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_Windows_x86_Unity_v1.4.4.zip
-WIN_x64=https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_Windows_x64_Unity_v1.4.4.zip
+IOS=https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_iOS_Unity_v1_4_8.zip
+ANDROID=https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_Android_Unity_v1_4_8.zip
+MAC=https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_Mac_Unity_v1_4_8.zip
+WIN_x86=https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_Windows_x86_v1.4.8.zip
+WIN_x64=https://download.agora.io/rtmsdk/release/Agora_RTM_SDK_for_Windows_x64_v1.4.8.zip
