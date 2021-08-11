@@ -8,7 +8,7 @@ namespace agora_rtm {
 	public sealed class RtmClientEventHandler {
 		private int currentIdIndex = 0;
 		private static int _id = 0;
-		private IntPtr _rtmClientEventHandlerPtr = IntPtr.Zero;
+		private IntPtr _rtmClientEventHandlerNativePtr = IntPtr.Zero;
 		private static Dictionary<int, RtmClientEventHandler> clientEventHandlerHandlerDic = new Dictionary<int, RtmClientEventHandler>();
 		/// <summary>
 		/// Occurs when a user logs in the Agora RTM system.
@@ -314,60 +314,103 @@ namespace agora_rtm {
 		public OnGetChannelAttributesResultHandler OnGetChannelAttributesResult;
 		public OnGetChannelMemberCountResultHandler OnGetChannelMemberCountResult;
 		public OnPeersOnlineStatusChangedHandler OnPeersOnlineStatusChanged;
-		private CRtmServiceEventHandler _rtmServiceEventHandler;
+
+		private CRtmServiceEventHandler rtmServiceEventHandler;
+		private CRtmServiceEventHandlerPtr rtmServiceEventHandlerPtr;
+		private IntPtr globalPtr = IntPtr.Zero;
 
 		public RtmClientEventHandler() {
 			currentIdIndex = _id;
 			clientEventHandlerHandlerDic.Add(currentIdIndex, this);
-			_rtmServiceEventHandler = new CRtmServiceEventHandler {
-				onLoginSuccess = Marshal.GetFunctionPointerForDelegate(new OnLoginSuccessHandler(OnLoginSuccessCallback)),
-				onLoginFailure = Marshal.GetFunctionPointerForDelegate(new OnLoginFailureHandler(OnLoginFailureCallback)),
-				onRenewTokenResult = Marshal.GetFunctionPointerForDelegate(new OnRenewTokenResultHandler(OnRenewTokenResultCallback)),
-				onTokenExpired = Marshal.GetFunctionPointerForDelegate(new OnTokenExpiredHandler(OnTokenExpiredCallback)),
-				onLogout = Marshal.GetFunctionPointerForDelegate(new OnLogoutHandler(OnLogoutCallback)),
-				onConnectionStateChanged = Marshal.GetFunctionPointerForDelegate(new OnConnectionStateChangedHandler(OnConnectionStateChangedCallback)),
-				onSendMessageResult = Marshal.GetFunctionPointerForDelegate(new OnSendMessageResultHandler(OnSendMessageResultCallback)),
-				onMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMessageReceived(OnMessageReceivedFromPeerCallback)),
-				onImageMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(new EngineEventOnImageMessageReceived(OnImageMessageReceivedFromPeerCallback)),
-				onFileMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(new EngineEventOnFileMessageReceived(OnFileMessageReceivedFromPeerCallback)),
-				onMediaUploadingProgress = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMediaUploadingProgress(OnMediaUploadingProgressCallback)),
-				onMediaDownloadingProgress = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMediaDownloadingProgress(OnMediaDownloadingProgressCallback)),
-				onFileMediaUploadResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnFileMediaUploadResult(OnFileMediaUploadResultCallback)),
-				onImageMediaUploadResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnImageMediaUploadResult(OnImageMediaUploadResultCallback)),
-				onMediaDownloadToFileResult = Marshal.GetFunctionPointerForDelegate(new OnMediaDownloadToFileResultHandler(OnMediaDownloadToFileResultCallback)),
-				onMediaDownloadToMemoryResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMediaDownloadToMemoryResult(OnMediaDownloadToMemoryResultCallback)),
-				onMediaCancelResult = Marshal.GetFunctionPointerForDelegate(new OnMediaCancelResultHandler(OnMediaCancelResultCallback)),
-				onQueryPeersOnlineStatusResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnQueryPeersOnlineStatusResult(OnQueryPeersOnlineStatusResultCallback)), 
-				onSubscriptionRequestResult = Marshal.GetFunctionPointerForDelegate(new OnSubscriptionRequestResultHandler(OnSubscriptionRequestResultCallback)),
-				onQueryPeersBySubscriptionOptionResult = Marshal.GetFunctionPointerForDelegate(new OnQueryPeersBySubscriptionOptionResultHandler(OnQueryPeersBySubscriptionOptionResultCallback)),
-				onPeersOnlineStatusChanged = Marshal.GetFunctionPointerForDelegate(new EngineEventOnPeersOnlineStatusChanged(OnPeersOnlineStatusChangedCallback)),
-				onSetLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnSetLocalUserAttributesResultHandler(OnSetLocalUserAttributesResultCallback)),
-				onDeleteLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnDeleteLocalUserAttributesResultHandler(OnDeleteLocalUserAttributesResultCallback)),
-				onClearLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnClearLocalUserAttributesResultHandler(OnClearLocalUserAttributesResultCallback)),
-				onGetUserAttributesResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnGetUserAttributesResultHandler(OnGetUserAttributesResultCallback)),
-				onSetChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnSetChannelAttributesResultHandler(OnSetLocalUserAttributesResultCallback)),
-				onAddOrUpdateLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnAddOrUpdateLocalUserAttributesResultHandler(OnAddOrUpdateLocalUserAttributesResultCallback)),
-				onDeleteChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnDeleteChannelAttributesResultHandler(OnDeleteChannelAttributesResultCallback)),
-				onClearChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(new OnClearChannelAttributesResultHandler(OnClearChannelAttributesResultCallback)),
-				onGetChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnGetChannelAttributesResult(OnGetChannelAttributesResultCallback)),
-				onGetChannelMemberCountResult = Marshal.GetFunctionPointerForDelegate(new EngineEventOnGetChannelMemberCountResult(OnGetChannelMemberCountResultCallback)),
+			rtmServiceEventHandler = new CRtmServiceEventHandler {
+				onLoginSuccess = OnLoginSuccessCallback,
+				onLoginFailure = OnLoginFailureCallback,
+				onRenewTokenResult = OnRenewTokenResultCallback,
+				onTokenExpired = OnTokenExpiredCallback,
+				onLogout = OnLogoutCallback,
+				onConnectionStateChanged = OnConnectionStateChangedCallback,
+				onSendMessageResult = OnSendMessageResultCallback,
+				onMessageReceivedFromPeer = OnMessageReceivedFromPeerCallback,
+				onImageMessageReceivedFromPeer = OnImageMessageReceivedFromPeerCallback,
+				onFileMessageReceivedFromPeer = OnFileMessageReceivedFromPeerCallback,
+				onMediaUploadingProgress = OnMediaUploadingProgressCallback,
+				onMediaDownloadingProgress = OnMediaDownloadingProgressCallback,
+				onFileMediaUploadResult = OnFileMediaUploadResultCallback,
+				onImageMediaUploadResult = OnImageMediaUploadResultCallback,
+				onMediaDownloadToFileResult = OnMediaDownloadToFileResultCallback,
+				onMediaDownloadToMemoryResult = OnMediaDownloadToMemoryResultCallback,
+				onMediaCancelResult = OnMediaCancelResultCallback,
+				onQueryPeersOnlineStatusResult = OnQueryPeersOnlineStatusResultCallback, 
+				onSubscriptionRequestResult = OnSubscriptionRequestResultCallback,
+				onQueryPeersBySubscriptionOptionResult = OnQueryPeersBySubscriptionOptionResultCallback,
+				onPeersOnlineStatusChanged = OnPeersOnlineStatusChangedCallback,
+				onSetLocalUserAttributesResult = OnSetLocalUserAttributesResultCallback,
+				onDeleteLocalUserAttributesResult = OnDeleteLocalUserAttributesResultCallback,
+				onClearLocalUserAttributesResult = OnClearLocalUserAttributesResultCallback,
+				onGetUserAttributesResult = OnGetUserAttributesResultCallback,
+				onSetChannelAttributesResult = OnSetLocalUserAttributesResultCallback,
+				onAddOrUpdateLocalUserAttributesResult = OnAddOrUpdateLocalUserAttributesResultCallback,
+				onDeleteChannelAttributesResult = OnDeleteChannelAttributesResultCallback,
+				onClearChannelAttributesResult = OnClearChannelAttributesResultCallback,
+				onGetChannelAttributesResult = OnGetChannelAttributesResultCallback,
+				onGetChannelMemberCountResult = OnGetChannelMemberCountResultCallback
 			};
-            _rtmClientEventHandlerPtr = IRtmApiNative.service_event_handler_createEventHandle(currentIdIndex, ref _rtmServiceEventHandler);
+
+			rtmServiceEventHandlerPtr = new CRtmServiceEventHandlerPtr {
+				onLoginSuccess = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onLoginSuccess),
+				onLoginFailure = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onLoginFailure),
+				onRenewTokenResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onRenewTokenResult),
+				onTokenExpired = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onTokenExpired),
+				onLogout = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onLogout),
+				onConnectionStateChanged = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onConnectionStateChanged),
+				onSendMessageResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSendMessageResult),
+				onMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMessageReceivedFromPeer),
+				onImageMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onImageMessageReceivedFromPeer),
+				onFileMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onFileMessageReceivedFromPeer),
+				onMediaUploadingProgress = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMediaUploadingProgress),
+				onMediaDownloadingProgress = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMediaDownloadingProgress),
+				onFileMediaUploadResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onFileMediaUploadResult),
+				onImageMediaUploadResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onImageMediaUploadResult),
+				onMediaDownloadToFileResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMediaDownloadToFileResult),
+				onMediaDownloadToMemoryResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMediaDownloadToMemoryResult),
+				onMediaCancelResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMediaCancelResult),
+				onQueryPeersOnlineStatusResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onQueryPeersOnlineStatusResult),
+				onSubscriptionRequestResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSubscriptionRequestResult),
+				onQueryPeersBySubscriptionOptionResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onQueryPeersBySubscriptionOptionResult),
+				onPeersOnlineStatusChanged = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onPeersOnlineStatusChanged),
+				onSetLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSetLocalUserAttributesResult),
+				onDeleteLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onDeleteLocalUserAttributesResult),
+				onClearLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onClearLocalUserAttributesResult),
+				onGetUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onGetUserAttributesResult),
+				onSetChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSetChannelAttributesResult),
+				onAddOrUpdateLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onAddOrUpdateLocalUserAttributesResult),
+				onDeleteChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onDeleteChannelAttributesResult),
+				onClearChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onClearChannelAttributesResult),
+				onGetChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onGetChannelAttributesResult),
+				onGetChannelMemberCountResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onGetChannelMemberCountResult)
+			};
+
+			globalPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CRtmServiceEventHandlerPtr)));
+			Marshal.StructureToPtr(rtmServiceEventHandlerPtr, globalPtr, true);
+			_rtmClientEventHandlerNativePtr = IRtmApiNative.service_event_handler_createEventHandle(currentIdIndex, globalPtr);
             _id ++;
 		}
 
 		public void Release() {
 			Debug.Log("RtmClientEventHandler Released");
-			if (_rtmClientEventHandlerPtr == IntPtr.Zero) {
+			if (_rtmClientEventHandlerNativePtr == IntPtr.Zero) {
 				return;
 			}
 			clientEventHandlerHandlerDic.Remove(currentIdIndex);
-			IRtmApiNative.service_event_handler_releaseEventHandler(_rtmClientEventHandlerPtr);
-			_rtmClientEventHandlerPtr = IntPtr.Zero;
+			IRtmApiNative.service_event_handler_releaseEventHandler(_rtmClientEventHandlerNativePtr);
+			_rtmClientEventHandlerNativePtr = IntPtr.Zero;
+
+			Marshal.FreeHGlobal(globalPtr);
+			globalPtr = IntPtr.Zero;
 		}
 
 		public IntPtr GetPtr() {
-			return _rtmClientEventHandlerPtr;
+			return _rtmClientEventHandlerNativePtr;
 		}
 		
 		[MonoPInvokeCallback(typeof(OnLoginSuccessHandler))]

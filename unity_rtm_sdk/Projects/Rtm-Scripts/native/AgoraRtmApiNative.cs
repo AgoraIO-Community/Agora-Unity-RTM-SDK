@@ -61,6 +61,23 @@ namespace agora_rtm {
 	[StructLayout(LayoutKind.Sequential)]
 	internal struct CChannelEvent
 	{
+		internal RtmChannelEventHandler.OnJoinSuccessHandler onJoinSuccess;
+		internal RtmChannelEventHandler.OnJoinFailureHandler onJoinFailure;
+		internal RtmChannelEventHandler.OnLeaveHandler onLeave;
+		internal EngineEventOnMessageReceived onMessageReceived;
+		internal EngineEventOnImageMessageReceived onImageMessageReceived;
+		internal EngineEventOnFileMessageReceived onFileMessageReceived;
+		internal RtmChannelEventHandler.OnSendMessageResultHandler onSendMessageResult;
+		internal EngineEventOnMemberJoined onMemberJoined;
+		internal EngineEventOnMemberLeft onMemberLeft;
+		internal EngineEventOnGetMember onGetMember;
+		internal RtmChannelEventHandler.OnMemberCountUpdatedHandler onMemberCountUpdated;
+		internal EngineEventOnAttributesUpdated onAttributesUpdated;
+	};
+
+	[StructLayout(LayoutKind.Sequential)]
+	internal struct CChannelEventPtr
+	{
 		internal IntPtr onJoinSuccess;
 		internal IntPtr onJoinFailure;
 		internal IntPtr onLeave;
@@ -76,7 +93,7 @@ namespace agora_rtm {
 	};
 
 	[StructLayout(LayoutKind.Sequential)]
-	internal struct CRtmServiceEventHandler
+	internal struct CRtmServiceEventHandlerPtr
 	{
 		internal IntPtr onLoginSuccess;
 		internal IntPtr onLoginFailure;
@@ -111,8 +128,59 @@ namespace agora_rtm {
 		internal IntPtr onGetChannelMemberCountResult;
 	}
 
-	[StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct CRtmServiceEventHandler
+    {
+        internal RtmClientEventHandler.OnLoginSuccessHandler onLoginSuccess;
+        internal RtmClientEventHandler.OnLoginFailureHandler onLoginFailure;
+        internal RtmClientEventHandler.OnRenewTokenResultHandler onRenewTokenResult;
+        internal RtmClientEventHandler.OnTokenExpiredHandler onTokenExpired;
+        internal RtmClientEventHandler.OnLogoutHandler onLogout;
+        internal RtmClientEventHandler.OnConnectionStateChangedHandler onConnectionStateChanged;
+        internal RtmClientEventHandler.OnSendMessageResultHandler onSendMessageResult;
+        internal EngineEventOnMessageReceived onMessageReceivedFromPeer;
+        internal EngineEventOnImageMessageReceived onImageMessageReceivedFromPeer;
+        internal EngineEventOnFileMessageReceived onFileMessageReceivedFromPeer;
+        internal EngineEventOnMediaUploadingProgress onMediaUploadingProgress;
+        internal EngineEventOnMediaDownloadingProgress onMediaDownloadingProgress;
+        internal EngineEventOnFileMediaUploadResult onFileMediaUploadResult;
+        internal EngineEventOnImageMediaUploadResult onImageMediaUploadResult;
+        internal RtmClientEventHandler.OnMediaDownloadToFileResultHandler onMediaDownloadToFileResult;
+        internal EngineEventOnMediaDownloadToMemoryResult onMediaDownloadToMemoryResult;
+        internal RtmClientEventHandler.OnMediaCancelResultHandler onMediaCancelResult;
+        internal EngineEventOnQueryPeersOnlineStatusResult onQueryPeersOnlineStatusResult;
+        internal RtmClientEventHandler.OnSubscriptionRequestResultHandler onSubscriptionRequestResult;
+        internal RtmClientEventHandler.OnQueryPeersBySubscriptionOptionResultHandler onQueryPeersBySubscriptionOptionResult;
+        internal EngineEventOnPeersOnlineStatusChanged onPeersOnlineStatusChanged;
+        internal RtmClientEventHandler.OnSetLocalUserAttributesResultHandler onSetLocalUserAttributesResult;
+        internal RtmClientEventHandler.OnDeleteLocalUserAttributesResultHandler onDeleteLocalUserAttributesResult;
+        internal RtmClientEventHandler.OnClearLocalUserAttributesResultHandler onClearLocalUserAttributesResult;
+        internal EngineEventOnGetUserAttributesResultHandler onGetUserAttributesResult;
+        internal RtmClientEventHandler.OnSetChannelAttributesResultHandler onSetChannelAttributesResult;
+        internal RtmClientEventHandler.OnAddOrUpdateLocalUserAttributesResultHandler onAddOrUpdateLocalUserAttributesResult;
+        internal RtmClientEventHandler.OnDeleteChannelAttributesResultHandler onDeleteChannelAttributesResult;
+        internal RtmClientEventHandler.OnClearChannelAttributesResultHandler onClearChannelAttributesResult;
+        internal EngineEventOnGetChannelAttributesResult onGetChannelAttributesResult;
+        internal EngineEventOnGetChannelMemberCountResult onGetChannelMemberCountResult;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
 	internal struct CRtmCallEventHandler {
+		internal EngineEventOnLocalInvitationReceivedByPeerHandler _onLocalInvitationReceivedByPeer;
+		internal EngineEventOnLocalInvitationCanceledHandler _onLocalInvitationCanceled;
+		internal EngineEventOnLocalInvitationFailureHandler _onLocalInvitationFailure;
+		internal EngineEventOnLocalInvitationAcceptedHandler _onLocalInvitationAccepted;
+		internal EngineEventOnLocalInvitationRefusedHandler _onLocalInvitationRefused;
+		internal EngineEventOnRemoteInvitationRefusedHandler _onRemoteInvitationRefused;
+		internal EngineEventOnRemoteInvitationAcceptedHandler _onRemoteInvitationAccepted;
+		internal EngineEventOnRemoteInvitationReceivedHandler _onRemoteInvitationReceived;
+		internal EngineEventOnRemoteInvitationFailureHandler _onRemoteInvitationFailure;
+		internal EngineEventOnRemoteInvitationCanceledHandler _onRemoteInvitationCanceled;
+	};
+
+	[StructLayout(LayoutKind.Sequential)]
+	internal struct CRtmCallEventHandlerPtr
+	{
 		internal IntPtr _onLocalInvitationReceivedByPeer;
 		internal IntPtr _onLocalInvitationCanceled;
 		internal IntPtr _onLocalInvitationFailure;
@@ -415,13 +483,13 @@ namespace agora_rtm {
 		internal static extern IntPtr channel_member_release(IntPtr channel_member_instance);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern IntPtr channel_event_handler_createEventHandler(int currenEventHandlerIndex, ref CChannelEvent cChannelEvent);
+		internal static extern IntPtr channel_event_handler_createEventHandler(int currenEventHandlerIndex, IntPtr cChannelEvent);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
 		internal static extern void channel_event_handler_releaseEventHandler(IntPtr channel_eventHandler_ptr);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-		internal static extern IntPtr service_event_handler_createEventHandle(int id, ref CRtmServiceEventHandler cRtmServiceEventHandler);
+		internal static extern IntPtr service_event_handler_createEventHandle(int id, IntPtr cRtmServiceEventHandler);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
 		internal static extern IntPtr service_event_handler_releaseEventHandler(IntPtr service_eventHandler_ptr);

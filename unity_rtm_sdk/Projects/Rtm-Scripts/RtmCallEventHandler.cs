@@ -11,7 +11,6 @@ namespace agora_rtm {
         private static Dictionary<int, RtmCallEventHandler> _rtmCallEventHandlerDic = new Dictionary<int, RtmCallEventHandler>();
         private IntPtr _rtmCallEventHandlerPtr = IntPtr.Zero;
         private int _currentIdIndex = 0;
-		private IntPtr _eventPtr;
 
 		/// <summary>
 		/// Callback to the caller: occurs when the callee receives the call invitation.
@@ -88,25 +87,44 @@ namespace agora_rtm {
 		public OnRemoteInvitationFailureHandler OnRemoteInvitationFailure;
 		public OnRemoteInvitationCanceledHandler OnRemoteInvitationCanceled;
 
+		private CRtmCallEventHandler rtmCallEventHandler;
+		private CRtmCallEventHandlerPtr rtmCallEventHandlerPtr;
+		private IntPtr globalPtr = IntPtr.Zero;
+
 		public RtmCallEventHandler() {
 			_currentIdIndex = id;
 			_rtmCallEventHandlerDic.Add(_currentIdIndex, this);
-			var _cRtmCallEventHandler = new CRtmCallEventHandler {
-				_onLocalInvitationReceivedByPeer = Marshal.GetFunctionPointerForDelegate(new EngineEventOnLocalInvitationReceivedByPeerHandler(OnLocalInvitationReceivedByPeerCallback)),
-				_onLocalInvitationCanceled = Marshal.GetFunctionPointerForDelegate(new EngineEventOnLocalInvitationCanceledHandler(OnLocalInvitationCanceledCallback)),
-				_onLocalInvitationFailure = Marshal.GetFunctionPointerForDelegate(new EngineEventOnLocalInvitationFailureHandler(OnLocalInvitationFailureCallback)),
-				_onLocalInvitationAccepted = Marshal.GetFunctionPointerForDelegate(new EngineEventOnLocalInvitationAcceptedHandler(OnLocalInvitationAcceptedCallback)),
-				_onLocalInvitationRefused = Marshal.GetFunctionPointerForDelegate(new EngineEventOnLocalInvitationRefusedHandler(OnLocalInvitationRefusedCallback)),
-				_onRemoteInvitationRefused = Marshal.GetFunctionPointerForDelegate(new EngineEventOnRemoteInvitationRefusedHandler(OnRemoteInvitationRefusedCallback)),
-				_onRemoteInvitationAccepted = Marshal.GetFunctionPointerForDelegate(new EngineEventOnRemoteInvitationAcceptedHandler(OnRemoteInvitationAcceptedCallback)),
-				_onRemoteInvitationReceived = Marshal.GetFunctionPointerForDelegate(new EngineEventOnRemoteInvitationReceivedHandler(OnRemoteInvitationReceivedCallback)),
-				_onRemoteInvitationFailure = Marshal.GetFunctionPointerForDelegate(new EngineEventOnRemoteInvitationFailureHandler(OnRemoteInvitationFailureCallback)),
-				_onRemoteInvitationCanceled = Marshal.GetFunctionPointerForDelegate(new EngineEventOnRemoteInvitationCanceledHandler(OnRemoteInvitationCanceledCallback))
+			rtmCallEventHandler = new CRtmCallEventHandler {
+				_onLocalInvitationReceivedByPeer = OnLocalInvitationReceivedByPeerCallback,
+				_onLocalInvitationCanceled = OnLocalInvitationCanceledCallback,
+				_onLocalInvitationFailure = OnLocalInvitationFailureCallback,
+				_onLocalInvitationAccepted = OnLocalInvitationAcceptedCallback,
+				_onLocalInvitationRefused = OnLocalInvitationRefusedCallback,
+				_onRemoteInvitationRefused = OnRemoteInvitationRefusedCallback,
+				_onRemoteInvitationAccepted = OnRemoteInvitationAcceptedCallback,
+				_onRemoteInvitationReceived = OnRemoteInvitationReceivedCallback,
+				_onRemoteInvitationFailure = OnRemoteInvitationFailureCallback,
+				_onRemoteInvitationCanceled = OnRemoteInvitationCanceledCallback
 			};
-			_eventPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CRtmCallEventHandler)));
-			Marshal.StructureToPtr(_cRtmCallEventHandler, _eventPtr, true);
 
-			_rtmCallEventHandlerPtr = IRtmApiNative.i_rtm_call_event_handler_createEventHandler(_currentIdIndex, _eventPtr);
+			rtmCallEventHandlerPtr = new CRtmCallEventHandlerPtr {
+				_onLocalInvitationReceivedByPeer = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onLocalInvitationReceivedByPeer),
+				_onLocalInvitationCanceled = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onLocalInvitationCanceled),
+				_onLocalInvitationFailure = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onLocalInvitationFailure),
+				_onLocalInvitationAccepted = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onLocalInvitationAccepted),
+				_onLocalInvitationRefused = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onLocalInvitationRefused),
+				_onRemoteInvitationRefused = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onRemoteInvitationRefused),
+				_onRemoteInvitationAccepted = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onRemoteInvitationAccepted),
+				_onRemoteInvitationReceived = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onRemoteInvitationReceived),
+				_onRemoteInvitationFailure = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onRemoteInvitationFailure),
+				_onRemoteInvitationCanceled = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onRemoteInvitationCanceled)
+			};
+
+
+			globalPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CRtmCallEventHandlerPtr)));
+			Marshal.StructureToPtr(rtmCallEventHandlerPtr, globalPtr, true);
+
+			_rtmCallEventHandlerPtr = IRtmApiNative.i_rtm_call_event_handler_createEventHandler(_currentIdIndex, globalPtr);
 			id ++;
 		}
 
@@ -117,12 +135,12 @@ namespace agora_rtm {
 				return;
 			}
 
-			Marshal.FreeHGlobal(_eventPtr);
-			_eventPtr = IntPtr.Zero;
-
 			_rtmCallEventHandlerDic.Remove(_currentIdIndex);
 			IRtmApiNative.i_rtm_call_event_releaseEventHandler(_rtmCallEventHandlerPtr);
 			_rtmCallEventHandlerPtr = IntPtr.Zero;
+
+			Marshal.FreeHGlobal(globalPtr);
+			globalPtr = IntPtr.Zero;
 		}
 
 		internal IntPtr GetPtr()

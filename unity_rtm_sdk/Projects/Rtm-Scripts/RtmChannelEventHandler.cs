@@ -8,15 +8,18 @@ namespace agora_rtm {
     public sealed class RtmChannelEventHandler { 
         private static int _id = 0;
         private static Dictionary<int, RtmChannelEventHandler> channelEventHandlerDic = new Dictionary<int, RtmChannelEventHandler>();
-        private IntPtr channelEventHandlerPtr = IntPtr.Zero;
+        private IntPtr channelEventHandlerNativePtr = IntPtr.Zero;
         private int currentIdIndex = 0;
+
 		private CChannelEvent cChannelEvent;
+		private CChannelEventPtr cChannelEventPtr;
+		private IntPtr globalPtr = IntPtr.Zero;
 
 		/// <summary>
 		/// Occurs when successfully joining a channel.
 		/// </summary>
 		/// <param name="id">the id of the rtmChannelEventHandler</param>
-        public delegate void OnJoinSuccessHandler(int id);
+		public delegate void OnJoinSuccessHandler(int id);
 
 		/// <summary>
 		/// Occurs when failing to join a channel.
@@ -126,26 +129,43 @@ namespace agora_rtm {
 
 			cChannelEvent = new CChannelEvent
 			{
-				onJoinSuccess = Marshal.GetFunctionPointerForDelegate(new OnJoinSuccessHandler(OnJoinSuccessCallback)),
-				onJoinFailure = Marshal.GetFunctionPointerForDelegate(new OnJoinFailureHandler(OnJoinFailureCallback)),
-				onLeave = Marshal.GetFunctionPointerForDelegate(new OnLeaveHandler(OnLeaveCallback)),
-				onMessageReceived = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMessageReceived(OnMessageReceivedCallback)),
-				onImageMessageReceived = Marshal.GetFunctionPointerForDelegate(new EngineEventOnImageMessageReceived(OnImageMessageReceivedCallback)),
-				onFileMessageReceived = Marshal.GetFunctionPointerForDelegate(new EngineEventOnFileMessageReceived(OnFileMessageReceivedCallback)),
-				onSendMessageResult = Marshal.GetFunctionPointerForDelegate(new OnSendMessageResultHandler(OnSendMessageResultCallback)),
-				onMemberJoined = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMemberJoined(OnMemberJoinedCallback)),
-				onMemberLeft = Marshal.GetFunctionPointerForDelegate(new EngineEventOnMemberLeft(OnMemberLeftCallback)),
-				onGetMember = Marshal.GetFunctionPointerForDelegate(new EngineEventOnGetMember(OnGetMemberCallback)),
-				onMemberCountUpdated = Marshal.GetFunctionPointerForDelegate(new OnMemberCountUpdatedHandler(OnMemberCountUpdatedCallback)),
-				onAttributesUpdated = Marshal.GetFunctionPointerForDelegate(new EngineEventOnAttributesUpdated(OnAttributesUpdatedCallback))
+				onJoinSuccess = OnJoinSuccessCallback,
+				onJoinFailure = OnJoinFailureCallback,
+				onLeave = OnLeaveCallback,
+				onMessageReceived = OnMessageReceivedCallback,
+				onImageMessageReceived = OnImageMessageReceivedCallback,
+				onFileMessageReceived = OnFileMessageReceivedCallback,
+				onSendMessageResult = OnSendMessageResultCallback,
+				onMemberJoined = OnMemberJoinedCallback,
+				onMemberLeft = OnMemberLeftCallback,
+				onGetMember = OnGetMemberCallback,
+				onMemberCountUpdated = OnMemberCountUpdatedCallback,
+				onAttributesUpdated = OnAttributesUpdatedCallback
 			};
+
+			cChannelEventPtr = new CChannelEventPtr {
+				onJoinSuccess = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onJoinSuccess),
+				onJoinFailure = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onJoinFailure),
+				onLeave = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onLeave),
+				onMessageReceived = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onMessageReceived),
+				onImageMessageReceived = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onImageMessageReceived),
+				onFileMessageReceived = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onFileMessageReceived),
+				onSendMessageResult = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onSendMessageResult),
+				onMemberJoined = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onMemberJoined),
+				onMemberLeft = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onMemberLeft),
+				onGetMember = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onGetMember),
+				onMemberCountUpdated = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onMemberCountUpdated),
+				onAttributesUpdated = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onAttributesUpdated)
+			};
+			globalPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CChannelEventPtr)));
+			Marshal.StructureToPtr(cChannelEventPtr, globalPtr, true);
 			channelEventHandlerDic.Add(currentIdIndex, this);
-            channelEventHandlerPtr = IRtmApiNative.channel_event_handler_createEventHandler(currentIdIndex, ref cChannelEvent);
+			channelEventHandlerNativePtr = IRtmApiNative.channel_event_handler_createEventHandler(currentIdIndex, globalPtr);
             _id ++;
         }
 
         internal IntPtr GetPtr() {
-            return channelEventHandlerPtr;
+            return channelEventHandlerNativePtr;
         }
 
         [MonoPInvokeCallback(typeof(OnLeaveHandler))]
@@ -349,12 +369,14 @@ namespace agora_rtm {
 
         public void Release() {
 			Debug.Log("RtmChannelEventHandler Released");
-            if (channelEventHandlerPtr == IntPtr.Zero) {
+            if (channelEventHandlerNativePtr == IntPtr.Zero) {
                 return;
             }
             channelEventHandlerDic.Remove(currentIdIndex);
-			IRtmApiNative.channel_event_handler_releaseEventHandler(channelEventHandlerPtr);
-            channelEventHandlerPtr = IntPtr.Zero;
+			IRtmApiNative.channel_event_handler_releaseEventHandler(channelEventHandlerNativePtr);
+			channelEventHandlerNativePtr = IntPtr.Zero;
+			Marshal.FreeHGlobal(globalPtr);
+			globalPtr = IntPtr.Zero;
 		}
 	}
 }
