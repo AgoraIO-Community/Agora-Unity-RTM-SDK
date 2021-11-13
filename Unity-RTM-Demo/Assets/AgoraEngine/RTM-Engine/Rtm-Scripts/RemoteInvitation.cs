@@ -4,7 +4,7 @@ using System;
 using AOT;
 
 namespace agora_rtm {
-	public sealed class RemoteInvitation : IRtmApiNative, IDisposable {
+	public sealed class RemoteInvitation : IDisposable {
 		private IntPtr _remoteInvitationPrt = IntPtr.Zero;
 		private bool _needDispose = true;
 		private bool _disposed = false;
@@ -31,7 +31,7 @@ namespace agora_rtm {
 				Debug.LogError("_remoteInvitationPrt is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr valuePtr = i_remote_call_manager_getCallerId(_remoteInvitationPrt);
+			IntPtr valuePtr = IRtmApiNative.i_remote_call_manager_getCallerId(_remoteInvitationPrt);
             if (!ReferenceEquals(valuePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(valuePtr);
 			} else {
@@ -49,7 +49,7 @@ namespace agora_rtm {
 				Debug.LogError("_remoteInvitationPrt is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr valuePtr = i_remote_call_manager_getContent(_remoteInvitationPrt);
+			IntPtr valuePtr = IRtmApiNative.i_remote_call_manager_getContent(_remoteInvitationPrt);
             if (!ReferenceEquals(valuePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(valuePtr);
 			} else {
@@ -67,7 +67,7 @@ namespace agora_rtm {
 				Debug.LogError("_remoteInvitationPrt is null");
 				return;
 			}
-			i_remote_call_manager_setResponse(_remoteInvitationPrt, response);	
+			IRtmApiNative.i_remote_call_manager_setResponse(_remoteInvitationPrt, response);	
 		}
 
 		/// <summary>
@@ -80,7 +80,7 @@ namespace agora_rtm {
 				Debug.LogError("_remoteInvitationPrt is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr valuePtr = i_remote_call_manager_getResponse(_remoteInvitationPrt);
+			IntPtr valuePtr = IRtmApiNative.i_remote_call_manager_getResponse(_remoteInvitationPrt);
             if (!ReferenceEquals(valuePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(valuePtr);
 			} else {
@@ -98,7 +98,7 @@ namespace agora_rtm {
 				Debug.LogError("_remoteInvitationPrt is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr valuePtr = i_remote_call_manager_getChannelId(_remoteInvitationPrt);
+			IntPtr valuePtr = IRtmApiNative.i_remote_call_manager_getChannelId(_remoteInvitationPrt);
             if (!ReferenceEquals(valuePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(valuePtr);
 			} else {
@@ -116,10 +116,10 @@ namespace agora_rtm {
 				Debug.LogError("_remoteInvitationPrt is null");
 				return REMOTE_INVITATION_STATE.REMOTE_INVITATION_STATE_FAILURE;
 			}
-			return (REMOTE_INVITATION_STATE)i_remote_call_manager_getState(_remoteInvitationPrt);		
+			return (REMOTE_INVITATION_STATE)IRtmApiNative.i_remote_call_manager_getState(_remoteInvitationPrt);		
 		}
 
-		public IntPtr GetPtr() {
+		internal IntPtr GetPtr() {
 			return _remoteInvitationPrt;
 		}
 
@@ -130,7 +130,7 @@ namespace agora_rtm {
 			if (_remoteInvitationPrt == IntPtr.Zero)
 				return;
 
-			i_remote_call_manager_release(_remoteInvitationPrt);
+			IRtmApiNative.i_remote_call_manager_release(_remoteInvitationPrt);
 			_remoteInvitationPrt = IntPtr.Zero;
 		}
 

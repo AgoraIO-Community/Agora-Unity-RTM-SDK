@@ -4,7 +4,7 @@ using System;
 using AOT;
 
 namespace agora_rtm {
-	public sealed class RtmChannel :  IRtmApiNative, IDisposable{
+	public sealed class RtmChannel : IDisposable{
 		private IntPtr _rtmChannelPtr = IntPtr.Zero;
 		private bool _disposed = false;
 		private RtmChannelEventHandler _channelEventHandler;
@@ -36,7 +36,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmChannelPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return channel_join(_rtmChannelPtr);
+			return IRtmApiNative.channel_join(_rtmChannelPtr);
 		}
 
 		/// <summary>
@@ -56,7 +56,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmChannelPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return channel_leave(_rtmChannelPtr);
+			return IRtmApiNative.channel_leave(_rtmChannelPtr);
 		}
 
 		/// <summary>
@@ -73,7 +73,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmChannelPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return channel_sendMessage(_rtmChannelPtr, message.GetPtr());
+			return IRtmApiNative.channel_sendMessage(_rtmChannelPtr, message.GetPtr());
 		}
 
 		/// <summary>
@@ -92,7 +92,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmChannelPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return channel_sendMessage2(_rtmChannelPtr, message.GetPtr(), options.enableOfflineMessaging, options.enableHistoricalMessaging);
+			return IRtmApiNative.channel_sendMessage2(_rtmChannelPtr, message.GetPtr(), options.enableOfflineMessaging, options.enableHistoricalMessaging);
 		}
 
 		/// <summary>
@@ -105,7 +105,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmChannelPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return channel_getId(_rtmChannelPtr);
+			return IRtmApiNative.channel_getId(_rtmChannelPtr);
 		}
 
 		/// <summary>
@@ -122,7 +122,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmChannelPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return channel_getMembers(_rtmChannelPtr);
+			return IRtmApiNative.channel_getMembers(_rtmChannelPtr);
 		}
 
  		public void Dispose() {
@@ -146,7 +146,7 @@ namespace agora_rtm {
 			{
 				return;
 			}
-			channel_release(_rtmChannelPtr);
+			IRtmApiNative.channel_release(_rtmChannelPtr);
 			_rtmChannelPtr = IntPtr.Zero;
 			if (_channelEventHandler != null) {
 				_channelEventHandler.Release();

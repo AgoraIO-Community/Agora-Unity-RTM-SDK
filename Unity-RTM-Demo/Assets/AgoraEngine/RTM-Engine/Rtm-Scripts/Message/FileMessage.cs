@@ -68,7 +68,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return iFile_message_getSize(_MessagePtr);
+            return IRtmApiNative.iFile_message_getSize(_MessagePtr);
         }
 
 		/// <summary>
@@ -84,7 +84,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-            IntPtr mediaIdPtr = iFile_message_getMediaId(_MessagePtr);
+            IntPtr mediaIdPtr = IRtmApiNative.iFile_message_getMediaId(_MessagePtr);
             if (!ReferenceEquals(mediaIdPtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(mediaIdPtr);
 			} else {
@@ -108,7 +108,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-            iFile_message_setThumbnail(_MessagePtr, thumbnail, thumbnail.Length);
+			IRtmApiNative.iFile_message_setThumbnail(_MessagePtr, thumbnail, thumbnail.Length);
         }
 
 		/// <summary>
@@ -124,9 +124,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return _Thumbnail;
 			}
-			long Length = iFile_message_getThumbnailLength(_MessagePtr);
+			long Length = IRtmApiNative.iFile_message_getThumbnailLength(_MessagePtr);
 			byte [] rawData = new byte[Length];
-			IntPtr _ThumbnailData = iFile_message_getThumbnailData(_MessagePtr);
+			IntPtr _ThumbnailData = IRtmApiNative.iFile_message_getThumbnailData(_MessagePtr);
 			Marshal.Copy(_ThumbnailData, rawData, 0, (int)Length);
             return rawData;
         }
@@ -147,7 +147,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-            iFile_message_setFileName(_MessagePtr, fileName);
+			IRtmApiNative.iFile_message_setFileName(_MessagePtr, fileName);
         }
 
 		/// <summary>
@@ -163,7 +163,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-            IntPtr fileNamePtr = iFile_message_getFileName(_MessagePtr);
+            IntPtr fileNamePtr = IRtmApiNative.iFile_message_getFileName(_MessagePtr);
             if (!ReferenceEquals(fileNamePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(fileNamePtr);
 			} else {

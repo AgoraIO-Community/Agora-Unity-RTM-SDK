@@ -4,7 +4,7 @@ using System;
 using AOT;
 
 namespace agora_rtm {
-	public sealed class RtmChannelAttribute : IRtmApiNative, IDisposable {
+	public sealed class RtmChannelAttribute : IDisposable {
 
 		private IntPtr _channelAttributePtr = IntPtr.Zero;
 		private MESSAGE_FLAG _flag = MESSAGE_FLAG.SEND;
@@ -65,7 +65,7 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return;
 			}
-			channelAttribute_setKey(_channelAttributePtr, key);
+			IRtmApiNative.channelAttribute_setKey(_channelAttributePtr, key);
 		}
 
 		/// <summary>
@@ -82,7 +82,7 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr keyPtr = channelAttribute_getKey(_channelAttributePtr);
+			IntPtr keyPtr = IRtmApiNative.channelAttribute_getKey(_channelAttributePtr);
             if (!ReferenceEquals(keyPtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(keyPtr);
 			} else {
@@ -105,7 +105,7 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return;
 			}
-			channelAttribute_setValue(_channelAttributePtr, value);
+			IRtmApiNative.channelAttribute_setValue(_channelAttributePtr, value);
 		}
 
 		/// <summary>
@@ -122,7 +122,7 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr valuePtr = channelAttribute_getValue(_channelAttributePtr);
+			IntPtr valuePtr = IRtmApiNative.channelAttribute_getValue(_channelAttributePtr);
             if (!ReferenceEquals(valuePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(valuePtr);
 			} else {
@@ -148,7 +148,7 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr userIdPtr = channelAttribute_getLastUpdateUserId(_channelAttributePtr);
+			IntPtr userIdPtr = IRtmApiNative.channelAttribute_getLastUpdateUserId(_channelAttributePtr);
             if (!ReferenceEquals(userIdPtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(userIdPtr);
 			} else {
@@ -174,7 +174,7 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			Int64 ts = channelAttribute_getLastUpdateTs(_channelAttributePtr);
+			Int64 ts = IRtmApiNative.channelAttribute_getLastUpdateTs(_channelAttributePtr);
 			return ts;
 		}
 
@@ -199,7 +199,7 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return;
 			}
-			channelAttribute_release(_channelAttributePtr);
+			IRtmApiNative.channelAttribute_release(_channelAttributePtr);
 			_channelAttributePtr = IntPtr.Zero;
 		}
 

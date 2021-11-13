@@ -5,7 +5,7 @@ using AOT;
 
 
 namespace agora_rtm {
-	public sealed class LocalInvitation : IRtmApiNative, IDisposable {
+	public sealed class LocalInvitation : IDisposable {
 		private IntPtr _localInvitationPtr = IntPtr.Zero;
 		private bool _disposed = false;
 		private bool _needDispose = true;
@@ -30,7 +30,7 @@ namespace agora_rtm {
 				Debug.LogError("_localInvitationPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr valuePtr = i_remote_call_manager_getCallerId(_localInvitationPtr);
+			IntPtr valuePtr = IRtmApiNative.i_remote_call_manager_getCallerId(_localInvitationPtr);
             if (!ReferenceEquals(valuePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(valuePtr);
 			} else {
@@ -48,7 +48,7 @@ namespace agora_rtm {
 				Debug.LogError("_localInvitationPtr is null");
 				return;
 			}
-			i_local_call_invitation_setContent(_localInvitationPtr, content);
+			IRtmApiNative.i_local_call_invitation_setContent(_localInvitationPtr, content);
 		}
 
 		/// <summary>
@@ -61,7 +61,7 @@ namespace agora_rtm {
 				Debug.LogError("_localInvitationPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr valuePtr = i_local_call_invitation_getContent(_localInvitationPtr);
+			IntPtr valuePtr = IRtmApiNative.i_local_call_invitation_getContent(_localInvitationPtr);
             if (!ReferenceEquals(valuePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(valuePtr);
 			} else {
@@ -79,7 +79,7 @@ namespace agora_rtm {
 				Debug.LogError("_localInvitationPtr is null");
 				return;
 			}
-			i_local_call_invitation_setChannelId(_localInvitationPtr, channelId);
+			IRtmApiNative.i_local_call_invitation_setChannelId(_localInvitationPtr, channelId);
 		}
 
 		/// <summary>
@@ -92,7 +92,7 @@ namespace agora_rtm {
 				Debug.LogError("_localInvitationPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr valuePtr = i_local_call_invitation_getChannelId(_localInvitationPtr);
+			IntPtr valuePtr = IRtmApiNative.i_local_call_invitation_getChannelId(_localInvitationPtr);
             if (!ReferenceEquals(valuePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(valuePtr);
 			} else {
@@ -110,7 +110,7 @@ namespace agora_rtm {
 				Debug.LogError("_localInvitationPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr valuePtr = i_local_call_invitation_getResponse(_localInvitationPtr);
+			IntPtr valuePtr = IRtmApiNative.i_local_call_invitation_getResponse(_localInvitationPtr);
             if (!ReferenceEquals(valuePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(valuePtr);
 			} else {
@@ -118,7 +118,7 @@ namespace agora_rtm {
 			}	
 		}
 
-		public IntPtr GetPtr() {
+		internal IntPtr GetPtr() {
 			return _localInvitationPtr;
 		}
 
@@ -132,7 +132,7 @@ namespace agora_rtm {
 				Debug.LogError("_localInvitationPtr is null");
 				return LOCAL_INVITATION_STATE.LOCAL_INVITATION_STATE_FAILURE;
 			}
-			return (LOCAL_INVITATION_STATE)i_local_call_invitation_getState(_localInvitationPtr);
+			return (LOCAL_INVITATION_STATE)IRtmApiNative.i_local_call_invitation_getState(_localInvitationPtr);
 		}
 
 		private void Release() {
@@ -140,7 +140,7 @@ namespace agora_rtm {
 				Debug.LogError("_localInvitationPtr is null");
 				return;
 			}
-			i_local_call_invitation_release(_localInvitationPtr);
+			IRtmApiNative.i_local_call_invitation_release(_localInvitationPtr);
 			_localInvitationPtr = IntPtr.Zero;
 		}
 

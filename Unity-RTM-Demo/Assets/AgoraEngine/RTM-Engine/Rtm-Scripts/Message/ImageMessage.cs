@@ -58,7 +58,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return iImage_message_getSize(_MessagePtr);
+            return IRtmApiNative.iImage_message_getSize(_MessagePtr);
         }
 
 		/// <summary>
@@ -77,7 +77,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-            IntPtr mediaIdPtr = iFile_message_getMediaId(_MessagePtr);
+            IntPtr mediaIdPtr = IRtmApiNative.iFile_message_getMediaId(_MessagePtr);
             if (!ReferenceEquals(mediaIdPtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(mediaIdPtr);
 			} else {
@@ -100,7 +100,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-            iImage_message_setThumbnail(_MessagePtr, thumbnail, thumbnail.Length);
+			IRtmApiNative.iImage_message_setThumbnail(_MessagePtr, thumbnail, thumbnail.Length);
         }
 
 		/// <summary>
@@ -116,9 +116,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return _Thumbnail;
 			}
-			long Length = iImage_message_getThumbnailLength(_MessagePtr);
+			long Length = IRtmApiNative.iImage_message_getThumbnailLength(_MessagePtr);
 			byte [] rawData = new byte[Length];
-			IntPtr _ThumbnailData = iImage_message_getThumbnailData(_MessagePtr);
+			IntPtr _ThumbnailData = IRtmApiNative.iImage_message_getThumbnailData(_MessagePtr);
 			Marshal.Copy(_ThumbnailData, rawData, 0, (int)Length);
             return rawData;
         }
@@ -139,7 +139,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-            iImage_message_setFileName(_MessagePtr, fileName);
+			IRtmApiNative.iImage_message_setFileName(_MessagePtr, fileName);
         }
 
 		/// <summary>
@@ -155,7 +155,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-            IntPtr fileNamePtr = iImage_message_getFileName(_MessagePtr);
+            IntPtr fileNamePtr = IRtmApiNative.iImage_message_getFileName(_MessagePtr);
             if (!ReferenceEquals(fileNamePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(fileNamePtr);
 			} else {
@@ -179,7 +179,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-            iImage_message_setWidth(_MessagePtr, width);
+			IRtmApiNative.iImage_message_setWidth(_MessagePtr, width);
         }
 
 		/// <summary>
@@ -195,7 +195,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return iImage_message_getWidth(_MessagePtr);
+            return IRtmApiNative.iImage_message_getWidth(_MessagePtr);
         }
 
 		/// <summary>
@@ -214,7 +214,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-            iImage_message_setHeight(_MessagePtr, height);
+			IRtmApiNative.iImage_message_setHeight(_MessagePtr, height);
         }
 
 		/// <summary>
@@ -230,7 +230,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return iImage_message_getHeight(_MessagePtr);
+            return IRtmApiNative.iImage_message_getHeight(_MessagePtr);
         }
 
 		/// <summary>
@@ -250,7 +250,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-            iImage_message_setThumbnailWidth(_MessagePtr, thumbnailWidth);
+			IRtmApiNative.iImage_message_setThumbnailWidth(_MessagePtr, thumbnailWidth);
         }
 
 		/// <summary>
@@ -266,7 +266,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return iImage_message_getThumbnailWidth(_MessagePtr);
+            return IRtmApiNative.iImage_message_getThumbnailWidth(_MessagePtr);
         }
 
 		/// <summary>
@@ -285,7 +285,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-            iImage_message_setThumbnailHeight(_MessagePtr, height);
+			IRtmApiNative.iImage_message_setThumbnailHeight(_MessagePtr, height);
         }
 
 		/// <summary>
@@ -301,7 +301,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return iImage_message_getThumbnailHeight(_MessagePtr);
+            return IRtmApiNative.iImage_message_getThumbnailHeight(_MessagePtr);
         }
     }
 }

@@ -4,7 +4,7 @@ using System;
 using AOT;
 
 namespace agora_rtm {
-	public sealed class RtmCallManager : IRtmApiNative, IDisposable {
+	public sealed class RtmCallManager : IDisposable {
 		private IntPtr _rtmCallManagerPtr = IntPtr.Zero;
 		private RtmCallEventHandler _rtmCallEventHandler;
 		private bool _disposed = false;
@@ -27,7 +27,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmCallManagerPtr is null");
 				return;
 			}
-			rtm_call_manager_release(_rtmCallManagerPtr);
+			IRtmApiNative.rtm_call_manager_release(_rtmCallManagerPtr);
 			_rtmCallManagerPtr = IntPtr.Zero;
 			if (_rtmCallEventHandler != null) {
 				_rtmCallEventHandler.Release();
@@ -45,7 +45,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmCallManagerPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return rtm_call_manager_sendLocalInvitation(_rtmCallManagerPtr, invitation.GetPtr());
+			return IRtmApiNative.rtm_call_manager_sendLocalInvitation(_rtmCallManagerPtr, invitation.GetPtr());
 		}
 		
 		/// <summary>
@@ -62,7 +62,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmCallManagerPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return rtm_call_manager_acceptRemoteInvitation(_rtmCallManagerPtr, invitation.GetPtr());
+			return IRtmApiNative.rtm_call_manager_acceptRemoteInvitation(_rtmCallManagerPtr, invitation.GetPtr());
 		}
 
 		/// <summary>
@@ -79,7 +79,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmCallManagerPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return rtm_call_manager_refuseRemoteInvitation(_rtmCallManagerPtr, invitation.GetPtr());
+			return IRtmApiNative.rtm_call_manager_refuseRemoteInvitation(_rtmCallManagerPtr, invitation.GetPtr());
 		}
 
 		/// <summary>
@@ -93,7 +93,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmCallManagerPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return rtm_call_manager_cancelLocalInvitation(_rtmCallManagerPtr, invitation.GetPtr());
+			return IRtmApiNative.rtm_call_manager_cancelLocalInvitation(_rtmCallManagerPtr, invitation.GetPtr());
 		}
 
 		/// <summary>
@@ -109,7 +109,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmCallManagerPtr is null");
 				return null;
 			}
-			return new LocalInvitation(rtm_call_manager_createLocalCallInvitation(_rtmCallManagerPtr, calleeId));
+			return new LocalInvitation(IRtmApiNative.rtm_call_manager_createLocalCallInvitation(_rtmCallManagerPtr, calleeId));
 		}
 
 		public void Dispose() {
