@@ -408,7 +408,7 @@ void RtmServiceEventHandler::onPeersOnlineStatusChanged(
     const agora::rtm::PeerOnlineStatus peersStatus[],
     int peerCount) {
   if (_c_rtm_service_event_handler) {
-    char szMsg[520] = {};
+    char szMsg[32768] = {};
     std::string strPostMsg = "";
     for (int i = 0; i < peerCount; i++) {
       const agora::rtm::PeerOnlineStatus peerOnline = peersStatus[i];

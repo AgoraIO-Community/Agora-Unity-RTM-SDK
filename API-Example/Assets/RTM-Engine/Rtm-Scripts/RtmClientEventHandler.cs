@@ -595,7 +595,7 @@ namespace agora_rtm {
 							for (int i = 0; i < peerCount; i++) {
 								PeerOnlineStatus peerOnlineStatus = new PeerOnlineStatus();
 								peerOnlineStatus.peerId = sArray[j++];
-								peerOnlineStatus.isOnline = bool.Parse(sArray[j++]);	
+								peerOnlineStatus.isOnline = 1 == int.Parse(sArray[j++]);	
 								peerOnlineStatus.onlineState = (PEER_ONLINE_STATE)int.Parse(sArray[j++]);
 								channelAttributes[i] = peerOnlineStatus;
 							}
