@@ -242,13 +242,13 @@ namespace agora_rtm {
             return new FileMessage(_rtmServicePtr, FileMessage.MESSAGE_FLAG.SEND);
         }
 
-        public int CreateFileMessageByUploading(string filePath, Int64 requestId) {
+        public int CreateFileMessageByUploading(string filePath, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return createFileMessageByUploading(_rtmServicePtr, filePath, requestId);
+            return createFileMessageByUploading(_rtmServicePtr, filePath, ref requestId);
         }
 
         public RtmChannelAttribute CreateChannelAttribute() {

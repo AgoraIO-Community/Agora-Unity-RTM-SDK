@@ -116,7 +116,7 @@ AGORA_API int createImageMessageByUploading_rtm(void* rtmInstance,
 
 AGORA_API int createFileMessageByUploading_rtm(void* rtmInstance,
                                                const char* filePath,
-                                               long long requestId);
+                                               long long& requestId);
 
 AGORA_API void* createImageMessageByMediaId_rtm(void* rtmInstance,
                                                 const char* mediaId);

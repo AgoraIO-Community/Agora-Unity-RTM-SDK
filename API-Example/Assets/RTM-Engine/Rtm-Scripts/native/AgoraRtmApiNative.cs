@@ -117,7 +117,7 @@ namespace agora_rtm {
         protected static extern int createImageMessageByUploading(IntPtr rtmServiceInstance, string filePath, Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
-        protected static extern int createFileMessageByUploading(IntPtr rtmServiceInstance, string filePath, Int64 requestId);
+        protected static extern int createFileMessageByUploading(IntPtr rtmServiceInstance, string filePath, ref Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi)]
         protected static extern IntPtr createImageMessageByMediaId(IntPtr rtmServiceInstance, string mediaId);

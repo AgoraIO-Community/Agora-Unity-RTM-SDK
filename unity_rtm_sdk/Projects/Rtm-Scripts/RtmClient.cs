@@ -476,13 +476,13 @@ namespace agora_rtm {
         /// 0: Success.
         /// ≠0: Failure. 
         /// </returns>
-        public int CreateFileMessageByUploading(string filePath, Int64 requestId) {
+        public int CreateFileMessageByUploading(string filePath, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.createFileMessageByUploading_rtm(_rtmServicePtr, filePath, requestId);
+            return IRtmApiNative.createFileMessageByUploading_rtm(_rtmServicePtr, filePath, ref requestId);
         }
 
         /// <summary>

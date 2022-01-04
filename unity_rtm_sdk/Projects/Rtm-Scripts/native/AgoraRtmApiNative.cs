@@ -274,7 +274,7 @@ namespace agora_rtm {
 		internal static extern int createImageMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int createFileMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, Int64 requestId);
+		internal static extern int createFileMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, ref Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr createImageMessageByMediaId_rtm(IntPtr rtmServiceInstance, string mediaId);
