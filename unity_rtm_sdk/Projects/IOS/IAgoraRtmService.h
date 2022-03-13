@@ -131,7 +131,7 @@ namespace agora {
       LOGIN_ERR_ALREADY_LOGGED_IN = 8,
 
       /**
-       9: The login times out. The current timeout is set as six seconds. You need to log in again.
+       9: The login times out. The current timeout is set as 12 seconds. You need to log in again.
        */
       LOGIN_ERR_TIMEOUT = 9,
 
@@ -289,7 +289,7 @@ namespace agora {
       CONNECTION_CHANGE_REASON_LOGIN_FAILURE = 3,
 
       /**
-       4: The SDK fails to log in the Agora RTM system within six seconds and gives up.
+       4: The SDK fails to log in the Agora RTM system within 12 seconds and gives up.
        */
       CONNECTION_CHANGE_REASON_LOGIN_TIMEOUT = 4,
 
@@ -738,7 +738,16 @@ namespace agora {
        */
       QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR_USER_NOT_LOGGED_IN = 102,
     };
-
+    enum RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR {
+      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_OK = 0,
+      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_FAILURE = 1,
+      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_TIMEOUT = 2,
+      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_INVALID_ARGUMENT = 3,
+      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_TOO_OFTEN = 4,
+      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_OVERFLOW = 5,
+      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_NOT_INITIALIZED = 101,
+      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_NOT_LOGGED_IN = 102,
+    };
     /**
      @brief Error codes related to attrubute operations.
      */
@@ -1060,6 +1069,11 @@ namespace agora {
          Value of the user attribute. Must not exceed 8 KB.
          */
         const char* value;
+
+        /*revision of the attribute or the attributes revision your modification based on
+        */
+        long long revision;
+        
     };
 
     /**
@@ -1085,7 +1099,6 @@ namespace agora {
      protected:
         virtual ~IRtmChannelAttribute() {}
      public:
-
         /**
          Sets the key of the channel attribute.
 
@@ -1127,6 +1140,14 @@ namespace agora {
          @return Timestamp of when the channel attribute was last updated in milliseconds.
          */
         virtual long long getLastUpdateTs() const = 0;
+
+        /*get attribute revision
+        */
+        virtual long long getRevision() const = 0;
+
+        /*set attribute based on revision
+        */
+        virtual void setRevision(long long revision) = 0;
 
         /**
          Release all resources used by the \ref agora::rtm::IRtmChannelAttribute "IRtmChannelAttribute" instance.
@@ -2116,6 +2137,47 @@ namespace agora {
       }
 
       /**
+       Occurs when user attributes are updated, and returns all attributes of the specified user.
+
+       @note This callback is enabled only When the attributes of the peers, to whom you subscribe, changes
+
+       @param userId The user ID of the specified user.
+       @param attributes All attribute of this user.
+       @param numberOfAttributes The total number of the user attributes.
+       */
+      virtual void onUserAttributesUpdated(const char* userId,
+                                           const RtmAttribute* attributes,
+                                           int numberOfAttributes) 
+      {
+      }
+
+      /**
+       Reports the result of the \ref agora::rtm::IRtmService::subscribeUserAttributes "subscribeUserAttributes" method call.
+
+       @param requestId The unique ID of this request.
+       @param userId The user ID of the specified user.
+       @param errorCode Error Codes. See #RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR.
+       */
+      virtual void onSubscribeUserAttributesResult(
+          long long requestId, const char* userId,
+          RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode)
+      {
+      }
+
+      /**
+       Reports the result of the \ref agora::rtm::IRtmService::unsubscribeUserAttributes "unsubscribeUserAttributes" method call.
+
+       @param requestId The unique ID of this request.
+       @param userId The user ID of the specified user.
+       @param errorCode Error Codes. See #RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR.
+       */
+      virtual void onUnsubscribeUserAttributesResult(
+          long long requestId, const char* userId,
+          RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode) 
+      {
+      }
+
+      /**
        Reports the result of the \ref agora::rtm::IRtmService::setChannelAttributes "setChannelAttributes" method call.
 
        @param requestId The unique ID of this request.
@@ -2250,7 +2312,7 @@ namespace agora {
        @param eventHandler An IRtmServiceEventHandler object that invokes callbacks to be passed to the application on Agora RTM SDK runtime events.
        @return
        - 0: Success.
-       - < 0: Failure.
+       - &ne;0: Failure. See #INIT_ERR_CODE.
        */
       virtual int initialize(const char *appId, IRtmServiceEventHandler *eventHandler) = 0;
 
@@ -2316,11 +2378,11 @@ namespace agora {
       virtual int logout() = 0;
 
       /**
-       Renews the current RTM Token.
+       Renews the RTM Token of the SDK.
 
-       You are required to renew your RTM Token when receiving the \ref agora::rtm::IRtmServiceEventHandler::onTokenExpired "onTokenExpired" callback, and the \ref agora::rtm::IRtmServiceEventHandler::onRenewTokenResult "onRenewTokenResult" callback returns the result of this method call. The call frequency limit for this method is 2 queries per second.
+       You are required to renew your RTM Token when receiving the \ref agora::rtm::IRtmServiceEventHandler::onTokenExpired "onTokenExpired" callback, and the \ref agora::rtm::IRtmServiceEventHandler::onRenewTokenResult "onRenewTokenResult" callback returns the result of this method call. The call frequency limit for this method is 2 calls per second.
 
-       @param token Your new RTM Token.
+       @param token Your new RTM Token. You need to generate the RTM Token yourself. See *Generate an RTM Token*.
        @return
        - 0: Success.
        - &ne;0: Failure. See #RENEW_TOKEN_ERR_CODE for the error codes.
@@ -2765,6 +2827,41 @@ namespace agora {
       virtual int getUserAttributesByKeys(const char* userId, const char* attributeKeys[], int numberOfKeys, long long &requestId) = 0;
 
       /**
+       Subscribe to user attributes update events for a specific users.
+
+       The SDK returns the result by the \ref agora::rtm::IRtmServiceEventHandler::onSubscribeUserAttributesResult "onSubscribeUserAttributesResult" callback.
+
+       - When the method call succeeds, the SDK returns the \ref agora::rtm::IRtmServiceEventHandler::onUserAttributesUpdated "onUserAttributesUpdated" callback to report the current attributes of peers.
+       - When the attributes of the peers, to whom you subscribe, changes, the SDK returns the \ref agora::rtm::IRtmServiceEventHandler::onUserAttributesUpdated "onUserAttributesUpdated" callback to report the current attributes of peers.
+
+       @note
+       - When you log out of the Agora RTM system, all the user attributes that you subscribe to will be cleared. To keep the original subscription after you re-log in the system, you need to redo the whole subscription process.
+       - When the SDK reconnects to the server from the state of being interupted, the SDK automatically subscribes to the peers and states before the interruption without human intervention.
+
+       @param userId The user ID of the specified user.
+       @param requestId The unique ID of this request.
+       @return
+       - 0: Success.
+       - &ne;0: Failure. See #RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR for the error codes.
+       */
+      virtual int subscribeUserAttributes(const char* userId,
+                                          long long& requestId) = 0;
+
+      /**
+       Unsubscribe to user attributes update events for a specific users.
+
+       The SDK returns the result by the \ref agora::rtm::IRtmServiceEventHandler::onUnsubscribeUserAttributesResult "onUnsubscribeUserAttributesResult" callback.
+
+       @param userId The user ID of the specified user.
+       @param requestId The unique ID of this request.
+       @return
+       - 0: Success.
+       - &ne;0: Failure. See #RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR for the error codes.
+       */
+      virtual int unsubscribeUserAttributes(const char* userId,
+                                            long long& requestId) = 0;
+
+      /**
        Resets the attributes of a specified channel.
 
        The SDK returns the result by the \ref agora::rtm::IRtmServiceEventHandler::onSetChannelAttributesResult "onSetChannelAttributesResult" callback.
@@ -3010,6 +3107,18 @@ enum RTM_AREA_CODE {
 };
 #endif  //AGORA_SDK_BOTH_RTM_AND_RTC
 
+/* Type of the cloud proxy. */
+enum RTM_CLOUD_PROXY_TYPE {
+  /**
+   * No cloud proxy.
+   */
+  RTM_NONE_PROXY = 0,
+  /**
+   * TLS cloud proxy.
+   */
+  RTM_TCP_PROXY = 1
+};
+
 /**
  Context of the `%IRtmService` instance.
  */
@@ -3019,6 +3128,11 @@ struct RtmServiceContext
    * Region for the Agora RTM service. The default is #AREA_CODE_GLOB.
    */
   int areaCode = AREA_CODE_GLOB;
+
+  /**
+   * Type of the cloud proxy. The default is `RTM_NONE_PROXY`. See #RTM_CLOUD_PROXY_TYPE.
+   */
+  RTM_CLOUD_PROXY_TYPE proxyType = RTM_NONE_PROXY;
 };
 
 /**
@@ -3041,7 +3155,7 @@ enum SET_RTM_SERVICE_CONTEXT_ERR_CODE
 
  @note You must call this method before calling #createRtmService to create an `%IRtmservice` instance or after destroying any existing `%IRtmservice` instance. Otherwise, this method returns the #SET_RTM_SERVICE_CONTEXT_ERR_FAILURE error code.
 
- @param context Context of the `%IRtmservice` instance, including geofencing. See \ref agora::rtm::RtmServiceContext "RtmServiceContext".
+ @param context Context of the `%IRtmservice` instance, including geofencing and cloud proxy. See \ref agora::rtm::RtmServiceContext "RtmServiceContext".
 
  @return #SET_RTM_SERVICE_CONTEXT_ERR_CODE.
  */

@@ -43,7 +43,7 @@ AGORA_API int setLogFile_rtm(void* rtmInstance, const char* logfile) {
 AGORA_API int getChannelMemberCount_rtm(void* rtmInstance,
                                         const char* channelIds[],
                                         int channelCount,
-                                        long long requestId) {
+                                        long long& requestId) {
   return RTM_SERVICE_INSTANCE->getChannelMemberCount(channelIds, channelCount,
                                                      requestId);
 }
@@ -52,14 +52,14 @@ AGORA_API int getChannelAttributesByKeys_rtm(void* rtmInstance,
                                              const char* channelId,
                                              const char* attributeKeys[],
                                              int numberOfKeys,
-                                             long long requestId) {
+                                             long long& requestId) {
   return RTM_SERVICE_INSTANCE->getChannelAttributesByKeys(
       channelId, attributeKeys, numberOfKeys, requestId);
 }
 
 AGORA_API int getChannelAttributes_rtm(void* rtmInstance,
                                        const char* channelId,
-                                       long long requestId) {
+                                       long long& requestId) {
   return RTM_SERVICE_INSTANCE->getChannelAttributes(channelId, requestId);
 }
 
@@ -67,7 +67,7 @@ AGORA_API int clearChannelAttributes_rtm(
     void* rtmInstance,
     const char* channelId,
     bool enableNotificationToChannelMembers,
-    long long requestId) {
+    long long& requestId) {
   agora::rtm::ChannelAttributeOptions option;
   option.enableNotificationToChannelMembers =
       enableNotificationToChannelMembers;
@@ -81,7 +81,7 @@ AGORA_API int deleteChannelAttributesByKeys_rtm(
     const char* attributeKeys[],
     int numberOfKeys,
     bool enableNotificationToChannelMembers,
-    long long requestId) {
+    long long& requestId) {
   agora::rtm::ChannelAttributeOptions option;
   option.enableNotificationToChannelMembers =
       enableNotificationToChannelMembers;
@@ -93,26 +93,26 @@ AGORA_API int getUserAttributesByKeys_rtm(void* rtmInstance,
                                           const char* userId,
                                           const char* attributeKeys[],
                                           int numberOfKeys,
-                                          long long requestId) {
+                                          long long& requestId) {
   return RTM_SERVICE_INSTANCE->getUserAttributesByKeys(userId, attributeKeys,
                                                        numberOfKeys, requestId);
 }
 
 AGORA_API int getUserAttributes_rtm(void* rtmInstance,
                                     const char* userId,
-                                    long long requestId) {
+                                    long long& requestId) {
   return RTM_SERVICE_INSTANCE->getUserAttributes(userId, requestId);
 }
 
 AGORA_API int clearLocalUserAttributes_rtm(void* rtmInstance,
-                                           long long requestId) {
+                                           long long& requestId) {
   return RTM_SERVICE_INSTANCE->clearLocalUserAttributes(requestId);
 }
 
 AGORA_API int deleteLocalUserAttributesByKeys_rtm(void* rtmInstance,
                                                   const char* attributeKeys[],
                                                   int numberOfKeys,
-                                                  long long requestId) {
+                                                  long long& requestId) {
   return RTM_SERVICE_INSTANCE->deleteLocalUserAttributesByKeys(
       attributeKeys, numberOfKeys, requestId);
 }
@@ -120,7 +120,7 @@ AGORA_API int deleteLocalUserAttributesByKeys_rtm(void* rtmInstance,
 AGORA_API int queryPeersOnlineStatus_rtm(void* rtmInstance,
                                          const char* peerIds[],
                                          int peerCount,
-                                         long long requestId) {
+                                         long long& requestId) {
   return RTM_SERVICE_INSTANCE->queryPeersOnlineStatus(peerIds, peerCount,
                                                       requestId);
 }
@@ -128,7 +128,7 @@ AGORA_API int queryPeersOnlineStatus_rtm(void* rtmInstance,
 AGORA_API int subscribePeersOnlineStatus_rtm(void* rtmInstance,
                                              const char* peerIds[],
                                              int peerCount,
-                                             long long requestId) {
+                                             long long& requestId) {
   return RTM_SERVICE_INSTANCE->subscribePeersOnlineStatus(peerIds, peerCount,
                                                           requestId);
 }
@@ -136,7 +136,7 @@ AGORA_API int subscribePeersOnlineStatus_rtm(void* rtmInstance,
 AGORA_API int unsubscribePeersOnlineStatus_rtm(void* rtmInstance,
                                                const char* peerIds[],
                                                int peerCount,
-                                               long long requestId) {
+                                               long long& requestId) {
   return RTM_SERVICE_INSTANCE->unsubscribePeersOnlineStatus(peerIds, peerCount,
                                                             requestId);
 }
@@ -144,17 +144,49 @@ AGORA_API int unsubscribePeersOnlineStatus_rtm(void* rtmInstance,
 AGORA_API int queryPeersBySubscriptionOption_rtm(
     void* rtmInstance,
     agora::rtm::PEER_SUBSCRIPTION_OPTION option,
-    long long requestId) {
+    long long& requestId) {
   return RTM_SERVICE_INSTANCE->queryPeersBySubscriptionOption(option,
                                                               requestId);
 }
 
 AGORA_API int setLocalUserAttributes_rtm(void* rtmInstance,
-                                         void* attributes,
+                                         const char* attributesInfo,
                                          int numberOfAttributes,
-                                         long long requestId) {
+                                         long long& requestId) {
+  agora::rtm::RtmAttribute* rtmAttribute = nullptr;
+  if (attributesInfo != nullptr && attributesInfo != "" && numberOfAttributes > 0)
+  {
+    rtmAttribute = new agora::rtm::RtmAttribute[numberOfAttributes];
+    char attributeListInfo[1024];
+    strcpy(attributeListInfo, attributesInfo);
+    const char *splitStr = "\t";
+    char *temp;
+
+    for(int i = 0; i < numberOfAttributes; i++) {
+      if (i == 0) {
+          temp = strtok(attributeListInfo, splitStr);
+      } else {
+          temp = strtok(NULL, splitStr);
+      }
+      if (temp[0] == '|') { 
+        rtmAttribute[i].key = "";
+      } else{
+        rtmAttribute[i].key = temp;
+      }
+
+      temp = strtok(NULL, splitStr);
+      if (temp[0] == '|') { 
+        rtmAttribute[i].value = "";
+      } else{
+        rtmAttribute[i].value = temp;
+      }
+
+      temp = strtok(NULL, splitStr);
+      rtmAttribute[i].revision = (long long)atoi(temp);
+    }
+  }
   return RTM_SERVICE_INSTANCE->setLocalUserAttributes(
-      (agora::rtm::RtmAttribute*)attributes, numberOfAttributes, requestId);
+      rtmAttribute, numberOfAttributes, requestId);
 }
 
 AGORA_API int setChannelAttributes_rtm(void* rtmInstance,
@@ -162,7 +194,7 @@ AGORA_API int setChannelAttributes_rtm(void* rtmInstance,
                                        long long attributes[],
                                        const int numberOfAttributes,
                                        bool enableNotificationToChannelMembers,
-                                       long long requestId) {
+                                       long long& requestId) {
   if (numberOfAttributes <= 0)
     return -1;
 
@@ -182,12 +214,69 @@ AGORA_API int setChannelAttributes_rtm(void* rtmInstance,
       channelAttributeOptions, requestId);
 }
 
+AGORA_API int addOrUpdateChannelAttributes_rtm(void* rtmInstance, 
+                                            const char* channelId, 
+                                            long long attributes[], 
+                                            const int numberOfAttributes, 
+                                            bool enableNotificationToChannelMembers,
+                                            long long &requestId) {
+  if (numberOfAttributes <= 0)
+    return -1;
+
+  agora::rtm::ChannelAttributeOptions channelAttributeOptions;
+  channelAttributeOptions.enableNotificationToChannelMembers =
+      enableNotificationToChannelMembers;
+
+  std::vector<const agora::rtm::IRtmChannelAttribute*> channelAttributeList;
+
+  for (int i = 0; i < numberOfAttributes; i++) {
+    channelAttributeList.push_back(
+        reinterpret_cast<agora::rtm::IRtmChannelAttribute*>(attributes[i]));
+  }
+
+  return RTM_SERVICE_INSTANCE->addOrUpdateChannelAttributes(
+      channelId, &channelAttributeList[0], numberOfAttributes,
+      channelAttributeOptions, requestId);
+}
+
 AGORA_API int addOrUpdateLocalUserAttributes_rtm(void* rtmInstance,
-                                                 void* attributes,
+                                                 const char* attributesInfo,
                                                  int numberOfAttributes,
-                                                 long long requestId) {
+                                                 long long& requestId) {
+  agora::rtm::RtmAttribute* rtmAttribute = nullptr;
+  if (attributesInfo != nullptr && attributesInfo != "" && numberOfAttributes > 0)
+  {
+    rtmAttribute = new agora::rtm::RtmAttribute[numberOfAttributes];
+    char attributeListInfo[1024];
+    strcpy(attributeListInfo, attributesInfo);
+    const char *splitStr = "\t";
+    char *temp;
+
+    for(int i = 0; i < numberOfAttributes; i++) {
+      if (i == 0) {
+          temp = strtok(attributeListInfo, splitStr);
+      } else {
+          temp = strtok(NULL, splitStr);
+      }
+      if (temp[0] == '|') { 
+        rtmAttribute[i].key = "";
+      } else{
+        rtmAttribute[i].key = temp;
+      }
+
+      temp = strtok(NULL, splitStr);
+      if (temp[0] == '|') { 
+        rtmAttribute[i].value = "";
+      } else{
+        rtmAttribute[i].value = temp;
+      }
+
+      temp = strtok(NULL, splitStr);
+      rtmAttribute[i].revision = (long long)atoi(temp);
+    }
+  }
   return RTM_SERVICE_INSTANCE->addOrUpdateLocalUserAttributes(
-      (agora::rtm::RtmAttribute*)attributes, numberOfAttributes, requestId);
+      rtmAttribute, numberOfAttributes, requestId);
 }
 
 AGORA_API int setParameters_rtm(void* rtmInstance, const char* parameters) {
@@ -200,7 +289,7 @@ AGORA_API void* createChannelAttribute_rtm(void* rtmInstance) {
 
 AGORA_API int createImageMessageByUploading_rtm(void* rtmInstance,
                                                 const char* filePath,
-                                                long long requestId) {
+                                                long long& requestId) {
   return RTM_SERVICE_INSTANCE->createImageMessageByUploading(filePath,
                                                              requestId);
 }
@@ -275,14 +364,14 @@ AGORA_API int cancelMediaDownload_rtm(void* rtmInstance, long long requestId) {
 AGORA_API int downloadMediaToFile_rtm(void* rtmInstance,
                                       const char* mediaId,
                                       const char* filePath,
-                                      long long requestId) {
+                                      long long& requestId) {
   return RTM_SERVICE_INSTANCE->downloadMediaToFile(mediaId, filePath,
                                                    requestId);
 }
 
 AGORA_API int downloadMediaToMemory_rtm(void* rtmInstance,
                                         const char* mediaId,
-                                        long long requestId) {
+                                        long long& requestId) {
   return RTM_SERVICE_INSTANCE->downloadMediaToMemory(mediaId, requestId);
 }
 
@@ -304,6 +393,16 @@ AGORA_API int login_rtm(void* rtmInstance,
                         const char* token,
                         const char* userId) {
   return RTM_SERVICE_INSTANCE->login(token, userId);
+}
+                                         
+AGORA_API int subscribeUserAttributes_rtm(void* rtmInstance, const char* userId,
+                                    long long& requestId) {
+  return RTM_SERVICE_INSTANCE->subscribeUserAttributes(userId, requestId);                                    
+}
+
+AGORA_API int unsubscribeUserAttributes_rtm(void* rtmInstance, const char* userId,
+                                      long long& requestId) {
+  return RTM_SERVICE_INSTANCE->unsubscribeUserAttributes(userId, requestId);                                      
 }
 
 AGORA_API void release_rtm(void* rtmInstance, bool sync) {
