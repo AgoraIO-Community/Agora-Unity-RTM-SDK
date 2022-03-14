@@ -725,29 +725,6 @@ namespace agora_rtm {
         }
 
         /// <summary>
-        /// Clears all attributes of a specified channel.
-        /// The SDK returns the result by the <OnClearChannelAttributesResultHandler> callback.
-        /// You do not have to join the specified channel to clear its attributes.
-        /// The attributes of a channel will be cleared if the channel remains empty (has no members) for a couple of minutes.
-        /// 
-        /// </summary>
-        /// <param name="channelId">The channel ID of the specified channel.</param>
-        /// <param name="enableNotificationToChannelMembers">Indicates whether or not to notify all channel members of a channel attribute change.</param>
-        /// <param name="requestId">The unique ID of this request.</param>
-        /// <returns>
-        /// 0: Success.
-        /// ≠0: Failure.
-        /// </returns>
-        public int ClearChannelAttributes(string channelId, bool enableNotificationToChannelMembers, ref Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return IRtmApiNative.clearChannelAttributes_rtm(_rtmServicePtr, channelId, enableNotificationToChannelMembers, ref requestId);
-        }
-
-        /// <summary>
         /// Deletes the attributes of a specified channel by attribute keys.
         /// The SDK returns the result by the <OnDeleteChannelAttributesResultHandler> callback.
         /// </summary>
@@ -853,7 +830,7 @@ namespace agora_rtm {
             return -7;
         } 
 
-        public int addOrUpdateChannelAttributes(string channelId, RtmChannelAttribute [] attributes, ChannelAttributeOptions options, ref Int64 requestId)
+        public int AddOrUpdateChannelAttributes(string channelId, RtmChannelAttribute [] attributes, ChannelAttributeOptions options, ref Int64 requestId)
         {
             if (_rtmServicePtr == IntPtr.Zero)
             {
