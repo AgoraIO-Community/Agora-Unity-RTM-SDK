@@ -805,24 +805,6 @@ namespace agora_rtm {
         }
 
         /// <summary>
-        /// Clears all attributes of the local user.
-        /// The SDK returns the result by the <OnClearLocalUserAttributesResultHandler> callback.
-        /// </summary>
-        /// <param name="requestId">The unique ID of this request.</param>
-        /// <returns>
-        /// 0: Success.
-        /// ≠0: Failure. 
-        /// </returns>
-        public int ClearLocalUserAttributes(ref Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return IRtmApiNative.clearLocalUserAttributes_rtm(_rtmServicePtr, ref requestId);
-        }
-
-        /// <summary>
         /// Deletes the local user's attributes by attribute keys.
         /// The SDK returns the result by the <OnDeleteLocalUserAttributesResultHandler> callback.
         /// </summary>
