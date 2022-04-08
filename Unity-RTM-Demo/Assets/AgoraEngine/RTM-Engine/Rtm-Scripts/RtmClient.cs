@@ -132,6 +132,24 @@ namespace agora_rtm {
             return IRtmApiNative.login_rtm(_rtmServicePtr, token, userId);
         }
 
+        public int SubscribeUserAttributes(string userId, ref Int64 requestId) {
+            if (_rtmServicePtr == IntPtr.Zero)
+			{
+                Debug.LogError("rtmServicePtr is null");
+				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
+			}
+            return IRtmApiNative.subscribeUserAttributes_rtm(_rtmServicePtr, userId, ref requestId);
+        }
+
+		public int UnsubscribeUserAttributes(string userId, ref Int64 requestId) {
+            if (_rtmServicePtr == IntPtr.Zero)
+			{
+                Debug.LogError("rtmServicePtr is null");
+				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
+			}
+            return IRtmApiNative.unsubscribeUserAttributes_rtm(_rtmServicePtr, userId, ref requestId);
+        }
+
         /// <summary>
         /// Logs out of the Agora RTM system.
         /// The local user receives the <OnLogoutHandler> callback.
@@ -240,13 +258,13 @@ namespace agora_rtm {
         /// 0: Success.
         /// ≠0: Failure.
         /// </returns>
-        public int DownloadMediaToMemory(string mediaId, Int64 requestId) {
+        public int DownloadMediaToMemory(string mediaId, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.downloadMediaToMemory_rtm(_rtmServicePtr, mediaId, requestId);
+            return IRtmApiNative.downloadMediaToMemory_rtm(_rtmServicePtr, mediaId, ref requestId);
         }
 
         /// <summary>
@@ -260,13 +278,13 @@ namespace agora_rtm {
         /// 0: Success.
         /// ≠0: Failure.
         /// </returns>
-        public int DownloadMediaToFile(string mediaId, string filePath, Int64 requestId) {
+        public int DownloadMediaToFile(string mediaId, string filePath, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.downloadMediaToFile_rtm(_rtmServicePtr, mediaId, filePath, requestId);
+            return IRtmApiNative.downloadMediaToFile_rtm(_rtmServicePtr, mediaId, filePath, ref requestId);
         }
 
         /// <summary>
@@ -432,13 +450,13 @@ namespace agora_rtm {
         /// 0: Success.
         /// ≠0: Failure. 
         /// </returns>
-        public int CreateImageMessageByUploading(string filePath, Int64 requestId) {
+        public int CreateImageMessageByUploading(string filePath, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
             {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
             }
-            return IRtmApiNative.createImageMessageByUploading_rtm(_rtmServicePtr, filePath, requestId);
+            return IRtmApiNative.createImageMessageByUploading_rtm(_rtmServicePtr, filePath, ref requestId);
         }
 
         /// <summary>
@@ -476,13 +494,13 @@ namespace agora_rtm {
         /// 0: Success.
         /// ≠0: Failure. 
         /// </returns>
-        public int CreateFileMessageByUploading(string filePath, Int64 requestId) {
+        public int CreateFileMessageByUploading(string filePath, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.createFileMessageByUploading_rtm(_rtmServicePtr, filePath, requestId);
+            return IRtmApiNative.createFileMessageByUploading_rtm(_rtmServicePtr, filePath, ref requestId);
         }
 
         /// <summary>
@@ -534,13 +552,13 @@ namespace agora_rtm {
         /// 0: Success.
         /// ≠0: Failure.
         /// </returns>
-        public int QueryPeersOnlineStatus(string [] peerIds, Int64 requestId) {
+        public int QueryPeersOnlineStatus(string [] peerIds, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.queryPeersOnlineStatus_rtm(_rtmServicePtr, peerIds, peerIds.Length, requestId);
+            return IRtmApiNative.queryPeersOnlineStatus_rtm(_rtmServicePtr, peerIds, peerIds.Length, ref requestId);
         }
 
         /// <summary>
@@ -553,13 +571,13 @@ namespace agora_rtm {
         /// <param name="peerIds">An array of the specified user IDs.</param>
         /// <param name="requestId">The unique ID of this request.</param>
         /// <returns></returns>
-        public int SubscribePeersOnlineStatus(string [] peerIds, Int64 requestId) {
+        public int SubscribePeersOnlineStatus(string [] peerIds, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
             {
                 Debug.LogError("rtmService is null");
                 return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
             }
-            return IRtmApiNative.subscribePeersOnlineStatus_rtm(_rtmServicePtr, peerIds, peerIds.Length, requestId);
+            return IRtmApiNative.subscribePeersOnlineStatus_rtm(_rtmServicePtr, peerIds, peerIds.Length, ref requestId);
         }
 
         /// <summary>
@@ -569,13 +587,13 @@ namespace agora_rtm {
         /// <param name="peerIds">An array of the specified user IDs.</param>
         /// <param name="requestId">The unique ID of this request.</param>
         /// <returns></returns>
-        public int UnsubscribePeersOnlineStatus(string [] peerIds, Int64 requestId) {
+        public int UnsubscribePeersOnlineStatus(string [] peerIds, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
             {
                 Debug.LogError("rtmService is null");
                 return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
             }
-            return IRtmApiNative.unsubscribePeersOnlineStatus_rtm(_rtmServicePtr, peerIds, peerIds.Length, requestId);
+            return IRtmApiNative.unsubscribePeersOnlineStatus_rtm(_rtmServicePtr, peerIds, peerIds.Length, ref requestId);
         }
 
         /// <summary>
@@ -588,13 +606,13 @@ namespace agora_rtm {
         /// 0: Success.
         /// ≠0: Failure. 
         /// </returns>
-        public int QueryPeersBySubscriptionOption(PEER_SUBSCRIPTION_OPTION option, Int64 requestId) {
+        public int QueryPeersBySubscriptionOption(PEER_SUBSCRIPTION_OPTION option, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
             {
                 Debug.LogError("rtmService is null");
                 return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
             }
-            return IRtmApiNative.queryPeersBySubscriptionOption_rtm(_rtmServicePtr, option, requestId);
+            return IRtmApiNative.queryPeersBySubscriptionOption_rtm(_rtmServicePtr, option, ref requestId);
         }
 
         /// <summary>
@@ -661,13 +679,13 @@ namespace agora_rtm {
         /// <param name="channelIds">An array of the specified channel IDs.</param>
         /// <param name="requestId">	The unique ID of this request.</param>
         /// <returns></returns>
-        public int GetChannelMemberCount(string[] channelIds, Int64 requestId) {
+        public int GetChannelMemberCount(string[] channelIds, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.getChannelMemberCount_rtm(_rtmServicePtr, channelIds, channelIds.Length, requestId);
+            return IRtmApiNative.getChannelMemberCount_rtm(_rtmServicePtr, channelIds, channelIds.Length, ref requestId);
         }
 
         /// <summary>
@@ -678,13 +696,13 @@ namespace agora_rtm {
         /// <param name="attributeKeys">An array of attribute keys.</param>
         /// <param name="requestId">	The unique ID of this request.</param>
         /// <returns></returns>
-        public int GetChannelAttributesByKeys(string channelId, string[] attributeKeys, Int64 requestId) {
+        public int GetChannelAttributesByKeys(string channelId, string[] attributeKeys, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.getChannelAttributesByKeys_rtm(_rtmServicePtr, channelId, attributeKeys, attributeKeys.Length, requestId);
+            return IRtmApiNative.getChannelAttributesByKeys_rtm(_rtmServicePtr, channelId, attributeKeys, attributeKeys.Length, ref requestId);
         }
 
         /// <summary>
@@ -697,36 +715,13 @@ namespace agora_rtm {
         /// 0: Success.
         /// ≠0: Failure. 
         /// </returns>
-        public int GetChannelAttributes(string channelId, Int64 requestId) {
+        public int GetChannelAttributes(string channelId, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
             {
                 Debug.LogError("rtmServicePtr is null");
                 return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
             }
-            return IRtmApiNative.getChannelAttributes_rtm(_rtmServicePtr, channelId, requestId);
-        }
-
-        /// <summary>
-        /// Clears all attributes of a specified channel.
-        /// The SDK returns the result by the <OnClearChannelAttributesResultHandler> callback.
-        /// You do not have to join the specified channel to clear its attributes.
-        /// The attributes of a channel will be cleared if the channel remains empty (has no members) for a couple of minutes.
-        /// 
-        /// </summary>
-        /// <param name="channelId">The channel ID of the specified channel.</param>
-        /// <param name="enableNotificationToChannelMembers">Indicates whether or not to notify all channel members of a channel attribute change.</param>
-        /// <param name="requestId">The unique ID of this request.</param>
-        /// <returns>
-        /// 0: Success.
-        /// ≠0: Failure.
-        /// </returns>
-        public int ClearChannelAttributes(string channelId, bool enableNotificationToChannelMembers, Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return IRtmApiNative.clearChannelAttributes_rtm(_rtmServicePtr, channelId, enableNotificationToChannelMembers, requestId);
+            return IRtmApiNative.getChannelAttributes_rtm(_rtmServicePtr, channelId, ref requestId);
         }
 
         /// <summary>
@@ -738,13 +733,13 @@ namespace agora_rtm {
         /// <param name="enableNotificationToChannelMembers">Indicates whether or not to notify all channel members of a channel attribute change.</param>
         /// <param name="requestId">The unique ID of this request.</param>
         /// <returns></returns>
-        public int DeleteChannelAttributesByKeys(string channelId, string [] attributeKeys, bool enableNotificationToChannelMembers, Int64 requestId) {
+        public int DeleteChannelAttributesByKeys(string channelId, string [] attributeKeys, bool enableNotificationToChannelMembers, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.deleteChannelAttributesByKeys_rtm(_rtmServicePtr, channelId, attributeKeys, attributeKeys.Length, enableNotificationToChannelMembers, requestId);
+            return IRtmApiNative.deleteChannelAttributesByKeys_rtm(_rtmServicePtr, channelId, attributeKeys, attributeKeys.Length, enableNotificationToChannelMembers, ref requestId);
         }
 
         /// <summary>
@@ -758,13 +753,13 @@ namespace agora_rtm {
         /// 0: Success.
         /// ≠0: Failure. 
         /// </returns>
-        public int GetUserAttributesByKeys(string userId, string [] attributeKeys, Int64 requestId) {
+        public int GetUserAttributesByKeys(string userId, string [] attributeKeys, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.getUserAttributesByKeys_rtm(_rtmServicePtr, userId, attributeKeys, attributeKeys.Length, requestId);
+            return IRtmApiNative.getUserAttributesByKeys_rtm(_rtmServicePtr, userId, attributeKeys, attributeKeys.Length, ref requestId);
         }
 
         /// <summary>
@@ -777,31 +772,13 @@ namespace agora_rtm {
         /// 0: Success.
         /// ≠0: Failure. 
         /// </returns>
-        public int GetUserAttributes(string userId, Int64 requestId) {
+        public int GetUserAttributes(string userId, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.getUserAttributes_rtm(_rtmServicePtr, userId, requestId);
-        }
-
-        /// <summary>
-        /// Clears all attributes of the local user.
-        /// The SDK returns the result by the <OnClearLocalUserAttributesResultHandler> callback.
-        /// </summary>
-        /// <param name="requestId">The unique ID of this request.</param>
-        /// <returns>
-        /// 0: Success.
-        /// ≠0: Failure. 
-        /// </returns>
-        public int ClearLocalUserAttributes(Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return IRtmApiNative.clearLocalUserAttributes_rtm(_rtmServicePtr, requestId);
+            return IRtmApiNative.getUserAttributes_rtm(_rtmServicePtr, userId, ref requestId);
         }
 
         /// <summary>
@@ -814,13 +791,13 @@ namespace agora_rtm {
         /// 0: Success.
         /// ≠0: Failure.
         /// </returns>
-        public int DeleteLocalUserAttributesByKeys(string [] attributeKeys, Int64 requestId) {
+        public int DeleteLocalUserAttributesByKeys(string [] attributeKeys, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.deleteLocalUserAttributesByKeys_rtm(_rtmServicePtr, attributeKeys, attributeKeys.Length, requestId);
+            return IRtmApiNative.deleteLocalUserAttributesByKeys_rtm(_rtmServicePtr, attributeKeys, attributeKeys.Length, ref requestId);
         }
 
         /// <summary>
@@ -835,7 +812,7 @@ namespace agora_rtm {
         /// <param name="options">Options for this attribute operation</param>
         /// <param name="requestId">The unique ID of this request.</param>
         /// <returns></returns>
-        public int SetChannelAttributes(string channelId, RtmChannelAttribute [] attributes, ChannelAttributeOptions options, Int64 requestId)
+        public int SetChannelAttributes(string channelId, RtmChannelAttribute [] attributes, ChannelAttributeOptions options, ref Int64 requestId)
         {
             if (_rtmServicePtr == IntPtr.Zero)
             {
@@ -848,10 +825,83 @@ namespace agora_rtm {
                 for (int i = 0; i < attributes.Length; i++) {
                     attributeLists[i] = attributes[i].GetPtr().ToInt64();
                 }
-                return IRtmApiNative.setChannelAttributes_rtm(_rtmServicePtr, channelId, attributeLists, attributes.Length, options.enableNotificationToChannelMembers, requestId);
+                return IRtmApiNative.setChannelAttributes_rtm(_rtmServicePtr, channelId, attributeLists, attributes.Length, options.enableNotificationToChannelMembers, ref requestId);
             }
             return -7;
         } 
+
+        public int AddOrUpdateChannelAttributes(string channelId, RtmChannelAttribute [] attributes, ChannelAttributeOptions options, ref Int64 requestId)
+        {
+            if (_rtmServicePtr == IntPtr.Zero)
+            {
+                Debug.LogError("rtmService is null");
+                return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
+            }
+
+            if (attributes != null && attributes.Length > 0) {
+                Int64 [] attributeLists = new Int64[attributes.Length];
+                for (int i = 0; i < attributes.Length; i++) {
+                    attributeLists[i] = attributes[i].GetPtr().ToInt64();
+                }
+                return IRtmApiNative.addOrUpdateChannelAttributes_rtm(_rtmServicePtr, channelId, attributeLists, attributes.Length, options.enableNotificationToChannelMembers, ref requestId);
+            }
+            return -7;
+        }
+
+        public int SetLocalUserAttributes(RtmAttribute[] attributes, int numberOfAttributes, ref Int64 requestId)
+        {
+            if (_rtmServicePtr == IntPtr.Zero)
+            {
+                Debug.LogError("rtmService is null");
+                return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
+            }
+
+            String attributeInfo = "";
+            if (attributes != null && attributes.Length > 0)
+            {
+                for (int i = 0; i < numberOfAttributes; i++)
+                {
+                    string key = attributes[i].key == "" ? "|" : attributes[i].key;
+                    string value = attributes[i].value == "" ? "|" : attributes[i].value;
+
+                    attributeInfo += key;
+                    attributeInfo += "\t";
+                    attributeInfo += value;
+                    attributeInfo += "\t";
+                    attributeInfo += attributes[i].revision.ToString();
+                    attributeInfo += "\t";
+                }
+                return IRtmApiNative.setLocalUserAttributes_rtm(_rtmServicePtr, attributeInfo, numberOfAttributes, ref requestId);
+            }
+            return -7;
+        }
+
+        public int AddOrUpdateLocalUserAttributes(RtmAttribute[] attributes, int numberOfAttributes, ref Int64 requestId)
+        {
+            if (_rtmServicePtr == IntPtr.Zero)
+            {
+                Debug.LogError("rtmService is null");
+                return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
+            }
+
+            String attributeInfo = "";
+            if (attributes != null && attributes.Length > 0) {
+                for (int i = 0; i < numberOfAttributes; i++)
+                {
+                    string key = attributes[i].key == "" ? "|" : attributes[i].key;
+                    string value = attributes[i].value == "" ? "|" : attributes[i].value;
+
+                    attributeInfo += key;
+                    attributeInfo += "\t";
+                    attributeInfo += value;
+                    attributeInfo += "\t";
+                    attributeInfo += attributes[i].revision.ToString();
+                    attributeInfo += "\t";
+                }
+                return IRtmApiNative.addOrUpdateLocalUserAttributes_rtm(_rtmServicePtr, attributeInfo, numberOfAttributes, ref requestId);
+            }
+            return -7;
+        }
 
         /// <summary>
         /// Gets an RtmCallManager object.

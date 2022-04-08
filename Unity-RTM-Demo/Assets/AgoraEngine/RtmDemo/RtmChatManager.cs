@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -233,7 +233,7 @@ namespace io.agora.rtm.demo
         public void QueryPeersOnlineStatus()
         {
             long req = 222222;
-            rtmClient.QueryPeersOnlineStatus(new string[] { queryUsersBox.text }, req);
+            rtmClient.QueryPeersOnlineStatus(new string[] { queryUsersBox.text }, ref req);
         }
 
         #region  --Image Send / Receive ---------------------------
@@ -251,15 +251,16 @@ namespace io.agora.rtm.demo
                 return;
             }
             long requestId = 10002;
-            int rc = rtmClient.CreateImageMessageByUploading(ImagePath, requestId);
+            int rc = rtmClient.CreateImageMessageByUploading(ImagePath, ref requestId);
 
             Debug.LogFormat("Sending image {0} ---> rc={1}", ImagePath, rc);
         }
 
         public void GetImageByMediaId()
         {
+	    long requestId = 0;
             string mediaID = RcvImageMessage.GetMediaId();
-            int rc = rtmClient.DownloadMediaToMemory(mediaID, 100023);
+            int rc = rtmClient.DownloadMediaToMemory(mediaID, ref requestId);
             Debug.LogFormat("Download image {0} ---> rc={1}", mediaID, rc);
         }
 

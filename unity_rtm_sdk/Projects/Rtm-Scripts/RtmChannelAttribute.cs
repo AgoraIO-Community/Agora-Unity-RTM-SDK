@@ -29,6 +29,11 @@ namespace agora_rtm {
 			set;
 		}
 
+		private Int64 _revision {
+			get;
+			set;
+		}
+
 		public RtmChannelAttribute(MESSAGE_FLAG flag) {
 			_flag = flag;
 		}
@@ -176,6 +181,34 @@ namespace agora_rtm {
 			}
 			Int64 ts = IRtmApiNative.channelAttribute_getLastUpdateTs(_channelAttributePtr);
 			return ts;
+		}
+
+		public Int64 GetRevision() {
+			if (_flag == MESSAGE_FLAG.RECEIVE) {
+				return _revision;
+			}
+
+			if (_channelAttributePtr == IntPtr.Zero)
+			{
+				Debug.LogError("_channelAttributePtr is null");
+				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
+			}
+			Int64 revision = IRtmApiNative.channelAttribute_getRevision(_channelAttributePtr);
+			return revision;
+		}
+
+		public void SetRevision(Int64 revision) {
+			if (_flag == MESSAGE_FLAG.RECEIVE) {
+				_revision = revision;
+				return;
+			}
+
+			if (_channelAttributePtr == IntPtr.Zero)
+			{
+				Debug.LogError("_channelAttributePtr is null");
+				return;
+			}
+			IRtmApiNative.channelAttribute_setRevision(_channelAttributePtr, revision);
 		}
 
 		public IntPtr GetPtr() {

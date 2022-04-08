@@ -57,6 +57,8 @@ namespace agora_rtm {
 	internal delegate void EngineEventOnRemoteInvitationFailureHandler(int _id, IntPtr remoteInvitation, REMOTE_INVITATION_ERR_CODE errorCode);
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 	internal delegate void EngineEventOnRemoteInvitationCanceledHandler(int _id, IntPtr remoteInvitation);
+	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	internal delegate void EngineEventOnUserAttributesUpdated(int _id, string userId, string attributes, int numberOfAttributes);
 
 	[StructLayout(LayoutKind.Sequential)]
 	internal struct CChannelEvent
@@ -100,6 +102,9 @@ namespace agora_rtm {
 		internal IntPtr onRenewTokenResult;
 		internal IntPtr onTokenExpired;
 		internal IntPtr onLogout;
+		internal IntPtr onUserAttributesUpdated;
+  		internal IntPtr onSubscribeUserAttributesResult;
+  		internal IntPtr onUnsubscribeUserAttributesResult;
 		internal IntPtr onConnectionStateChanged;
 		internal IntPtr onSendMessageResult;
 		internal IntPtr onMessageReceivedFromPeer;
@@ -136,6 +141,9 @@ namespace agora_rtm {
         internal RtmClientEventHandler.OnRenewTokenResultHandler onRenewTokenResult;
         internal RtmClientEventHandler.OnTokenExpiredHandler onTokenExpired;
         internal RtmClientEventHandler.OnLogoutHandler onLogout;
+		internal EngineEventOnUserAttributesUpdated onUserAttributesUpdated;
+  		internal RtmClientEventHandler.OnSubscribeUserAttributesResultHandler onSubscribeUserAttributesResult;
+  		internal RtmClientEventHandler.OnUnsubscribeUserAttributesResultHandler onUnsubscribeUserAttributesResult;
         internal RtmClientEventHandler.OnConnectionStateChangedHandler onConnectionStateChanged;
         internal RtmClientEventHandler.OnSendMessageResultHandler onSendMessageResult;
         internal EngineEventOnMessageReceived onMessageReceivedFromPeer;
@@ -226,43 +234,43 @@ namespace agora_rtm {
 		internal static extern int setLogFilter_rtm(IntPtr rtmServiceInstance, int filter);
 	
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int getChannelMemberCount_rtm(IntPtr rtmServiceInstance, string [] channelIds, int channelCount, Int64 requestId);
+		internal static extern int getChannelMemberCount_rtm(IntPtr rtmServiceInstance, string [] channelIds, int channelCount, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int getChannelAttributesByKeys_rtm(IntPtr rtmServiceInstance, string channelId, string [] attributeKeys, int numberOfKeys, Int64 requestId);
+		internal static extern int getChannelAttributesByKeys_rtm(IntPtr rtmServiceInstance, string channelId, string [] attributeKeys, int numberOfKeys, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int getChannelAttributes_rtm(IntPtr rtmServiceInstance, string channelId, Int64 requestId);
+		internal static extern int getChannelAttributes_rtm(IntPtr rtmServiceInstance, string channelId, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int clearChannelAttributes_rtm(IntPtr rtmServiceInstance, string channelId, bool enableNotificationToChannelMembers, Int64 requestId);
+		internal static extern int clearChannelAttributes_rtm(IntPtr rtmServiceInstance, string channelId, bool enableNotificationToChannelMembers, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int deleteChannelAttributesByKeys_rtm(IntPtr rtmServiceInstance, string channelId, string [] attributeKeys, int numberOfKeys, bool enableNotificationToChannelMembers, Int64 requestId);
+		internal static extern int deleteChannelAttributesByKeys_rtm(IntPtr rtmServiceInstance, string channelId, string [] attributeKeys, int numberOfKeys, bool enableNotificationToChannelMembers, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int getUserAttributesByKeys_rtm(IntPtr rtmServiceInstance, string userId, string [] attributeKeys, int numberOfKeys, Int64 requestId);
+		internal static extern int getUserAttributesByKeys_rtm(IntPtr rtmServiceInstance, string userId, string [] attributeKeys, int numberOfKeys, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int getUserAttributes_rtm(IntPtr rtmServiceInstance, string userId, Int64 requestId);
+		internal static extern int getUserAttributes_rtm(IntPtr rtmServiceInstance, string userId, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int clearLocalUserAttributes_rtm(IntPtr rtmServiceInstance, Int64 requestId);
+		internal static extern int clearLocalUserAttributes_rtm(IntPtr rtmServiceInstance, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int deleteLocalUserAttributesByKeys_rtm(IntPtr rtmServiceInstance, string [] attributeKeys, int numberOfKeys, Int64 requestId);
+		internal static extern int deleteLocalUserAttributesByKeys_rtm(IntPtr rtmServiceInstance, string [] attributeKeys, int numberOfKeys, ref Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int queryPeersOnlineStatus_rtm(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, Int64 requestId);
+		internal static extern int queryPeersOnlineStatus_rtm(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, ref Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int subscribePeersOnlineStatus_rtm(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, Int64 requestId);
+		internal static extern int subscribePeersOnlineStatus_rtm(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int unsubscribePeersOnlineStatus_rtm(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, Int64 requestId);
+		internal static extern int unsubscribePeersOnlineStatus_rtm(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int queryPeersBySubscriptionOption_rtm(IntPtr rtmServiceInstance, PEER_SUBSCRIPTION_OPTION option, Int64 requestId);
+		internal static extern int queryPeersBySubscriptionOption_rtm(IntPtr rtmServiceInstance, PEER_SUBSCRIPTION_OPTION option, ref Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern int setParameters_rtm(IntPtr rtmServiceInstance, string parameters);
@@ -271,10 +279,10 @@ namespace agora_rtm {
 		internal static extern IntPtr createChannelAttribute_rtm(IntPtr rtmServiceInstance);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int createImageMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, Int64 requestId);
+		internal static extern int createImageMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, ref Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int createFileMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, Int64 requestId);
+		internal static extern int createFileMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, ref Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr createImageMessageByMediaId_rtm(IntPtr rtmServiceInstance, string mediaId);
@@ -308,10 +316,10 @@ namespace agora_rtm {
 		internal static extern int cancelMediaDownload_rtm(IntPtr rtmServiceInstance, Int64 requestId);		
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int downloadMediaToFile_rtm(IntPtr rtmServiceInstance, string mediaId, string filePath, Int64 requestId);		
+		internal static extern int downloadMediaToFile_rtm(IntPtr rtmServiceInstance, string mediaId, string filePath, ref Int64 requestId);		
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int downloadMediaToMemory_rtm(IntPtr rtmServiceInstance, string mediaId, Int64 requestId);		
+		internal static extern int downloadMediaToMemory_rtm(IntPtr rtmServiceInstance, string mediaId, ref Int64 requestId);		
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern int sendMessageToPeer2_rtm(IntPtr rtmServiceInstance, string peerId, IntPtr message);		
@@ -324,6 +332,12 @@ namespace agora_rtm {
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern int login_rtm(IntPtr rtmServiceInstance, string token, string userId);
+
+		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int subscribeUserAttributes_rtm(IntPtr rtmServiceInstance, string userId, ref Int64 requestId);
+
+		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int unsubscribeUserAttributes_rtm(IntPtr rtmServiceInstance, string userId, ref Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern void release_rtm(IntPtr rtmServiceInstance, bool sync);
@@ -368,12 +382,26 @@ namespace agora_rtm {
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern Int64 channelAttribute_getLastUpdateTs(IntPtr channel_attribute_instance);
+		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern Int64 channelAttribute_getRevision(IntPtr channel_attribute_instance);
+		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern void channelAttribute_setRevision(IntPtr channel_attribute_instance, Int64 revision);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern void channelAttribute_release(IntPtr channel_attribute_instance);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int setChannelAttributes_rtm(IntPtr rtmInstance, string channelId, Int64 [] attributes, int numberOfAttributes, bool enableNotificationToChannelMembers, Int64 requestId);
+		internal static extern int setChannelAttributes_rtm(IntPtr rtmInstance, string channelId, Int64 [] attributes, int numberOfAttributes, bool enableNotificationToChannelMembers, ref Int64 requestId);
+		
+		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int addOrUpdateChannelAttributes_rtm(IntPtr rtmInstance, string channelId, Int64 [] attributes, int numberOfAttributes, bool enableNotificationToChannelMembers, ref Int64 requestId);
+
+		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int setLocalUserAttributes_rtm(IntPtr rtmInstance, string attributesInfo, int numberOfAttributes, ref Int64 requestId);
+
+		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int addOrUpdateLocalUserAttributes_rtm(IntPtr rtmInstance, string attributesInfo, int numberOfAttributes, ref Int64 requestId);
+
 		/// Message api
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern Int64 imessage_getMessageId(IntPtr file_message_instance);

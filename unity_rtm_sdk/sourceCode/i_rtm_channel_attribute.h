@@ -53,6 +53,14 @@ AGORA_API const char* channelAttribute_getLastUpdateUserId(
 AGORA_API long long channelAttribute_getLastUpdateTs(
     void* channel_attribute_instance);
 
+/*get attribute revision
+*/
+AGORA_API long long channelAttribute_getRevision(void* channel_attribute_instance);
+
+/*set attribute based on revision
+*/
+AGORA_API void channelAttribute_setRevision(void* channel_attribute_instance, long long revision);
+
 /**
  Release all resources used by the \ref agora::rtm::IRtmChannelAttribute
  "IRtmChannelAttribute" instance.

@@ -25,7 +25,7 @@ namespace agora_rtm {
 		}
 
 		~TextMessage() {
-			//Debug.Log("~TextMessage  called");
+			Debug.Log("~TextMessage  called");
 			Release();
 		}
 	}

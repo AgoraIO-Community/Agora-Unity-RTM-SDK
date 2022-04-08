@@ -48,6 +48,12 @@ namespace agora_rtm {
 		/// <param name="errorCode">The error code. </param>
 		public delegate void OnLogoutHandler(int id, LOGOUT_ERR_CODE errorCode);
 
+		public delegate void OnUserAttributesUpdatedHandler(int id, string userId, RtmAttribute[] attributes, int numberOfAttributes);
+
+		public delegate void OnSubscribeUserAttributesResultHandler(int id, Int64 requestId, string userId, RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode);
+
+		public delegate void OnUnsubscribeUserAttributesResultHandler(int id, Int64 requestId, string userId, RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode);
+
 		/// <summary>
 		/// Occurs when the connection state changes between the SDK and the Agora RTM system.
 		/// </summary>
@@ -287,6 +293,9 @@ namespace agora_rtm {
 		public OnRenewTokenResultHandler OnRenewTokenResult;
 		public OnTokenExpiredHandler OnTokenExpired;
 		public OnLogoutHandler OnLogout;
+		public OnUserAttributesUpdatedHandler OnUserAttributesUpdated;
+		public OnSubscribeUserAttributesResultHandler OnSubscribeUserAttributesResult;
+		public OnUnsubscribeUserAttributesResultHandler OnUnsubscribeUserAttributesResult;
 		public OnConnectionStateChangedHandler OnConnectionStateChanged;
 		public OnSendMessageResultHandler OnSendMessageResult;
 		public OnMessageReceivedFromPeerHandler OnMessageReceivedFromPeer;
@@ -328,6 +337,9 @@ namespace agora_rtm {
 				onRenewTokenResult = OnRenewTokenResultCallback,
 				onTokenExpired = OnTokenExpiredCallback,
 				onLogout = OnLogoutCallback,
+				onUserAttributesUpdated = OnUserAttributesUpdatedCallback,
+				onSubscribeUserAttributesResult = OnSubscribeUserAttributesResultCallback,
+				onUnsubscribeUserAttributesResult = OnUnsubscribeUserAttributesResultCallback,
 				onConnectionStateChanged = OnConnectionStateChangedCallback,
 				onSendMessageResult = OnSendMessageResultCallback,
 				onMessageReceivedFromPeer = OnMessageReceivedFromPeerCallback,
@@ -362,6 +374,9 @@ namespace agora_rtm {
 				onRenewTokenResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onRenewTokenResult),
 				onTokenExpired = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onTokenExpired),
 				onLogout = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onLogout),
+				onUserAttributesUpdated = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onUserAttributesUpdated),
+				onSubscribeUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSubscribeUserAttributesResult),
+				onUnsubscribeUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onUnsubscribeUserAttributesResult),
 				onConnectionStateChanged = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onConnectionStateChanged),
 				onSendMessageResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSendMessageResult),
 				onMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMessageReceivedFromPeer),
@@ -472,6 +487,53 @@ namespace agora_rtm {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnLogout != null) {
 							clientEventHandlerHandlerDic[id].OnLogout(id, errorCode);
+						}
+					});
+				}
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(EngineEventOnUserAttributesUpdated))]
+		private static void OnUserAttributesUpdatedCallback(int id, string userId, string attributes, int numberOfAttributes) {
+			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnUserAttributesUpdated != null) {
+				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
+					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
+						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnUserAttributesUpdated != null) {
+							int j = 1;
+							string[] sArray = attributes.Split('\t');
+							RtmAttribute [] attribute = new RtmAttribute[numberOfAttributes];
+							for (int i = 0; i < numberOfAttributes; i++) {
+								attribute[i].key = sArray[j++];
+								attribute[i].value = sArray[j++];
+								attribute[i].revision = Int64.Parse(sArray[j++]);
+							}
+							clientEventHandlerHandlerDic[id].OnUserAttributesUpdated(id, userId, attribute, numberOfAttributes);
+						}
+					});
+				}
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnSubscribeUserAttributesResultHandler))]
+		private static void OnSubscribeUserAttributesResultCallback(int id, Int64 requestId, string userId, RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode) {
+			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnSubscribeUserAttributesResult != null) {
+				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
+					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
+						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnSubscribeUserAttributesResult != null) {
+							clientEventHandlerHandlerDic[id].OnSubscribeUserAttributesResult(id, requestId, userId, errorCode);
+						}
+					});
+				}
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnUnsubscribeUserAttributesResultHandler))]
+		private static void OnUnsubscribeUserAttributesResultCallback(int id, Int64 requestId, string userId, RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode) {
+			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnUnsubscribeUserAttributesResult != null) {
+				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
+					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
+						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnUnsubscribeUserAttributesResult != null) {
+							clientEventHandlerHandlerDic[id].OnUnsubscribeUserAttributesResult(id, requestId, userId, errorCode);
 						}
 					});
 				}
@@ -812,6 +874,7 @@ namespace agora_rtm {
 							for (int i = 0; i < numberOfAttributes; i++) {
 								attribute[i].key = sArray[j++];
 								attribute[i].value = sArray[j++];
+								attribute[i].revision = Int64.Parse(sArray[j++]);
 							}
 							clientEventHandlerHandlerDic[id].OnGetUserAttributesResult(id, requestId, userId, attribute, numberOfAttributes, errorCode);										
 						}
@@ -835,6 +898,7 @@ namespace agora_rtm {
 								_attribute.SetValue(sArray[j++]);
 								_attribute.SetLastUpdateTs(Int64.Parse(sArray[j++]));
 								_attribute.SetLastUpdateUserId(sArray[j++]);	
+								_attribute.SetRevision(Int64.Parse(sArray[j++]));
 								channelAttributes[i] = _attribute;
 							}
 							clientEventHandlerHandlerDic[id].OnGetChannelAttributesResult(id, requestId, channelAttributes, numberOfAttributes, errorCode);

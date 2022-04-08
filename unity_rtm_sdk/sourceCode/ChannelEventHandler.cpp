@@ -217,10 +217,11 @@ void ChannelEventHandler::onAttributesUpdated(
       const agora::rtm::IRtmChannelAttribute* rtmAttribute = attributes[i];
       if (rtmAttribute && rtmAttribute->getKey() && rtmAttribute->getValue() &&
           rtmAttribute->getLastUpdateUserId()) {
-        sprintf(szMsg, "%s\t%s\t%s\t%lld\t%s", strPostMsg.data(),
+        sprintf(szMsg, "%s\t%s\t%s\t%lld\t%s\t%lld", strPostMsg.data(),
                 rtmAttribute->getKey(), rtmAttribute->getValue(),
                 rtmAttribute->getLastUpdateTs(),
-                rtmAttribute->getLastUpdateUserId());
+                rtmAttribute->getLastUpdateUserId(),
+                rtmAttribute->getRevision());
         strPostMsg = szMsg;
       }
     }
