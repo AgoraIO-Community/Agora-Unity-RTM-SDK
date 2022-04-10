@@ -10,14 +10,14 @@
 
 extern "C" {
 #define Service_EVENT_HANDLER_PTR                     \
-  static_cast<agora::unity::RtmServiceEventHandler*>( \
+  static_cast<agora::unity::rtm::RtmServiceEventHandler*>( \
       channelEventHandlerInstance);
 }
 
 AGORA_API void* service_event_handler_createEventHandle(
     int _id,
     CRtmServiceEventHandler* handler) {
-  return new agora::unity::RtmServiceEventHandler(
+  return new agora::unity::rtm::RtmServiceEventHandler(
       _id, handler);
 }
 

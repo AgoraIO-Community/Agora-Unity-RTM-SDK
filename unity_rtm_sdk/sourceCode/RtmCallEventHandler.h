@@ -11,6 +11,7 @@
 
 namespace agora {
 namespace unity {
+namespace rtm {
 class RtmCallEventHandler : public agora::rtm::IRtmCallEventHandler {
  private:
   int handlerId;
@@ -113,5 +114,6 @@ class RtmCallEventHandler : public agora::rtm::IRtmCallEventHandler {
   virtual void onRemoteInvitationCanceled(
       agora::rtm::IRemoteCallInvitation* remoteInvitation) override;
 };
+}
 }  // namespace unity
 }  // namespace agora

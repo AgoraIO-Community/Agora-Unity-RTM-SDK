@@ -14,6 +14,7 @@
 
 namespace agora {
 namespace unity {
+namespace rtm {
 
 class RtmServiceEventHandler : public agora::rtm::IRtmServiceEventHandler {
  private:
@@ -460,6 +461,7 @@ class RtmServiceEventHandler : public agora::rtm::IRtmServiceEventHandler {
       int channelCount,
       agora::rtm::GET_CHANNEL_MEMBER_COUNT_ERR_CODE errorCode) override;
 };
+}
 }  // namespace unity
 }  // namespace agora
 

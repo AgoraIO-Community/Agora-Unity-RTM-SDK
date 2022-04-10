@@ -10,13 +10,13 @@
 
 extern "C" {
 #define CHANNEL_EVENT_HANDLER_PTR \
-  static_cast<agora::unity::ChannelEventHandler*>(channelEventHandlerInstance);
+  static_cast<agora::unity::rtm::ChannelEventHandler*>(channelEventHandlerInstance);
 }
 
 AGORA_API void* channel_event_handler_createEventHandler(
     int _id,
     struct CChannelEventHandler* channelEventHandler) {
-  return new agora::unity::ChannelEventHandler(_id, channelEventHandler);
+  return new agora::unity::rtm::ChannelEventHandler(_id, channelEventHandler);
 }
 
 AGORA_API void channel_event_handler_releaseEventHandler(

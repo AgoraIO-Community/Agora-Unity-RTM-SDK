@@ -10,6 +10,7 @@
 
 namespace agora {
 namespace unity {
+namespace rtm {
 RtmServiceEventHandler::RtmServiceEventHandler(
     int _id,
     CRtmServiceEventHandler* handler) {
@@ -28,7 +29,7 @@ The local user receives this callback when the \ref
 agora::rtm::IRtmService::login "login" method call succeeds.
 */
 void RtmServiceEventHandler::onLoginSuccess() {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onLoginSuccess");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onLoginSuccess(handlerId);
@@ -43,7 +44,7 @@ agora::rtm::LOGIN_ERR_CODE "LOGIN_ERR_CODE" for the error codes.
 */
 void RtmServiceEventHandler::onLoginFailure(
     agora::rtm::LOGIN_ERR_CODE errorCode) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onLoginFailure");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onLoginFailure(handlerId, int(errorCode));
@@ -107,7 +108,7 @@ void RtmServiceEventHandler::onUserAttributesUpdated(const char* userId,
   }
   sprintf(szMsg, "%s", strPostMsg.data());
 
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onGetUserAttributesResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onUserAttributesUpdated(handlerId, userId, szMsg, numberOfAttributes);                                           
@@ -138,7 +139,7 @@ system.
 void RtmServiceEventHandler::onConnectionStateChanged(
     agora::rtm::CONNECTION_STATE state,
     agora::rtm::CONNECTION_CHANGE_REASON reason) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onConnectionStateChanged");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onConnectionStateChanged(
@@ -156,7 +157,7 @@ Reports the result of the \ref agora::rtm::IRtmService::sendMessageToPeer
 void RtmServiceEventHandler::onSendMessageResult(
     long long messageId,
     agora::rtm::PEER_MESSAGE_ERR_CODE errorCode) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onSendMessageResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onSendMessageResult(handlerId, messageId,
@@ -173,7 +174,7 @@ Occurs when receiving a peer-to-peer message.
 void RtmServiceEventHandler::onMessageReceivedFromPeer(
     const char* peerId,
     const agora::rtm::IMessage* message) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onMessageReceivedFromPeer");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onMessageReceivedFromPeer(handlerId, peerId,
@@ -190,7 +191,7 @@ agora::rtm::IImageMessage "IImageMessage".
 void RtmServiceEventHandler::onImageMessageReceivedFromPeer(
     const char* peerId,
     const agora::rtm::IImageMessage* message) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onImageMessageReceivedFromPeer");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onImageMessageReceivedFromPeer(
@@ -207,7 +208,7 @@ agora::rtm::IFileMessage "IFileMessage".
 void RtmServiceEventHandler::onFileMessageReceivedFromPeer(
     const char* peerId,
     const agora::rtm::IFileMessage* message) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onFileMessageReceivedFromPeer");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onFileMessageReceivedFromPeer(
@@ -230,7 +231,7 @@ agora::rtm::MediaOperationProgress "MediaOperationProgress".
 void RtmServiceEventHandler::onMediaUploadingProgress(
     long long requestId,
     const agora::rtm::MediaOperationProgress& progress) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onMediaUploadingProgress");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onMediaUploadingProgress(
@@ -253,7 +254,7 @@ agora::rtm::MediaOperationProgress "MediaOperationProgress".
 void RtmServiceEventHandler::onMediaDownloadingProgress(
     long long requestId,
     const agora::rtm::MediaOperationProgress& progress) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onMediaDownloadingProgress");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onMediaDownloadingProgress(
@@ -273,7 +274,7 @@ void RtmServiceEventHandler::onFileMediaUploadResult(
     long long requestId,
     agora::rtm::IFileMessage* fileMessage,
     agora::rtm::UPLOAD_MEDIA_ERR_CODE code) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onFileMediaUploadResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onFileMediaUploadResult(
@@ -293,7 +294,7 @@ void RtmServiceEventHandler::onImageMediaUploadResult(
     long long requestId,
     agora::rtm::IImageMessage* imageMessage,
     agora::rtm::UPLOAD_MEDIA_ERR_CODE code) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onImageMediaUploadResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onImageMediaUploadResult(
@@ -310,7 +311,7 @@ Reports the result of the \ref agora::rtm::IRtmService::downloadMediaToFile
 void RtmServiceEventHandler::onMediaDownloadToFileResult(
     long long requestId,
     agora::rtm::DOWNLOAD_MEDIA_ERR_CODE code) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onMediaDownloadToFileResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onMediaDownloadToFileResult(
@@ -334,7 +335,7 @@ void RtmServiceEventHandler::onMediaDownloadToMemoryResult(
     const char* memory,
     long long length,
     agora::rtm::DOWNLOAD_MEDIA_ERR_CODE code) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onMediaDownloadToMemoryResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onMediaDownloadToMemoryResult(
@@ -513,7 +514,7 @@ Reports the result of the \ref agora::rtm::IRtmService::clearLocalUserAttributes
 void RtmServiceEventHandler::onClearLocalUserAttributesResult(
     long long requestId,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onClearLocalUserAttributesResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onClearLocalUserAttributesResult(
@@ -548,7 +549,7 @@ void RtmServiceEventHandler::onGetUserAttributesResult(
   }
   sprintf(szMsg, "%s", strPostMsg.data());
 
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onGetUserAttributesResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onGetUserAttributesResult(
@@ -566,7 +567,7 @@ Reports the result of the \ref agora::rtm::IRtmService::setChannelAttributes
 void RtmServiceEventHandler::onSetChannelAttributesResult(
     long long requestId,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onSetChannelAttributesResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onSetChannelAttributesResult(
@@ -584,7 +585,7 @@ agora::rtm::IRtmService::addOrUpdateChannelAttributes
 void RtmServiceEventHandler::onAddOrUpdateChannelAttributesResult(
     long long requestId,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onAddOrUpdateChannelAttributesResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onAddOrUpdateLocalUserAttributesResult(
@@ -602,7 +603,7 @@ agora::rtm::IRtmService::deleteChannelAttributesByKeys
 void RtmServiceEventHandler::onDeleteChannelAttributesResult(
     long long requestId,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onDeleteChannelAttributesResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onDeleteChannelAttributesResult(
@@ -619,7 +620,7 @@ Reports the result of the \ref agora::rtm::IRtmService::clearChannelAttributes
 void RtmServiceEventHandler::onClearChannelAttributesResult(
     long long requestId,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onClearChannelAttributesResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onClearChannelAttributesResult(
@@ -676,7 +677,7 @@ void RtmServiceEventHandler::onGetChannelMemberCountResult(
     const agora::rtm::ChannelMemberCount* channelMemberCounts,
     int channelCount,
     agora::rtm::GET_CHANNEL_MEMBER_COUNT_ERR_CODE errorCode) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onGetChannelMemberCountResult");
   if (_c_rtm_service_event_handler) {
     char szMsg[520] = {};
@@ -694,6 +695,7 @@ void RtmServiceEventHandler::onGetChannelMemberCountResult(
     _c_rtm_service_event_handler->_onGetChannelAttributesResult(
         handlerId, requestId, szMsg, channelCount, int(errorCode));
   }
+}
 }
 }  // namespace unity
 }  // namespace agora

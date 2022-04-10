@@ -10,6 +10,7 @@
 
 namespace agora {
 namespace unity {
+namespace rtm {
 RtmCallEventHandler::RtmCallEventHandler(
     int index,
     CRtmCallEventHandler* cRtmCallEventHandler) {
@@ -149,6 +150,8 @@ void RtmCallEventHandler::onRemoteInvitationCanceled(
   if (_c_rtm_call_event_handler)
     _c_rtm_call_event_handler->_onRemoteInvitationCanceled(handlerId,
                                                            remoteInvitation);
+}
+
 }
 }  // namespace unity
 }  // namespace agora
