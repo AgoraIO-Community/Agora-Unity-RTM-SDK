@@ -15,6 +15,7 @@
 
 namespace agora {
 namespace unity {
+namespace rtm {
 class LogHelper {
  private:
   FILE* fileStream = nullptr;
@@ -59,6 +60,7 @@ class LogHelper {
     fflush(fileStream);
   }
 };
+}
 }  // namespace unity
 }  // namespace agora
 

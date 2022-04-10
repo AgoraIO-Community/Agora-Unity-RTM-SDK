@@ -11,7 +11,8 @@
 
 namespace agora {
 namespace unity {
-class ChannelEventHandler : public rtm::IChannelEventHandler {
+namespace rtm {
+class ChannelEventHandler : public agora::rtm::IChannelEventHandler {
  private:
   int handlerId;
   CChannelEventHandler* _c_channel_event_handler;
@@ -34,7 +35,7 @@ class ChannelEventHandler : public rtm::IChannelEventHandler {
 
    @param errorCode The error code. See #JOIN_CHANNEL_ERR.
    */
-  virtual void onJoinFailure(rtm::JOIN_CHANNEL_ERR errorCode) override;
+  virtual void onJoinFailure(agora::rtm::JOIN_CHANNEL_ERR errorCode) override;
 
   /**
    Returns the result of the \ref agora::rtm::IChannel::leave "leave" method
@@ -42,7 +43,7 @@ class ChannelEventHandler : public rtm::IChannelEventHandler {
 
    @param errorCode The error code. See #LEAVE_CHANNEL_ERR.
    */
-  virtual void onLeave(rtm::LEAVE_CHANNEL_ERR errorCode) override;
+  virtual void onLeave(agora::rtm::LEAVE_CHANNEL_ERR errorCode) override;
 
   /**
    Occurs when receiving a channel message.
@@ -52,7 +53,7 @@ class ChannelEventHandler : public rtm::IChannelEventHandler {
    "IMessage".
    */
   virtual void onMessageReceived(const char* userId,
-                                 const rtm::IMessage* message) override;
+                                 const agora::rtm::IMessage* message) override;
   /**
    Occurs when receiving a channel image message.
 
@@ -62,7 +63,7 @@ class ChannelEventHandler : public rtm::IChannelEventHandler {
    */
   virtual void onImageMessageReceived(
       const char* userId,
-      const rtm::IImageMessage* message) override;
+      const agora::rtm::IImageMessage* message) override;
 
   /**
    Occurs when receiving a channel file message.
@@ -72,7 +73,7 @@ class ChannelEventHandler : public rtm::IChannelEventHandler {
    agora::rtm::IFileMessage "IFileMessage".
    */
   virtual void onFileMessageReceived(const char* userId,
-                                     const rtm::IFileMessage* message) override;
+                                     const agora::rtm::IFileMessage* message) override;
 
   /**
    Returns the result of the \ref agora::rtm::IChannel::sendMessage
@@ -83,7 +84,7 @@ class ChannelEventHandler : public rtm::IChannelEventHandler {
    */
   virtual void onSendMessageResult(
       long long messageId,
-      rtm::CHANNEL_MESSAGE_ERR_CODE state) override;
+                                   agora::rtm::CHANNEL_MESSAGE_ERR_CODE state) override;
 
   /**
    Occurs when a remote user joins the channel.
@@ -98,7 +99,7 @@ class ChannelEventHandler : public rtm::IChannelEventHandler {
 
    @param member The user joining the channel. See IChannelMember.
    */
-  virtual void onMemberJoined(rtm::IChannelMember* member) override;
+  virtual void onMemberJoined(agora::rtm::IChannelMember* member) override;
 
   /**
    Occurs when a remote member leaves the channel.
@@ -113,7 +114,7 @@ class ChannelEventHandler : public rtm::IChannelEventHandler {
 
    @param member The channel member that leaves the channel. See IChannelMember.
    */
-  virtual void onMemberLeft(rtm::IChannelMember* member) override;
+  virtual void onMemberLeft(agora::rtm::IChannelMember* member) override;
 
   /**
    Returns the result of the \ref agora::rtm::IChannel::getMembers "getMembers"
@@ -126,9 +127,9 @@ class ChannelEventHandler : public rtm::IChannelEventHandler {
    @param userCount The number of members.
    @param errorCode Error code. See #GET_MEMBERS_ERR.
    */
-  virtual void onGetMembers(rtm::IChannelMember** members,
+  virtual void onGetMembers(agora::rtm::IChannelMember** members,
                             int userCount,
-                            rtm::GET_MEMBERS_ERR errorCode) override;
+                            agora::rtm::GET_MEMBERS_ERR errorCode) override;
 
   //             /**
   //              Occurs when channel attributes are updated, and returns all
@@ -146,7 +147,7 @@ class ChannelEventHandler : public rtm::IChannelEventHandler {
   //              attributes.
   //              */
   virtual void onAttributesUpdated(
-      const rtm::IRtmChannelAttribute* attributes[],
+      const agora::rtm::IRtmChannelAttribute* attributes[],
       int numberOfAttributes) override;
   //
   /**
@@ -167,5 +168,6 @@ class ChannelEventHandler : public rtm::IChannelEventHandler {
    */
   virtual void onMemberCountUpdated(int memberCount) override;
 };
+}
 }  // namespace unity
 }  // namespace agora

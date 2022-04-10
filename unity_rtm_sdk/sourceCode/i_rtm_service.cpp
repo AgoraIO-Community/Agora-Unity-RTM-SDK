@@ -36,7 +36,7 @@ AGORA_API int setLogFilter_rtm(void* rtmInstance, int filter) {
 AGORA_API int setLogFile_rtm(void* rtmInstance, const char* logfile) {
   std::string filePath(logfile);
   filePath.append("_unity_plugin_log.txt");
-  agora::unity::LogHelper::getInstance().startLogService(filePath.c_str());
+  agora::unity::rtm::LogHelper::getInstance().startLogService(filePath.c_str());
   return RTM_SERVICE_INSTANCE->setLogFile(logfile);
 }
 
@@ -335,8 +335,8 @@ AGORA_API void* createMessage4_rtm(void* rtmInstance) {
 AGORA_API void* createChannel_rtm(void* rtmInstance,
                                   const char* channelId,
                                   void* channelEventHandlerInstance) {
-  agora::unity::ChannelEventHandler* channelEventHandlerPtr =
-      static_cast<agora::unity::ChannelEventHandler*>(
+  agora::unity::rtm::ChannelEventHandler* channelEventHandlerPtr =
+      static_cast<agora::unity::rtm::ChannelEventHandler*>(
           channelEventHandlerInstance);
   return RTM_SERVICE_INSTANCE->createChannel(channelId, channelEventHandlerPtr);
 }
@@ -413,11 +413,11 @@ AGORA_API int initialize_rtm(void* rtmInstance,
                              const char* appId,
                              void* eventHandler) {
   return RTM_SERVICE_INSTANCE->initialize(
-      appId, static_cast<agora::unity::RtmServiceEventHandler*>(eventHandler));
+      appId, static_cast<agora::unity::rtm::RtmServiceEventHandler*>(eventHandler));
 }
 
 AGORA_API void* getRtmCallManager_rtm(void* rtmInstance,
                                       void* rtmCallEventHandler) {
   return RTM_SERVICE_INSTANCE->getRtmCallManager(
-      static_cast<agora::unity::RtmCallEventHandler*>(rtmCallEventHandler));
+      static_cast<agora::unity::rtm::RtmCallEventHandler*>(rtmCallEventHandler));
 }

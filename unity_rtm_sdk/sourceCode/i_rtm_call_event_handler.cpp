@@ -9,12 +9,12 @@
 #include "i_rtm_call_event_handler.h"
 
 extern "C" {
-#define RTM_CALL_EVENT_HANDLER_PTR static_cast<agora::unity::RtmCallEventHandler *>(eventHandlerPtr);
+#define RTM_CALL_EVENT_HANDLER_PTR static_cast<agora::unity::rtm::RtmCallEventHandler *>(eventHandlerPtr);
 }
 
 AGORA_API void* i_rtm_call_event_handler_createEventHandler(int _index, CRtmCallEventHandler *rtmCallEventHandler)
 {
-    return new agora::unity::RtmCallEventHandler(_index, rtmCallEventHandler);
+    return new agora::unity::rtm::RtmCallEventHandler(_index, rtmCallEventHandler);
 }
 
 

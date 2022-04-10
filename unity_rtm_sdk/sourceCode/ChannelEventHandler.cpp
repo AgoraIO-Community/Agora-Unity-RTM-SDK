@@ -10,6 +10,7 @@
 
 namespace agora {
 namespace unity {
+namespace rtm {
 
 ChannelEventHandler::ChannelEventHandler()
     : _c_channel_event_handler(nullptr) {}
@@ -28,7 +29,7 @@ void ChannelEventHandler::clear() {
 }
 
 void ChannelEventHandler::onJoinSuccess() {
-  agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onJoinSuccess");
+  agora::unity::rtm::LogHelper::getInstance().writeLog("AgoraRtm:  onJoinSuccess");
   if (_c_channel_event_handler)
     _c_channel_event_handler->onJoinSuccess(handlerId);
 }
@@ -41,8 +42,8 @@ void ChannelEventHandler::onJoinSuccess() {
 
  @param errorCode The error code. See #JOIN_CHANNEL_ERR.
  */
-void ChannelEventHandler::onJoinFailure(rtm::JOIN_CHANNEL_ERR errorCode) {
-  agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onJoinFailure");
+void ChannelEventHandler::onJoinFailure(agora::rtm::JOIN_CHANNEL_ERR errorCode) {
+  agora::unity::rtm::LogHelper::getInstance().writeLog("AgoraRtm:  onJoinFailure");
   if (_c_channel_event_handler)
     _c_channel_event_handler->onJoinFailure(handlerId, int(errorCode));
 }
@@ -52,8 +53,8 @@ void ChannelEventHandler::onJoinFailure(rtm::JOIN_CHANNEL_ERR errorCode) {
 
  @param errorCode The error code. See #LEAVE_CHANNEL_ERR.
  */
-void ChannelEventHandler::onLeave(rtm::LEAVE_CHANNEL_ERR errorCode) {
-  agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onLeave");
+void ChannelEventHandler::onLeave(agora::rtm::LEAVE_CHANNEL_ERR errorCode) {
+  agora::unity::rtm::LogHelper::getInstance().writeLog("AgoraRtm:  onLeave");
   if (_c_channel_event_handler)
     _c_channel_event_handler->onLeave(handlerId, int(errorCode));
 }
@@ -66,8 +67,8 @@ void ChannelEventHandler::onLeave(rtm::LEAVE_CHANNEL_ERR errorCode) {
  "IMessage".
  */
 void ChannelEventHandler::onMessageReceived(const char* userId,
-                                            const rtm::IMessage* message) {
-  agora::unity::LogHelper::getInstance().writeLog(
+                                            const agora::rtm::IMessage* message) {
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm:  onMessageReceived");
   if (_c_channel_event_handler)
     _c_channel_event_handler->onMessageReceived(handlerId, userId, message);
@@ -81,8 +82,8 @@ void ChannelEventHandler::onMessageReceived(const char* userId,
  */
 void ChannelEventHandler::onImageMessageReceived(
     const char* userId,
-    const rtm::IImageMessage* message) {
-  agora::unity::LogHelper::getInstance().writeLog(
+    const agora::rtm::IImageMessage* message) {
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm:  onImageMessageReceived");
   if (_c_channel_event_handler)
     _c_channel_event_handler->onImageMessageReceived(handlerId, userId,
@@ -98,8 +99,8 @@ void ChannelEventHandler::onImageMessageReceived(
  */
 void ChannelEventHandler::onFileMessageReceived(
     const char* userId,
-    const rtm::IFileMessage* message) {
-  agora::unity::LogHelper::getInstance().writeLog(
+    const agora::rtm::IFileMessage* message) {
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm:  onFileMessageReceived");
   if (_c_channel_event_handler)
     _c_channel_event_handler->onFileMessageReceived(handlerId, userId, message);
@@ -114,8 +115,8 @@ void ChannelEventHandler::onFileMessageReceived(
  */
 void ChannelEventHandler::onSendMessageResult(
     long long messageId,
-    rtm::CHANNEL_MESSAGE_ERR_CODE state) {
-  agora::unity::LogHelper::getInstance().writeLog(
+    agora::rtm::CHANNEL_MESSAGE_ERR_CODE state) {
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm:  onSendMessageResult");
   if (_c_channel_event_handler)
     _c_channel_event_handler->onSendMessageResult(handlerId, messageId,
@@ -135,8 +136,8 @@ void ChannelEventHandler::onSendMessageResult(
 
  @param member The user joining the channel. See IChannelMember.
  */
-void ChannelEventHandler::onMemberJoined(rtm::IChannelMember* member) {
-  agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onMemberJoined");
+void ChannelEventHandler::onMemberJoined(agora::rtm::IChannelMember* member) {
+  agora::unity::rtm::LogHelper::getInstance().writeLog("AgoraRtm:  onMemberJoined");
   if (_c_channel_event_handler)
     _c_channel_event_handler->onMemberJoined(handlerId, member);
 }
@@ -154,8 +155,8 @@ void ChannelEventHandler::onMemberJoined(rtm::IChannelMember* member) {
 
  @param member The channel member that leaves the channel. See IChannelMember.
  */
-void ChannelEventHandler::onMemberLeft(rtm::IChannelMember* member) {
-  agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onMemberLeft");
+void ChannelEventHandler::onMemberLeft(agora::rtm::IChannelMember* member) {
+  agora::unity::rtm::LogHelper::getInstance().writeLog("AgoraRtm:  onMemberLeft");
   if (_c_channel_event_handler)
     _c_channel_event_handler->onMemberLeft(handlerId, member);
 }
@@ -170,10 +171,10 @@ void ChannelEventHandler::onMemberLeft(rtm::IChannelMember* member) {
  @param userCount The number of members.
  @param errorCode Error code. See #GET_MEMBERS_ERR.
  */
-void ChannelEventHandler::onGetMembers(rtm::IChannelMember** members,
+void ChannelEventHandler::onGetMembers(agora::rtm::IChannelMember** members,
                                        int userCount,
-                                       rtm::GET_MEMBERS_ERR errorCode) {
-  agora::unity::LogHelper::getInstance().writeLog("AgoraRtm:  onGetMembers");
+                                       agora::rtm::GET_MEMBERS_ERR errorCode) {
+  agora::unity::rtm::LogHelper::getInstance().writeLog("AgoraRtm:  onGetMembers");
 
   if (_c_channel_event_handler) {
     char szMsg[520] = {};
@@ -208,7 +209,7 @@ void ChannelEventHandler::onGetMembers(rtm::IChannelMember** members,
 //              attributes.
 //              */
 void ChannelEventHandler::onAttributesUpdated(
-    const rtm::IRtmChannelAttribute* attributes[],
+    const agora::rtm::IRtmChannelAttribute* attributes[],
     int numberOfAttributes) {
   if (_c_channel_event_handler) {
     char szMsg[520] = {};
@@ -247,10 +248,11 @@ void ChannelEventHandler::onAttributesUpdated(
  @param memberCount Member count of this channel.
  */
 void ChannelEventHandler::onMemberCountUpdated(int memberCount) {
-  agora::unity::LogHelper::getInstance().writeLog(
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm:  onMemberCountUpdated");
   if (_c_channel_event_handler)
     _c_channel_event_handler->onMemberCountUpdated(handlerId, memberCount);
+}
 }
 }  // namespace unity
 }  // namespace agora
