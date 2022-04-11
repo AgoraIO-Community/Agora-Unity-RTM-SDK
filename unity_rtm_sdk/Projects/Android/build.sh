@@ -38,6 +38,7 @@ function make_unity_plugin {
     cp -a bin/arm64-v8a $SDKDIR/libs
     cp -a bin/armeabi-v7a $SDKDIR/libs
     cp -a bin/x86 $SDKDIR/libs
+    cp -a bin/agora-rtm-sdk.jar $SDKDIR/libs
 }
 
 function Clean {
