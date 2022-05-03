@@ -9,11 +9,9 @@
 /* Begin PBXBuildFile section */
 		7B028BD126248F9D009DD3F8 /* AgoraRtmKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B028BCE26248F9D009DD3F8 /* AgoraRtmKit.framework */; };
 		7B028BD226248F9D009DD3F8 /* AgoraRtmKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7B028BCE26248F9D009DD3F8 /* AgoraRtmKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		7B028BD626248FB0009DD3F8 /* AgoraRtmKit.framework in Resources */ = {isa = PBXBuildFile; fileRef = 7B028BD426248FB0009DD3F8 /* AgoraRtmKit.framework */; };
 		7B2C780C26844DB500DC4B6B /* RtmCallEventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77E826844DB400DC4B6B /* RtmCallEventHandler.cpp */; };
 		7B2C780D26844DB500DC4B6B /* RtmServiceEventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77E926844DB400DC4B6B /* RtmServiceEventHandler.cpp */; };
 		7B2C780E26844DB500DC4B6B /* i_rtm_channel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77EB26844DB400DC4B6B /* i_rtm_channel.cpp */; };
-		7B2C780F26844DB500DC4B6B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C77ED26844DB400DC4B6B /* Info.plist */; };
 		7B2C781026844DB500DC4B6B /* i_local_call_invitation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77EE26844DB400DC4B6B /* i_local_call_invitation.cpp */; };
 		7B2C781126844DB500DC4B6B /* i_rtm_channel_event_handler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77EF26844DB400DC4B6B /* i_rtm_channel_event_handler.cpp */; };
 		7B2C781226844DB500DC4B6B /* i_rtm_file_message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C77F026844DB400DC4B6B /* i_rtm_file_message.cpp */; };
@@ -231,8 +229,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B2C780F26844DB500DC4B6B /* Info.plist in Resources */,
-				7B028BD626248FB0009DD3F8 /* AgoraRtmKit.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +381,7 @@
 				);
 				INFOPLIST_FILE = agoraRTMCWrapper/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.agora.agoraRTMCWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -410,7 +406,7 @@
 				);
 				INFOPLIST_FILE = agoraRTMCWrapper/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.agora.agoraRTMCWrapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
