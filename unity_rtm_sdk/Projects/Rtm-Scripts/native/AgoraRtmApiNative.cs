@@ -75,6 +75,9 @@ namespace agora_rtm {
 		internal EngineEventOnGetMember onGetMember;
 		internal RtmChannelEventHandler.OnMemberCountUpdatedHandler onMemberCountUpdated;
 		internal EngineEventOnAttributesUpdated onAttributesUpdated;
+		internal RtmChannelEventHandler.OnLockAcquiredHandler onLockAcquired;
+		internal RtmChannelEventHandler.OnLockExpiredHandler onLockExpired;
+		internal RtmChannelEventHandler.OnLockAcquireFailedHandler onLockAcquireFailed;
 	};
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -92,6 +95,9 @@ namespace agora_rtm {
 		internal IntPtr onGetMember;
 		internal IntPtr onMemberCountUpdated;
 		internal IntPtr onAttributesUpdated;
+		internal IntPtr onLockAcquired;
+		internal IntPtr onLockExpired;
+		internal IntPtr onLockAcquireFailed;
 	};
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -361,6 +367,10 @@ namespace agora_rtm {
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern int channel_getMembers(IntPtr channelInstance);
 
+		internal static extern int channel_acquireLock(IntPtr channelInstance, string @lock, bool blocking, ref Int64 requestId);
+
+		internal static extern int channel_releaseLock(IntPtr channelInstance, string @lock, ref Int64 requestId);
+
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern int channel_release(IntPtr channelInstance);
 
@@ -386,6 +396,11 @@ namespace agora_rtm {
 		internal static extern Int64 channelAttribute_getRevision(IntPtr channel_attribute_instance);
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern void channelAttribute_setRevision(IntPtr channel_attribute_instance, Int64 revision);
+		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern void channelAttribute_setLockName(void* channel_attribute_instance, string lockName);
+
+		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern IntPtr channelAttribute_getLockName(void* channel_attribute_instance);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern void channelAttribute_release(IntPtr channel_attribute_instance);

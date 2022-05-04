@@ -167,6 +167,12 @@ class ChannelEventHandler : public agora::rtm::IChannelEventHandler {
    @param memberCount Member count of this channel.
    */
   virtual void onMemberCountUpdated(int memberCount) override;
+
+  virtual void onLockAcquired(const char *lockName, long long lockRev, long long requestId) override;
+
+  virtual void onLockExpired(const char *lockName) override;
+
+  virtual void onLockAcquireFailed(const char *lockName, long long requestId) override;
 };
 }
 }  // namespace unity

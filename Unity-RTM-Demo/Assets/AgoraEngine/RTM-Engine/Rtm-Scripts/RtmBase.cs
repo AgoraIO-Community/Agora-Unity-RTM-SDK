@@ -485,6 +485,27 @@ namespace agora_rtm {
     };
 
     /**
+     @brief Error codes related to operating a channel lock.
+     */
+    public enum CHANNEL_ATTRIBUTE_LOCK_ERR_CODE {
+
+      /**
+       0: The method call succeeds, or the server receives the request.
+       */
+      CHANNEL_LOCK_ERR_OK = 0,
+
+      /**
+       1: Common failure. The user fails to send the request.
+       */
+      CHANNEL_LOCK_ERR_FAILURE = 1,
+
+      /**
+       2: The SDK does not receive a response from the server.
+       */
+      CHANNEL_LOCK_ERR_SENT_TIMEOUT = 2,
+    };
+
+    /**
      @brief Error codes related to retrieving a channel member list.
      */
     public enum GET_MEMBERS_ERR {

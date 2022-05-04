@@ -649,11 +649,12 @@ void RtmServiceEventHandler::onGetChannelAttributesResult(
       const agora::rtm::IRtmChannelAttribute* rtmAttribute = attributes[i];
       if (rtmAttribute && rtmAttribute->getKey() && rtmAttribute->getValue() &&
           rtmAttribute->getLastUpdateUserId()) {
-        sprintf(szMsg, "%s\t%s\t%s\t%lld\t%s\t%lld", strPostMsg.data(),
+        sprintf(szMsg, "%s\t%s\t%s\t%lld\t%s\t%lld\t%s", strPostMsg.data(),
                 rtmAttribute->getKey(), rtmAttribute->getValue(),
                 rtmAttribute->getLastUpdateTs(),
                 rtmAttribute->getLastUpdateUserId(),
-                rtmAttribute->getRevision());
+                rtmAttribute->getRevision(),
+                rtmAttribute->getLockName());
         strPostMsg = szMsg;
       }
     }
@@ -692,7 +693,7 @@ void RtmServiceEventHandler::onGetChannelMemberCountResult(
       }
     }
     sprintf(szMsg, "%s", strPostMsg.data());
-    _c_rtm_service_event_handler->_onGetChannelAttributesResult(
+    _c_rtm_service_event_handler->_onGetChannelMemberCountResult(
         handlerId, requestId, szMsg, channelCount, int(errorCode));
   }
 }

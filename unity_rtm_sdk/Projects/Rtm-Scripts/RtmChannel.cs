@@ -125,6 +125,24 @@ namespace agora_rtm {
 			return IRtmApiNative.channel_getMembers(_rtmChannelPtr);
 		}
 
+		public int AcquireLock(string @lock, bool blocking, ref Int64 requestId) {
+			if (_rtmChannelPtr == IntPtr.Zero)
+			{
+				Debug.LogError("_rtmChannelPtr is null");
+				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
+			}
+			return channel_acquireLock(_rtmChannelPtr, @lock, blocking, ref requestId);
+		}
+
+		public int ReleaseLock(string @lock, ref Int64 requestId) {
+			if (_rtmChannelPtr == IntPtr.Zero)
+			{
+				Debug.LogError("_rtmChannelPtr is null");
+				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
+			}
+			return channel_releaseLock(_rtmChannelPtr, @lock, ref requestId);
+		}
+
  		public void Dispose() {
 			 Dispose(true);
 			 GC.SuppressFinalize(this);

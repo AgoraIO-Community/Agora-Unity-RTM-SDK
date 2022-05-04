@@ -72,6 +72,11 @@ typedef void(AGORA_CALL* FUNC_channel_onAttributeUpdate)(
     const char* attributes,
     int numberOfAttributes);
 
+typedef void(AGORA_CALL* FUNC_channel_onLockAcquired)(int _id, const char *lockName, long long lockRev, long long requestId);
+
+typedef void(AGORA_CALL* FUNC_channel_onLockExpired)(int _id, const char *lockName);
+
+typedef void(AGORA_CALL* FUNC_channel_onLockAcquireFailed)(int _id, const char *lockName, long long requestId);
 // call manager function pointer
 
 typedef void(AGORA_CALL* FUNC_onLocalInvitationReceivedByPeer)(
@@ -243,6 +248,9 @@ typedef struct CChannelEventHandler {
   FUNC_channel_onGetMembers onGetMembers;
   FUNC_channel_onMemberCountUpdated onMemberCountUpdated;
   FUNC_channel_onAttributeUpdate onAttributeUpdate;
+  FUNC_channel_onLockAcquired onLockAcquired;
+  FUNC_channel_onLockExpired onLockExpired;
+  FUNC_channel_onLockAcquireFailed onLockAcquireFailed;
 } CChannelEventHandler;
 
 typedef struct CRtmServiceEventHandler {

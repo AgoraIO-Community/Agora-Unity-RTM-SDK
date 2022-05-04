@@ -218,11 +218,12 @@ void ChannelEventHandler::onAttributesUpdated(
       const agora::rtm::IRtmChannelAttribute* rtmAttribute = attributes[i];
       if (rtmAttribute && rtmAttribute->getKey() && rtmAttribute->getValue() &&
           rtmAttribute->getLastUpdateUserId()) {
-        sprintf(szMsg, "%s\t%s\t%s\t%lld\t%s\t%lld", strPostMsg.data(),
+        sprintf(szMsg, "%s\t%s\t%s\t%lld\t%s\t%lld\t%s", strPostMsg.data(),
                 rtmAttribute->getKey(), rtmAttribute->getValue(),
                 rtmAttribute->getLastUpdateTs(),
                 rtmAttribute->getLastUpdateUserId(),
-                rtmAttribute->getRevision());
+                rtmAttribute->getRevision(),
+                rtmAttribute->getLockName());
         strPostMsg = szMsg;
       }
     }
@@ -252,6 +253,27 @@ void ChannelEventHandler::onMemberCountUpdated(int memberCount) {
       "AgoraRtm:  onMemberCountUpdated");
   if (_c_channel_event_handler)
     _c_channel_event_handler->onMemberCountUpdated(handlerId, memberCount);
+}
+
+void ChannelEventHandler::onLockAcquired(const char *lockName, long long lockRev, long long requestId) {
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
+      "AgoraRtm:  onLockAcquired");
+  if (_c_channel_event_handler)
+    _c_channel_event_handler->onLockAcquired(handlerId, lockName, lockRev, requestId);
+}
+
+void ChannelEventHandler::onLockExpired(const char *lockName) {
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
+      "AgoraRtm:  onLockExpired");
+  if (_c_channel_event_handler)
+    _c_channel_event_handler->onLockExpired(handlerId, lockName);
+}
+
+void ChannelEventHandler::onLockAcquireFailed(const char *lockName, long long requestId) {
+  agora::unity::rtm::LogHelper::getInstance().writeLog(
+      "AgoraRtm:  onLockAcquireFailed");
+  if (_c_channel_event_handler)
+    _c_channel_event_handler->onLockAcquireFailed(handlerId, lockName, requestId);
 }
 }
 }  // namespace unity

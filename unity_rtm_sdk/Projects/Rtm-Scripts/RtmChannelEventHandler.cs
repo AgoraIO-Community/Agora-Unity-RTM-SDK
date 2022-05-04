@@ -111,6 +111,12 @@ namespace agora_rtm {
 		/// <param name="memberCount">Member count of this channel.</param>
 		public delegate void OnMemberCountUpdatedHandler(int id, int memberCount);
 
+		public delegate void OnLockAcquiredHandler(int id, string lockName, Int64 lockRev, Int64 requestId);
+
+		public delegate void OnLockExpiredHandler(int id, string lockName);
+
+		public delegate void OnLockAcquireFailedHandler(int id, string lockName, Int64 requestId);
+
         public OnJoinSuccessHandler OnJoinSuccess;
         public OnJoinFailureHandler OnJoinFailure;
         public OnLeaveHandler OnLeave;
@@ -123,6 +129,9 @@ namespace agora_rtm {
         public OnAttributesUpdatedHandler OnAttributesUpdated;
         public OnMemberCountUpdatedHandler OnMemberCountUpdated;
         public OnGetMembersHandler OnGetMembers;
+		public OnLockAcquiredHandler OnLockAcquired;
+		public OnLockExpiredHandler OnLockExpired;
+		public OnLockAcquireFailedHandler OnLockAcquireFailed;
 
         public RtmChannelEventHandler() {
             currentIdIndex = _id;
@@ -140,7 +149,10 @@ namespace agora_rtm {
 				onMemberLeft = OnMemberLeftCallback,
 				onGetMember = OnGetMemberCallback,
 				onMemberCountUpdated = OnMemberCountUpdatedCallback,
-				onAttributesUpdated = OnAttributesUpdatedCallback
+				onAttributesUpdated = OnAttributesUpdatedCallback,
+				onLockAcquired = OnLockAcquiredCallback,
+				onLockExpired = OnLockExpiredCallback,
+				onLockAcquireFailed = OnLockAcquireFailedCallback
 			};
 
 			cChannelEventPtr = new CChannelEventPtr {
@@ -155,7 +167,10 @@ namespace agora_rtm {
 				onMemberLeft = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onMemberLeft),
 				onGetMember = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onGetMember),
 				onMemberCountUpdated = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onMemberCountUpdated),
-				onAttributesUpdated = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onAttributesUpdated)
+				onAttributesUpdated = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onAttributesUpdated),
+				onLockAcquired = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onLockAcquired),
+				onLockExpired = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onLockExpired),
+				onLockAcquireFailed = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onLockAcquireFailed)
 			};
 			globalPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CChannelEventPtr)));
 			Marshal.StructureToPtr(cChannelEventPtr, globalPtr, true);
@@ -324,6 +339,7 @@ namespace agora_rtm {
 								_attribute.SetLastUpdateTs(Int64.Parse(sArray[j++]));
 								_attribute.SetLastUpdateUserId(sArray[j++]);
 								_attribute.SetRevision(Int64.Parse(sArray[j++]));
+								_attribute.SetLockName(sArray[j++]);
 								channelAttributes[i] = _attribute;
 							}
 							channelEventHandlerDic[id].OnAttributesUpdated(id, channelAttributes, numberOfAttributes);
@@ -362,6 +378,48 @@ namespace agora_rtm {
 								membersList[i] = member;
 							}
 							channelEventHandlerDic[id].OnGetMembers(id, membersList, userCount, errorCode);
+						}
+					});
+				}
+			}
+        }
+
+		[MonoPInvokeCallback(typeof(OnLockAcquiredHandler))]
+        private static void OnLockAcquiredCallback(int id, string lockName, Int64 lockRev, Int64 requestId)
+        {
+			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnLockAcquired != null) {
+				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
+					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
+						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnLockAcquired != null) {
+							channelEventHandlerDic[id].OnLockAcquired(id, lockName, lockRev, requestId);
+						}
+					});
+				}
+			}
+        }
+
+		[MonoPInvokeCallback(typeof(OnLockExpiredHandler))]
+        private static void OnLockExpiredCallback(int id, string lockName)
+        {
+			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnLockExpired != null) {
+				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
+					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
+						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnLockExpired != null) {
+							channelEventHandlerDic[id].OnLockExpired(id, lockName);
+						}
+					});
+				}
+			}
+        }
+
+		[MonoPInvokeCallback(typeof(OnLockAcquireFailedHandler))]
+        private static void OnLockAcquireFailedCallback(int id, string lockName, Int64 requestId)
+        {
+			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnLockAcquireFailed != null) {
+				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
+					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
+						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnLockAcquireFailed != null) {
+							channelEventHandlerDic[id].OnLockAcquireFailed(id, lockName, requestId);
 						}
 					});
 				}

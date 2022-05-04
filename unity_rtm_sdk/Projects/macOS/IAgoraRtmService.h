@@ -530,6 +530,27 @@ namespace agora {
     };
 
     /**
+     @brief Error codes related to operating a channel lock.
+     */
+    enum CHANNEL_ATTRIBUTE_LOCK_ERR_CODE {
+
+      /**
+       0: The method call succeeds, or the server receives the request.
+       */
+      CHANNEL_LOCK_ERR_OK = 0,
+
+      /**
+       1: Common failure. The user fails to send the request.
+       */
+      CHANNEL_LOCK_ERR_FAILURE = 1,
+
+      /**
+       2: The SDK does not receive a response from the server.
+       */
+      CHANNEL_LOCK_ERR_SENT_TIMEOUT = 2,
+    };
+
+    /**
      @brief Error codes related to retrieving a channel member list.
      */
     enum GET_MEMBERS_ERR {
@@ -1141,13 +1162,33 @@ namespace agora {
          */
         virtual long long getLastUpdateTs() const = 0;
 
-        /*get attribute revision
-        */
+        /**
+         Get the revision of the channel attribute.
+          
+         @return Revision of the channel attribute.
+         */
         virtual long long getRevision() const = 0;
 
-        /*set attribute based on revision
-        */
+        /**
+         Set the revision of the channel attribute.
+          
+         @param revision of the channel attribute.
+         */
         virtual void setRevision(long long revision) = 0;
+
+        /**
+         Set the lock of the channel attribute.
+          
+         @param lockName
+         */
+        virtual void setLockName(const char *lockName) = 0;
+
+        /**
+         Get the lock of the channel attribute.
+          
+         @return lockName
+         */
+        virtual const char *getLockName() const = 0;
 
         /**
          Release all resources used by the \ref agora::rtm::IRtmChannelAttribute "IRtmChannelAttribute" instance.
@@ -1692,6 +1733,46 @@ namespace agora {
       {
          (int) memberCount;
       }
+
+      /**
+       Occurs when acquire lock successful.
+        
+       @note requestId is zero if lock is blocking.
+        
+       @param lockName The name of the lock.
+       @param lockRev The revision of lock.
+       @param requestId The unique ID of the lock request.
+       */
+      virtual void onLockAcquired(const char *lockName, long long lockRev, long long requestId)
+      {
+        (const char *) lockName;
+        (long long) lockRev;
+        (long long) requestId;
+      }
+      
+      /**
+       Occurs when the lock expired.
+        
+       @param lockName The name of the lock.
+       */
+      virtual void onLockExpired(const char *lockName)
+      {
+        (const char*) lockName;
+      }
+
+      /**
+       Occurs when acquire lock failed
+        
+       @note Non-blocking acquire only
+       
+       @param lockName The name of the lock.
+       @param requestId The unique ID of the lock request.
+       */
+      virtual void onLockAcquireFailed(const char *lockName, long long requestId)
+      {
+        (const char*) lockName;
+        (long long) requestId;
+      }
     };
 
     /**
@@ -1786,6 +1867,33 @@ namespace agora {
        - &ne;0: Failure. See #GET_MEMBERS_ERR for the error codes.
        */
       virtual int getMembers() = 0;
+
+      /**
+       @brief Allows a channel member to acquire the lock in the channel.
+
+       @note will not generate requestId when blocking acquire.
+
+       @param lock The name of the lock
+       @param blocking the type of the lock
+       @param requestId The unique ID of lock request.
+
+       @return
+       - 0: Success.
+       - &ne;0: Failure. See #CHANNEL_ATTRIBUTE_LOCK_ERR_CODE for the error codes.
+       */
+      virtual int acquireLock(const char *lock, bool blocking, long long &requestId) = 0;
+      
+      /**
+       @brief Allows a channel member to release lock in the channel.
+
+       @param lock The name of the lock
+       @param requestId The unique ID of lock request.
+
+       @return
+       - 0: Success.
+       - &ne;0: Failure. See #CHANNEL_ATTRIBUTE_LOCK_ERR_CODE for the error codes.
+       */
+      virtual int releaseLock(const char *lock, long long &requestId) = 0;
 
       // sync_call
 

@@ -62,6 +62,16 @@ AGORA_API long long channelAttribute_getRevision(void* channel_attribute_instanc
 AGORA_API void channelAttribute_setRevision(void* channel_attribute_instance, long long revision);
 
 /**
+ Set the lock of the channel attribute.
+*/
+AGORA_API void channelAttribute_setLockName(void* channel_attribute_instance, const char *lockName);
+
+/**
+ Get the lock of the channel attribute.
+*/
+AGORA_API const char* channelAttribute_getLockName(void* channel_attribute_instance);
+
+/**
  Release all resources used by the \ref agora::rtm::IRtmChannelAttribute
  "IRtmChannelAttribute" instance.
  */

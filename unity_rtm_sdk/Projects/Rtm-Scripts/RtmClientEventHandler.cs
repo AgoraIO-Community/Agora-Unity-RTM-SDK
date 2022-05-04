@@ -899,6 +899,7 @@ namespace agora_rtm {
 								_attribute.SetLastUpdateTs(Int64.Parse(sArray[j++]));
 								_attribute.SetLastUpdateUserId(sArray[j++]);	
 								_attribute.SetRevision(Int64.Parse(sArray[j++]));
+								_attribute.SetLockName(sArray[j++]);
 								channelAttributes[i] = _attribute;
 							}
 							clientEventHandlerHandlerDic[id].OnGetChannelAttributesResult(id, requestId, channelAttributes, numberOfAttributes, errorCode);
