@@ -172,7 +172,9 @@ class ChannelEventHandler : public agora::rtm::IChannelEventHandler {
 
   virtual void onLockExpired(const char *lockName) override;
 
-  virtual void onLockAcquireFailed(const char *lockName, long long requestId) override;
+  virtual void onLockAcquireFailed(const char *lockName, long long requestId, agora::rtm::CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode) override;
+
+  virtual void onLockReleaseResult(const char* lockName, long long requestId, agora::rtm::CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode) override;
 };
 }
 }  // namespace unity

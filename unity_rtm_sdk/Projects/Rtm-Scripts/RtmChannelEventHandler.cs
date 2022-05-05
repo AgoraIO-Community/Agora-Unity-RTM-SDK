@@ -115,7 +115,9 @@ namespace agora_rtm {
 
 		public delegate void OnLockExpiredHandler(int id, string lockName);
 
-		public delegate void OnLockAcquireFailedHandler(int id, string lockName, Int64 requestId);
+		public delegate void OnLockAcquireFailedHandler(int id, string lockName, Int64 requestId, CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode);
+
+		public delegate void OnLockReleaseResultHandler(int id, string lockName, Int64 requestId, CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode);
 
         public OnJoinSuccessHandler OnJoinSuccess;
         public OnJoinFailureHandler OnJoinFailure;
@@ -132,6 +134,7 @@ namespace agora_rtm {
 		public OnLockAcquiredHandler OnLockAcquired;
 		public OnLockExpiredHandler OnLockExpired;
 		public OnLockAcquireFailedHandler OnLockAcquireFailed;
+		public OnLockReleaseResultHandler OnLockReleaseResult;
 
         public RtmChannelEventHandler() {
             currentIdIndex = _id;
@@ -152,7 +155,8 @@ namespace agora_rtm {
 				onAttributesUpdated = OnAttributesUpdatedCallback,
 				onLockAcquired = OnLockAcquiredCallback,
 				onLockExpired = OnLockExpiredCallback,
-				onLockAcquireFailed = OnLockAcquireFailedCallback
+				onLockAcquireFailed = OnLockAcquireFailedCallback,
+				onLockReleaseResult = OnLockReleaseResultCallback
 			};
 
 			cChannelEventPtr = new CChannelEventPtr {
@@ -170,7 +174,8 @@ namespace agora_rtm {
 				onAttributesUpdated = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onAttributesUpdated),
 				onLockAcquired = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onLockAcquired),
 				onLockExpired = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onLockExpired),
-				onLockAcquireFailed = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onLockAcquireFailed)
+				onLockAcquireFailed = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onLockAcquireFailed),
+				onLockReleaseResult = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onLockReleaseResult)
 			};
 			globalPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CChannelEventPtr)));
 			Marshal.StructureToPtr(cChannelEventPtr, globalPtr, true);
@@ -413,13 +418,27 @@ namespace agora_rtm {
         }
 
 		[MonoPInvokeCallback(typeof(OnLockAcquireFailedHandler))]
-        private static void OnLockAcquireFailedCallback(int id, string lockName, Int64 requestId)
+        private static void OnLockAcquireFailedCallback(int id, string lockName, Int64 requestId, CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode)
         {
 			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnLockAcquireFailed != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnLockAcquireFailed != null) {
-							channelEventHandlerDic[id].OnLockAcquireFailed(id, lockName, requestId);
+							channelEventHandlerDic[id].OnLockAcquireFailed(id, lockName, requestId, errorCode);
+						}
+					});
+				}
+			}
+        }
+
+		[MonoPInvokeCallback(typeof(OnLockReleaseResultHandler))]
+        private static void OnLockReleaseResultCallback(int id, string lockName, Int64 requestId, CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode)
+        {
+			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnLockReleaseResult != null) {
+				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
+					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
+						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnLockReleaseResult != null) {
+							channelEventHandlerDic[id].OnLockReleaseResult(id, lockName, requestId, errorCode);
 						}
 					});
 				}

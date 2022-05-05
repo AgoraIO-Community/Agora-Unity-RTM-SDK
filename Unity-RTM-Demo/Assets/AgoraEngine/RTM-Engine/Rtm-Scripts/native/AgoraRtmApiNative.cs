@@ -78,6 +78,7 @@ namespace agora_rtm {
 		internal RtmChannelEventHandler.OnLockAcquiredHandler onLockAcquired;
 		internal RtmChannelEventHandler.OnLockExpiredHandler onLockExpired;
 		internal RtmChannelEventHandler.OnLockAcquireFailedHandler onLockAcquireFailed;
+		internal RtmChannelEventHandler.OnLockReleaseResultHandler onLockReleaseResult;
 	};
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -98,6 +99,7 @@ namespace agora_rtm {
 		internal IntPtr onLockAcquired;
 		internal IntPtr onLockExpired;
 		internal IntPtr onLockAcquireFailed;
+		internal IntPtr onLockReleaseResult;
 	};
 
 	[StructLayout(LayoutKind.Sequential)]

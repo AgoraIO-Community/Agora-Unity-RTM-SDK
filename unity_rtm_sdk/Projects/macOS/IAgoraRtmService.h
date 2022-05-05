@@ -537,17 +537,42 @@ namespace agora {
       /**
        0: The method call succeeds, or the server receives the request.
        */
-      CHANNEL_LOCK_ERR_OK = 0,
+      CHANNEL_ATTRIBUTE_LOCK_ERR_OK = 0,
 
       /**
        1: Common failure. The user fails to send the request.
        */
-      CHANNEL_LOCK_ERR_FAILURE = 1,
+      CHANNEL_ATTRIBUTE_LOCK_ERR_FAILURE = 1,
 
       /**
        2: The SDK does not receive a response from the server.
        */
-      CHANNEL_LOCK_ERR_SENT_TIMEOUT = 2,
+      CHANNEL_ATTRIBUTE_LOCK_ERR_SENT_TIMEOUT = 2,
+
+      /*
+      3: 
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_INVALID_ARGUMENT = 3,
+
+      /*
+      4:
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_TOO_OFTEN = 4,
+
+      /*
+      5:
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_NOT_IN_CHANNEL = 5,
+
+      /**
+      101: 
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_NOT_INITIALIZED = 101,
+
+      /**
+      102: 
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_USER_NOT_LOGGED_IN = 102,
     };
 
     /**
@@ -822,6 +847,10 @@ namespace agora {
          */
         ATTRIBUTE_OPERATION_ERR_TIMEOUT = 7,
 
+        /**
+         8:
+        */
+        ATTRIBUTE_OPERATION_ERR_LOCK_INVALID = 8,
         /**
          101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
          */
@@ -1768,11 +1797,20 @@ namespace agora {
        @param lockName The name of the lock.
        @param requestId The unique ID of the lock request.
        */
-      virtual void onLockAcquireFailed(const char *lockName, long long requestId)
+      virtual void onLockAcquireFailed(const char *lockName, long long requestId, CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode)
       {
         (const char*) lockName;
         (long long) requestId;
       }
+
+      /**
+      */
+      virtual void onLockReleaseResult(const char* lockName, long long requestId,
+          CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode) {
+        (const char*)lockName;
+        (long long)requestId;
+      }
+
     };
 
     /**

@@ -487,22 +487,47 @@ namespace agora_rtm {
     /**
      @brief Error codes related to operating a channel lock.
      */
-    public enum CHANNEL_ATTRIBUTE_LOCK_ERR_CODE {
+    enum CHANNEL_ATTRIBUTE_LOCK_ERR_CODE {
 
       /**
        0: The method call succeeds, or the server receives the request.
        */
-      CHANNEL_LOCK_ERR_OK = 0,
+      CHANNEL_ATTRIBUTE_LOCK_ERR_OK = 0,
 
       /**
        1: Common failure. The user fails to send the request.
        */
-      CHANNEL_LOCK_ERR_FAILURE = 1,
+      CHANNEL_ATTRIBUTE_LOCK_ERR_FAILURE = 1,
 
       /**
        2: The SDK does not receive a response from the server.
        */
-      CHANNEL_LOCK_ERR_SENT_TIMEOUT = 2,
+      CHANNEL_ATTRIBUTE_LOCK_ERR_SENT_TIMEOUT = 2,
+
+      /*
+      3: 
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_INVALID_ARGUMENT = 3,
+
+      /*
+      4:
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_TOO_OFTEN = 4,
+
+      /*
+      5:
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_NOT_IN_CHANNEL = 5,
+
+      /**
+      101: 
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_NOT_INITIALIZED = 101,
+
+      /**
+      102: 
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_USER_NOT_LOGGED_IN = 102,
     };
 
     /**
@@ -789,6 +814,11 @@ namespace agora_rtm {
          7: A timeout occurs during the attribute operation. The current timeout is set as five seconds. Possible reasons: The user is in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" or \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
          */
         ATTRIBUTE_OPERATION_ERR_TIMEOUT = 7,
+
+        /**
+         8:
+        */
+        ATTRIBUTE_OPERATION_ERR_LOCK_INVALID = 8,
         
         /**
          101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
