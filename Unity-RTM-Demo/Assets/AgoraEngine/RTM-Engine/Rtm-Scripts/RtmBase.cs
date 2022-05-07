@@ -487,7 +487,7 @@ namespace agora_rtm {
     /**
      @brief Error codes related to operating a channel lock.
      */
-    enum CHANNEL_ATTRIBUTE_LOCK_ERR_CODE {
+    public enum CHANNEL_ATTRIBUTE_LOCK_ERR_CODE {
 
       /**
        0: The method call succeeds, or the server receives the request.

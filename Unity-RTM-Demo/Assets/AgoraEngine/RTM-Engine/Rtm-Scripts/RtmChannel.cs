@@ -131,7 +131,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmChannelPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return channel_acquireLock(_rtmChannelPtr, @lock, blocking, ref requestId);
+			return IRtmApiNative.channel_acquireLock(_rtmChannelPtr, @lock, blocking, ref requestId);
 		}
 
 		public int ReleaseLock(string @lock, ref Int64 requestId) {
@@ -140,7 +140,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmChannelPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return channel_releaseLock(_rtmChannelPtr, @lock, ref requestId);
+			return IRtmApiNative.channel_releaseLock(_rtmChannelPtr, @lock, ref requestId);
 		}
 
  		public void Dispose() {
