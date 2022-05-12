@@ -505,27 +505,47 @@ namespace agora_rtm {
       CHANNEL_ATTRIBUTE_LOCK_ERR_SENT_TIMEOUT = 2,
 
       /*
-      3: 
+      3: The lock's name is valid.
       */
       CHANNEL_ATTRIBUTE_LOCK_ERR_INVALID_ARGUMENT = 3,
 
       /*
-      4:
+      4: Call acquireLock too often.
       */
       CHANNEL_ATTRIBUTE_LOCK_ERR_TOO_OFTEN = 4,
 
       /*
-      5:
+      5: Call acquireLock without joining channel
       */
       CHANNEL_ATTRIBUTE_LOCK_ERR_NOT_IN_CHANNEL = 5,
 
+      /*
+       6: The lock is already acquired or in listening state.
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_ALREADY_REQUEST = 6,
+
+      /*
+       7: Fail to acquire the lock.
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_LOCK_NOT_AVAILABLE = 7,
+
+      /*
+       8: Impl a lock that user didn't acquired.
+       **/
+      CHANNEL_ATTRIBUTE_LOCK_ERR_NOT_OWNER = 8,
+
+      /*
+       9: The number of lock user acquired or listening is overlimit.
+      */
+      CHANNEL_ATTRIBUTE_LOCK_ERR_OVERFLOW = 9,
+
       /**
-      101: 
+      101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
       */
       CHANNEL_ATTRIBUTE_LOCK_ERR_NOT_INITIALIZED = 101,
 
       /**
-      102: 
+      102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before.
       */
       CHANNEL_ATTRIBUTE_LOCK_ERR_USER_NOT_LOGGED_IN = 102,
     };
