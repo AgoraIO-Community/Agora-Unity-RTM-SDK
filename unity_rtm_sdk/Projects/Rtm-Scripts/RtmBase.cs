@@ -1108,7 +1108,7 @@ namespace agora_rtm {
      /**
       @brief Data structure holding channel attribute-specific options.
       */
-    public struct ChannelAttributeOptions{  
+    public struct AttributeOptions{  
         /**
          Indicates whether or not to notify all channel members of a channel attribute change.
          
@@ -1118,6 +1118,24 @@ namespace agora_rtm {
          - false: (Default) Do not notify all channel members of a channel attribute change.
          */
         public bool enableNotificationToChannelMembers;
+
+        /**
+         Indicates whether or not to notify server update the modify timestamp of attribute
+
+         - true: Notify server update timestamp.
+         - false: (Default) Do not notify server update timestamp.
+         */
+        public bool enableRecordTimeStamp;
+        
+        /**
+         * @brief lockName
+         */
+        public string lockName;
+        
+        /**
+         * @brief the revision of the whole attributes.
+         */
+        public Int64 revision;
     };
 
 
@@ -1140,7 +1158,11 @@ namespace agora_rtm {
         /*revision of the attribute or the attributes revision your modification based on
         */
         public Int64 revision;
-        
+
+        /**
+         Last modify timestamp of the attribute
+         */
+        public Int64 lastUpdateTs;
     };
 
         /**

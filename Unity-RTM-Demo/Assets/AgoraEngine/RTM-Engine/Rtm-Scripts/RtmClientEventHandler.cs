@@ -48,7 +48,7 @@ namespace agora_rtm {
 		/// <param name="errorCode">The error code. </param>
 		public delegate void OnLogoutHandler(int id, LOGOUT_ERR_CODE errorCode);
 
-		public delegate void OnUserAttributesUpdatedHandler(int id, string userId, RtmAttribute[] attributes, int numberOfAttributes);
+		public delegate void OnUserAttributesUpdatedHandler(int id, string userId, RtmAttribute[] attributes, int numberOfAttributes, Int64 revision);
 
 		public delegate void OnSubscribeUserAttributesResultHandler(int id, Int64 requestId, string userId, RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode);
 
@@ -223,7 +223,7 @@ namespace agora_rtm {
 		/// <param name="attributes">An array of the returned attributes. See RtmAttribute.</param>
 		/// <param name="numberOfAttributes">The total number of the user's attributes</param>
 		/// <param name="errorCode">Error Codes.</param>
-		public delegate void OnGetUserAttributesResultHandler(int id, Int64 requestId, string userId, RtmAttribute[] attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode);
+		public delegate void OnGetUserAttributesResultHandler(int id, Int64 requestId, string userId, RtmAttribute[] attributes, int numberOfAttributes, Int64 revision, ATTRIBUTE_OPERATION_ERR errorCode);
 		
 		/// <summary>
 		/// Reports the result of the setChannelAttributes method call.
@@ -265,7 +265,7 @@ namespace agora_rtm {
 		/// <param name="attributes"></param>
 		/// <param name="numberOfAttributes">The total number of the attributes.</param>
 		/// <param name="errorCode">Error Codes.</param>
-		public delegate void OnGetChannelAttributesResultHandler(int id, Int64 requestId, RtmChannelAttribute[] attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode);
+		public delegate void OnGetChannelAttributesResultHandler(int id, Int64 requestId, RtmChannelAttribute[] attributes, int numberOfAttributes, Int64 revision, ATTRIBUTE_OPERATION_ERR errorCode);
 		
 		/// <summary>
 		/// Reports the result of the getChannelMemberCount method call.
@@ -494,7 +494,7 @@ namespace agora_rtm {
 		}
 
 		[MonoPInvokeCallback(typeof(EngineEventOnUserAttributesUpdated))]
-		private static void OnUserAttributesUpdatedCallback(int id, string userId, string attributes, int numberOfAttributes) {
+		private static void OnUserAttributesUpdatedCallback(int id, string userId, string attributes, int numberOfAttributes, Int64 revision) {
 			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnUserAttributesUpdated != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
@@ -506,8 +506,9 @@ namespace agora_rtm {
 								attribute[i].key = sArray[j++];
 								attribute[i].value = sArray[j++];
 								attribute[i].revision = Int64.Parse(sArray[j++]);
+								attribute[i].lastUpdateTs = Int64.Parse(sArray[j++]);
 							}
-							clientEventHandlerHandlerDic[id].OnUserAttributesUpdated(id, userId, attribute, numberOfAttributes);
+							clientEventHandlerHandlerDic[id].OnUserAttributesUpdated(id, userId, attribute, numberOfAttributes, revision);
 						}
 					});
 				}
@@ -863,7 +864,7 @@ namespace agora_rtm {
 		}
 
 		[MonoPInvokeCallback(typeof(EngineEventOnGetUserAttributesResultHandler))]
-		private static void OnGetUserAttributesResultCallback(int id, Int64 requestId, string userId, string attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode) {
+		private static void OnGetUserAttributesResultCallback(int id, Int64 requestId, string userId, string attributes, int numberOfAttributes, Int64 revision, ATTRIBUTE_OPERATION_ERR errorCode) {
 			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnGetUserAttributesResult != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
@@ -875,8 +876,9 @@ namespace agora_rtm {
 								attribute[i].key = sArray[j++];
 								attribute[i].value = sArray[j++];
 								attribute[i].revision = Int64.Parse(sArray[j++]);
+								attribute[i].lastUpdateTs = Int64.Parse(sArray[j++]);
 							}
-							clientEventHandlerHandlerDic[id].OnGetUserAttributesResult(id, requestId, userId, attribute, numberOfAttributes, errorCode);										
+							clientEventHandlerHandlerDic[id].OnGetUserAttributesResult(id, requestId, userId, attribute, numberOfAttributes, revision, errorCode);										
 						}
 					});
 				}
@@ -884,7 +886,7 @@ namespace agora_rtm {
 		}
 
 		[MonoPInvokeCallback(typeof(EngineEventOnGetChannelAttributesResult))]
-		private static void OnGetChannelAttributesResultCallback(int id, Int64 requestId, string attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode) {
+		private static void OnGetChannelAttributesResultCallback(int id, Int64 requestId, string attributes, int numberOfAttributes, Int64 revision, ATTRIBUTE_OPERATION_ERR errorCode) {
 			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnGetChannelAttributesResult != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
@@ -899,10 +901,9 @@ namespace agora_rtm {
 								_attribute.SetLastUpdateTs(Int64.Parse(sArray[j++]));
 								_attribute.SetLastUpdateUserId(sArray[j++]);	
 								_attribute.SetRevision(Int64.Parse(sArray[j++]));
-								_attribute.SetLockName(sArray[j++]);
 								channelAttributes[i] = _attribute;
 							}
-							clientEventHandlerHandlerDic[id].OnGetChannelAttributesResult(id, requestId, channelAttributes, numberOfAttributes, errorCode);
+							clientEventHandlerHandlerDic[id].OnGetChannelAttributesResult(id, requestId, channelAttributes, numberOfAttributes, revision, errorCode);
 						}
 					});
 				}

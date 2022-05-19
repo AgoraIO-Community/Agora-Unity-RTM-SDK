@@ -24,7 +24,9 @@ AGORA_API const char* channel_getId(void* channelInstance);
 
 AGORA_API int channel_getMembers(void* channelInstance);
 
-AGORA_API int channel_acquireLock(void* channelInstance, const char *lock, bool blocking, long long &requestId);
+AGORA_API int channel_acquireLock(void* channelInstance, const char *lock, bool blocking, long long ttl, long long &requestId);
+
+AGORA_API int channel_disableLock(void* channelInstance, const char *lock, const char *userId, long long &requestId);
 
 AGORA_API int channel_releaseLock(void* channelInstance, const char *lock, long long &requestId);
 

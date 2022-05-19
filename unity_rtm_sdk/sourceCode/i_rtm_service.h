@@ -38,14 +38,14 @@ AGORA_API int setChannelAttributes_rtm(void* rtmInstance,
                                        const char* channelId,
                                        long long attributes[],
                                        const int numberOfAttributes,
-                                       bool enableNotificationToChannelMembers,
+                                       bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, const char* lockName, long long revision,
                                        long long& requestId);
 
 AGORA_API int addOrUpdateChannelAttributes_rtm(void* rtmInstance, 
                                             const char* channelId, 
                                             long long attributes[], 
                                             const int numberOfAttributes, 
-                                            bool enableNotificationToChannelMembers,
+                                            bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, const char* lockName, long long revision,
                                             long long &requestId);
 
 AGORA_API int getChannelAttributes_rtm(void* rtmInstance,
@@ -55,7 +55,7 @@ AGORA_API int getChannelAttributes_rtm(void* rtmInstance,
 AGORA_API int clearChannelAttributes_rtm(
     void* rtmInstance,
     const char* channelId,
-    bool enableNotificationToChannelMembers,
+    bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, const char* lockName, long long revision,
     long long& requestId);
 
 AGORA_API int deleteChannelAttributesByKeys_rtm(
@@ -63,7 +63,7 @@ AGORA_API int deleteChannelAttributesByKeys_rtm(
     const char* channelId,
     const char* attributeKeys[],
     int numberOfKeys,
-    bool enableNotificationToChannelMembers,
+    bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, const char* lockName, long long revision,
     long long& requestId);
 
 AGORA_API int getUserAttributesByKeys_rtm(void* rtmInstance,
@@ -76,12 +76,12 @@ AGORA_API int getUserAttributes_rtm(void* rtmInstance,
                                     const char* userId,
                                     long long& requestId);
 
-AGORA_API int clearLocalUserAttributes_rtm(void* rtmInstance,
+AGORA_API int clearLocalUserAttributes_rtm(void* rtmInstance, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, const char* lockName, long long revision,
                                            long long& requestId);
 
 AGORA_API int deleteLocalUserAttributesByKeys_rtm(void* rtmInstance,
                                                   const char* attributeKeys[],
-                                                  int numberOfKeys,
+                                                  int numberOfKeys, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, const char* lockName, long long revision,
                                                   long long& requestId);
 
 AGORA_API int queryPeersOnlineStatus_rtm(void* rtmInstance,
@@ -106,12 +106,12 @@ AGORA_API int queryPeersBySubscriptionOption_rtm(
 
 AGORA_API int setLocalUserAttributes_rtm(void* rtmInstance,
                                          const char* attributesInfo,
-                                         int numberOfAttributes,
+                                         int numberOfAttributes, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, const char* lockName, long long revision,
                                          long long& requestId);
 
 AGORA_API int addOrUpdateLocalUserAttributes_rtm(void* rtmInstance,
                                                  const char* attributesInfo,
-                                                 int numberOfAttributes,
+                                                 int numberOfAttributes, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, const char* lockName, long long revision,
                                                  long long& requestId);
 
 AGORA_API int setParameters_rtm_rtm(void* rtmInstance, const char* parameters);

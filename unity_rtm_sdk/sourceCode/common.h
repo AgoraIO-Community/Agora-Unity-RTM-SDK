@@ -70,15 +70,18 @@ typedef void(AGORA_CALL* FUNC_channel_onMemberCountUpdated)(int _id,
 typedef void(AGORA_CALL* FUNC_channel_onAttributeUpdate)(
     int _id,
     const char* attributes,
-    int numberOfAttributes);
+    int numberOfAttributes,
+    long long revision);
 
-typedef void(AGORA_CALL* FUNC_channel_onLockAcquired)(int _id, const char *lockName, long long lockRev, long long requestId);
+typedef void(AGORA_CALL* FUNC_channel_onLockAcquired)(int _id, const char *lockName, long long requestId);
 
 typedef void(AGORA_CALL* FUNC_channel_onLockExpired)(int _id, const char *lockName);
 
 typedef void(AGORA_CALL* FUNC_channel_onLockAcquireFailed)(int _id, const char *lockName, long long requestId, int errorCode);
 
 typedef void(AGORA_CALL* FUNC_channel_onLockReleaseResult)(int _id, const char* lockName, long long requestId, int errorCode);
+
+typedef void(AGORA_CALL* FUNC_channel_onLockDisableResult)(int _id, long long requestId, int errorCode);
 // call manager function pointer
 
 typedef void(AGORA_CALL* FUNC_onLocalInvitationReceivedByPeer)(
@@ -124,7 +127,7 @@ typedef void(AGORA_CALL* FUNC_onTokenExpired)(int handlerId);
 typedef void(AGORA_CALL* FUNC_onLogout)(int handlerId, int errorCode);
 typedef void(AGORA_CALL* FUNC_onUserAttributesUpdated)(int handlerId, const char* userId,
                                                         const char* attribute,
-                                                        int numberOfAttributes);
+                                                        int numberOfAttributes, long long revision);
 typedef void(AGORA_CALL* FUNC_onSubscribeUserAttributesResult)(int handlerId, long long requestId, const char* userId, int errorCode);
 typedef void(AGORA_CALL* FUNC_onUnsubscribeUserAttributesResult)(int handlerId, long long requestId, const char* userId, int errorCode);
 typedef void(AGORA_CALL* FUNC_onConnectionStateChanged)(int handlerId,
@@ -208,6 +211,7 @@ typedef void(AGORA_CALL* FUNC_onGetUserAttributesResult)(int handlerId,
                                                          const char* userId,
                                                          const char* attribute,
                                                          int numberOfAttributes,
+                                                         long long revision,
                                                          int errorCode);
 typedef void(AGORA_CALL* FUNC_onSetChannelAttributesResult)(int handlerId,
                                                             long long requestId,
@@ -229,6 +233,7 @@ typedef void(AGORA_CALL* FUNC_onGetChannelAttributesResult)(
     long long requestId,
     const char* attributes,
     int numberOfAttributes,
+    long long revision,
     int errorCode);
 typedef void(AGORA_CALL* FUNC_onGetChannelMemberCountResult)(
     int handlerId,
@@ -254,6 +259,7 @@ typedef struct CChannelEventHandler {
   FUNC_channel_onLockExpired onLockExpired;
   FUNC_channel_onLockAcquireFailed onLockAcquireFailed;
   FUNC_channel_onLockReleaseResult onLockReleaseResult;
+  FUNC_channel_onLockDisableResult onLockDisableResult;
 } CChannelEventHandler;
 
 typedef struct CRtmServiceEventHandler {

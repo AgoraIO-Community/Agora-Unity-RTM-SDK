@@ -1144,6 +1144,10 @@ namespace agora {
         */
         long long revision;
         
+        /**
+         Last modify timestamp of the attribute
+         */
+        long long lastUpdateTs;
     };
 
     /**
@@ -1226,20 +1230,6 @@ namespace agora {
         virtual void setRevision(long long revision) = 0;
 
         /**
-         Set the lock of the channel attribute.
-          
-         @param lockName
-         */
-        virtual void setLockName(const char *lockName) = 0;
-
-        /**
-         Get the lock of the channel attribute.
-          
-         @return lockName
-         */
-        virtual const char *getLockName() const = 0;
-
-        /**
          Release all resources used by the \ref agora::rtm::IRtmChannelAttribute "IRtmChannelAttribute" instance.
          */
         virtual void release() = 0;
@@ -1248,8 +1238,7 @@ namespace agora {
      /**
       @brief Data structure holding channel attribute-specific options.
       */
-     struct ChannelAttributeOptions{
-
+     struct AttributeOptions{
         /**
          Indicates whether or not to notify all channel members of a channel attribute change.
 
@@ -1259,7 +1248,26 @@ namespace agora {
          - false: (Default) Do not notify all channel members of a channel attribute change.
          */
         bool enableNotificationToChannelMembers;
-        ChannelAttributeOptions():enableNotificationToChannelMembers(false){}
+
+        /**
+         Indicates whether or not to notify server update the modify timestamp of attribute
+
+         - true: Notify server update timestamp.
+         - false: (Default) Do not notify server update timestamp.
+         */
+        bool enableRecordTimeStamp;
+        
+        /**
+         * @brief lockName
+         */
+        const char* lockName;
+        
+        /**
+         * @brief the revision of the whole attributes.
+         */
+        long long revision;
+
+        AttributeOptions():enableNotificationToChannelMembers(false), revision(-1) {}
      };
 
     /**
@@ -1757,15 +1765,17 @@ namespace agora {
       /**
        Occurs when channel attributes are updated, and returns all attributes of the channel.
 
-       @note This callback is enabled only when the user, who updates the attributes of the channel, sets \ref agora::rtm::ChannelAttributeOptions::enableNotificationToChannelMembers "enableNotificationToChannelMembers" as true. Also note that this flag is valid only within the current channel attribute method call.
+       @note This callback is enabled only when the user, who updates the attributes of the channel, sets \ref agora::rtm::AttributeOptions::enableNotificationToChannelMembers "enableNotificationToChannelMembers" as true. Also note that this flag is valid only within the current channel attribute method call.
 
        @param attributes All attribute of this channel.
        @param numberOfAttributes The total number of the channel attributes.
+       @param revision The whole revision of channel attributes
        */
-      virtual void onAttributesUpdated(const IRtmChannelAttribute* attributes[], int numberOfAttributes)
+      virtual void onAttributesUpdated(const IRtmChannelAttribute* attributes[], int numberOfAttributes, long long revision)
       {
           (const IRtmChannelAttribute**) attributes;
           (int) numberOfAttributes;
+          (long long) revision;
       }
 
       /**
@@ -1792,10 +1802,9 @@ namespace agora {
        @param lockRev The revision of lock.
        @param requestId The unique ID of the lock request.
        */
-      virtual void onLockAcquired(const char *lockName, long long lockRev, long long requestId)
+      virtual void onLockAcquired(const char *lockName, long long requestId)
       {
         (const char *) lockName;
-        (long long) lockRev;
         (long long) requestId;
       }
       
@@ -1831,6 +1840,18 @@ namespace agora {
         (long long)requestId;
       }
 
+      /**
+       * @brief Reports the result of "disableLock" method call.
+       * 
+       * @param lockName The name of the lock.
+       * @param requestId The unique ID of the lock request.
+       * @param errorCode Error code. See #CHANNEL_ATTRIBUTE_LOCK_ERR_CODE.
+       */
+      virtual void onLockDisableResult(long long requestId,
+          CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode) {
+        (long long)requestId;
+        (CHANNEL_ATTRIBUTE_LOCK_ERR_CODE) errorCode;
+      }
     };
 
     /**
@@ -1933,13 +1954,14 @@ namespace agora {
 
        @param lock The name of the lock
        @param blocking the type of the lock
+       @param ttl The keep alive time in seconds
        @param requestId The unique ID of lock request.
 
        @return
        - 0: Success.
        - &ne;0: Failure. See #CHANNEL_ATTRIBUTE_LOCK_ERR_CODE for the error codes.
        */
-      virtual int acquireLock(const char *lock, bool blocking, long long &requestId) = 0;
+      virtual int acquireLock(const char *lock, bool blocking, long long ttl, long long &requestId) = 0;
       
       /**
        @brief Allows a channel member to release lock in the channel.
@@ -1953,6 +1975,18 @@ namespace agora {
        */
       virtual int releaseLock(const char *lock, long long &requestId) = 0;
 
+      /**
+       @brief Allows a channel member to disable lock in the channel.
+
+       @param lock The name of the lock
+       @param userId The user ID of the specified user.
+       @param requestId The unique ID of lock request.
+
+       @return
+       - 0: Success.
+       - &ne;0: Failure. See #CHANNEL_ATTRIBUTE_LOCK_ERR_CODE for the error codes.
+       */
+      virtual int disableLock(const char *lock, const char *userId, long long &requestId) = 0;
       // sync_call
 
       /**
@@ -2292,13 +2326,15 @@ namespace agora {
        @param userId The user ID of the specified user.
        @param attributes An array of the returned attributes. See RtmAttribute.
        @param numberOfAttributes The total number of the user's attributes
+       @param revision The whole revision of user attributes
        @param errorCode Error Codes. See #ATTRIBUTE_OPERATION_ERR.
        */
-      virtual void onGetUserAttributesResult(long long requestId, const char* userId, const RtmAttribute* attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode)
+      virtual void onGetUserAttributesResult(long long requestId, const char* userId, const RtmAttribute* attributes, int numberOfAttributes, long long revision, ATTRIBUTE_OPERATION_ERR errorCode)
       {
           (long long) requestId;
           (const RtmAttribute*) attributes;
           (int) numberOfAttributes;
+          (long long) revision;
           (ATTRIBUTE_OPERATION_ERR) errorCode;
       }
 
@@ -2310,10 +2346,12 @@ namespace agora {
        @param userId The user ID of the specified user.
        @param attributes All attribute of this user.
        @param numberOfAttributes The total number of the user attributes.
+       @param revision The whole revision of user attributes
        */
       virtual void onUserAttributesUpdated(const char* userId,
                                            const RtmAttribute* attributes,
-                                           int numberOfAttributes) 
+                                           int numberOfAttributes, 
+                                           long long revision) 
       {
       }
 
@@ -2397,9 +2435,10 @@ namespace agora {
        @param requestId The unique ID of this request.
        @param attributes An array of the returned channel attributes.
        @param numberOfAttributes The total number of the attributes.
+       @param revision The whole revision of user attributes
        @param errorCode Error Codes. See #ATTRIBUTE_OPERATION_ERR.
        */
-      virtual void onGetChannelAttributesResult(long long requestId, const IRtmChannelAttribute* attributes[], int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode)
+      virtual void onGetChannelAttributesResult(long long requestId, const IRtmChannelAttribute* attributes[], int numberOfAttributes, long long revision, ATTRIBUTE_OPERATION_ERR errorCode)
       {
 //         (long long) requestId;
 //         (const IRtmChannelAttribute**) attributes;
@@ -2910,7 +2949,7 @@ namespace agora {
        - 0: Success.
        - &ne;0: Failure. See #ATTRIBUTE_OPERATION_ERR for the error codes.
        */
-      virtual int setLocalUserAttributes(const RtmAttribute* attributes, int numberOfAttributes, long long &requestId) = 0;
+      virtual int setLocalUserAttributes(const RtmAttribute* attributes, int numberOfAttributes, const AttributeOptions &options, long long &requestId) = 0;
 
       /**
        Adds or updates the local user's attribute(s).
@@ -2928,7 +2967,7 @@ namespace agora {
        - 0: Success.
        - &ne;0: Failure. See #ATTRIBUTE_OPERATION_ERR for the error codes.
        */
-      virtual int addOrUpdateLocalUserAttributes(const RtmAttribute* attributes, int numberOfAttributes, long long &requestId) = 0;
+      virtual int addOrUpdateLocalUserAttributes(const RtmAttribute* attributes, int numberOfAttributes, const AttributeOptions &options, long long &requestId) = 0;
 
       /**
        Deletes the local user's attributes by attribute keys.
@@ -2944,7 +2983,7 @@ namespace agora {
        - 0: Success.
        - &ne;0: Failure. See #ATTRIBUTE_OPERATION_ERR for the error codes.
        */
-      virtual int deleteLocalUserAttributesByKeys(const char* attributeKeys[], int numberOfKeys, long long &requestId) = 0;
+      virtual int deleteLocalUserAttributesByKeys(const char* attributeKeys[], int numberOfKeys, const AttributeOptions &options, long long &requestId) = 0;
 
       /**
        Clears all attributes of the local user.
@@ -2958,7 +2997,7 @@ namespace agora {
        - 0: Success.
        - &ne;0: Failure. See #ATTRIBUTE_OPERATION_ERR for the error codes.
        */
-      virtual int clearLocalUserAttributes(long long &requestId) = 0;
+      virtual int clearLocalUserAttributes(const AttributeOptions &options, long long &requestId) = 0;
 
       /**
        Gets all attributes of a specified user.
@@ -3041,13 +3080,13 @@ namespace agora {
        @param channelId The channel ID of the specified channel.
        @param attributes An array of channel attributes. See \ref agora::rtm::IRtmChannelAttribute "IRtmChannelAttribute".
        @param numberOfAttributes The total number of the channel attributes.
-       @param options Options for this attribute operation. See ChannelAttributeOptions.
+       @param options Options for this attribute operation. See AttributeOptions.
        @param requestId The unique ID of this request.
        @return
        - 0: Success.
        - &ne;0: Failure. See #ATTRIBUTE_OPERATION_ERR for the error codes.
        */
-      virtual int setChannelAttributes(const char* channelId, const IRtmChannelAttribute* attributes[], int numberOfAttributes, const ChannelAttributeOptions &options, long long &requestId) = 0;
+      virtual int setChannelAttributes(const char* channelId, const IRtmChannelAttribute* attributes[], int numberOfAttributes, const AttributeOptions &options, long long &requestId) = 0;
 
       /**
        Adds or updates the attribute(s) of a specified channel.
@@ -3065,13 +3104,13 @@ namespace agora {
        @param channelId The channel ID of the specified channel.
        @param attributes An array of channel attributes. See \ref agora::rtm::IRtmChannelAttribute "IRtmChannelAttribute".
        @param numberOfAttributes The total number of the channel attributes.
-       @param options Options for this attribute operation. See ChannelAttributeOptions.
+       @param options Options for this attribute operation. See AttributeOptions.
        @param requestId The unique ID of this request.
        @return
        - 0: Success.
        - &ne;0: Failure. See #ATTRIBUTE_OPERATION_ERR for the error codes.
        */
-      virtual int addOrUpdateChannelAttributes(const char* channelId, const IRtmChannelAttribute* attributes[], int numberOfAttributes, const ChannelAttributeOptions &options, long long &requestId) = 0;
+      virtual int addOrUpdateChannelAttributes(const char* channelId, const IRtmChannelAttribute* attributes[], int numberOfAttributes, const AttributeOptions &options, long long &requestId) = 0;
 
       /**
        Deletes the attributes of a specified channel by attribute keys.
@@ -3087,13 +3126,13 @@ namespace agora {
        @param channelId The channel ID of the specified channel.
        @param attributeKeys An array of channel attribute keys.
        @param numberOfKeys The total number of the channel attributes.
-       @param options Options for this attribute operation. See ChannelAttributeOptions.
+       @param options Options for this attribute operation. See AttributeOptions.
        @param requestId The unique ID of this request.
        @return
        - 0: Success.
        - &ne;0: Failure. See #ATTRIBUTE_OPERATION_ERR for the error codes.
        */
-      virtual int deleteChannelAttributesByKeys(const char* channelId, const char* attributeKeys[], int numberOfKeys, const ChannelAttributeOptions &options, long long &requestId) = 0;
+      virtual int deleteChannelAttributesByKeys(const char* channelId, const char* attributeKeys[], int numberOfKeys, const AttributeOptions &options, long long &requestId) = 0;
 
       /**
        Clears all attributes of a specified channel.
@@ -3106,13 +3145,13 @@ namespace agora {
        - For \ref agora::rtm::IRtmService::setChannelAttributes "setChannelAttributes", \ref agora::rtm::IRtmService::addOrUpdateChannelAttributes "addOrUpdateChannelAttributes", \ref agora::rtm::IRtmService::deleteChannelAttributesByKeys "deleteChannelAttributesByKeys" and \ref agora::rtm::IRtmService::clearChannelAttributes "clearChannelAttributes" taken together: the maximum call frequency is (RTM SDK for Windows C++) 10 calls every five seconds or (RTM SDK for Linux C++) 100 calls every five seconds.
 
        @param channelId The channel ID of the specified channel.
-       @param options Options for this attribute operation. See ChannelAttributeOptions.
+       @param options Options for this attribute operation. See AttributeOptions.
        @param requestId The unique ID of this request.
        @return
        - 0: Success.
        - &ne;0: Failure. See #ATTRIBUTE_OPERATION_ERR for the error codes.
        */
-      virtual int clearChannelAttributes(const char* channelId, const ChannelAttributeOptions &options, long long &requestId) = 0;
+      virtual int clearChannelAttributes(const char* channelId, const AttributeOptions &options, long long &requestId) = 0;
 
       /**
        Gets all attributes of a specified channel.

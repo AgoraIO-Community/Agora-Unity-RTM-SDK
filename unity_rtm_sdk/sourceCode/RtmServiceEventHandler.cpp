@@ -96,22 +96,22 @@ void RtmServiceEventHandler::onLogout(agora::rtm::LOGOUT_ERR_CODE errorCode) {
 
 void RtmServiceEventHandler::onUserAttributesUpdated(const char* userId,
                                            const agora::rtm::RtmAttribute* attributes,
-                                           int numberOfAttributes) {
+                                           int numberOfAttributes, long long revision) {
   char szMsg[520] = {};
   std::string strPostMsg = "";
   for (int i = 0; i < numberOfAttributes; i++) {
     agora::rtm::RtmAttribute* rtmAttribute =
         (agora::rtm::RtmAttribute*)(attributes + i);
-    sprintf(szMsg, "%s\t%s\t%s\t%lld", strPostMsg.data(), rtmAttribute->key,
-            rtmAttribute->value, rtmAttribute->revision);
+    sprintf(szMsg, "%s\t%s\t%s\t%lld\t%lld", strPostMsg.data(), rtmAttribute->key,
+            rtmAttribute->value, rtmAttribute->revision, rtmAttribute->lastUpdateTs);
     strPostMsg = szMsg;
   }
   sprintf(szMsg, "%s", strPostMsg.data());
 
   agora::unity::rtm::LogHelper::getInstance().writeLog(
-      "AgoraRtm: RtmServiceEventHandler onGetUserAttributesResult");
+      "AgoraRtm: RtmServiceEventHandler onUserAttributesUpdated");
   if (_c_rtm_service_event_handler)
-    _c_rtm_service_event_handler->_onUserAttributesUpdated(handlerId, userId, szMsg, numberOfAttributes);                                           
+    _c_rtm_service_event_handler->_onUserAttributesUpdated(handlerId, userId, szMsg, numberOfAttributes, revision);                                           
 }
 
 void RtmServiceEventHandler::onSubscribeUserAttributesResult(
@@ -537,14 +537,15 @@ void RtmServiceEventHandler::onGetUserAttributesResult(
     const char* userId,
     const agora::rtm::RtmAttribute* attributes,
     int numberOfAttributes,
+    long long revision,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
   char szMsg[520] = {};
   std::string strPostMsg = "";
   for (int i = 0; i < numberOfAttributes; i++) {
     agora::rtm::RtmAttribute* rtmAttribute =
         (agora::rtm::RtmAttribute*)(attributes + i);
-    sprintf(szMsg, "%s\t%s\t%s\t%lld", strPostMsg.data(), rtmAttribute->key,
-            rtmAttribute->value, rtmAttribute->revision);
+    sprintf(szMsg, "%s\t%s\t%s\t%lld\t%lld", strPostMsg.data(), rtmAttribute->key,
+            rtmAttribute->value, rtmAttribute->revision, rtmAttribute->lastUpdateTs);
     strPostMsg = szMsg;
   }
   sprintf(szMsg, "%s", strPostMsg.data());
@@ -553,7 +554,7 @@ void RtmServiceEventHandler::onGetUserAttributesResult(
       "AgoraRtm: RtmServiceEventHandler onGetUserAttributesResult");
   if (_c_rtm_service_event_handler)
     _c_rtm_service_event_handler->_onGetUserAttributesResult(
-        handlerId, requestId, userId, szMsg, numberOfAttributes,
+        handlerId, requestId, userId, szMsg, numberOfAttributes, revision,
         int(errorCode));
 }
 
@@ -641,6 +642,7 @@ void RtmServiceEventHandler::onGetChannelAttributesResult(
     long long requestId,
     const agora::rtm::IRtmChannelAttribute* attributes[],
     int numberOfAttributes,
+    long long revision,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
   if (_c_rtm_service_event_handler) {
     char szMsg[520] = {};
@@ -649,18 +651,17 @@ void RtmServiceEventHandler::onGetChannelAttributesResult(
       const agora::rtm::IRtmChannelAttribute* rtmAttribute = attributes[i];
       if (rtmAttribute && rtmAttribute->getKey() && rtmAttribute->getValue() &&
           rtmAttribute->getLastUpdateUserId()) {
-        sprintf(szMsg, "%s\t%s\t%s\t%lld\t%s\t%lld\t%s", strPostMsg.data(),
+        sprintf(szMsg, "%s\t%s\t%s\t%lld\t%s\t%lld", strPostMsg.data(),
                 rtmAttribute->getKey(), rtmAttribute->getValue(),
                 rtmAttribute->getLastUpdateTs(),
                 rtmAttribute->getLastUpdateUserId(),
-                rtmAttribute->getRevision(),
-                rtmAttribute->getLockName());
+                rtmAttribute->getRevision());
         strPostMsg = szMsg;
       }
     }
     sprintf(szMsg, "%s", strPostMsg.data());
     _c_rtm_service_event_handler->_onGetChannelAttributesResult(
-        handlerId, requestId, szMsg, numberOfAttributes, int(errorCode));
+        handlerId, requestId, szMsg, numberOfAttributes, revision, int(errorCode));
   }
 }
 

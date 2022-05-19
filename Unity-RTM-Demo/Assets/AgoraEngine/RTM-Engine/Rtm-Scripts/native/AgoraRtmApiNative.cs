@@ -14,7 +14,7 @@ namespace agora_rtm {
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 	internal delegate void EngineEventOnMemberLeft(int _id, IntPtr channelMemberPtr);
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-	internal delegate void EngineEventOnAttributesUpdated(int _id, string attributesListPtr, int numberOfAttributes);
+	internal delegate void EngineEventOnAttributesUpdated(int _id, string attributesListPtr, int numberOfAttributes, Int64 revision);
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 	internal delegate void EngineEventOnGetMember(int _id, string membersPtr, int userCount, GET_MEMBERS_ERR errorCode);
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -30,9 +30,9 @@ namespace agora_rtm {
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 	internal delegate void EngineEventOnMediaDownloadToMemoryResult(int _id, Int64 requestId, IntPtr memory, Int64 length, DOWNLOAD_MEDIA_ERR_CODE code);
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-	internal delegate void EngineEventOnGetUserAttributesResultHandler(int _id, Int64 requestId, string userId, string attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode);
+	internal delegate void EngineEventOnGetUserAttributesResultHandler(int _id, Int64 requestId, string userId, string attributes, int numberOfAttributes, Int64 revision, ATTRIBUTE_OPERATION_ERR errorCode);
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-	internal delegate void EngineEventOnGetChannelAttributesResult(int _id, Int64 requestId, string attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode);
+	internal delegate void EngineEventOnGetChannelAttributesResult(int _id, Int64 requestId, string attributes, int numberOfAttributes, Int64 revision, ATTRIBUTE_OPERATION_ERR errorCode);
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 	internal delegate void EngineEventOnGetChannelMemberCountResult(int _id, Int64 requestId, string channelMemberCounts, int channelCount, GET_CHANNEL_MEMBER_COUNT_ERR_CODE errorCode);
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -58,7 +58,7 @@ namespace agora_rtm {
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 	internal delegate void EngineEventOnRemoteInvitationCanceledHandler(int _id, IntPtr remoteInvitation);
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-	internal delegate void EngineEventOnUserAttributesUpdated(int _id, string userId, string attributes, int numberOfAttributes);
+	internal delegate void EngineEventOnUserAttributesUpdated(int _id, string userId, string attributes, int numberOfAttributes, Int64 revision);
 
 	[StructLayout(LayoutKind.Sequential)]
 	internal struct CChannelEvent
@@ -79,6 +79,7 @@ namespace agora_rtm {
 		internal RtmChannelEventHandler.OnLockExpiredHandler onLockExpired;
 		internal RtmChannelEventHandler.OnLockAcquireFailedHandler onLockAcquireFailed;
 		internal RtmChannelEventHandler.OnLockReleaseResultHandler onLockReleaseResult;
+		internal RtmChannelEventHandler.OnLockDisableResultHandler onLockDisableResult;
 	};
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -100,6 +101,7 @@ namespace agora_rtm {
 		internal IntPtr onLockExpired;
 		internal IntPtr onLockAcquireFailed;
 		internal IntPtr onLockReleaseResult;
+		internal IntPtr onLockDisableResult;
 	};
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -251,10 +253,10 @@ namespace agora_rtm {
 		internal static extern int getChannelAttributes_rtm(IntPtr rtmServiceInstance, string channelId, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int clearChannelAttributes_rtm(IntPtr rtmServiceInstance, string channelId, bool enableNotificationToChannelMembers, ref Int64 requestId);
+		internal static extern int clearChannelAttributes_rtm(IntPtr rtmServiceInstance, string channelId, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, string lockName, Int64 revision, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int deleteChannelAttributesByKeys_rtm(IntPtr rtmServiceInstance, string channelId, string [] attributeKeys, int numberOfKeys, bool enableNotificationToChannelMembers, ref Int64 requestId);
+		internal static extern int deleteChannelAttributesByKeys_rtm(IntPtr rtmServiceInstance, string channelId, string [] attributeKeys, int numberOfKeys, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, string lockName, Int64 revision, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern int getUserAttributesByKeys_rtm(IntPtr rtmServiceInstance, string userId, string [] attributeKeys, int numberOfKeys, ref Int64 requestId);
@@ -263,10 +265,10 @@ namespace agora_rtm {
 		internal static extern int getUserAttributes_rtm(IntPtr rtmServiceInstance, string userId, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int clearLocalUserAttributes_rtm(IntPtr rtmServiceInstance, ref Int64 requestId);
+		internal static extern int clearLocalUserAttributes_rtm(IntPtr rtmServiceInstance, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, string lockName, Int64 revision, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int deleteLocalUserAttributesByKeys_rtm(IntPtr rtmServiceInstance, string [] attributeKeys, int numberOfKeys, ref Int64 requestId);
+		internal static extern int deleteLocalUserAttributesByKeys_rtm(IntPtr rtmServiceInstance, string [] attributeKeys, int numberOfKeys, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, string lockName, Int64 revision,  ref Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern int queryPeersOnlineStatus_rtm(IntPtr rtmServiceInstance, string [] peerIds, int peerCount, ref Int64 requestId);
@@ -370,7 +372,10 @@ namespace agora_rtm {
 		internal static extern int channel_getMembers(IntPtr channelInstance);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int channel_acquireLock(IntPtr channelInstance, string @lock, bool blocking, ref Int64 requestId);
+		internal static extern int channel_acquireLock(IntPtr channelInstance, string @lock, bool blocking, Int64 ttl, ref Int64 requestId);
+
+		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int channel_disableLock(IntPtr channelInstance, string @lock, string userId, ref Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern int channel_releaseLock(IntPtr channelInstance, string @lock, ref Int64 requestId);
@@ -410,16 +415,16 @@ namespace agora_rtm {
 		internal static extern void channelAttribute_release(IntPtr channel_attribute_instance);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int setChannelAttributes_rtm(IntPtr rtmInstance, string channelId, Int64 [] attributes, int numberOfAttributes, bool enableNotificationToChannelMembers, ref Int64 requestId);
+		internal static extern int setChannelAttributes_rtm(IntPtr rtmInstance, string channelId, Int64 [] attributes, int numberOfAttributes, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, string lockName, Int64 revision, ref Int64 requestId);
 		
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int addOrUpdateChannelAttributes_rtm(IntPtr rtmInstance, string channelId, Int64 [] attributes, int numberOfAttributes, bool enableNotificationToChannelMembers, ref Int64 requestId);
+		internal static extern int addOrUpdateChannelAttributes_rtm(IntPtr rtmInstance, string channelId, Int64 [] attributes, int numberOfAttributes, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, string lockName, Int64 revision, ref Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int setLocalUserAttributes_rtm(IntPtr rtmInstance, string attributesInfo, int numberOfAttributes, ref Int64 requestId);
+		internal static extern int setLocalUserAttributes_rtm(IntPtr rtmInstance, string attributesInfo, int numberOfAttributes, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, string lockName, Int64 revision, ref Int64 requestId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int addOrUpdateLocalUserAttributes_rtm(IntPtr rtmInstance, string attributesInfo, int numberOfAttributes, ref Int64 requestId);
+		internal static extern int addOrUpdateLocalUserAttributes_rtm(IntPtr rtmInstance, string attributesInfo, int numberOfAttributes, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, string lockName, Int64 revision, ref Int64 requestId);
 
 		/// Message api
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]

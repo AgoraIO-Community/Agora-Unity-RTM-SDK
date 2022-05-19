@@ -733,13 +733,13 @@ namespace agora_rtm {
         /// <param name="enableNotificationToChannelMembers">Indicates whether or not to notify all channel members of a channel attribute change.</param>
         /// <param name="requestId">The unique ID of this request.</param>
         /// <returns></returns>
-        public int DeleteChannelAttributesByKeys(string channelId, string [] attributeKeys, bool enableNotificationToChannelMembers, ref Int64 requestId) {
+        public int DeleteChannelAttributesByKeys(string channelId, string [] attributeKeys, AttributeOptions options, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.deleteChannelAttributesByKeys_rtm(_rtmServicePtr, channelId, attributeKeys, attributeKeys.Length, enableNotificationToChannelMembers, ref requestId);
+            return IRtmApiNative.deleteChannelAttributesByKeys_rtm(_rtmServicePtr, channelId, attributeKeys, attributeKeys.Length, options.enableNotificationToChannelMembers, options.enableRecordTimeStamp, options.lockName, options.revision, ref requestId);
         }
 
         /// <summary>
@@ -791,13 +791,13 @@ namespace agora_rtm {
         /// 0: Success.
         /// ≠0: Failure.
         /// </returns>
-        public int DeleteLocalUserAttributesByKeys(string [] attributeKeys, ref Int64 requestId) {
+        public int DeleteLocalUserAttributesByKeys(string [] attributeKeys, AttributeOptions options, ref Int64 requestId) {
             if (_rtmServicePtr == IntPtr.Zero)
 			{
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.deleteLocalUserAttributesByKeys_rtm(_rtmServicePtr, attributeKeys, attributeKeys.Length, ref requestId);
+            return IRtmApiNative.deleteLocalUserAttributesByKeys_rtm(_rtmServicePtr, attributeKeys, attributeKeys.Length, options.enableNotificationToChannelMembers, options.enableRecordTimeStamp, options.lockName, options.revision, ref requestId);
         }
 
         /// <summary>
@@ -812,7 +812,7 @@ namespace agora_rtm {
         /// <param name="options">Options for this attribute operation</param>
         /// <param name="requestId">The unique ID of this request.</param>
         /// <returns></returns>
-        public int SetChannelAttributes(string channelId, RtmChannelAttribute [] attributes, ChannelAttributeOptions options, ref Int64 requestId)
+        public int SetChannelAttributes(string channelId, RtmChannelAttribute [] attributes, AttributeOptions options, ref Int64 requestId)
         {
             if (_rtmServicePtr == IntPtr.Zero)
             {
@@ -825,12 +825,12 @@ namespace agora_rtm {
                 for (int i = 0; i < attributes.Length; i++) {
                     attributeLists[i] = attributes[i].GetPtr().ToInt64();
                 }
-                return IRtmApiNative.setChannelAttributes_rtm(_rtmServicePtr, channelId, attributeLists, attributes.Length, options.enableNotificationToChannelMembers, ref requestId);
+                return IRtmApiNative.setChannelAttributes_rtm(_rtmServicePtr, channelId, attributeLists, attributes.Length, options.enableNotificationToChannelMembers, options.enableRecordTimeStamp, options.lockName, options.revision, ref requestId);
             }
             return -7;
         } 
 
-        public int AddOrUpdateChannelAttributes(string channelId, RtmChannelAttribute [] attributes, ChannelAttributeOptions options, ref Int64 requestId)
+        public int AddOrUpdateChannelAttributes(string channelId, RtmChannelAttribute [] attributes, AttributeOptions options, ref Int64 requestId)
         {
             if (_rtmServicePtr == IntPtr.Zero)
             {
@@ -843,12 +843,12 @@ namespace agora_rtm {
                 for (int i = 0; i < attributes.Length; i++) {
                     attributeLists[i] = attributes[i].GetPtr().ToInt64();
                 }
-                return IRtmApiNative.addOrUpdateChannelAttributes_rtm(_rtmServicePtr, channelId, attributeLists, attributes.Length, options.enableNotificationToChannelMembers, ref requestId);
+                return IRtmApiNative.addOrUpdateChannelAttributes_rtm(_rtmServicePtr, channelId, attributeLists, attributes.Length, options.enableNotificationToChannelMembers, options.enableRecordTimeStamp, options.lockName, options.revision, ref requestId);
             }
             return -7;
         }
 
-        public int SetLocalUserAttributes(RtmAttribute[] attributes, int numberOfAttributes, ref Int64 requestId)
+        public int SetLocalUserAttributes(RtmAttribute[] attributes, int numberOfAttributes, AttributeOptions options, ref Int64 requestId)
         {
             if (_rtmServicePtr == IntPtr.Zero)
             {
@@ -870,13 +870,15 @@ namespace agora_rtm {
                     attributeInfo += "\t";
                     attributeInfo += attributes[i].revision.ToString();
                     attributeInfo += "\t";
+                    attributeInfo += attributes[i].lastUpdateTs.ToString();
+                    attributeInfo += "\t";
                 }
-                return IRtmApiNative.setLocalUserAttributes_rtm(_rtmServicePtr, attributeInfo, numberOfAttributes, ref requestId);
+                return IRtmApiNative.setLocalUserAttributes_rtm(_rtmServicePtr, attributeInfo, numberOfAttributes, options.enableNotificationToChannelMembers, options.enableRecordTimeStamp, options.lockName, options.revision, ref requestId);
             }
             return -7;
         }
 
-        public int AddOrUpdateLocalUserAttributes(RtmAttribute[] attributes, int numberOfAttributes, ref Int64 requestId)
+        public int AddOrUpdateLocalUserAttributes(RtmAttribute[] attributes, int numberOfAttributes, AttributeOptions options, ref Int64 requestId)
         {
             if (_rtmServicePtr == IntPtr.Zero)
             {
@@ -897,8 +899,10 @@ namespace agora_rtm {
                     attributeInfo += "\t";
                     attributeInfo += attributes[i].revision.ToString();
                     attributeInfo += "\t";
+                    attributeInfo += attributes[i].lastUpdateTs.ToString();
+                    attributeInfo += "\t";
                 }
-                return IRtmApiNative.addOrUpdateLocalUserAttributes_rtm(_rtmServicePtr, attributeInfo, numberOfAttributes, ref requestId);
+                return IRtmApiNative.addOrUpdateLocalUserAttributes_rtm(_rtmServicePtr, attributeInfo, numberOfAttributes, options.enableNotificationToChannelMembers, options.enableRecordTimeStamp, options.lockName, options.revision, ref requestId);
             }
             return -7;
         }

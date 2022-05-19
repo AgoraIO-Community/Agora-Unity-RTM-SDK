@@ -80,7 +80,7 @@ class RtmServiceEventHandler : public agora::rtm::IRtmServiceEventHandler {
 
   virtual void onUserAttributesUpdated(const char* userId,
                                            const agora::rtm::RtmAttribute* attributes,
-                                           int numberOfAttributes) override;
+                                           int numberOfAttributes, long long revision) override;
 
   virtual void onSubscribeUserAttributesResult(
                 long long requestId, const char* userId,
@@ -381,6 +381,7 @@ class RtmServiceEventHandler : public agora::rtm::IRtmServiceEventHandler {
       const char* userId,
       const agora::rtm::RtmAttribute* attributes,
       int numberOfAttributes,
+      long long revision,
       agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) override;
 
   /**
@@ -444,6 +445,7 @@ class RtmServiceEventHandler : public agora::rtm::IRtmServiceEventHandler {
       long long requestId,
       const agora::rtm::IRtmChannelAttribute* attributes[],
       int numberOfAttributes,
+      long long revision,
       agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) override;
 
   /**

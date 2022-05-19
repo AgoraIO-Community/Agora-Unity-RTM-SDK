@@ -34,11 +34,6 @@ namespace agora_rtm {
 			set;
 		}
 
-		private string _lockName {
-			get;
-			set;
-		}
-
 		public RtmChannelAttribute(MESSAGE_FLAG flag) {
 			_flag = flag;
 		}
@@ -214,38 +209,6 @@ namespace agora_rtm {
 				return;
 			}
 			IRtmApiNative.channelAttribute_setRevision(_channelAttributePtr, revision);
-		}
-
-		public string GetLockName() {
-			if (_flag == MESSAGE_FLAG.RECEIVE) {
-				return _lockName;
-			}
-
-			if (_channelAttributePtr == IntPtr.Zero)
-			{
-				Debug.LogError("_channelAttributePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
-			}
-			IntPtr lockName = 	IRtmApiNative.channelAttribute_getLockName(_channelAttributePtr);
-            if (!ReferenceEquals(lockName, IntPtr.Zero)) {
-				return Marshal.PtrToStringAnsi(lockName);
-			} else {
-				return "";
-			}
-		}
-
-		public void SetLockName(string lockName) {
-			if (_flag == MESSAGE_FLAG.RECEIVE) {
-				_lockName = lockName;
-				return;
-			}
-
-			if (_channelAttributePtr == IntPtr.Zero)
-			{
-				Debug.LogError("_channelAttributePtr is null");
-				return;
-			}
-			IRtmApiNative.channelAttribute_setLockName(_channelAttributePtr, lockName);
 		}
 
 		public IntPtr GetPtr() {

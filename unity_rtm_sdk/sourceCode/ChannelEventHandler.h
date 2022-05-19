@@ -148,7 +148,7 @@ class ChannelEventHandler : public agora::rtm::IChannelEventHandler {
   //              */
   virtual void onAttributesUpdated(
       const agora::rtm::IRtmChannelAttribute* attributes[],
-      int numberOfAttributes) override;
+      int numberOfAttributes, long long revision) override;
   //
   /**
    Occurs when the number of the channel members changes, and returns the new
@@ -168,13 +168,15 @@ class ChannelEventHandler : public agora::rtm::IChannelEventHandler {
    */
   virtual void onMemberCountUpdated(int memberCount) override;
 
-  virtual void onLockAcquired(const char *lockName, long long lockRev, long long requestId) override;
+  virtual void onLockAcquired(const char *lockName, long long requestId) override;
 
   virtual void onLockExpired(const char *lockName) override;
 
   virtual void onLockAcquireFailed(const char *lockName, long long requestId, agora::rtm::CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode) override;
 
   virtual void onLockReleaseResult(const char* lockName, long long requestId, agora::rtm::CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode) override;
+
+  virtual void onLockDisableResult(long long requestId, agora::rtm::CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode) override;
 };
 }
 }  // namespace unity
