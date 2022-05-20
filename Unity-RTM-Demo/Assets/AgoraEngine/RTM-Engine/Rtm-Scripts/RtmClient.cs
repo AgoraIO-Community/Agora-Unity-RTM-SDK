@@ -848,6 +848,16 @@ namespace agora_rtm {
             return -7;
         }
 
+        public int ClearChannelAttributes(string channelId, AttributeOptions options, ref Int64 requestId)
+        {
+            if (_rtmServicePtr == IntPtr.Zero)
+            {
+                Debug.LogError("rtmService is null");
+                return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
+            }
+            return IRtmApiNative.clearChannelAttributes_rtm(_rtmServicePtr, channelId, options.enableNotificationToChannelMembers, options.enableRecordTimeStamp, options.lockName, options.revision, ref requestId);
+        }
+
         public int SetLocalUserAttributes(RtmAttribute[] attributes, int numberOfAttributes, AttributeOptions options, ref Int64 requestId)
         {
             if (_rtmServicePtr == IntPtr.Zero)
@@ -905,6 +915,16 @@ namespace agora_rtm {
                 return IRtmApiNative.addOrUpdateLocalUserAttributes_rtm(_rtmServicePtr, attributeInfo, numberOfAttributes, options.enableNotificationToChannelMembers, options.enableRecordTimeStamp, options.lockName, options.revision, ref requestId);
             }
             return -7;
+        }
+
+        public int ClearLocalUserAttributes(AttributeOptions options, ref Int64 requestId)
+        {
+            if (_rtmServicePtr == IntPtr.Zero)
+            {
+                Debug.LogError("rtmService is null");
+                return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
+            }
+            return IRtmApiNative.clearLocalUserAttributes_rtm(_rtmServicePtr, options.enableNotificationToChannelMembers, options.enableRecordTimeStamp, options.lockName, options.revision, ref requestId);
         }
 
         /// <summary>
