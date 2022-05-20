@@ -71,9 +71,9 @@ AGORA_API int clearChannelAttributes_rtm(
   agora::rtm::AttributeOptions option;
   option.enableNotificationToChannelMembers =
       enableNotificationToChannelMembers;
-  channelAttributeOptions.enableRecordTimeStamp = enableRecordTimeStamp;
-  channelAttributeOptions.lockName = lockName;
-  channelAttributeOptions.revision = revision;  
+  option.enableRecordTimeStamp = enableRecordTimeStamp;
+  option.lockName = lockName;
+  option.revision = revision;  
   return RTM_SERVICE_INSTANCE->clearChannelAttributes(channelId, option,
                                                       requestId);
 }
@@ -88,9 +88,9 @@ AGORA_API int deleteChannelAttributesByKeys_rtm(
   agora::rtm::AttributeOptions option;
   option.enableNotificationToChannelMembers =
       enableNotificationToChannelMembers;
-  channelAttributeOptions.enableRecordTimeStamp = enableRecordTimeStamp;
-  channelAttributeOptions.lockName = lockName;
-  channelAttributeOptions.revision = revision; 
+  option.enableRecordTimeStamp = enableRecordTimeStamp;
+  option.lockName = lockName;
+  option.revision = revision; 
   return RTM_SERVICE_INSTANCE->deleteChannelAttributesByKeys(
       channelId, attributeKeys, numberOfKeys, option, requestId);
 }
@@ -123,7 +123,7 @@ AGORA_API int clearLocalUserAttributes_rtm(void* rtmInstance, bool enableNotific
 
 AGORA_API int deleteLocalUserAttributesByKeys_rtm(void* rtmInstance,
                                                   const char* attributeKeys[],
-                                                  int numberOfKeys, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, string lockName, Int64 revision,
+                                                  int numberOfKeys, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, const char* lockName, long long revision,
                                                   long long& requestId) {
   agora::rtm::AttributeOptions channelAttributeOptions;
   channelAttributeOptions.enableNotificationToChannelMembers =

@@ -405,11 +405,6 @@ namespace agora_rtm {
 		internal static extern Int64 channelAttribute_getRevision(IntPtr channel_attribute_instance);
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern void channelAttribute_setRevision(IntPtr channel_attribute_instance, Int64 revision);
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern void channelAttribute_setLockName(IntPtr channel_attribute_instance, string lockName);
-
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern IntPtr channelAttribute_getLockName(IntPtr channel_attribute_instance);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern void channelAttribute_release(IntPtr channel_attribute_instance);
