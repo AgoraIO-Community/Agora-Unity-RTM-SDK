@@ -244,7 +244,7 @@ typedef void(AGORA_CALL* FUNC_onGetChannelMemberCountResult)(
 typedef void(AGORA_CALL* FUNC_onAddOrUpdateChannelAttributesResult)(
     int handlerId,
     long long requestId,
-    agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode);
+    int errorCode);
 
 typedef struct CChannelEventHandler {
   FUNC_channel_onJoinSuccess onJoinSuccess;
