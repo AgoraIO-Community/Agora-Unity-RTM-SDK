@@ -241,6 +241,10 @@ typedef void(AGORA_CALL* FUNC_onGetChannelMemberCountResult)(
     void* channelMemberCounts,
     int channelCount,
     int errorCode);
+typedef void(AGORA_CALL* FUNC_onAddOrUpdateChannelAttributesResult)(
+    int handlerId,
+    long long requestId,
+    agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode);
 
 typedef struct CChannelEventHandler {
   FUNC_channel_onJoinSuccess onJoinSuccess;
@@ -299,6 +303,7 @@ typedef struct CRtmServiceEventHandler {
   FUNC_onClearChannelAttributesResult _onClearChannelAttributesResult;
   FUNC_onGetChannelAttributesResult _onGetChannelAttributesResult;
   FUNC_onGetChannelMemberCountResult _onGetChannelMemberCountResult;
+  FUNC_onAddOrUpdateChannelAttributesResult _onAddOrUpdateChannelAttributesResult;
 } CRtmServiceEventHandler;
 
 typedef struct CRtmCallEventHandler {

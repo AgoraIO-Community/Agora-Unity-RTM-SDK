@@ -589,7 +589,7 @@ void RtmServiceEventHandler::onAddOrUpdateChannelAttributesResult(
   agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onAddOrUpdateChannelAttributesResult");
   if (_c_rtm_service_event_handler)
-    _c_rtm_service_event_handler->_onAddOrUpdateLocalUserAttributesResult(
+    _c_rtm_service_event_handler->_onAddOrUpdateChannelAttributesResult(
         handlerId, requestId, int(errorCode));
 }
 

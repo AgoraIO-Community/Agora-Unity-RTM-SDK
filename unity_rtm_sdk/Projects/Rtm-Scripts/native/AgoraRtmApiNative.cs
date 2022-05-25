@@ -141,6 +141,7 @@ namespace agora_rtm {
 		internal IntPtr onClearChannelAttributesResult;
 		internal IntPtr onGetChannelAttributesResult;
 		internal IntPtr onGetChannelMemberCountResult;
+		internal IntPtr onAddOrUpdateChannelAttributesResult;
 	}
 
     [StructLayout(LayoutKind.Sequential)]
@@ -180,6 +181,7 @@ namespace agora_rtm {
         internal RtmClientEventHandler.OnClearChannelAttributesResultHandler onClearChannelAttributesResult;
         internal EngineEventOnGetChannelAttributesResult onGetChannelAttributesResult;
         internal EngineEventOnGetChannelMemberCountResult onGetChannelMemberCountResult;
+		internal RtmClientEventHandler.OnAddOrUpdateChannelAttributesResultHandler onAddOrUpdateChannelAttributesResult;
     }
 
     [StructLayout(LayoutKind.Sequential)]

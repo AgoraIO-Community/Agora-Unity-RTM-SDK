@@ -360,12 +360,13 @@ namespace agora_rtm {
 				onDeleteLocalUserAttributesResult = OnDeleteLocalUserAttributesResultCallback,
 				onClearLocalUserAttributesResult = OnClearLocalUserAttributesResultCallback,
 				onGetUserAttributesResult = OnGetUserAttributesResultCallback,
-				onSetChannelAttributesResult = OnSetLocalUserAttributesResultCallback,
+				onSetChannelAttributesResult = OnSetChannelAttributesResultCallback,
 				onAddOrUpdateLocalUserAttributesResult = OnAddOrUpdateLocalUserAttributesResultCallback,
 				onDeleteChannelAttributesResult = OnDeleteChannelAttributesResultCallback,
 				onClearChannelAttributesResult = OnClearChannelAttributesResultCallback,
 				onGetChannelAttributesResult = OnGetChannelAttributesResultCallback,
-				onGetChannelMemberCountResult = OnGetChannelMemberCountResultCallback
+				onGetChannelMemberCountResult = OnGetChannelMemberCountResultCallback,
+				onAddOrUpdateChannelAttributesResult = OnAddOrUpdateChannelAttributesResultCallback
 			};
 
 			rtmServiceEventHandlerPtr = new CRtmServiceEventHandlerPtr {
@@ -402,7 +403,8 @@ namespace agora_rtm {
 				onDeleteChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onDeleteChannelAttributesResult),
 				onClearChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onClearChannelAttributesResult),
 				onGetChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onGetChannelAttributesResult),
-				onGetChannelMemberCountResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onGetChannelMemberCountResult)
+				onGetChannelMemberCountResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onGetChannelMemberCountResult),
+				onAddOrUpdateChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onAddOrUpdateChannelAttributesResult)
 			};
 
 			globalPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CRtmServiceEventHandlerPtr)));
