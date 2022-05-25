@@ -1148,6 +1148,8 @@ namespace agora {
          Last modify timestamp of the attribute
          */
         long long lastUpdateTs;
+
+        RtmAttribute():revision(-1),lastUpdateTs(0) {}
     };
 
     /**
@@ -1267,7 +1269,11 @@ namespace agora {
          */
         long long revision;
 
-        AttributeOptions():enableNotificationToChannelMembers(false), revision(-1) {}
+        AttributeOptions()
+            : enableNotificationToChannelMembers(false),
+              enableRecordTimeStamp(false),
+              revision(-1),
+              lockName(nullptr) {}
      };
 
     /**
