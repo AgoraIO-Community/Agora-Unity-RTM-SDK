@@ -175,7 +175,7 @@ AGORA_API int setLocalUserAttributes_rtm(void* rtmInstance,
   if (attributesInfo != nullptr && attributesInfo != "" && numberOfAttributes > 0)
   {
     rtmAttribute = new agora::rtm::RtmAttribute[numberOfAttributes];
-    char attributeListInfo[1024];
+    char attributeListInfo[65536];
     strcpy(attributeListInfo, attributesInfo);
     const char *splitStr = "\t";
     char *temp;
@@ -280,7 +280,7 @@ AGORA_API int addOrUpdateLocalUserAttributes_rtm(void* rtmInstance,
   if (attributesInfo != nullptr && attributesInfo != "" && numberOfAttributes > 0)
   {
     rtmAttribute = new agora::rtm::RtmAttribute[numberOfAttributes];
-    char attributeListInfo[1024];
+    char attributeListInfo[65536];
     strcpy(attributeListInfo, attributesInfo);
     const char *splitStr = "\t";
     char *temp;

@@ -97,7 +97,7 @@ void RtmServiceEventHandler::onLogout(agora::rtm::LOGOUT_ERR_CODE errorCode) {
 void RtmServiceEventHandler::onUserAttributesUpdated(const char* userId,
                                            const agora::rtm::RtmAttribute* attributes,
                                            int numberOfAttributes, long long revision) {
-  char szMsg[520] = {};
+  char szMsg[65536] = {};
   std::string strPostMsg = "";
   for (int i = 0; i < numberOfAttributes; i++) {
     agora::rtm::RtmAttribute* rtmAttribute =
@@ -539,7 +539,7 @@ void RtmServiceEventHandler::onGetUserAttributesResult(
     int numberOfAttributes,
     long long revision,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-  char szMsg[520] = {};
+  char szMsg[65536] = {};
   std::string strPostMsg = "";
   for (int i = 0; i < numberOfAttributes; i++) {
     agora::rtm::RtmAttribute* rtmAttribute =
@@ -645,7 +645,7 @@ void RtmServiceEventHandler::onGetChannelAttributesResult(
     long long revision,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
   if (_c_rtm_service_event_handler) {
-    char szMsg[520] = {};
+    char szMsg[65536] = {};
     std::string strPostMsg = "";
     for (int i = 0; i < numberOfAttributes; i++) {
       const agora::rtm::IRtmChannelAttribute* rtmAttribute = attributes[i];
