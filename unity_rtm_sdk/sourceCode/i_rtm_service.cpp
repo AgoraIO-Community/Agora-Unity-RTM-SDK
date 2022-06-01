@@ -176,7 +176,8 @@ AGORA_API int setLocalUserAttributes_rtm(void* rtmInstance,
   {
     rtmAttribute = new agora::rtm::RtmAttribute[numberOfAttributes];
     char attributeListInfo[65536];
-    strcpy(attributeListInfo, attributesInfo);
+    memset(attributeListInfo, 0, 65536);
+    strncpy(attributeListInfo, attributesInfo, strlen(attributesInfo));
     const char *splitStr = "\t";
     char *temp;
 
@@ -198,13 +199,14 @@ AGORA_API int setLocalUserAttributes_rtm(void* rtmInstance,
       } else{
         rtmAttribute[i].value = temp;
       }
-      agora::unity::rtm::LogHelper::getInstance().writeLog(rtmAttribute[i].value);
 
       temp = strtok(NULL, splitStr);
       rtmAttribute[i].revision = (long long)atoi(temp);
 
       temp = strtok(NULL, splitStr);
       rtmAttribute[i].lastUpdateTs = (long long)atoi(temp);
+
+      agora::unity::rtm::LogHelper::getInstance().writeLog("setLocalUserAttribute: key: %s, value: %s, revision %ld, lastUpdateTs %ld", rtmAttribute[i].key, rtmAttribute[i].value, rtmAttribute[i].revision, rtmAttribute[i].lastUpdateTs);
     }
   }
   agora::rtm::AttributeOptions channelAttributeOptions;
@@ -282,7 +284,8 @@ AGORA_API int addOrUpdateLocalUserAttributes_rtm(void* rtmInstance,
   {
     rtmAttribute = new agora::rtm::RtmAttribute[numberOfAttributes];
     char attributeListInfo[65536];
-    strcpy(attributeListInfo, attributesInfo);
+    memset(attributeListInfo, 0, 65536);
+    strncpy(attributeListInfo, attributesInfo, strlen(attributesInfo));
     const char *splitStr = "\t";
     char *temp;
 
@@ -304,13 +307,14 @@ AGORA_API int addOrUpdateLocalUserAttributes_rtm(void* rtmInstance,
       } else{
         rtmAttribute[i].value = temp;
       }
-      agora::unity::rtm::LogHelper::getInstance().writeLog(rtmAttribute[i].value);
 
       temp = strtok(NULL, splitStr);
       rtmAttribute[i].revision = (long long)atoi(temp);
 
       temp = strtok(NULL, splitStr);
       rtmAttribute[i].lastUpdateTs = (long long)atoi(temp);
+
+      agora::unity::rtm::LogHelper::getInstance().writeLog("addOrUpdateLocalUserAttributes: key: %s, value: %s, revision %ld, lastUpdateTs %ld", rtmAttribute[i].key, rtmAttribute[i].value, rtmAttribute[i].revision, rtmAttribute[i].lastUpdateTs);
     }
   }
   agora::rtm::AttributeOptions channelAttributeOptions;
