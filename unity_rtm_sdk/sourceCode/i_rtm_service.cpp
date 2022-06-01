@@ -209,6 +209,8 @@ AGORA_API int setLocalUserAttributes_rtm(void* rtmInstance,
       agora::unity::rtm::LogHelper::getInstance().writeLog("setLocalUserAttribute: key: %s, value: %s, revision %ld, lastUpdateTs %ld", rtmAttribute[i].key, rtmAttribute[i].value, rtmAttribute[i].revision, rtmAttribute[i].lastUpdateTs);
     }
   }
+  agora::unity::rtm::LogHelper::getInstance().writeLog("setLocalUserAttribute: key: %s, value: %s, revision %ld, lastUpdateTs %ld", rtmAttribute[i].key, rtmAttribute[i].value, rtmAttribute[i].revision, rtmAttribute[i].lastUpdateTs);
+
   agora::rtm::AttributeOptions channelAttributeOptions;
   channelAttributeOptions.enableNotificationToChannelMembers =
       enableNotificationToChannelMembers;
