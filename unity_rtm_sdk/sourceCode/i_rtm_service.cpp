@@ -171,10 +171,10 @@ AGORA_API int setLocalUserAttributes_rtm(void* rtmInstance,
                                          const char* attributesInfo,
                                          int numberOfAttributes, bool enableNotificationToChannelMembers, bool enableRecordTimeStamp, const char* lockName, long long revision,
                                          long long& requestId) {
-  agora::rtm::RtmAttribute* rtmAttribute = nullptr;
+  agora::rtm::RtmAttribute* rtmAttribute = new agora::rtm::RtmAttribute[numberOfAttributes];
   if (attributesInfo != nullptr && attributesInfo != "" && numberOfAttributes > 0)
   {
-    rtmAttribute = new agora::rtm::RtmAttribute[numberOfAttributes];
+    //rtmAttribute = new agora::rtm::RtmAttribute[numberOfAttributes];
     char attributeListInfo[65536];
     memset(attributeListInfo, 0, 65536);
     strncpy(attributeListInfo, attributesInfo, strlen(attributesInfo));
