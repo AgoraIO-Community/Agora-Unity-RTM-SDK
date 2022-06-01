@@ -216,7 +216,7 @@ AGORA_API int setLocalUserAttributes_rtm(void* rtmInstance,
     channelAttributeOptions.lockName = lockName;
     channelAttributeOptions.revision = revision;
     return RTM_SERVICE_INSTANCE->setLocalUserAttributes(
-        rtmAttribute, numberOfAttributes, channelAttributeOptions, requestId);
+        rtmAttribute.data(), numberOfAttributes, channelAttributeOptions, requestId);
   }
   agora::unity::rtm::LogHelper::getInstance().writeLog("setLocalUserAttribute: key: %s, value: %s, revision %ld, lastUpdateTs %ld", rtmAttribute[0].key, rtmAttribute[0].value, rtmAttribute[0].revision, rtmAttribute[0].lastUpdateTs);
 

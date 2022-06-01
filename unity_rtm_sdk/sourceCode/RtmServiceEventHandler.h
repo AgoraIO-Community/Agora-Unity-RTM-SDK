@@ -11,6 +11,7 @@
 
 #include "LogHelper.h"
 #include "common.h"
+#include <string>
 
 namespace agora {
 namespace unity {
