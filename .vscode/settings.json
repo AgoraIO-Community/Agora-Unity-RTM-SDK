@@ -2,6 +2,7 @@
     "files.associations": {
         "string": "cpp",
         "filesystem": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "__node_handle": "cpp"
     }
 }
