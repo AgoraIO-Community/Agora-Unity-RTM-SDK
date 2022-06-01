@@ -198,6 +198,7 @@ AGORA_API int setLocalUserAttributes_rtm(void* rtmInstance,
       } else{
         rtmAttribute[i].value = temp;
       }
+      agora::unity::rtm::LogHelper::getInstance().writeLog(rtmAttribute[i].value);
 
       temp = strtok(NULL, splitStr);
       rtmAttribute[i].revision = (long long)atoi(temp);
@@ -303,6 +304,7 @@ AGORA_API int addOrUpdateLocalUserAttributes_rtm(void* rtmInstance,
       } else{
         rtmAttribute[i].value = temp;
       }
+      agora::unity::rtm::LogHelper::getInstance().writeLog(rtmAttribute[i].value);
 
       temp = strtok(NULL, splitStr);
       rtmAttribute[i].revision = (long long)atoi(temp);
