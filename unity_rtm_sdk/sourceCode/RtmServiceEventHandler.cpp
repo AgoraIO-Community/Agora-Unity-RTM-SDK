@@ -663,7 +663,7 @@ void RtmServiceEventHandler::onGetChannelAttributesResult(
           szMsg.append("\t");
           szMsg.append(std::to_string(rtmAttribute->getLastUpdateTs()));
           szMsg.append("\t");
-          szMsg.append(std::to_string(rtmAttribute->getLastUpdateUserId()));
+          szMsg.append(rtmAttribute->getLastUpdateUserId());
           szMsg.append("\t");
           szMsg.append(std::to_string(rtmAttribute->getRevision()));
         }
