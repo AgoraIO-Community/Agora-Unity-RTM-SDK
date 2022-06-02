@@ -1,5 +1,5 @@
 IOS=http://192.168.99.149:8086/vzheli/RTMSDK/iOS/Agora_RTM_SDK_for_iOS_v1_4_10_201_20220601.zip
-ANDROID=http://192.168.99.149:8086/vzheli/RTMSDK/Android_Unity/Agora_RTM_SDK_for_Android_Unity_v1.4.10.201_20220601_142.zip
-MAC=http://192.168.99.149:8086/vzheli/RTMSDK/Mac_Unity/Agora_RTM_SDK_for_Mac_Unity_v1.4.10.201_20220601_175.zip
-WIN_x86=http://192.168.99.149:8086/v1.4.10.201/RTMSDK/Windows/x86/Agora_RTM_SDK_for_Windows-x86_v1.4.10.201_FULL_20220601_544_204617.zip
-WIN_x64=http://192.168.99.149:8086/v1.4.10.201/RTMSDK/Windows/x64/Agora_RTM_SDK_for_Windows-x64_v1.4.10.201_FULL_20220601_416_204618.zip
+ANDROID=http://192.168.99.149:8086/vzheli/RTMSDK/Android_Unity/Agora_RTM_SDK_for_Android_Unity_v1.4.10.201_20220602_144.zip
+MAC=http://192.168.99.149:8086/vzheli/RTMSDK/Mac_Unity/Agora_RTM_SDK_for_Mac_Unity_v1.4.10.201_20220602_176.zip
+WIN_x86=http://192.168.99.149:8086/v1.4.10.201/RTMSDK/Windows/x86/Agora_RTM_SDK_for_Windows-x86_v1.4.10.201_FULL_20220602_545_205024.zip
+WIN_x64=http://192.168.99.149:8086/v1.4.10.201/RTMSDK/Windows/x64/Agora_RTM_SDK_for_Windows-x64_v1.4.10.201_FULL_20220602_417_205025.zip
