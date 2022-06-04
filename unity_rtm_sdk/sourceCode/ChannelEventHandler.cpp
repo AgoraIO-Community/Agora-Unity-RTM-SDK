@@ -176,7 +176,7 @@ void ChannelEventHandler::onGetMembers(agora::rtm::IChannelMember** members,
                                        agora::rtm::GET_MEMBERS_ERR errorCode) {
   agora::unity::rtm::LogHelper::getInstance().writeLog("AgoraRtm:  onGetMembers");
 
-  if (_c_channel_event_handler && members) {
+  if (_c_channel_event_handler) {
     std::string strPostMsg = "";
     for (int i = 0; i < userCount; i++) {
       agora::rtm::IChannelMember* channelMember = members[i];
@@ -210,7 +210,7 @@ void ChannelEventHandler::onGetMembers(agora::rtm::IChannelMember** members,
 void ChannelEventHandler::onAttributesUpdated(
     const agora::rtm::IRtmChannelAttribute* attributes[],
     int numberOfAttributes, long long revision) {
-  if (_c_channel_event_handler && attributes) {
+  if (_c_channel_event_handler) {
     std::string szMsg;
     for (int i = 0; i < numberOfAttributes; i++) {
       const agora::rtm::IRtmChannelAttribute* rtmAttribute = attributes[i];

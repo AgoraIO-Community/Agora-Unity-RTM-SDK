@@ -97,7 +97,7 @@ void RtmServiceEventHandler::onLogout(agora::rtm::LOGOUT_ERR_CODE errorCode) {
 void RtmServiceEventHandler::onUserAttributesUpdated(const char* userId,
                                            const agora::rtm::RtmAttribute* attributes,
                                            int numberOfAttributes, long long revision) {
-  if (_c_rtm_service_event_handler && attributes) {                                
+  if (_c_rtm_service_event_handler) {                                
     std::string szMsg;
     for (int i = 0; i < numberOfAttributes; i++) {
       agora::rtm::RtmAttribute* rtmAttribute =
@@ -377,7 +377,7 @@ void RtmServiceEventHandler::onQueryPeersOnlineStatusResult(
     const agora::rtm::PeerOnlineStatus* peersStatus,
     int peerCount,
     agora::rtm::QUERY_PEERS_ONLINE_STATUS_ERR errorCode) {
-  if (_c_rtm_service_event_handler && peersStatus) {
+  if (_c_rtm_service_event_handler) {
     std::string szMsg;
     for (int i = 0; i < peerCount; i++) {
       agora::rtm::PeerOnlineStatus* item =
@@ -548,7 +548,7 @@ void RtmServiceEventHandler::onGetUserAttributesResult(
     int numberOfAttributes,
     long long revision,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-  if (_c_rtm_service_event_handler && attributes) {
+  if (_c_rtm_service_event_handler) {
     std::string szMsg;
     for (int i = 0; i < numberOfAttributes; i++) {
       agora::rtm::RtmAttribute* rtmAttribute =
@@ -658,7 +658,7 @@ void RtmServiceEventHandler::onGetChannelAttributesResult(
     int numberOfAttributes,
     long long revision,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-    if (_c_rtm_service_event_handler && attributes) {
+    if (_c_rtm_service_event_handler) {
       std::string szMsg;
       for (int i = 0; i < numberOfAttributes; i++) {
         const agora::rtm::IRtmChannelAttribute* rtmAttribute = attributes[i];
