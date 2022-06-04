@@ -97,24 +97,26 @@ void RtmServiceEventHandler::onLogout(agora::rtm::LOGOUT_ERR_CODE errorCode) {
 void RtmServiceEventHandler::onUserAttributesUpdated(const char* userId,
                                            const agora::rtm::RtmAttribute* attributes,
                                            int numberOfAttributes, long long revision) {
-  std::string szMsg;
-  for (int i = 0; i < numberOfAttributes; i++) {
-    agora::rtm::RtmAttribute* rtmAttribute =
-        (agora::rtm::RtmAttribute*)(attributes + i);
-    szMsg.append("\t");
-    szMsg.append(rtmAttribute->key);
-    szMsg.append("\t");
-    szMsg.append(rtmAttribute->value);
-    szMsg.append("\t");
-    szMsg.append(std::to_string(rtmAttribute->revision));
-    szMsg.append("\t");
-    szMsg.append(std::to_string(rtmAttribute->lastUpdateTs));
-  }
+  if (_c_rtm_service_event_handler) {                                
+    std::string szMsg;
+    for (int i = 0; i < numberOfAttributes; i++) {
+      agora::rtm::RtmAttribute* rtmAttribute =
+          (agora::rtm::RtmAttribute*)(attributes + i);
+      szMsg.append("\t");
+      szMsg.append(rtmAttribute->key);
+      szMsg.append("\t");
+      szMsg.append(rtmAttribute->value);
+      szMsg.append("\t");
+      szMsg.append(std::to_string(rtmAttribute->revision));
+      szMsg.append("\t");
+      szMsg.append(std::to_string(rtmAttribute->lastUpdateTs));
+    }
 
-  agora::unity::rtm::LogHelper::getInstance().writeLog(
-      "AgoraRtm: RtmServiceEventHandler onUserAttributesUpdated");
-  if (_c_rtm_service_event_handler)
-    _c_rtm_service_event_handler->_onUserAttributesUpdated(handlerId, userId, szMsg.c_str(), numberOfAttributes, revision);                                           
+    agora::unity::rtm::LogHelper::getInstance().writeLog(
+        "AgoraRtm: RtmServiceEventHandler onUserAttributesUpdated");
+
+    _c_rtm_service_event_handler->_onUserAttributesUpdated(handlerId, userId, szMsg.c_str(), numberOfAttributes, revision);  
+  }                                         
 }
 
 void RtmServiceEventHandler::onSubscribeUserAttributesResult(
@@ -376,17 +378,19 @@ void RtmServiceEventHandler::onQueryPeersOnlineStatusResult(
     int peerCount,
     agora::rtm::QUERY_PEERS_ONLINE_STATUS_ERR errorCode) {
   if (_c_rtm_service_event_handler) {
-    char szMsg[520] = {};
-    std::string strPostMsg = "";
+    std::string szMsg;
     for (int i = 0; i < peerCount; i++) {
-      sprintf(szMsg, "%s\t%s\t%d\t%d", strPostMsg.data(), peersStatus->peerId,
-              peersStatus->isOnline, peersStatus->onlineState);
-      strPostMsg = szMsg;
-      peersStatus++;
+      agora::rtm::PeerOnlineStatus* item =
+          (agora::rtm::PeerOnlineStatus*)(peersStatus + i);
+      szMsg.append("\t");
+      szMsg.append(item->peerId);
+      szMsg.append("\t");
+      szMsg.append(std::to_string(item->isOnline));
+      szMsg.append("\t");
+      szMsg.append(std::to_string(item->onlineState));
     }
-    sprintf(szMsg, "%s", strPostMsg.data());
     _c_rtm_service_event_handler->_onQueryPeersOnlineStatusResult(
-        handlerId, requestId, szMsg, peerCount, errorCode);
+        handlerId, requestId, (void *)szMsg.c_str(), peerCount, errorCode);
   }
 }
 
@@ -446,17 +450,19 @@ void RtmServiceEventHandler::onPeersOnlineStatusChanged(
     const agora::rtm::PeerOnlineStatus peersStatus[],
     int peerCount) {
   if (_c_rtm_service_event_handler) {
-    char szMsg[32768] = {};
-    std::string strPostMsg = "";
+    std::string strPostMsg;
     for (int i = 0; i < peerCount; i++) {
-      const agora::rtm::PeerOnlineStatus peerOnline = peersStatus[i];
-      sprintf(szMsg, "%s\t%s\t%d\t%d", strPostMsg.data(), peerOnline.peerId,
-              peerOnline.isOnline, peerOnline.onlineState);
-      strPostMsg = szMsg;
+      agora::rtm::PeerOnlineStatus* item =
+          (agora::rtm::PeerOnlineStatus*)(peersStatus + i);
+      strPostMsg.append("\t");
+      strPostMsg.append(item->peerId);
+      strPostMsg.append("\t");
+      strPostMsg.append(std::to_string(item->isOnline));
+      strPostMsg.append("\t");
+      strPostMsg.append(std::to_string(item->onlineState));
     }
-    sprintf(szMsg, "%s", strPostMsg.data());
-    _c_rtm_service_event_handler->_onPeersOnlineStatusChanged(handlerId, szMsg,
-                                                              peerCount);
+    _c_rtm_service_event_handler->_onPeersOnlineStatusChanged(handlerId, strPostMsg.c_str(),
+                                                               peerCount);
   }
 }
 
@@ -542,26 +548,28 @@ void RtmServiceEventHandler::onGetUserAttributesResult(
     int numberOfAttributes,
     long long revision,
     agora::rtm::ATTRIBUTE_OPERATION_ERR errorCode) {
-  std::string szMsg;
-  for (int i = 0; i < numberOfAttributes; i++) {
-    agora::rtm::RtmAttribute* rtmAttribute =
-        (agora::rtm::RtmAttribute*)(attributes + i);
-    szMsg.append("\t");
-    szMsg.append(rtmAttribute->key);
-    szMsg.append("\t");
-    szMsg.append(rtmAttribute->value);
-    szMsg.append("\t");
-    szMsg.append(std::to_string(rtmAttribute->revision));
-    szMsg.append("\t");
-    szMsg.append(std::to_string(rtmAttribute->lastUpdateTs));
-  }
+  if (_c_rtm_service_event_handler) {
+    std::string szMsg;
+    for (int i = 0; i < numberOfAttributes; i++) {
+      agora::rtm::RtmAttribute* rtmAttribute =
+          (agora::rtm::RtmAttribute*)(attributes + i);
+      szMsg.append("\t");
+      szMsg.append(rtmAttribute->key);
+      szMsg.append("\t");
+      szMsg.append(rtmAttribute->value);
+      szMsg.append("\t");
+      szMsg.append(std::to_string(rtmAttribute->revision));
+      szMsg.append("\t");
+      szMsg.append(std::to_string(rtmAttribute->lastUpdateTs));
+    }
 
-  agora::unity::rtm::LogHelper::getInstance().writeLog(
-      "AgoraRtm: RtmServiceEventHandler onGetUserAttributesResult");
-  if (_c_rtm_service_event_handler)
+    agora::unity::rtm::LogHelper::getInstance().writeLog(
+        "AgoraRtm: RtmServiceEventHandler onGetUserAttributesResult");
+
     _c_rtm_service_event_handler->_onGetUserAttributesResult(
         handlerId, requestId, userId, szMsg.c_str(), numberOfAttributes, revision,
         int(errorCode));
+  }
 }
 
 /**
@@ -690,21 +698,19 @@ void RtmServiceEventHandler::onGetChannelMemberCountResult(
     agora::rtm::GET_CHANNEL_MEMBER_COUNT_ERR_CODE errorCode) {
   agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm: RtmServiceEventHandler onGetChannelMemberCountResult");
-  if (_c_rtm_service_event_handler) {
-    char szMsg[520] = {};
+  if (_c_rtm_service_event_handler && channelMemberCounts) {
     std::string strPostMsg = "";
     for (int i = 0; i < channelCount; i++) {
-      const agora::rtm::ChannelMemberCount* channelMember =
-          channelMemberCounts++;
-      if (channelMember) {
-        sprintf(szMsg, "%s\t%s\t%d", strPostMsg.data(),
-                channelMember->channelId, channelMember->count);
-        strPostMsg = szMsg;
-      }
+      agora::rtm::ChannelMemberCount* channelMember =
+          (agora::rtm::ChannelMemberCount*)(channelMemberCounts + i);
+      strPostMsg.append("\t");
+      strPostMsg.append(channelMember->channelId);
+      strPostMsg.append("\t");
+      strPostMsg.append(std::to_string(channelMember->count));
     }
-    sprintf(szMsg, "%s", strPostMsg.data());
     _c_rtm_service_event_handler->_onGetChannelMemberCountResult(
-        handlerId, requestId, szMsg, channelCount, int(errorCode));
+        handlerId, requestId, (void *)strPostMsg.c_str(), channelCount, int(errorCode));
+        
   }
 }
 }

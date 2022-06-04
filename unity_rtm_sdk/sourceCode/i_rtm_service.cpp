@@ -202,10 +202,10 @@ AGORA_API int setLocalUserAttributes_rtm(void* rtmInstance,
       }
 
       temp = strtok(NULL, splitStr);
-      rtmAttribute[i].revision = (long long)atoi(temp);
+      rtmAttribute[i].revision = atoll(temp);
 
       temp = strtok(NULL, splitStr);
-      rtmAttribute[i].lastUpdateTs = (long long)atoi(temp);
+      rtmAttribute[i].lastUpdateTs = atoll(temp);
 
       agora::unity::rtm::LogHelper::getInstance().writeLog("setLocalUserAttribute: key: %s, value: %s, revision %ld, lastUpdateTs %ld", rtmAttribute[i].key, rtmAttribute[i].value, rtmAttribute[i].revision, rtmAttribute[i].lastUpdateTs);
     }
@@ -321,10 +321,10 @@ AGORA_API int addOrUpdateLocalUserAttributes_rtm(void* rtmInstance,
       }
 
       temp = strtok(NULL, splitStr);
-      rtmAttribute[i].revision = (long long)atoi(temp);
+      rtmAttribute[i].revision = (long long)atoll(temp);
 
       temp = strtok(NULL, splitStr);
-      rtmAttribute[i].lastUpdateTs = (long long)atoi(temp);
+      rtmAttribute[i].lastUpdateTs = (long long)atoll(temp);
 
       agora::unity::rtm::LogHelper::getInstance().writeLog("addOrUpdateLocalUserAttributes: key: %s, value: %s, revision %ld, lastUpdateTs %ld", rtmAttribute[i].key, rtmAttribute[i].value, rtmAttribute[i].revision, rtmAttribute[i].lastUpdateTs);
     }
