@@ -115,7 +115,7 @@ namespace agora_rtm {
 
 		public delegate void OnLockExpiredHandler(int id, string lockName);
 
-		public delegate void OnLockAcquireFailedHandler(int id, string lockName, Int64 requestId, CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode);
+		public delegate void OnLockAcquireFailedHandler(int id, string lockName, string reason, Int64 requestId, CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode);
 
 		public delegate void OnLockReleaseResultHandler(int id, string lockName, Int64 requestId, CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode);
 
@@ -423,13 +423,13 @@ namespace agora_rtm {
         }
 
 		[MonoPInvokeCallback(typeof(OnLockAcquireFailedHandler))]
-        private static void OnLockAcquireFailedCallback(int id, string lockName, Int64 requestId, CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode)
+        private static void OnLockAcquireFailedCallback(int id, string lockName, string reason, Int64 requestId, CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode)
         {
 			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnLockAcquireFailed != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnLockAcquireFailed != null) {
-							channelEventHandlerDic[id].OnLockAcquireFailed(id, lockName, requestId, errorCode);
+							channelEventHandlerDic[id].OnLockAcquireFailed(id, lockName, reason, requestId, errorCode);
 						}
 					});
 				}

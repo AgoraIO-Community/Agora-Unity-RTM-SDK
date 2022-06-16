@@ -8,7 +8,9 @@
 
 #include <cstdint>
 #if defined(_WIN32)
+#ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
+#endif
 #include <windows.h>
 #define AGORA_CALL __cdecl
 #if defined(AGORARTC_EXPORT)
@@ -1830,11 +1832,13 @@ namespace agora {
        @note Non-blocking acquire only
        
        @param lockName The name of the lock.
+       @param reason   The reason for the failure to acquire lock.
        @param requestId The unique ID of the lock request.
        */
-      virtual void onLockAcquireFailed(const char *lockName, long long requestId, CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode)
+      virtual void onLockAcquireFailed(const char *lockName, const char* reason, long long requestId, CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode)
       {
         (const char*) lockName;
+        (const char*) reason;
         (long long) requestId;
       }
 

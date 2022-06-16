@@ -270,11 +270,11 @@ void ChannelEventHandler::onLockExpired(const char *lockName) {
     _c_channel_event_handler->onLockExpired(handlerId, lockName);
 }
 
-void ChannelEventHandler::onLockAcquireFailed(const char *lockName, long long requestId, agora::rtm::CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode) {
+void ChannelEventHandler::onLockAcquireFailed(const char *lockName, const char* reason, long long requestId, agora::rtm::CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode) {
   agora::unity::rtm::LogHelper::getInstance().writeLog(
       "AgoraRtm:  onLockAcquireFailed");
   if (_c_channel_event_handler)
-    _c_channel_event_handler->onLockAcquireFailed(handlerId, lockName, requestId, errorCode);
+    _c_channel_event_handler->onLockAcquireFailed(handlerId, lockName, reason, requestId, errorCode);
 }
 
 void ChannelEventHandler::onLockReleaseResult(const char* lockName, long long requestId, agora::rtm::CHANNEL_ATTRIBUTE_LOCK_ERR_CODE errorCode) {
