@@ -658,17 +658,6 @@ namespace agora_rtm {
       PEER_SUBSCRIPTION_STATUS_ERR_USER_NOT_LOGGED_IN = 102,
     };
 
-    public enum RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR {
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_OK = 0,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_FAILURE = 1,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_TIMEOUT = 2,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_INVALID_ARGUMENT = 3,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_TOO_OFTEN = 4,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_OVERFLOW = 5,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_NOT_INITIALIZED = 101,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_NOT_LOGGED_IN = 102,
-    };
-
     public enum RTM_GET_CHANNEL_LIST_ERR {
       RTM_GET_CHANNEL_LIST_ERR_OK = 0,
       RTM_GET_CHANNEL_LIST_ERR_FAILURE = 1,
@@ -1065,11 +1054,6 @@ namespace agora_rtm {
          Value of the user attribute. Must not exceed 8 KB.
          */
         public string value;
-
-        /*revision of the attribute or the attributes revision your modification based on
-        */
-        public Int64 revision;
-        
     };
 
         /**

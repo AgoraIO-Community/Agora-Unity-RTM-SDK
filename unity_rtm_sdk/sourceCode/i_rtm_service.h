@@ -179,12 +179,6 @@ AGORA_API int logout_rtm(void* rtmInstance);
 AGORA_API int login_rtm(void* rtmInstance,
                         const char* token,
                         const char* userId);
-                                         
-AGORA_API int subscribeUserAttributes_rtm(void* rtmInstance, const char* userId,
-                                    long long& requestId);
-
-AGORA_API int unsubscribeUserAttributes_rtm(void* rtmInstance, const char* userId,
-                                      long long& requestId);
 
 AGORA_API void release_rtm(void* rtmInstance, bool sync);
 

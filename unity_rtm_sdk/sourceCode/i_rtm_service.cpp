@@ -180,9 +180,6 @@ AGORA_API int setLocalUserAttributes_rtm(void* rtmInstance,
       } else{
         rtmAttribute[i].value = temp;
       }
-
-      temp = strtok(NULL, splitStr);
-      rtmAttribute[i].revision = (long long)atoi(temp);
     }
   }
   return RTM_SERVICE_INSTANCE->setLocalUserAttributes(
@@ -270,9 +267,6 @@ AGORA_API int addOrUpdateLocalUserAttributes_rtm(void* rtmInstance,
       } else{
         rtmAttribute[i].value = temp;
       }
-
-      temp = strtok(NULL, splitStr);
-      rtmAttribute[i].revision = (long long)atoi(temp);
     }
   }
   return RTM_SERVICE_INSTANCE->addOrUpdateLocalUserAttributes(
@@ -393,16 +387,6 @@ AGORA_API int login_rtm(void* rtmInstance,
                         const char* token,
                         const char* userId) {
   return RTM_SERVICE_INSTANCE->login(token, userId);
-}
-                                         
-AGORA_API int subscribeUserAttributes_rtm(void* rtmInstance, const char* userId,
-                                    long long& requestId) {
-  return RTM_SERVICE_INSTANCE->subscribeUserAttributes(userId, requestId);                                    
-}
-
-AGORA_API int unsubscribeUserAttributes_rtm(void* rtmInstance, const char* userId,
-                                      long long& requestId) {
-  return RTM_SERVICE_INSTANCE->unsubscribeUserAttributes(userId, requestId);                                      
 }
 
 AGORA_API void release_rtm(void* rtmInstance, bool sync) {

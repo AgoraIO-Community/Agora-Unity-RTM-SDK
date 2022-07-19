@@ -78,18 +78,6 @@ class RtmServiceEventHandler : public agora::rtm::IRtmServiceEventHandler {
    */
   virtual void onLogout(agora::rtm::LOGOUT_ERR_CODE errorCode) override;
 
-  virtual void onUserAttributesUpdated(const char* userId,
-                                           const agora::rtm::RtmAttribute* attributes,
-                                           int numberOfAttributes) override;
-
-  virtual void onSubscribeUserAttributesResult(
-                long long requestId, const char* userId,
-                agora::rtm::RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode) override; 
-
-  virtual void onUnsubscribeUserAttributesResult(
-                long long requestId, const char* userId,
-                agora::rtm::RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode) override; 
-
   /**
    Occurs when the connection state changes between the SDK and the Agora RTM
    system.

@@ -71,18 +71,6 @@ AGORA_API long long channelAttribute_getLastUpdateTs(
   return CHANNEL_ATTRIBUTE_INSTANCE->getLastUpdateTs();
 }
 
-/*get attribute revision
-*/
-AGORA_API long long channelAttribute_getRevision(void* channel_attribute_instance) {
-  return CHANNEL_ATTRIBUTE_INSTANCE->getRevision();
-}
-
-/*set attribute based on revision
-*/
-AGORA_API void channelAttribute_setRevision(void* channel_attribute_instance, long long revision) {
-  return CHANNEL_ATTRIBUTE_INSTANCE->setRevision(revision);
-}
-
 /**
  Release all resources used by the \ref agora::rtm::IRtmChannelAttribute
  "IRtmChannelAttribute" instance.

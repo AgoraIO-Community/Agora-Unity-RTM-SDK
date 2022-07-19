@@ -221,8 +221,7 @@ void ChannelEventHandler::onAttributesUpdated(
         sprintf(szMsg, "%s\t%s\t%s\t%lld\t%s\t%lld", strPostMsg.data(),
                 rtmAttribute->getKey(), rtmAttribute->getValue(),
                 rtmAttribute->getLastUpdateTs(),
-                rtmAttribute->getLastUpdateUserId(),
-                rtmAttribute->getRevision());
+                rtmAttribute->getLastUpdateUserId());
         strPostMsg = szMsg;
       }
     }

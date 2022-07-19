@@ -94,40 +94,6 @@ void RtmServiceEventHandler::onLogout(agora::rtm::LOGOUT_ERR_CODE errorCode) {
     _c_rtm_service_event_handler->_onLogout(handlerId, int(errorCode));
 }
 
-void RtmServiceEventHandler::onUserAttributesUpdated(const char* userId,
-                                           const agora::rtm::RtmAttribute* attributes,
-                                           int numberOfAttributes) {
-  char szMsg[520] = {};
-  std::string strPostMsg = "";
-  for (int i = 0; i < numberOfAttributes; i++) {
-    agora::rtm::RtmAttribute* rtmAttribute =
-        (agora::rtm::RtmAttribute*)(attributes + i);
-    sprintf(szMsg, "%s\t%s\t%s\t%lld", strPostMsg.data(), rtmAttribute->key,
-            rtmAttribute->value, rtmAttribute->revision);
-    strPostMsg = szMsg;
-  }
-  sprintf(szMsg, "%s", strPostMsg.data());
-
-  agora::unity::rtm::LogHelper::getInstance().writeLog(
-      "AgoraRtm: RtmServiceEventHandler onGetUserAttributesResult");
-  if (_c_rtm_service_event_handler)
-    _c_rtm_service_event_handler->_onUserAttributesUpdated(handlerId, userId, szMsg, numberOfAttributes);                                           
-}
-
-void RtmServiceEventHandler::onSubscribeUserAttributesResult(
-              long long requestId, const char* userId,
-              agora::rtm::RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode) {
-  if (_c_rtm_service_event_handler)
-    _c_rtm_service_event_handler->_onSubscribeUserAttributesResult(handlerId, requestId, userId, int(errorCode));
-}
-
-void RtmServiceEventHandler::onUnsubscribeUserAttributesResult(
-              long long requestId, const char* userId,
-              agora::rtm::RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode) {
-  if (_c_rtm_service_event_handler)
-    _c_rtm_service_event_handler->_onUnsubscribeUserAttributesResult(handlerId, requestId, userId, int(errorCode));
-}
-
 /**
 Occurs when the connection state changes between the SDK and the Agora RTM
 system.
@@ -544,7 +510,7 @@ void RtmServiceEventHandler::onGetUserAttributesResult(
     agora::rtm::RtmAttribute* rtmAttribute =
         (agora::rtm::RtmAttribute*)(attributes + i);
     sprintf(szMsg, "%s\t%s\t%s\t%lld", strPostMsg.data(), rtmAttribute->key,
-            rtmAttribute->value, rtmAttribute->revision);
+            rtmAttribute->value);
     strPostMsg = szMsg;
   }
   sprintf(szMsg, "%s", strPostMsg.data());
@@ -652,8 +618,7 @@ void RtmServiceEventHandler::onGetChannelAttributesResult(
         sprintf(szMsg, "%s\t%s\t%s\t%lld\t%s\t%lld", strPostMsg.data(),
                 rtmAttribute->getKey(), rtmAttribute->getValue(),
                 rtmAttribute->getLastUpdateTs(),
-                rtmAttribute->getLastUpdateUserId(),
-                rtmAttribute->getRevision());
+                rtmAttribute->getLastUpdateUserId());
         strPostMsg = szMsg;
       }
     }
