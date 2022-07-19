@@ -115,11 +115,6 @@ typedef void(AGORA_CALL* FUNC_onRenewTokenResult)(int handlerId,
                                                   int errorCode);
 typedef void(AGORA_CALL* FUNC_onTokenExpired)(int handlerId);
 typedef void(AGORA_CALL* FUNC_onLogout)(int handlerId, int errorCode);
-typedef void(AGORA_CALL* FUNC_onUserAttributesUpdated)(int handlerId, const char* userId,
-                                                        const char* attribute,
-                                                        int numberOfAttributes);
-typedef void(AGORA_CALL* FUNC_onSubscribeUserAttributesResult)(int handlerId, long long requestId, const char* userId, int errorCode);
-typedef void(AGORA_CALL* FUNC_onUnsubscribeUserAttributesResult)(int handlerId, long long requestId, const char* userId, int errorCode);
 typedef void(AGORA_CALL* FUNC_onConnectionStateChanged)(int handlerId,
                                                         int state,
                                                         int reason);
@@ -251,9 +246,6 @@ typedef struct CRtmServiceEventHandler {
   FUNC_onRenewTokenResult _onRenewTokenResult;
   FUNC_onTokenExpired _onTokenExpired;
   FUNC_onLogout _onLogout;
-  FUNC_onUserAttributesUpdated _onUserAttributesUpdated;
-  FUNC_onSubscribeUserAttributesResult _onSubscribeUserAttributesResult;
-  FUNC_onUnsubscribeUserAttributesResult _onUnsubscribeUserAttributesResult;
   FUNC_onConnectionStateChanged _onConnectionStateChanged;
   FUNC_onSendMessageResult _onSendMessageResult;
   FUNC_onMessageReceivedFromPeer _onMessageReceivedFromPeer;

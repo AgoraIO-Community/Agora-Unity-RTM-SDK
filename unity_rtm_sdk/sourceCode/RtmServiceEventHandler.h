@@ -14,6 +14,7 @@
 
 namespace agora {
 namespace unity {
+namespace rtm {
 
 class RtmServiceEventHandler : public agora::rtm::IRtmServiceEventHandler {
  private:
@@ -76,18 +77,6 @@ class RtmServiceEventHandler : public agora::rtm::IRtmServiceEventHandler {
    agora::rtm::LOGOUT_ERR_CODE "LOGOUT_ERR_CODE" for the error codes.
    */
   virtual void onLogout(agora::rtm::LOGOUT_ERR_CODE errorCode) override;
-
-  virtual void onUserAttributesUpdated(const char* userId,
-                                           const agora::rtm::RtmAttribute* attributes,
-                                           int numberOfAttributes) override;
-
-  virtual void onSubscribeUserAttributesResult(
-                long long requestId, const char* userId,
-                agora::rtm::RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode) override; 
-
-  virtual void onUnsubscribeUserAttributesResult(
-                long long requestId, const char* userId,
-                agora::rtm::RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode) override; 
 
   /**
    Occurs when the connection state changes between the SDK and the Agora RTM
@@ -460,6 +449,7 @@ class RtmServiceEventHandler : public agora::rtm::IRtmServiceEventHandler {
       int channelCount,
       agora::rtm::GET_CHANNEL_MEMBER_COUNT_ERR_CODE errorCode) override;
 };
+}
 }  // namespace unity
 }  // namespace agora
 

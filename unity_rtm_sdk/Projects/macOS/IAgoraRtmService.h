@@ -738,16 +738,7 @@ namespace agora {
        */
       QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR_USER_NOT_LOGGED_IN = 102,
     };
-    enum RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR {
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_OK = 0,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_FAILURE = 1,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_TIMEOUT = 2,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_INVALID_ARGUMENT = 3,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_TOO_OFTEN = 4,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_OVERFLOW = 5,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_NOT_INITIALIZED = 101,
-      RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR_NOT_LOGGED_IN = 102,
-    };
+
     /**
      @brief Error codes related to attrubute operations.
      */
@@ -1069,11 +1060,6 @@ namespace agora {
          Value of the user attribute. Must not exceed 8 KB.
          */
         const char* value;
-
-        /*revision of the attribute or the attributes revision your modification based on
-        */
-        long long revision;
-        
     };
 
     /**
@@ -1099,6 +1085,7 @@ namespace agora {
      protected:
         virtual ~IRtmChannelAttribute() {}
      public:
+
         /**
          Sets the key of the channel attribute.
 
@@ -1140,14 +1127,6 @@ namespace agora {
          @return Timestamp of when the channel attribute was last updated in milliseconds.
          */
         virtual long long getLastUpdateTs() const = 0;
-
-        /*get attribute revision
-        */
-        virtual long long getRevision() const = 0;
-
-        /*set attribute based on revision
-        */
-        virtual void setRevision(long long revision) = 0;
 
         /**
          Release all resources used by the \ref agora::rtm::IRtmChannelAttribute "IRtmChannelAttribute" instance.
@@ -2137,47 +2116,6 @@ namespace agora {
       }
 
       /**
-       Occurs when user attributes are updated, and returns all attributes of the specified user.
-
-       @note This callback is enabled only When the attributes of the peers, to whom you subscribe, changes
-
-       @param userId The user ID of the specified user.
-       @param attributes All attribute of this user.
-       @param numberOfAttributes The total number of the user attributes.
-       */
-      virtual void onUserAttributesUpdated(const char* userId,
-                                           const RtmAttribute* attributes,
-                                           int numberOfAttributes) 
-      {
-      }
-
-      /**
-       Reports the result of the \ref agora::rtm::IRtmService::subscribeUserAttributes "subscribeUserAttributes" method call.
-
-       @param requestId The unique ID of this request.
-       @param userId The user ID of the specified user.
-       @param errorCode Error Codes. See #RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR.
-       */
-      virtual void onSubscribeUserAttributesResult(
-          long long requestId, const char* userId,
-          RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode)
-      {
-      }
-
-      /**
-       Reports the result of the \ref agora::rtm::IRtmService::unsubscribeUserAttributes "unsubscribeUserAttributes" method call.
-
-       @param requestId The unique ID of this request.
-       @param userId The user ID of the specified user.
-       @param errorCode Error Codes. See #RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR.
-       */
-      virtual void onUnsubscribeUserAttributesResult(
-          long long requestId, const char* userId,
-          RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR errorCode) 
-      {
-      }
-
-      /**
        Reports the result of the \ref agora::rtm::IRtmService::setChannelAttributes "setChannelAttributes" method call.
 
        @param requestId The unique ID of this request.
@@ -2825,41 +2763,6 @@ namespace agora {
        - &ne;0: Failure. See #ATTRIBUTE_OPERATION_ERR for the error codes.
        */
       virtual int getUserAttributesByKeys(const char* userId, const char* attributeKeys[], int numberOfKeys, long long &requestId) = 0;
-
-      /**
-       Subscribe to user attributes update events for a specific users.
-
-       The SDK returns the result by the \ref agora::rtm::IRtmServiceEventHandler::onSubscribeUserAttributesResult "onSubscribeUserAttributesResult" callback.
-
-       - When the method call succeeds, the SDK returns the \ref agora::rtm::IRtmServiceEventHandler::onUserAttributesUpdated "onUserAttributesUpdated" callback to report the current attributes of peers.
-       - When the attributes of the peers, to whom you subscribe, changes, the SDK returns the \ref agora::rtm::IRtmServiceEventHandler::onUserAttributesUpdated "onUserAttributesUpdated" callback to report the current attributes of peers.
-
-       @note
-       - When you log out of the Agora RTM system, all the user attributes that you subscribe to will be cleared. To keep the original subscription after you re-log in the system, you need to redo the whole subscription process.
-       - When the SDK reconnects to the server from the state of being interupted, the SDK automatically subscribes to the peers and states before the interruption without human intervention.
-
-       @param userId The user ID of the specified user.
-       @param requestId The unique ID of this request.
-       @return
-       - 0: Success.
-       - &ne;0: Failure. See #RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR for the error codes.
-       */
-      virtual int subscribeUserAttributes(const char* userId,
-                                          long long& requestId) = 0;
-
-      /**
-       Unsubscribe to user attributes update events for a specific users.
-
-       The SDK returns the result by the \ref agora::rtm::IRtmServiceEventHandler::onUnsubscribeUserAttributesResult "onUnsubscribeUserAttributesResult" callback.
-
-       @param userId The user ID of the specified user.
-       @param requestId The unique ID of this request.
-       @return
-       - 0: Success.
-       - &ne;0: Failure. See #RTM_SUBSCRIBE_ATTRIBUTE_OPERATION_ERR for the error codes.
-       */
-      virtual int unsubscribeUserAttributes(const char* userId,
-                                            long long& requestId) = 0;
 
       /**
        Resets the attributes of a specified channel.
