@@ -3,61 +3,61 @@ using System;
 
 namespace agora_rtm {
 
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnMessageReceived(int _id, string userId, IntPtr messagePtr);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnImageMessageReceived(int _id, string userId, IntPtr messagePtr);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnFileMessageReceived(int _id, string userId, IntPtr messagePtr);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnMemberJoined(int _id, IntPtr channelMemberPtr);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnMemberLeft(int _id, IntPtr channelMemberPtr);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnAttributesUpdated(int _id, string attributesListPtr, int numberOfAttributes);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnGetMember(int _id, string membersPtr, int userCount, GET_MEMBERS_ERR errorCode);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnQueryPeersOnlineStatusResult(int _id, Int64 requestId, string peersStatus, int peerCount, QUERY_PEERS_ONLINE_STATUS_ERR errorCode);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnMediaUploadingProgress(int _id, Int64 requestId, Int64 totalSize, Int64 currentSize);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnFileMediaUploadResult(int _id, Int64 requestId, IntPtr fileMessage, UPLOAD_MEDIA_ERR_CODE code);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnImageMediaUploadResult(int _id, Int64 requestId, IntPtr fileMessage, UPLOAD_MEDIA_ERR_CODE code);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnMediaDownloadingProgress(int _id, Int64 requestId, Int64 totalSize, Int64 currentSize);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnMediaDownloadToMemoryResult(int _id, Int64 requestId, IntPtr memory, Int64 length, DOWNLOAD_MEDIA_ERR_CODE code);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnGetUserAttributesResultHandler(int _id, Int64 requestId, string userId, string attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnGetChannelAttributesResult(int _id, Int64 requestId, string attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnGetChannelMemberCountResult(int _id, Int64 requestId, string channelMemberCounts, int channelCount, GET_CHANNEL_MEMBER_COUNT_ERR_CODE errorCode);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnPeersOnlineStatusChanged(int _id, string peersStatus, int peerCount);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnLocalInvitationReceivedByPeerHandler(int _id, IntPtr localInvitation);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnLocalInvitationCanceledHandler(int _id, IntPtr localInvitation);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnLocalInvitationFailureHandler(int _id, IntPtr localInvitation, LOCAL_INVITATION_ERR_CODE errorCode);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnLocalInvitationAcceptedHandler(int _id, IntPtr localInvitation, string response);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnLocalInvitationRefusedHandler(int _id, IntPtr localInvitation, string response);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnRemoteInvitationRefusedHandler(int _id, IntPtr remoteInvitation);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnRemoteInvitationAcceptedHandler(int _id, IntPtr remoteInvitation);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnRemoteInvitationReceivedHandler(int _id, IntPtr remoteInvitation);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnRemoteInvitationFailureHandler(int _id, IntPtr remoteInvitation, REMOTE_INVITATION_ERR_CODE errorCode);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnRemoteInvitationCanceledHandler(int _id, IntPtr remoteInvitation);
-	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnUserAttributesUpdated(int _id, string userId, string attributes, int numberOfAttributes);
 
 	[StructLayout(LayoutKind.Sequential)]
