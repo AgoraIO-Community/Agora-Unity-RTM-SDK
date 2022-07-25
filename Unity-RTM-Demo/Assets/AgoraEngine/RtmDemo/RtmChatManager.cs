@@ -358,8 +358,6 @@ namespace io.agora.rtm.demo
             string msg = "channel:" + ChannelName + " OnJoinSuccess id = " + id;
             Debug.Log(msg);
             messageDisplay.AddTextToDisplay(msg, Message.MessageType.Info);
-
-            UploadImageButton.interactable = true;
         }
 
         void OnJoinFailureHandler(int id, JOIN_CHANNEL_ERR errorCode)
@@ -374,6 +372,8 @@ namespace io.agora.rtm.demo
             string msg = "client login successful! id = " + id;
             Debug.Log(msg);
             messageDisplay.AddTextToDisplay(msg, Message.MessageType.Info);
+
+            UploadImageButton.interactable = true;
         }
 
         void OnClientLoginFailureHandler(int id, LOGIN_ERR_CODE errorCode)

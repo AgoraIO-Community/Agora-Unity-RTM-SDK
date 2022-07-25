@@ -132,24 +132,6 @@ namespace agora_rtm {
             return IRtmApiNative.login_rtm(_rtmServicePtr, token, userId);
         }
 
-        public int SubscribeUserAttributes(string userId, ref Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return IRtmApiNative.subscribeUserAttributes_rtm(_rtmServicePtr, userId, ref requestId);
-        }
-
-		public int UnsubscribeUserAttributes(string userId, ref Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return IRtmApiNative.unsubscribeUserAttributes_rtm(_rtmServicePtr, userId, ref requestId);
-        }
-
         /// <summary>
         /// Logs out of the Agora RTM system.
         /// The local user receives the <OnLogoutHandler> callback.
@@ -868,8 +850,6 @@ namespace agora_rtm {
                     attributeInfo += "\t";
                     attributeInfo += value;
                     attributeInfo += "\t";
-                    attributeInfo += attributes[i].revision.ToString();
-                    attributeInfo += "\t";
                 }
                 return IRtmApiNative.setLocalUserAttributes_rtm(_rtmServicePtr, attributeInfo, numberOfAttributes, ref requestId);
             }
@@ -894,8 +874,6 @@ namespace agora_rtm {
                     attributeInfo += key;
                     attributeInfo += "\t";
                     attributeInfo += value;
-                    attributeInfo += "\t";
-                    attributeInfo += attributes[i].revision.ToString();
                     attributeInfo += "\t";
                 }
                 return IRtmApiNative.addOrUpdateLocalUserAttributes_rtm(_rtmServicePtr, attributeInfo, numberOfAttributes, ref requestId);
