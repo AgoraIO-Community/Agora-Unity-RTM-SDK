@@ -102,9 +102,6 @@ namespace agora_rtm {
 		internal IntPtr onRenewTokenResult;
 		internal IntPtr onTokenExpired;
 		internal IntPtr onLogout;
-		internal IntPtr onUserAttributesUpdated;
-  		internal IntPtr onSubscribeUserAttributesResult;
-  		internal IntPtr onUnsubscribeUserAttributesResult;
 		internal IntPtr onConnectionStateChanged;
 		internal IntPtr onSendMessageResult;
 		internal IntPtr onMessageReceivedFromPeer;
@@ -141,9 +138,6 @@ namespace agora_rtm {
         internal RtmClientEventHandler.OnRenewTokenResultHandler onRenewTokenResult;
         internal RtmClientEventHandler.OnTokenExpiredHandler onTokenExpired;
         internal RtmClientEventHandler.OnLogoutHandler onLogout;
-		internal EngineEventOnUserAttributesUpdated onUserAttributesUpdated;
-  		internal RtmClientEventHandler.OnSubscribeUserAttributesResultHandler onSubscribeUserAttributesResult;
-  		internal RtmClientEventHandler.OnUnsubscribeUserAttributesResultHandler onUnsubscribeUserAttributesResult;
         internal RtmClientEventHandler.OnConnectionStateChangedHandler onConnectionStateChanged;
         internal RtmClientEventHandler.OnSendMessageResultHandler onSendMessageResult;
         internal EngineEventOnMessageReceived onMessageReceivedFromPeer;
@@ -334,12 +328,6 @@ namespace agora_rtm {
 		internal static extern int login_rtm(IntPtr rtmServiceInstance, string token, string userId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int subscribeUserAttributes_rtm(IntPtr rtmServiceInstance, string userId, ref Int64 requestId);
-
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int unsubscribeUserAttributes_rtm(IntPtr rtmServiceInstance, string userId, ref Int64 requestId);
-
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern void release_rtm(IntPtr rtmServiceInstance, bool sync);
 
 		/// Channel api
@@ -382,10 +370,6 @@ namespace agora_rtm {
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern Int64 channelAttribute_getLastUpdateTs(IntPtr channel_attribute_instance);
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern Int64 channelAttribute_getRevision(IntPtr channel_attribute_instance);
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern void channelAttribute_setRevision(IntPtr channel_attribute_instance, Int64 revision);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern void channelAttribute_release(IntPtr channel_attribute_instance);
