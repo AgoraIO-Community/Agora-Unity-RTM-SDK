@@ -177,18 +177,17 @@ void ChannelEventHandler::onGetMembers(agora::rtm::IChannelMember** members,
   agora::unity::rtm::LogHelper::getInstance().writeLog("AgoraRtm:  onGetMembers");
 
   if (_c_channel_event_handler) {
-    char szMsg[520] = {};
     std::string strPostMsg = "";
     for (int i = 0; i < userCount; i++) {
-      const agora::rtm::IChannelMember* member = members[i];
-      if (member && member->getUserId() && member->getChannelId()) {
-        sprintf(szMsg, "%s\t%s\t%s", strPostMsg.data(), member->getUserId(),
-                member->getChannelId());
-        strPostMsg = szMsg;
+      agora::rtm::IChannelMember* channelMember = members[i];
+      if (channelMember && channelMember->getUserId() && channelMember->getChannelId()) {
+        strPostMsg.append("\t");
+        strPostMsg.append(channelMember->getUserId());
+        strPostMsg.append("\t");
+        strPostMsg.append(channelMember->getChannelId());
       }
     }
-    sprintf(szMsg, "%s", strPostMsg.data());
-    _c_channel_event_handler->onGetMembers(handlerId, szMsg, userCount,
+    _c_channel_event_handler->onGetMembers(handlerId, strPostMsg.c_str(), userCount,
                                            errorCode);
   }
 }
@@ -212,22 +211,24 @@ void ChannelEventHandler::onAttributesUpdated(
     const agora::rtm::IRtmChannelAttribute* attributes[],
     int numberOfAttributes) {
   if (_c_channel_event_handler) {
-    char szMsg[520] = {};
-    std::string strPostMsg = "";
+    std::string szMsg;
     for (int i = 0; i < numberOfAttributes; i++) {
       const agora::rtm::IRtmChannelAttribute* rtmAttribute = attributes[i];
       if (rtmAttribute && rtmAttribute->getKey() && rtmAttribute->getValue() &&
           rtmAttribute->getLastUpdateUserId()) {
-        sprintf(szMsg, "%s\t%s\t%s\t%lld\t%s\t%lld", strPostMsg.data(),
-                rtmAttribute->getKey(), rtmAttribute->getValue(),
-                rtmAttribute->getLastUpdateTs(),
-                rtmAttribute->getLastUpdateUserId());
-        strPostMsg = szMsg;
+        szMsg.append("\t");
+        szMsg.append(rtmAttribute->getKey());
+        szMsg.append("\t");
+        szMsg.append(rtmAttribute->getValue());
+        szMsg.append("\t");
+        szMsg.append(std::to_string(rtmAttribute->getLastUpdateTs()));
+        szMsg.append("\t");
+        szMsg.append(rtmAttribute->getLastUpdateUserId());
       }
     }
-    sprintf(szMsg, "%s", strPostMsg.data());
-    _c_channel_event_handler->onAttributeUpdate(handlerId, szMsg,
-                                                numberOfAttributes);
+
+    _c_channel_event_handler->onAttributeUpdate(
+        handlerId, szMsg.c_str(), numberOfAttributes);
   }
 }
 //
