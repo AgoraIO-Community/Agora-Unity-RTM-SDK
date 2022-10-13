@@ -19,10 +19,6 @@ namespace agora_rtm {
             {
                 lock (queue)
                 {
-                    if (queue.Count >= 250)
-                    {
-                        queue.Dequeue();
-                    }
                     queue.Enqueue(action);
                 }
             }
@@ -47,13 +43,16 @@ namespace agora_rtm {
             // Update is called once per frame
             void Update()
             {
-                var action = DeQueue();
-
-                if (action != null)
+                lock (queue)
                 {
-                    action();
+                    while (queue.Count > 0)
+                    {
+                        Action action = queue.Dequeue();
+                        if (action != null) {
+                            action.Invoke();
+                        }
+                    }
                 }
-                action = null;
             }
 
             void OnDestroy()
