@@ -73,38 +73,6 @@ void ChannelEventHandler::onMessageReceived(const char* userId,
   if (_c_channel_event_handler)
     _c_channel_event_handler->onMessageReceived(handlerId, userId, message);
 }
-/**
- Occurs when receiving a channel image message.
-
- @param userId The message sender.
- @param message The received channel image message. See \ref
- agora::rtm::IImageMessage "IImageMessage".
- */
-void ChannelEventHandler::onImageMessageReceived(
-    const char* userId,
-    const agora::rtm::IImageMessage* message) {
-  agora::unity::rtm::LogHelper::getInstance().writeLog(
-      "AgoraRtm:  onImageMessageReceived");
-  if (_c_channel_event_handler)
-    _c_channel_event_handler->onImageMessageReceived(handlerId, userId,
-                                                     message);
-}
-
-/**
- Occurs when receiving a channel file message.
-
- @param userId The message sender.
- @param message The received channel file message. See \ref
- agora::rtm::IFileMessage "IFileMessage".
- */
-void ChannelEventHandler::onFileMessageReceived(
-    const char* userId,
-    const agora::rtm::IFileMessage* message) {
-  agora::unity::rtm::LogHelper::getInstance().writeLog(
-      "AgoraRtm:  onFileMessageReceived");
-  if (_c_channel_event_handler)
-    _c_channel_event_handler->onFileMessageReceived(handlerId, userId, message);
-}
 
 /**
  Returns the result of the \ref agora::rtm::IChannel::sendMessage "sendMessage"

@@ -86,7 +86,7 @@ namespace agora_rtm {
       LOGIN_ERR_ALREADY_LOGGED_IN = 8,
        
       /**
-       9: The login times out. The current timeout is set as 12 seconds. You need to log in again.
+       9: The login times out. The current timeout is set as six seconds. You need to log in again.
        */
       LOGIN_ERR_TIMEOUT = 9,
        
@@ -244,7 +244,7 @@ namespace agora_rtm {
       CONNECTION_CHANGE_REASON_LOGIN_FAILURE = 3,
         
       /**
-       4: The SDK fails to log in the Agora RTM system within 12 seconds and gives up.
+       4: The SDK fails to log in the Agora RTM system within six seconds and gives up.
        */
       CONNECTION_CHANGE_REASON_LOGIN_TIMEOUT = 4,
         
@@ -656,17 +656,6 @@ namespace agora_rtm {
        102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before this operation.
        */
       PEER_SUBSCRIPTION_STATUS_ERR_USER_NOT_LOGGED_IN = 102,
-    };
-
-    public enum RTM_GET_CHANNEL_LIST_ERR {
-      RTM_GET_CHANNEL_LIST_ERR_OK = 0,
-      RTM_GET_CHANNEL_LIST_ERR_FAILURE = 1,
-      RTM_GET_CHANNEL_LIST_ERR_TIMEOUT = 2,
-      RTM_GET_CHANNEL_LIST_ERR_TOO_OFTEN = 3,
-      RTM_GET_CHANNEL_LIST_ERR_INVALID_ARGUMENT = 4,
-      RTM_GET_CHANNEL_LIST_ERR_NOT_INITIALIZED = 101,
-      RTM_GET_CHANNEL_LIST_ERR_NOT_LOGGED_IN = 102,
-
     };
 
     /**
@@ -1251,28 +1240,5 @@ namespace agora_rtm {
        5: The method call fails. The call invitation is already sent.
        */
       INVITATION_API_CALL_ERR_ALREADY_SENT = 5,
-    };
-
-    public enum MESSAGE_FLAG
-    {
-        RECEIVE = 0,
-        SEND = 1
-    }
-
-    public struct SendMessageOptions {
-      public bool enableOfflineMessaging;
-      public bool enableHistoricalMessaging;
-    };
-
-    /* Type of the cloud proxy. */
-    public enum RTM_CLOUD_PROXY_TYPE {
-        /**
-        * No cloud proxy.
-        */
-        RTM_NONE_PROXY = 0,
-        /**
-        * TLS cloud proxy.
-        */
-        RTM_TCP_PROXY = 1
     };
 }

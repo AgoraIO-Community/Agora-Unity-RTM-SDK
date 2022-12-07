@@ -5,281 +5,42 @@ using System.Collections.Generic;
 using AOT;
 
 namespace agora_rtm {
-	public sealed class RtmClientEventHandler {
+	public sealed class RtmClientEventHandler : IRtmApiNative {
 		private int currentIdIndex = 0;
 		private static int _id = 0;
-		private IntPtr _rtmClientEventHandlerNativePtr = IntPtr.Zero;
+		private IntPtr _rtmClientEventHandlerPtr = IntPtr.Zero;
 		private static Dictionary<int, RtmClientEventHandler> clientEventHandlerHandlerDic = new Dictionary<int, RtmClientEventHandler>();
-		/// <summary>
-		/// Occurs when a user logs in the Agora RTM system.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
 		public delegate void OnLoginSuccessHandler(int id);
-
-		/// <summary>
-		/// Occurs when a user fails to log in the Agora RTM system.
-		/// </summary>
-		/// <param name="id">
-		/// the id of your engine
-		/// </param>
-		/// <param name="errorCode">Error codes related to login.</param>
 		public delegate void OnLoginFailureHandler(int id, LOGIN_ERR_CODE errorCode);
-
-		/// <summary>
-		/// Reports the result of the renewToken method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="token">Your new token.</param>
-		/// <param name="errorCode">The error code. </param>
 		public delegate void OnRenewTokenResultHandler(int id, string token, RENEW_TOKEN_ERR_CODE errorCode);
-		
-		/// <summary>
-		/// Occurs when the RTM server detects that the RTM token has exceeded the 24-hour validity period and when the SDK is in the CONNECTION_STATE_RECONNECTING state.
-		/// This callback occurs only when the SDK is reconnecting to the server. You will not receive this callback when the SDK is in the CONNECTION_STATE_CONNECTED state.
-		/// When receiving this callback, generate a new RTM Token on the server and call the renewToken method to pass the new Token on to the server.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
 		public delegate void OnTokenExpiredHandler(int id);
-
-		/// <summary>
-		/// Occurs when a user logs out of the Agora RTM system.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="errorCode">The error code. </param>
 		public delegate void OnLogoutHandler(int id, LOGOUT_ERR_CODE errorCode);
-
-		/// <summary>
-		/// Occurs when the connection state changes between the SDK and the Agora RTM system.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="state">The new connection state.</param>
-		/// <param name="reason">The reason for the connection state change.</param>
 		public delegate void OnConnectionStateChangedHandler(int id, CONNECTION_STATE state, CONNECTION_CHANGE_REASON reason);
-		
-		/// <summary>
-		/// Reports the result of the sendMessageToPeer method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="messageId">The ID of the sent message.</param>
-		/// <param name="errorCode">The peer-to-peer message state. </param>
 		public delegate void OnSendMessageResultHandler(int id, Int64 messageId, PEER_MESSAGE_ERR_CODE errorCode);
-		
-		/// <summary>
-		/// Occurs when receiving a peer-to-peer message.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="peerId">The ID of the message sender.</param>
-		/// <param name="message">The received peer-to-peer message.</param>
 		public delegate void OnMessageReceivedFromPeerHandler(int id, string peerId, TextMessage message);
-		
-		/// <summary>
-		/// Occurs when receiving a peer-to-peer image message.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="peerId">The ID of the message sender.</param>
-		/// <param name="message">The received peer-to-peer image message.</param>
 		public delegate void OnImageMessageReceivedFromPeerHandler(int id, string peerId, ImageMessage message);
-		
-		/// <summary>
-		/// Occurs when receiving a peer-to-peer file message.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="peerId">The ID of the message sender.</param>
-		/// <param name="message">The received peer-to-peer file message.</param>
 		public delegate void OnFileMessageReceivedFromPeerHandler(int id, string peerId, FileMessage message);
-		
-		/// <summary>
-		/// Reports the progress of an ongoing upload task.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of the upload request.</param>
-		/// <param name="progress">The progress of the ongoing upload task.</param>
 		public delegate void OnMediaUploadingProgressHandler(int id, Int64 requestId, MediaOperationProgress progress);
-		
-		/// <summary>
-		/// Reports the progress of an ongoing download task.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of the download request.</param>
-		/// <param name="progress">The progress of the ongoing download task. </param>
 		public delegate void OnMediaDownloadingProgressHandler(int id, Int64 requestId, MediaOperationProgress progress);
-		
-		/// <summary>
-		/// Reports the result of the createFileMessageByUploading method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of the upload request.</param>
-		/// <param name="fileMessage">An IFileMessage instance.</param>
-		/// <param name="code">Error codes.</param>
 		public delegate void OnFileMediaUploadResultHandler(int id, Int64 requestId, FileMessage fileMessage, UPLOAD_MEDIA_ERR_CODE code);
-		
-		/// <summary>
-		/// Reports the result of the createImageMessageByUploading method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of the upload request.</param>
-		/// <param name="imageMessage">An ImageMessage instance.</param>
-		/// <param name="code">Error codes.</param>
 		public delegate void OnImageMediaUploadResultHandler(int id, Int64 requestId, ImageMessage imageMessage, UPLOAD_MEDIA_ERR_CODE code);
-		
-		/// <summary>
-		/// Reports the result of the downloadMediaToFile method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of the download request.</param>
-		/// <param name="code">Error codes.</param>
 		public delegate void OnMediaDownloadToFileResultHandler(int id, Int64 requestId, DOWNLOAD_MEDIA_ERR_CODE code);
-		
-		/// <summary>
-		/// Reports the result of the downloadMediaToMemory method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of the download request.</param>
-		/// <param name="memory">The memory address where the downloaded file or image is stored.</param>
-		/// <param name="length">The size of the downloaded file or image.</param>
-		/// <param name="code">Error codes.</param>
 		public delegate void OnMediaDownloadToMemoryResultHandler(int id, Int64 requestId, byte[] memory, Int64 length, DOWNLOAD_MEDIA_ERR_CODE code);
-		
-		/// <summary>
-		/// Reports the result of the cancelMediaDownload or cancelMediaUpload method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of the cancel request.</param>
-		/// <param name="code">Error codes.</param>
 		public delegate void OnMediaCancelResultHandler(int id, Int64 requestId, CANCEL_MEDIA_ERR_CODE code);
-		
-		/// <summary>
-		/// Reports the result of the queryPeersOnlineStatus method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="peersStatus">The online status of the peer. </param>
-		/// <param name="peerCount">The number of the queried peers.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnQueryPeersOnlineStatusResultHandler(int id, Int64 requestId, PeerOnlineStatus[] peersStatus, int peerCount, QUERY_PEERS_ONLINE_STATUS_ERR errorCode);
-		
-		/// <summary>
-		/// Returns the result of the subscribePeersOnlineStatus or unsubscribePeersOnlineStatus method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnSubscriptionRequestResultHandler(int id, Int64 requestId, PEER_SUBSCRIPTION_STATUS_ERR errorCode);
-		
-		/// <summary>
-		/// Returns the result of the queryPeersBySubscriptionOption method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="peerIds">A user ID array of the specified users, to whom you subscribe.</param>
-		/// <param name="peerCount">Count of the peers.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnQueryPeersBySubscriptionOptionResultHandler(int id, Int64 requestId, string[] peerIds, int peerCount, QUERY_PEERS_BY_SUBSCRIPTION_OPTION_ERR errorCode);
-		
-		/// <summary>
-		/// Reports the result of the setLocalUserAttributes method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnSetLocalUserAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
-		
-		/// <summary>
-		/// Reports the result of the addOrUpdateLocalUserAttributes method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnAddOrUpdateLocalUserAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
-		
-		/// <summary>
-		/// Reports the result of the deleteLocalUserAttributesByKeys method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnDeleteLocalUserAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
-		
-		/// <summary>
-		/// Reports the result of the clearLocalUserAttributes method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnClearLocalUserAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
-		
-		/// <summary>
-		/// Reports the result of the getUserAttributes or getUserAttributesByKeys method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="userId">The user ID of the specified user.</param>
-		/// <param name="attributes">An array of the returned attributes. See RtmAttribute.</param>
-		/// <param name="numberOfAttributes">The total number of the user's attributes</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnGetUserAttributesResultHandler(int id, Int64 requestId, string userId, RtmAttribute[] attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode);
-		
-		/// <summary>
-		/// Reports the result of the setChannelAttributes method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnSetChannelAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
-		
-		/// <summary>
-		/// Reports the result of the addOrUpdateChannelAttributes method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnAddOrUpdateChannelAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
-		
-		/// <summary>
-		/// Reports the result of the deleteChannelAttributesByKeys method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnDeleteChannelAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
-		
-		/// <summary>
-		/// Reports the result of the clearChannelAttributes method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnClearChannelAttributesResultHandler(int id, Int64 requestId, ATTRIBUTE_OPERATION_ERR errorCode);
-		
-		/// <summary>
-		/// Reports the result of the getChannelAttributes or getChannelAttributesByKeys method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="attributes"></param>
-		/// <param name="numberOfAttributes">The total number of the attributes.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnGetChannelAttributesResultHandler(int id, Int64 requestId, RtmChannelAttribute[] attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode);
-		
-		/// <summary>
-		/// Reports the result of the getChannelMemberCount method call.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="requestId">The unique ID of this request.</param>
-		/// <param name="channelMemberCounts">An array of the channel member counts.</param>
-		/// <param name="channelCount">The total number of the channels.</param>
-		/// <param name="errorCode">Error Codes.</param>
 		public delegate void OnGetChannelMemberCountResultHandler(int id, Int64 requestId, ChannelMemberCount[] channelMemberCounts , int channelCount, GET_CHANNEL_MEMBER_COUNT_ERR_CODE errorCode);
-		
-		/// <summary>
-		/// Occurs when the online status of the peers, to whom you subscribe, changes.
-		/// When the subscription to the online status of specified peers succeeds, the SDK returns this callback to report the online status of peers, to whom you subscribe.
-		/// When the online status of the peers, to whom you subscribe, changes, the SDK returns this callback to report whose online status has changed.
-		/// If the online status of the peers, to whom you subscribe, changes when the SDK is reconnecting to the server, the SDK returns this callback to report whose online status has changed when successfully reconnecting to the server.
-		/// </summary>
-		/// <param name="id">the id of your engine</param>
-		/// <param name="peersStatus">An array of peers' online states. See PeerOnlineStatus.</param>
-		/// <param name="peerCount">Count of the peers, whose online status changes.</param>
 		public delegate void OnPeersOnlineStatusChangedHandler(int id, PeerOnlineStatus[] peersStatus, int peerCount);
 
 		public OnLoginSuccessHandler OnLoginSuccess;
@@ -315,102 +76,56 @@ namespace agora_rtm {
 		public OnGetChannelMemberCountResultHandler OnGetChannelMemberCountResult;
 		public OnPeersOnlineStatusChangedHandler OnPeersOnlineStatusChanged;
 
-		private CRtmServiceEventHandler rtmServiceEventHandler;
-		private CRtmServiceEventHandlerPtr rtmServiceEventHandlerPtr;
-		private IntPtr globalPtr = IntPtr.Zero;
 
 		public RtmClientEventHandler() {
 			currentIdIndex = _id;
 			clientEventHandlerHandlerDic.Add(currentIdIndex, this);
-			rtmServiceEventHandler = new CRtmServiceEventHandler {
-				onLoginSuccess = OnLoginSuccessCallback,
-				onLoginFailure = OnLoginFailureCallback,
-				onRenewTokenResult = OnRenewTokenResultCallback,
-				onTokenExpired = OnTokenExpiredCallback,
-				onLogout = OnLogoutCallback,
-				onConnectionStateChanged = OnConnectionStateChangedCallback,
-				onSendMessageResult = OnSendMessageResultCallback,
-				onMessageReceivedFromPeer = OnMessageReceivedFromPeerCallback,
-				onImageMessageReceivedFromPeer = OnImageMessageReceivedFromPeerCallback,
-				onFileMessageReceivedFromPeer = OnFileMessageReceivedFromPeerCallback,
-				onMediaUploadingProgress = OnMediaUploadingProgressCallback,
-				onMediaDownloadingProgress = OnMediaDownloadingProgressCallback,
-				onFileMediaUploadResult = OnFileMediaUploadResultCallback,
-				onImageMediaUploadResult = OnImageMediaUploadResultCallback,
-				onMediaDownloadToFileResult = OnMediaDownloadToFileResultCallback,
-				onMediaDownloadToMemoryResult = OnMediaDownloadToMemoryResultCallback,
-				onMediaCancelResult = OnMediaCancelResultCallback,
-				onQueryPeersOnlineStatusResult = OnQueryPeersOnlineStatusResultCallback, 
-				onSubscriptionRequestResult = OnSubscriptionRequestResultCallback,
-				onQueryPeersBySubscriptionOptionResult = OnQueryPeersBySubscriptionOptionResultCallback,
-				onPeersOnlineStatusChanged = OnPeersOnlineStatusChangedCallback,
-				onSetLocalUserAttributesResult = OnSetLocalUserAttributesResultCallback,
-				onDeleteLocalUserAttributesResult = OnDeleteLocalUserAttributesResultCallback,
-				onClearLocalUserAttributesResult = OnClearLocalUserAttributesResultCallback,
-				onGetUserAttributesResult = OnGetUserAttributesResultCallback,
-				onSetChannelAttributesResult = OnSetLocalUserAttributesResultCallback,
-				onAddOrUpdateLocalUserAttributesResult = OnAddOrUpdateLocalUserAttributesResultCallback,
-				onDeleteChannelAttributesResult = OnDeleteChannelAttributesResultCallback,
-				onClearChannelAttributesResult = OnClearChannelAttributesResultCallback,
-				onGetChannelAttributesResult = OnGetChannelAttributesResultCallback,
-				onGetChannelMemberCountResult = OnGetChannelMemberCountResultCallback
-			};
-
-			rtmServiceEventHandlerPtr = new CRtmServiceEventHandlerPtr {
-				onLoginSuccess = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onLoginSuccess),
-				onLoginFailure = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onLoginFailure),
-				onRenewTokenResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onRenewTokenResult),
-				onTokenExpired = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onTokenExpired),
-				onLogout = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onLogout),
-				onConnectionStateChanged = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onConnectionStateChanged),
-				onSendMessageResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSendMessageResult),
-				onMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMessageReceivedFromPeer),
-				onImageMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onImageMessageReceivedFromPeer),
-				onFileMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onFileMessageReceivedFromPeer),
-				onMediaUploadingProgress = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMediaUploadingProgress),
-				onMediaDownloadingProgress = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMediaDownloadingProgress),
-				onFileMediaUploadResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onFileMediaUploadResult),
-				onImageMediaUploadResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onImageMediaUploadResult),
-				onMediaDownloadToFileResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMediaDownloadToFileResult),
-				onMediaDownloadToMemoryResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMediaDownloadToMemoryResult),
-				onMediaCancelResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMediaCancelResult),
-				onQueryPeersOnlineStatusResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onQueryPeersOnlineStatusResult),
-				onSubscriptionRequestResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSubscriptionRequestResult),
-				onQueryPeersBySubscriptionOptionResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onQueryPeersBySubscriptionOptionResult),
-				onPeersOnlineStatusChanged = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onPeersOnlineStatusChanged),
-				onSetLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSetLocalUserAttributesResult),
-				onDeleteLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onDeleteLocalUserAttributesResult),
-				onClearLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onClearLocalUserAttributesResult),
-				onGetUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onGetUserAttributesResult),
-				onSetChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSetChannelAttributesResult),
-				onAddOrUpdateLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onAddOrUpdateLocalUserAttributesResult),
-				onDeleteChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onDeleteChannelAttributesResult),
-				onClearChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onClearChannelAttributesResult),
-				onGetChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onGetChannelAttributesResult),
-				onGetChannelMemberCountResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onGetChannelMemberCountResult)
-			};
-
-			globalPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CRtmServiceEventHandlerPtr)));
-			Marshal.StructureToPtr(rtmServiceEventHandlerPtr, globalPtr, true);
-			_rtmClientEventHandlerNativePtr = IRtmApiNative.service_event_handler_createEventHandle(currentIdIndex, globalPtr);
-            _id ++;
+			_rtmClientEventHandlerPtr = service_event_handler_createEventHandle(currentIdIndex, OnLoginSuccessCallback,
+																				OnLoginFailureCallback,
+																				OnRenewTokenResultCallback,
+																				OnTokenExpiredCallback,
+																				OnLogoutCallback,
+																				OnConnectionStateChangedCallback,
+																				OnSendMessageResultCallback,
+																				OnMessageReceivedFromPeerCallback,
+																				OnImageMessageReceivedFromPeerCallback,
+																				OnFileMessageReceivedFromPeerCallback,
+																				OnMediaUploadingProgressCallback,
+																				OnMediaDownloadingProgressCallback,
+																				OnFileMediaUploadResultCallback,
+																				OnImageMediaUploadResultCallback,
+																				OnMediaDownloadToFileResultCallback,
+																				OnMediaDownloadToMemoryResultCallback,
+																				OnMediaCancelResultCallback,
+																				OnQueryPeersOnlineStatusResultCallback,
+																				OnSubscriptionRequestResultCallback,
+																				OnQueryPeersBySubscriptionOptionResultCallback,
+																				OnPeersOnlineStatusChangedCallback,
+																				OnSetLocalUserAttributesResultCallback,
+																				OnDeleteLocalUserAttributesResultCallback,
+																				OnClearLocalUserAttributesResultCallback,
+																				OnGetUserAttributesResultCallback,
+																				OnSetChannelAttributesResultCallback,
+																				OnAddOrUpdateLocalUserAttributesResultCallback,
+																				OnDeleteChannelAttributesResultCallback,
+																				OnClearChannelAttributesResultCallback,
+																				OnGetChannelAttributesResultCallback,
+																				OnGetChannelMemberCountResultCallback);
+			_id ++;
 		}
 
 		public void Release() {
-			Debug.Log("RtmClientEventHandler Released");
-			if (_rtmClientEventHandlerNativePtr == IntPtr.Zero) {
+			Debug.Log("RtmClientEventHandler Release");
+			if (_rtmClientEventHandlerPtr == IntPtr.Zero) {
 				return;
 			}
 			clientEventHandlerHandlerDic.Remove(currentIdIndex);
-			IRtmApiNative.service_event_handler_releaseEventHandler(_rtmClientEventHandlerNativePtr);
-			_rtmClientEventHandlerNativePtr = IntPtr.Zero;
-
-			Marshal.FreeHGlobal(globalPtr);
-			globalPtr = IntPtr.Zero;
+			service_event_handler_releaseEventHandler(_rtmClientEventHandlerPtr);
+			_rtmClientEventHandlerPtr = IntPtr.Zero;
 		}
 
-		public IntPtr GetPtr() {
-			return _rtmClientEventHandlerNativePtr;
+		public IntPtr GetRtmClientEventHandlerPtr() {
+			return _rtmClientEventHandlerPtr;
 		}
 		
 		[MonoPInvokeCallback(typeof(OnLoginSuccessHandler))]
@@ -510,8 +225,8 @@ namespace agora_rtm {
 		private static void OnMessageReceivedFromPeerCallback(int id, string peerId, IntPtr message) {
 			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMessageReceivedFromPeer != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-					TextMessage textMessage = new TextMessage(message, MESSAGE_FLAG.SEND);
-					TextMessage _textMessage = new TextMessage(textMessage, MESSAGE_FLAG.RECEIVE);
+					TextMessage textMessage = new TextMessage(message, TextMessage.MESSAGE_FLAG.SEND);
+					TextMessage _textMessage = new TextMessage(textMessage, TextMessage.MESSAGE_FLAG.RECEIVE);
 					textMessage.SetMessagePtr(IntPtr.Zero);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMessageReceivedFromPeer != null) {
@@ -526,8 +241,8 @@ namespace agora_rtm {
 		private static void OnImageMessageReceivedFromPeerCallback(int id, string peerId, IntPtr message) {
 			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnImageMessageReceivedFromPeer != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-					ImageMessage imageMessage = new ImageMessage(message, MESSAGE_FLAG.SEND);
-					ImageMessage _imageMessage = new ImageMessage(imageMessage, MESSAGE_FLAG.RECEIVE);
+					ImageMessage imageMessage = new ImageMessage(message, ImageMessage.MESSAGE_FLAG.SEND);
+					ImageMessage _imageMessage = new ImageMessage(imageMessage, ImageMessage.MESSAGE_FLAG.RECEIVE);
 					imageMessage.SetMessagePtr(IntPtr.Zero);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnImageMessageReceivedFromPeer != null) {
@@ -542,8 +257,8 @@ namespace agora_rtm {
 		private static void OnFileMessageReceivedFromPeerCallback(int id, string peerId, IntPtr message) {
 			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnFileMessageReceivedFromPeer != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-					FileMessage fileMessage = new FileMessage(message, MESSAGE_FLAG.SEND);
-					FileMessage _fileMessage = new FileMessage(fileMessage, MESSAGE_FLAG.RECEIVE);
+					FileMessage fileMessage = new FileMessage(message, FileMessage.MESSAGE_FLAG.SEND);
+					FileMessage _fileMessage = new FileMessage(fileMessage, FileMessage.MESSAGE_FLAG.RECEIVE);
 					fileMessage.SetMessagePtr(IntPtr.Zero);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnFileMessageReceivedFromPeer != null) {
@@ -743,7 +458,7 @@ namespace agora_rtm {
 		private static void OnFileMediaUploadResultCallback(int id, Int64 requestId, IntPtr fileMessagePtr, UPLOAD_MEDIA_ERR_CODE code) {
 			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnFileMediaUploadResult != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-				 	FileMessage fileMessage = new FileMessage(fileMessagePtr, MESSAGE_FLAG.SEND);
+				 	FileMessage fileMessage = new FileMessage(fileMessagePtr, FileMessage.MESSAGE_FLAG.SEND);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnFileMediaUploadResult != null) {
 							clientEventHandlerHandlerDic[id].OnFileMediaUploadResult(id, requestId, fileMessage, code);
@@ -758,7 +473,7 @@ namespace agora_rtm {
 			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnImageMediaUploadResult != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					Debug.Log("OnImageUploadResutl  result = " + code);
-				 	ImageMessage imageMessage = new ImageMessage(imageMessagePtr, MESSAGE_FLAG.SEND);
+				 	ImageMessage imageMessage = new ImageMessage(imageMessagePtr, ImageMessage.MESSAGE_FLAG.SEND);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnImageMediaUploadResult != null) {
 							clientEventHandlerHandlerDic[id].OnImageMediaUploadResult(id, requestId, imageMessage, code);
@@ -880,7 +595,7 @@ namespace agora_rtm {
 							for (int i = 0; i < peerCount; i++) {
 								PeerOnlineStatus peerOnlineStatus = new PeerOnlineStatus();
 								peerOnlineStatus.peerId = sArray[j++];
-								peerOnlineStatus.isOnline = 1 == int.Parse(sArray[j++]);
+								peerOnlineStatus.isOnline = 1 == int.Parse(sArray[j++]);	
 								peerOnlineStatus.onlineState = (PEER_ONLINE_STATE)int.Parse(sArray[j++]);
 								channelAttributes[i] = peerOnlineStatus;
 							}

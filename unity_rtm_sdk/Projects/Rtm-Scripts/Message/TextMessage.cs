@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using System.Runtime.InteropServices;
 using System;
+using AOT;
 
 namespace agora_rtm {
 	public sealed class TextMessage : IMessage {

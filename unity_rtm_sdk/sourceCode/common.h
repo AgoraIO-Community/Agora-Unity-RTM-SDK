@@ -48,14 +48,6 @@ typedef void(AGORA_CALL* FUNC_channel_onMessageReceived)(
     int _id,
     const char* userId,
     const agora::rtm::IMessage* message);
-typedef void(AGORA_CALL* FUNC_channel_onImageMessageReceived)(
-    int _id,
-    const char* userId,
-    const agora::rtm::IMessage* message);
-typedef void(AGORA_CALL* FUNC_channel_onFileMessageReceived)(
-    int _id,
-    const char* userId,
-    const agora::rtm::IMessage* message);
 typedef void(AGORA_CALL* FUNC_channel_onSendMessageResult)(int _id,
                                                            long long messageId,
                                                            int state);
@@ -114,6 +106,7 @@ typedef void(AGORA_CALL* FUNC_onRenewTokenResult)(int handlerId,
                                                   const char* token,
                                                   int errorCode);
 typedef void(AGORA_CALL* FUNC_onTokenExpired)(int handlerId);
+typedef void(AGORA_CALL* FUNC_onTokenPrivilegeWillExpire)(int handlerId);
 typedef void(AGORA_CALL* FUNC_onLogout)(int handlerId, int errorCode);
 typedef void(AGORA_CALL* FUNC_onConnectionStateChanged)(int handlerId,
                                                         int state,
@@ -230,14 +223,12 @@ typedef struct CChannelEventHandler {
   FUNC_channel_onJoinFailure onJoinFailure;
   FUNC_channel_onLeave onLeave;
   FUNC_channel_onMessageReceived onMessageReceived;
-  FUNC_channel_onImageMessageReceived onImageMessageReceived;
-  FUNC_channel_onFileMessageReceived onFileMessageReceived;
   FUNC_channel_onSendMessageResult onSendMessageResult;
   FUNC_channel_onMemberJoined onMemberJoined;
   FUNC_channel_onMemberLeft onMemberLeft;
   FUNC_channel_onGetMembers onGetMembers;
-  FUNC_channel_onMemberCountUpdated onMemberCountUpdated;
   FUNC_channel_onAttributeUpdate onAttributeUpdate;
+  FUNC_channel_onMemberCountUpdated onMemberCountUpdated;
 } CChannelEventHandler;
 
 typedef struct CRtmServiceEventHandler {
@@ -245,19 +236,11 @@ typedef struct CRtmServiceEventHandler {
   FUNC_onLoginFailure _onLoginFailure;
   FUNC_onRenewTokenResult _onRenewTokenResult;
   FUNC_onTokenExpired _onTokenExpired;
+  FUNC_onTokenPrivilegeWillExpire _onTokenPrivilegeWillExpire;
   FUNC_onLogout _onLogout;
   FUNC_onConnectionStateChanged _onConnectionStateChanged;
   FUNC_onSendMessageResult _onSendMessageResult;
   FUNC_onMessageReceivedFromPeer _onMessageReceivedFromPeer;
-  FUNC_onImageMessageReceivedFromPeer _onImageMessageReceivedFromPeer;
-  FUNC_onFileMessageReceivedFromPeer _onFileMessageReceivedFromPeer;
-  FUNC_onMediaUploadingProgress _onMediaUploadingProgress;
-  FUNC_onMediaDownloadingProgress _onMediaDownloadingProgress;
-  FUNC_onFileMediaUploadResult _onFileMediaUploadResult;
-  FUNC_onImageMediaUploadResult _onImageMediaUploadResult;
-  FUNC_onMediaDownloadToFileResult _onMediaDownloadToFileResult;
-  FUNC_onMediaDownloadToMemoryResult _onMediaDownloadToMemoryResult;
-  FUNC_onMediaCancelResult _onMediaCancelResult;
   FUNC_onQueryPeersOnlineStatusResult _onQueryPeersOnlineStatusResult;
   FUNC_onSubscriptionRequestResult _onSubscriptionRequestResult;
   FUNC_onQueryPeersBySubscriptionOptionResult

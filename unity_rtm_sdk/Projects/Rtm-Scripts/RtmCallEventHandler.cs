@@ -6,74 +6,21 @@ using AOT;
 
 
 namespace agora_rtm {
-	public sealed class RtmCallEventHandler {
+	public sealed class RtmCallEventHandler : IRtmApiNative {
         private static int id = 0;
-        private static Dictionary<int, RtmCallEventHandler> _rtmCallEventHandlerDic = new Dictionary<int, RtmCallEventHandler>();
+        private static Dictionary<int, RtmCallEventHandler> rtmCallEventHandlerDic = new Dictionary<int, RtmCallEventHandler>();
         private IntPtr _rtmCallEventHandlerPtr = IntPtr.Zero;
-        private int _currentIdIndex = 0;
+        private int currentIdIndex = 0;
 
-		/// <summary>
-		/// Callback to the caller: occurs when the callee receives the call invitation.
-		/// </summary>
-		/// <param name="localInvitation">An LocalCallInvitation object.</param>
 		public delegate void OnLocalInvitationReceivedByPeerHandler(LocalInvitation localInvitation);
-		
-		/// <summary>
-		/// Callback to the caller: occurs when the caller cancels a call invitation.
-		/// </summary>
-		/// <param name="localInvitation">An LocalCallInvitation object.</param>
 		public delegate void OnLocalInvitationCanceledHandler(LocalInvitation localInvitation);
-		
-		/// <summary>
-		/// Callback to the caller: occurs when the life cycle of the outgoing call invitation ends in failure.
-		/// </summary>
-		/// <param name="localInvitation">An LocalCallInvitation object.</param>
-		/// <param name="errorCode">The error code. </param>
 		public delegate void OnLocalInvitationFailureHandler(LocalInvitation localInvitation, LOCAL_INVITATION_ERR_CODE errorCode);
-		
-		/// <summary>
-		/// Callback to the caller: occurs when the callee accepts the call invitation.
-		/// </summary>
-		/// <param name="localInvitation">An LocalCallInvitation object.</param>
-		/// <param name="response">	The callee's response to the call invitation.</param>
 		public delegate void OnLocalInvitationAcceptedHandler(LocalInvitation localInvitation, string response);
-		
-		/// <summary>
-		/// Callback to the caller: occurs when the callee refuses the call invitation.
-		/// </summary>
-		/// <param name="localInvitation">	An LocalCallInvitation object.</param>
-		/// <param name="response">	The callee's response to the call invitation.</param>
 		public delegate void OnLocalInvitationRefusedHandler(LocalInvitation localInvitation, string response);
-		
-		/// <summary>
-		/// Callback for the callee: occurs when the callee refuses a call invitation.
-		/// </summary>
-		/// <param name="remoteInvitation">An RemoteCallInvitation object.</param>
 		public delegate void OnRemoteInvitationRefusedHandler(RemoteInvitation remoteInvitation);
-		
-		/// <summary>
-		/// Callback to the callee: occurs when the callee accepts a call invitation.
-		/// </summary>
-		/// <param name="remoteInvitation">A RemoteCallInvitation object.</param>
 		public delegate void OnRemoteInvitationAcceptedHandler(RemoteInvitation remoteInvitation);
-		
-		/// <summary>
-		/// Callback to the callee: occurs when the callee receives a call invitation.
-		/// </summary>
-		/// <param name="remoteInvitation">	A RemoteCallInvitation object.</param>
 		public delegate void OnRemoteInvitationReceivedHandler(RemoteInvitation remoteInvitation);
-		
-		/// <summary>
-		/// Callback to the callee: occurs when the life cycle of the incoming call invitation ends in failure.
-		/// </summary>
-		/// <param name="remoteInvitation">	A RemoteCallInvitation object.</param>
-		/// <param name="errorCode">The error code. </param>
 		public delegate void OnRemoteInvitationFailureHandler(RemoteInvitation remoteInvitation, REMOTE_INVITATION_ERR_CODE errorCode);
-		
-		/// <summary>
-		/// Callback to the callee: occurs when the caller cancels the call invitation.
-		/// </summary>
-		/// <param name="remoteInvitation">An RemoteCallInvitation object.</param>
 		public delegate void OnRemoteInvitationCanceledHandler(RemoteInvitation remoteInvitation);
 
 		public OnLocalInvitationReceivedByPeerHandler OnLocalInvitationReceivedByPeer;
@@ -87,44 +34,19 @@ namespace agora_rtm {
 		public OnRemoteInvitationFailureHandler OnRemoteInvitationFailure;
 		public OnRemoteInvitationCanceledHandler OnRemoteInvitationCanceled;
 
-		private CRtmCallEventHandler rtmCallEventHandler;
-		private CRtmCallEventHandlerPtr rtmCallEventHandlerPtr;
-		private IntPtr globalPtr = IntPtr.Zero;
-
 		public RtmCallEventHandler() {
-			_currentIdIndex = id;
-			_rtmCallEventHandlerDic.Add(_currentIdIndex, this);
-			rtmCallEventHandler = new CRtmCallEventHandler {
-				_onLocalInvitationReceivedByPeer = OnLocalInvitationReceivedByPeerCallback,
-				_onLocalInvitationCanceled = OnLocalInvitationCanceledCallback,
-				_onLocalInvitationFailure = OnLocalInvitationFailureCallback,
-				_onLocalInvitationAccepted = OnLocalInvitationAcceptedCallback,
-				_onLocalInvitationRefused = OnLocalInvitationRefusedCallback,
-				_onRemoteInvitationRefused = OnRemoteInvitationRefusedCallback,
-				_onRemoteInvitationAccepted = OnRemoteInvitationAcceptedCallback,
-				_onRemoteInvitationReceived = OnRemoteInvitationReceivedCallback,
-				_onRemoteInvitationFailure = OnRemoteInvitationFailureCallback,
-				_onRemoteInvitationCanceled = OnRemoteInvitationCanceledCallback
-			};
-
-			rtmCallEventHandlerPtr = new CRtmCallEventHandlerPtr {
-				_onLocalInvitationReceivedByPeer = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onLocalInvitationReceivedByPeer),
-				_onLocalInvitationCanceled = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onLocalInvitationCanceled),
-				_onLocalInvitationFailure = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onLocalInvitationFailure),
-				_onLocalInvitationAccepted = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onLocalInvitationAccepted),
-				_onLocalInvitationRefused = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onLocalInvitationRefused),
-				_onRemoteInvitationRefused = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onRemoteInvitationRefused),
-				_onRemoteInvitationAccepted = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onRemoteInvitationAccepted),
-				_onRemoteInvitationReceived = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onRemoteInvitationReceived),
-				_onRemoteInvitationFailure = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onRemoteInvitationFailure),
-				_onRemoteInvitationCanceled = Marshal.GetFunctionPointerForDelegate(rtmCallEventHandler._onRemoteInvitationCanceled)
-			};
-
-
-			globalPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CRtmCallEventHandlerPtr)));
-			Marshal.StructureToPtr(rtmCallEventHandlerPtr, globalPtr, true);
-
-			_rtmCallEventHandlerPtr = IRtmApiNative.i_rtm_call_event_handler_createEventHandler(_currentIdIndex, globalPtr);
+			currentIdIndex = id;
+			rtmCallEventHandlerDic.Add(currentIdIndex, this);
+			_rtmCallEventHandlerPtr = i_rtm_call_event_handler_createEventHandler(OnLocalInvitationReceivedByPeerCallback,
+																				OnLocalInvitationCanceledCallback,
+																				OnLocalInvitationFailureCallback,
+																				OnLocalInvitationAcceptedCallback,
+																				OnLocalInvitationRefusedCallback,
+																				OnRemoteInvitationRefusedCallback,
+																				OnRemoteInvitationAcceptedCallback,
+																				OnRemoteInvitationReceivedCallback,
+																				OnRemoteInvitationFailureCallback,
+																				OnRemoteInvitationCanceledCallback);
 			id ++;
 		}
 
@@ -134,28 +56,27 @@ namespace agora_rtm {
 			if (_rtmCallEventHandlerPtr == IntPtr.Zero) {
 				return;
 			}
-
-			_rtmCallEventHandlerDic.Remove(_currentIdIndex);
-			IRtmApiNative.i_rtm_call_event_releaseEventHandler(_rtmCallEventHandlerPtr);
+			rtmCallEventHandlerDic.Remove(currentIdIndex);
+			i_rtm_call_event_releaseEventHandler(_rtmCallEventHandlerPtr);
 			_rtmCallEventHandlerPtr = IntPtr.Zero;
-
-			Marshal.FreeHGlobal(globalPtr);
-			globalPtr = IntPtr.Zero;
 		}
 
-		internal IntPtr GetPtr()
-        {
+		public IntPtr GetPtr() {
 			return _rtmCallEventHandlerPtr;
-        }
+		}
 
+		public IntPtr GetRtmCallEventHandlerPtr() {
+			return _rtmCallEventHandlerPtr;
+		}
+		
 		[MonoPInvokeCallback(typeof(EngineEventOnLocalInvitationReceivedByPeerHandler))]
-        private static void OnLocalInvitationReceivedByPeerCallback(int _id, IntPtr localInvitationPtr) {
-			if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnLocalInvitationReceivedByPeer != null) {
+        private static void OnLocalInvitationReceivedByPeerCallback(IntPtr localInvitationPtr) {
+			if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnLocalInvitationReceivedByPeer != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnLocalInvitationReceivedByPeer != null) {
-							LocalInvitation _localInvitation = new LocalInvitation(localInvitationPtr, false);
-							_rtmCallEventHandlerDic[_id].OnLocalInvitationReceivedByPeer(_localInvitation);
+						if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnLocalInvitationReceivedByPeer != null) {
+							LocalInvitation _localInvitation = new LocalInvitation(localInvitationPtr);
+							rtmCallEventHandlerDic[id].OnLocalInvitationReceivedByPeer(_localInvitation);
 						}
 					});
 				}
@@ -163,13 +84,13 @@ namespace agora_rtm {
         }
 
 		[MonoPInvokeCallback(typeof(EngineEventOnLocalInvitationCanceledHandler))]
-        private static void OnLocalInvitationCanceledCallback(int _id, IntPtr localInvitationPtr) {
-			if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnLocalInvitationCanceled != null) {
+        private static void OnLocalInvitationCanceledCallback(IntPtr localInvitationPtr) {
+			if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnLocalInvitationCanceled != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnLocalInvitationCanceled != null) {
-							LocalInvitation _localInvitation = new LocalInvitation(localInvitationPtr, false);
-							_rtmCallEventHandlerDic[_id].OnLocalInvitationCanceled(_localInvitation);
+						if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnLocalInvitationCanceled != null) {
+							LocalInvitation _localInvitation = new LocalInvitation(localInvitationPtr);
+							rtmCallEventHandlerDic[id].OnLocalInvitationCanceled(_localInvitation);
 						}
 					});
 				}
@@ -177,13 +98,13 @@ namespace agora_rtm {
         }
 
 		[MonoPInvokeCallback(typeof(EngineEventOnLocalInvitationFailureHandler))]
-        private static void OnLocalInvitationFailureCallback(int _id, IntPtr localInvitationPtr, LOCAL_INVITATION_ERR_CODE errorCode) {
-			if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnLocalInvitationFailure != null) {
+        private static void OnLocalInvitationFailureCallback(IntPtr localInvitationPtr, LOCAL_INVITATION_ERR_CODE errorCode) {
+			if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnLocalInvitationCanceled != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnLocalInvitationFailure != null) {
-							LocalInvitation _localInvitation = new LocalInvitation(localInvitationPtr, false);
-							_rtmCallEventHandlerDic[_id].OnLocalInvitationFailure(_localInvitation, errorCode);
+						if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnLocalInvitationCanceled != null) {
+							LocalInvitation _localInvitation = new LocalInvitation(localInvitationPtr);
+							rtmCallEventHandlerDic[id].OnLocalInvitationCanceled(_localInvitation);
 						}
 					});
 				}
@@ -191,13 +112,13 @@ namespace agora_rtm {
         }
 
 		[MonoPInvokeCallback(typeof(EngineEventOnLocalInvitationAcceptedHandler))]
-        private static void OnLocalInvitationAcceptedCallback(int _id, IntPtr localInvitationPtr, string response) {
-			if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnLocalInvitationAccepted != null) {
+        private static void OnLocalInvitationAcceptedCallback(IntPtr localInvitationPtr, string response) {
+			if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnLocalInvitationAccepted != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnLocalInvitationAccepted != null) {
-							LocalInvitation _localInvitation = new LocalInvitation(localInvitationPtr, false);
-							_rtmCallEventHandlerDic[_id].OnLocalInvitationAccepted(_localInvitation, response);
+						if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnLocalInvitationAccepted != null) {
+							LocalInvitation _localInvitation = new LocalInvitation(localInvitationPtr);
+							rtmCallEventHandlerDic[id].OnLocalInvitationAccepted(_localInvitation, response);
 						}
 					});
 				}
@@ -205,13 +126,13 @@ namespace agora_rtm {
         }
 
 		[MonoPInvokeCallback(typeof(EngineEventOnLocalInvitationRefusedHandler))]
-        private static void OnLocalInvitationRefusedCallback(int _id, IntPtr localInvitationPtr, string response) {
-			if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnLocalInvitationRefused != null) {
+        private static void OnLocalInvitationRefusedCallback(IntPtr localInvitationPtr, string response) {
+			if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnLocalInvitationRefused != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnLocalInvitationRefused != null) {
-							LocalInvitation _localInvitation = new LocalInvitation(localInvitationPtr, false);
-							_rtmCallEventHandlerDic[_id].OnLocalInvitationRefused(_localInvitation, response);
+						if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnLocalInvitationRefused != null) {
+							LocalInvitation _localInvitation = new LocalInvitation(localInvitationPtr);
+							rtmCallEventHandlerDic[id].OnLocalInvitationRefused(_localInvitation, response);
 						}
 					});
 				}
@@ -219,13 +140,13 @@ namespace agora_rtm {
         }
 
 		[MonoPInvokeCallback(typeof(EngineEventOnRemoteInvitationRefusedHandler))]
-        private static void OnRemoteInvitationRefusedCallback(int _id, IntPtr localInvitationPtr) {
-			if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnRemoteInvitationRefused != null) {
+        private static void OnRemoteInvitationRefusedCallback(IntPtr localInvitationPtr) {
+			if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnRemoteInvitationRefused != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnRemoteInvitationRefused != null) {
-							RemoteInvitation _localInvitation = new RemoteInvitation(localInvitationPtr, false);
-							_rtmCallEventHandlerDic[_id].OnRemoteInvitationRefused(_localInvitation);
+						if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnRemoteInvitationRefused != null) {
+							RemoteInvitation _localInvitation = new RemoteInvitation(localInvitationPtr);
+							rtmCallEventHandlerDic[id].OnRemoteInvitationRefused(_localInvitation);
 						}
 					});
 				}
@@ -233,13 +154,13 @@ namespace agora_rtm {
         }
 
 		[MonoPInvokeCallback(typeof(EngineEventOnRemoteInvitationAcceptedHandler))]
-        private static void OnRemoteInvitationAcceptedCallback(int _id, IntPtr localInvitationPtr) {
-			if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnRemoteInvitationAccepted != null) {
+        private static void OnRemoteInvitationAcceptedCallback(IntPtr localInvitationPtr) {
+			if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnRemoteInvitationAccepted != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnRemoteInvitationAccepted != null) {
-							RemoteInvitation _localInvitation = new RemoteInvitation(localInvitationPtr, false);
-							_rtmCallEventHandlerDic[_id].OnRemoteInvitationAccepted(_localInvitation);
+						if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnRemoteInvitationAccepted != null) {
+							RemoteInvitation _localInvitation = new RemoteInvitation(localInvitationPtr);
+							rtmCallEventHandlerDic[id].OnRemoteInvitationAccepted(_localInvitation);
 						}
 					});
 				}
@@ -247,13 +168,13 @@ namespace agora_rtm {
         }
 
 		[MonoPInvokeCallback(typeof(EngineEventOnRemoteInvitationReceivedHandler))]
-        private static void OnRemoteInvitationReceivedCallback(int _id, IntPtr localInvitationPtr) {
-			if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnRemoteInvitationReceived != null) {
+        private static void OnRemoteInvitationReceivedCallback(IntPtr localInvitationPtr) {
+			if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnRemoteInvitationReceived != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnRemoteInvitationReceived != null) {
-							RemoteInvitation _localInvitation = new RemoteInvitation(localInvitationPtr, false);
-							_rtmCallEventHandlerDic[_id].OnRemoteInvitationReceived(_localInvitation);
+						if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnRemoteInvitationReceived != null) {
+							RemoteInvitation _localInvitation = new RemoteInvitation(localInvitationPtr);
+							rtmCallEventHandlerDic[id].OnRemoteInvitationReceived(_localInvitation);
 						}
 					});
 				}
@@ -261,13 +182,13 @@ namespace agora_rtm {
         }
 
 		[MonoPInvokeCallback(typeof(EngineEventOnRemoteInvitationFailureHandler))]
-        private static void OnRemoteInvitationFailureCallback(int _id, IntPtr localInvitationPtr, REMOTE_INVITATION_ERR_CODE errorCode) {
-			if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnRemoteInvitationFailure != null) {
+        private static void OnRemoteInvitationFailureCallback(IntPtr localInvitationPtr, REMOTE_INVITATION_ERR_CODE errorCode) {
+			if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnRemoteInvitationFailure != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnRemoteInvitationFailure != null) {
-							RemoteInvitation _localInvitation = new RemoteInvitation(localInvitationPtr, false);
-							_rtmCallEventHandlerDic[_id].OnRemoteInvitationFailure(_localInvitation, errorCode);
+						if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnRemoteInvitationFailure != null) {
+							RemoteInvitation _localInvitation = new RemoteInvitation(localInvitationPtr);
+							rtmCallEventHandlerDic[id].OnRemoteInvitationFailure(_localInvitation, errorCode);
 						}
 					});
 				}
@@ -275,13 +196,13 @@ namespace agora_rtm {
         }
 
 		[MonoPInvokeCallback(typeof(EngineEventOnRemoteInvitationCanceledHandler))]
-        private static void OnRemoteInvitationCanceledCallback(int _id, IntPtr localInvitationPtr) {
-			if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnRemoteInvitationCanceled != null) {
+        private static void OnRemoteInvitationCanceledCallback(IntPtr localInvitationPtr) {
+			if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnRemoteInvitationCanceled != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (_rtmCallEventHandlerDic.ContainsKey(_id) && _rtmCallEventHandlerDic[_id].OnRemoteInvitationCanceled != null) {
-							RemoteInvitation _localInvitation = new RemoteInvitation(localInvitationPtr, false);
-							_rtmCallEventHandlerDic[_id].OnRemoteInvitationCanceled(_localInvitation);
+						if (rtmCallEventHandlerDic.ContainsKey(id) && rtmCallEventHandlerDic[id].OnRemoteInvitationCanceled != null) {
+							RemoteInvitation _localInvitation = new RemoteInvitation(localInvitationPtr);
+							rtmCallEventHandlerDic[id].OnRemoteInvitationCanceled(_localInvitation);
 						}
 					});
 				}

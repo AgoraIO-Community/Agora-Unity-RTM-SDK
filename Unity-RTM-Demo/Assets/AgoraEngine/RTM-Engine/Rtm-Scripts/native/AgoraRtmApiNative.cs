@@ -6,10 +6,6 @@ namespace agora_rtm {
 	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnMessageReceived(int _id, string userId, IntPtr messagePtr);
 	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-	internal delegate void EngineEventOnImageMessageReceived(int _id, string userId, IntPtr messagePtr);
-	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-	internal delegate void EngineEventOnFileMessageReceived(int _id, string userId, IntPtr messagePtr);
-	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnMemberJoined(int _id, IntPtr channelMemberPtr);
 	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnMemberLeft(int _id, IntPtr channelMemberPtr);
@@ -19,16 +15,6 @@ namespace agora_rtm {
 	internal delegate void EngineEventOnGetMember(int _id, string membersPtr, int userCount, GET_MEMBERS_ERR errorCode);
 	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnQueryPeersOnlineStatusResult(int _id, Int64 requestId, string peersStatus, int peerCount, QUERY_PEERS_ONLINE_STATUS_ERR errorCode);
-	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-	internal delegate void EngineEventOnMediaUploadingProgress(int _id, Int64 requestId, Int64 totalSize, Int64 currentSize);
-	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-	internal delegate void EngineEventOnFileMediaUploadResult(int _id, Int64 requestId, IntPtr fileMessage, UPLOAD_MEDIA_ERR_CODE code);
-	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-	internal delegate void EngineEventOnImageMediaUploadResult(int _id, Int64 requestId, IntPtr fileMessage, UPLOAD_MEDIA_ERR_CODE code);
-	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-	internal delegate void EngineEventOnMediaDownloadingProgress(int _id, Int64 requestId, Int64 totalSize, Int64 currentSize);
-	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-	internal delegate void EngineEventOnMediaDownloadToMemoryResult(int _id, Int64 requestId, IntPtr memory, Int64 length, DOWNLOAD_MEDIA_ERR_CODE code);
 	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 	internal delegate void EngineEventOnGetUserAttributesResultHandler(int _id, Int64 requestId, string userId, string attributes, int numberOfAttributes, ATTRIBUTE_OPERATION_ERR errorCode);
 	[UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -67,8 +53,6 @@ namespace agora_rtm {
 		internal RtmChannelEventHandler.OnJoinFailureHandler onJoinFailure;
 		internal RtmChannelEventHandler.OnLeaveHandler onLeave;
 		internal EngineEventOnMessageReceived onMessageReceived;
-		internal EngineEventOnImageMessageReceived onImageMessageReceived;
-		internal EngineEventOnFileMessageReceived onFileMessageReceived;
 		internal RtmChannelEventHandler.OnSendMessageResultHandler onSendMessageResult;
 		internal EngineEventOnMemberJoined onMemberJoined;
 		internal EngineEventOnMemberLeft onMemberLeft;
@@ -84,14 +68,12 @@ namespace agora_rtm {
 		internal IntPtr onJoinFailure;
 		internal IntPtr onLeave;
 		internal IntPtr onMessageReceived;
-		internal IntPtr onImageMessageReceived;
-		internal IntPtr onFileMessageReceived;
 		internal IntPtr onSendMessageResult;
 		internal IntPtr onMemberJoined;
 		internal IntPtr onMemberLeft;
 		internal IntPtr onGetMember;
-		internal IntPtr onMemberCountUpdated;
 		internal IntPtr onAttributesUpdated;
+		internal IntPtr onMemberCountUpdated;
 	};
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -101,19 +83,11 @@ namespace agora_rtm {
 		internal IntPtr onLoginFailure;
 		internal IntPtr onRenewTokenResult;
 		internal IntPtr onTokenExpired;
+		internal IntPtr onTokenPrivilegeWillExpire;
 		internal IntPtr onLogout;
 		internal IntPtr onConnectionStateChanged;
 		internal IntPtr onSendMessageResult;
 		internal IntPtr onMessageReceivedFromPeer;
-		internal IntPtr onImageMessageReceivedFromPeer;
-		internal IntPtr onFileMessageReceivedFromPeer;
-		internal IntPtr onMediaUploadingProgress;
-		internal IntPtr onMediaDownloadingProgress;
-		internal IntPtr onFileMediaUploadResult;
-		internal IntPtr onImageMediaUploadResult;
-		internal IntPtr onMediaDownloadToFileResult;
-		internal IntPtr onMediaDownloadToMemoryResult;
-		internal IntPtr onMediaCancelResult;
 		internal IntPtr onQueryPeersOnlineStatusResult;
 		internal IntPtr onSubscriptionRequestResult;
 		internal IntPtr onQueryPeersBySubscriptionOptionResult;
@@ -137,19 +111,12 @@ namespace agora_rtm {
         internal RtmClientEventHandler.OnLoginFailureHandler onLoginFailure;
         internal RtmClientEventHandler.OnRenewTokenResultHandler onRenewTokenResult;
         internal RtmClientEventHandler.OnTokenExpiredHandler onTokenExpired;
-        internal RtmClientEventHandler.OnLogoutHandler onLogout;
+		internal RtmClientEventHandler.OnTokenPrivilegeWillExpireHandler onTokenPrivilegeWillExpire;
+		internal RtmClientEventHandler.OnLogoutHandler onLogout;
         internal RtmClientEventHandler.OnConnectionStateChangedHandler onConnectionStateChanged;
         internal RtmClientEventHandler.OnSendMessageResultHandler onSendMessageResult;
+
         internal EngineEventOnMessageReceived onMessageReceivedFromPeer;
-        internal EngineEventOnImageMessageReceived onImageMessageReceivedFromPeer;
-        internal EngineEventOnFileMessageReceived onFileMessageReceivedFromPeer;
-        internal EngineEventOnMediaUploadingProgress onMediaUploadingProgress;
-        internal EngineEventOnMediaDownloadingProgress onMediaDownloadingProgress;
-        internal EngineEventOnFileMediaUploadResult onFileMediaUploadResult;
-        internal EngineEventOnImageMediaUploadResult onImageMediaUploadResult;
-        internal RtmClientEventHandler.OnMediaDownloadToFileResultHandler onMediaDownloadToFileResult;
-        internal EngineEventOnMediaDownloadToMemoryResult onMediaDownloadToMemoryResult;
-        internal RtmClientEventHandler.OnMediaCancelResultHandler onMediaCancelResult;
         internal EngineEventOnQueryPeersOnlineStatusResult onQueryPeersOnlineStatusResult;
         internal RtmClientEventHandler.OnSubscriptionRequestResultHandler onSubscriptionRequestResult;
         internal RtmClientEventHandler.OnQueryPeersBySubscriptionOptionResultHandler onQueryPeersBySubscriptionOptionResult;
@@ -272,17 +239,17 @@ namespace agora_rtm {
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr createChannelAttribute_rtm(IntPtr rtmServiceInstance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int createImageMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, ref Int64 requestId);
+		//[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		//internal static extern int createImageMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, ref Int64 requestId);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int createFileMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, ref Int64 requestId);
+		//[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		//internal static extern int createFileMessageByUploading_rtm(IntPtr rtmServiceInstance, string filePath, ref Int64 requestId);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern IntPtr createImageMessageByMediaId_rtm(IntPtr rtmServiceInstance, string mediaId);
+		//[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		//internal static extern IntPtr createImageMessageByMediaId_rtm(IntPtr rtmServiceInstance, string mediaId);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern IntPtr createFileMessageByMediaId_rtm(IntPtr rtmServiceInstance, string mediaId);
+		//[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		//internal static extern IntPtr createFileMessageByMediaId_rtm(IntPtr rtmServiceInstance, string mediaId);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr createMessage_rtm(IntPtr rtmServiceInstance, byte[] rawData, int length, string description);
@@ -300,22 +267,21 @@ namespace agora_rtm {
 		internal static extern IntPtr createChannel_rtm(IntPtr rtmServiceInstance, string channelId, IntPtr channelEventHandlerPtr);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int sendMessageToPeer_rtm(IntPtr rtmServiceInstance, string peerId, IntPtr message, bool enableOfflineMessaging,
-                                    bool enableHistoricalMessaging);
+		internal static extern int sendMessageToPeer_rtm(IntPtr rtmServiceInstance, string peerId, IntPtr message);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int cancelMediaUpload_rtm(IntPtr rtmServiceInstance, Int64 requestId);						
+		//[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		//internal static extern int cancelMediaUpload_rtm(IntPtr rtmServiceInstance, Int64 requestId);						
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int cancelMediaDownload_rtm(IntPtr rtmServiceInstance, Int64 requestId);		
+		//[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		//internal static extern int cancelMediaDownload_rtm(IntPtr rtmServiceInstance, Int64 requestId);		
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int downloadMediaToFile_rtm(IntPtr rtmServiceInstance, string mediaId, string filePath, ref Int64 requestId);		
+		//[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		//internal static extern int downloadMediaToFile_rtm(IntPtr rtmServiceInstance, string mediaId, string filePath, ref Int64 requestId);		
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int downloadMediaToMemory_rtm(IntPtr rtmServiceInstance, string mediaId, ref Int64 requestId);		
+		//[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		//internal static extern int downloadMediaToMemory_rtm(IntPtr rtmServiceInstance, string mediaId, ref Int64 requestId);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern int sendMessageToPeer2_rtm(IntPtr rtmServiceInstance, string peerId, IntPtr message);		
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
@@ -341,7 +307,7 @@ namespace agora_rtm {
 		internal static extern int channel_sendMessage(IntPtr channelInstance, IntPtr message);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int channel_sendMessage2(IntPtr channelInstance, IntPtr message,  bool enableOfflineMessaging, bool enableHistoricalMessaging);
+		internal static extern int channel_sendMessage2(IntPtr channelInstance, IntPtr message);
 
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern int channel_getId(IntPtr channelInstance);

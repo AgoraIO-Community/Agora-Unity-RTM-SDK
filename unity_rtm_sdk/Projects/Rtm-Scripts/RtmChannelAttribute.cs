@@ -4,11 +4,10 @@ using System;
 using AOT;
 
 namespace agora_rtm {
-	public sealed class RtmChannelAttribute : IDisposable {
+	public sealed class RtmChannelAttribute : IRtmApiNative {
 
 		private IntPtr _channelAttributePtr = IntPtr.Zero;
 		private MESSAGE_FLAG _flag = MESSAGE_FLAG.SEND;
-		private bool _disposed = false;
 		private string _key {
 			get;
 			set;
@@ -47,13 +46,8 @@ namespace agora_rtm {
 
 		~RtmChannelAttribute() {
 			Debug.Log("~RtmChannelAttribute");
-			Dispose(false);
 		}
 
-		/// <summary>
-		/// Sets the key of the channel attribute.
-		/// </summary>
-		/// <param name="key">Key of channel attribute. Must be visible characters and not exceed 32 Bytes.</param>
 		public void SetKey(string key) {
 			if (_flag == MESSAGE_FLAG.RECEIVE) {
 				_key = key;
@@ -65,13 +59,9 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return;
 			}
-			IRtmApiNative.channelAttribute_setKey(_channelAttributePtr, key);
+			channelAttribute_setKey(_channelAttributePtr, key);
 		}
 
-		/// <summary>
-		/// Gets the key of the channel attribute.
-		/// </summary>
-		/// <returns>Key of the channel attribute.</returns>
 		public string GetKey() {
 			if (_flag == MESSAGE_FLAG.RECEIVE) {
 				return _key;
@@ -82,7 +72,7 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr keyPtr = IRtmApiNative.channelAttribute_getKey(_channelAttributePtr);
+			IntPtr keyPtr = channelAttribute_getKey(_channelAttributePtr);
             if (!ReferenceEquals(keyPtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(keyPtr);
 			} else {
@@ -90,10 +80,6 @@ namespace agora_rtm {
 			}
 		}
 
-		/// <summary>
-		/// Sets the value of the channel attribute.
-		/// </summary>
-		/// <param name="value">Value of the channel attribute. Must not exceed 8 KB in length.</param>
 		public void SetValue(string value) {
 			if (_flag == MESSAGE_FLAG.RECEIVE) {
 				_value = value;
@@ -105,13 +91,9 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return;
 			}
-			IRtmApiNative.channelAttribute_setValue(_channelAttributePtr, value);
+			channelAttribute_setValue(_channelAttributePtr, value);
 		}
 
-		/// <summary>
-		/// Gets the value of the channel attribute.
-		/// </summary>
-		/// <returns>Value of the channel attribute.</returns>
 		public string GetValue() {
 			if (_flag == MESSAGE_FLAG.RECEIVE) {
 				return _value;
@@ -122,7 +104,7 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr valuePtr = IRtmApiNative.channelAttribute_getValue(_channelAttributePtr);
+			IntPtr valuePtr = channelAttribute_getValue(_channelAttributePtr);
             if (!ReferenceEquals(valuePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(valuePtr);
 			} else {
@@ -134,10 +116,6 @@ namespace agora_rtm {
 			_lastUpdateUserId = lastUpdateUserId;
 		}
 
-		/// <summary>
-		/// Gets the User ID of the user who makes the latest update to the channel attribute.
-		/// </summary>
-		/// <returns>User ID of the user who makes the latest update to the channel attribute.</returns>
 		public string GetLastUpdateUserId() {
 			if (_flag == MESSAGE_FLAG.RECEIVE) {
 				return _lastUpdateUserId;
@@ -148,7 +126,7 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-			IntPtr userIdPtr = IRtmApiNative.channelAttribute_getLastUpdateUserId(_channelAttributePtr);
+			IntPtr userIdPtr = channelAttribute_getLastUpdateUserId(_channelAttributePtr);
             if (!ReferenceEquals(userIdPtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(userIdPtr);
 			} else {
@@ -160,10 +138,6 @@ namespace agora_rtm {
 			_lastUpdateTs = ts;
 		}
 
-		/// <summary>
-		/// Gets the timestamp of when the channel attribute was last updated.
-		/// </summary>
-		/// <returns>Timestamp of when the channel attribute was last updated in milliseconds.</returns>
 		public Int64 GetLastUpdateTs() {
 			if (_flag == MESSAGE_FLAG.RECEIVE) {
 				return _lastUpdateTs;
@@ -174,7 +148,7 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			Int64 ts = IRtmApiNative.channelAttribute_getLastUpdateTs(_channelAttributePtr);
+			Int64 ts = channelAttribute_getLastUpdateTs(_channelAttributePtr);
 			return ts;
 		}
 
@@ -187,10 +161,7 @@ namespace agora_rtm {
 			return _channelAttributePtr;
 		}
 
-		/// <summary>
-		/// Release all resources used by the IRtmChannelAttribute instance.
-		/// </summary>
-		private void Release() {
+		public void Release() {
 			if (_flag == MESSAGE_FLAG.RECEIVE)
 				return;
 
@@ -199,20 +170,8 @@ namespace agora_rtm {
 				Debug.LogError("_channelAttributePtr is null");
 				return;
 			}
-			IRtmApiNative.channelAttribute_release(_channelAttributePtr);
+			channelAttribute_release(_channelAttributePtr);
 			_channelAttributePtr = IntPtr.Zero;
-		}
-
-		public void Dispose() {
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-
-		public void Dispose(bool disposing) {
-			if (_disposed) return;
-			if (disposing) {}
-			Release();
-			_disposed = true;
 		}
 	}
 }

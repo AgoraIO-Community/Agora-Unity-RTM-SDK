@@ -118,19 +118,19 @@ AGORA_API int setParameters_rtm_rtm(void* rtmInstance, const char* parameters);
 
 AGORA_API void* createChannelAttribute_rtm(void* rtmInstance);
 
-AGORA_API int createImageMessageByUploading_rtm(void* rtmInstance,
-                                                const char* filePath,
-                                                long long& requestId);
+// AGORA_API int createImageMessageByUploading_rtm(void* rtmInstance,
+//                                                 const char* filePath,
+//                                                 long long& requestId);
 
-AGORA_API int createFileMessageByUploading_rtm(void* rtmInstance,
-                                               const char* filePath,
-                                               long long& requestId);
+// AGORA_API int createFileMessageByUploading_rtm(void* rtmInstance,
+//                                                const char* filePath,
+//                                                long long& requestId);
 
-AGORA_API void* createImageMessageByMediaId_rtm(void* rtmInstance,
-                                                const char* mediaId);
+// AGORA_API void* createImageMessageByMediaId_rtm(void* rtmInstance,
+//                                                 const char* mediaId);
 
-AGORA_API void* createFileMessageByMediaId_rtm(void* rtmInstance,
-                                               const char* mediaId);
+// AGORA_API void* createFileMessageByMediaId_rtm(void* rtmInstance,
+//                                                const char* mediaId);
 
 AGORA_API void* createMessage_rtm(void* rtmInstance,
                                   const uint8_t* rawData,
@@ -151,22 +151,20 @@ AGORA_API void* createChannel_rtm(void* rtmInstance,
 
 AGORA_API int sendMessageToPeer_rtm(void* rtmInstance,
                                     const char* peerId,
-                                    void* message,
-                                    bool enableOfflineMessaging,
-                                    bool enableHistoricalMessaging);
+                                    void* message);
 
-AGORA_API int cancelMediaUpload_rtm(void* rtmInstance, long long requestId);
+// AGORA_API int cancelMediaUpload_rtm(void* rtmInstance, long long requestId);
 
-AGORA_API int cancelMediaDownload_rtm(void* rtmInstance, long long requestId);
+// AGORA_API int cancelMediaDownload_rtm(void* rtmInstance, long long requestId);
 
-AGORA_API int downloadMediaToFile_rtm(void* rtmInstance,
-                                      const char* mediaId,
-                                      const char* filePath,
-                                      long long& requestId);
+// AGORA_API int downloadMediaToFile_rtm(void* rtmInstance,
+//                                       const char* mediaId,
+//                                       const char* filePath,
+//                                       long long& requestId);
 
-AGORA_API int downloadMediaToMemory_rtm(void* rtmInstance,
-                                        const char* mediaId,
-                                        long long& requestId);
+// AGORA_API int downloadMediaToMemory_rtm(void* rtmInstance,
+//                                         const char* mediaId,
+//                                         long long& requestId);
 
 AGORA_API int sendMessageToPeer2_rtm(void* rtmInstance,
                                      const char* peerId,

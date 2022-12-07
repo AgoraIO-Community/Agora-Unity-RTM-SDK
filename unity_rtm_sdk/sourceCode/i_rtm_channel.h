@@ -16,9 +16,7 @@ AGORA_API int channel_leave(void* channelInstance);
 AGORA_API int channel_sendMessage(void* channelInstance, void* message);
 
 AGORA_API int channel_sendMessage2(void* channelInstance,
-                                   void* message,
-                                   bool enableOfflineMessaging,
-                                   bool enableHistoricalMessaging);
+                                   void* message);
 
 AGORA_API const char* channel_getId(void* channelInstance);
 

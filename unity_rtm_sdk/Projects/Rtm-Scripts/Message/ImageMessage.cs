@@ -40,15 +40,10 @@ namespace agora_rtm {
 			_ThumbnailWidth = imageMessage.GetThumbnailWidth();
 			_ThumbnailHeight = imageMessage.GetThumbnailHeight();
 		}
-
         ~ImageMessage() {
             Release();
         }
 
-		/// <summary>
-		/// Gets the size of the uploaded image.
-		/// </summary>
-		/// <returns>The size of the uploaded image in bytes.</returns>
         public Int64 GetSize() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Size;
@@ -58,16 +53,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.iImage_message_getSize(_MessagePtr);
+            return iImage_message_getSize(_MessagePtr);
         }
 
-		/// <summary>
-		/// Gets the media ID of the uploaded image.
-		/// </summary>
-		/// <returns>
-		/// The media ID is automatically populated once the file is uploaded to the file server.
-		/// The media ID is valid for 7 days because the Agora server keeps all uploaded images for 7 days only.
-		/// </returns>
         public string GetMediaId() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE) 
 				return _MediaId;
@@ -77,18 +65,14 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-            IntPtr mediaIdPtr = IRtmApiNative.iFile_message_getMediaId(_MessagePtr);
+            IntPtr mediaIdPtr = iFile_message_getMediaId(_MessagePtr);
             if (!ReferenceEquals(mediaIdPtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(mediaIdPtr);
 			} else {
 				return "";
 			}
         }
-		
-		/// <summary>
-		/// Sets the thumbnail of the uploaded image.
-		/// </summary>
-		/// <param name="thumbnail">The thumbnail of the uploaded image.</param>
+
         public void SetThumbnail(byte[] thumbnail) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE) {
 				_Thumbnail = thumbnail;
@@ -100,33 +84,22 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-			IRtmApiNative.iImage_message_setThumbnail(_MessagePtr, thumbnail, thumbnail.Length);
+            iImage_message_setThumbnail(_MessagePtr, thumbnail, thumbnail.Length);
         }
 
-		/// <summary>
-		/// Gets the thumbnail data of the uploaded image.
-		/// </summary>
-		/// <returns>The thumbnail data of the uploaded image.</returns>
-        public byte[] GetThumbnail() {
-			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
-				return _Thumbnail;
+        public IntPtr GetThumbnail() {
+			// if (_MessageFlag == MESSAGE_FLAG.RECEIVE) {
+			// 	return _Thumbnail;
+			// }
 
 			if (_MessagePtr == IntPtr.Zero)
 			{
 				Debug.LogError("_MessagePtr is null");
-				return _Thumbnail;
+				return IntPtr.Zero;
 			}
-			long Length = IRtmApiNative.iImage_message_getThumbnailLength(_MessagePtr);
-			byte [] rawData = new byte[Length];
-			IntPtr _ThumbnailData = IRtmApiNative.iImage_message_getThumbnailData(_MessagePtr);
-			Marshal.Copy(_ThumbnailData, rawData, 0, (int)Length);
-            return rawData;
+            return iImage_message_getThumbnailData(_MessagePtr);
         }
 
-		/// <summary>
-		/// Sets the filename of the uploaded image.
-		/// </summary>
-		/// <param name="fileName">	The filename of the uploaded image. The total size of thumbnail and fileName must not exceed 32 KB.</param>
         public void SetFileName(string fileName) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -139,13 +112,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-			IRtmApiNative.iImage_message_setFileName(_MessagePtr, fileName);
+            iImage_message_setFileName(_MessagePtr, fileName);
         }
 
-		/// <summary>
-		/// Gets the filename of the uploaded image.
-		/// </summary>
-		/// <returns>The filename of the uploaded image.</returns>
         public string GetFileName() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _FileName;
@@ -155,7 +124,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR + "";
 			}
-            IntPtr fileNamePtr = IRtmApiNative.iImage_message_getFileName(_MessagePtr);
+            IntPtr fileNamePtr = iImage_message_getFileName(_MessagePtr);
             if (!ReferenceEquals(fileNamePtr, IntPtr.Zero)) {
 				return Marshal.PtrToStringAnsi(fileNamePtr);
 			} else {
@@ -163,10 +132,6 @@ namespace agora_rtm {
 			}
         }
 
-		/// <summary>
-		/// Sets the width of the uploaded image.
-		/// </summary>
-		/// <param name="width">The width of the uploaded image.</param>
         public void SetWidth(int width) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -179,13 +144,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-			IRtmApiNative.iImage_message_setWidth(_MessagePtr, width);
+            iImage_message_setWidth(_MessagePtr, width);
         }
 
-		/// <summary>
-		/// Gets the width of the uploaded image.
-		/// </summary>
-		/// <returns>The width of the uploaded image. Returns 0 if the SDK does not support the format of the uploaded image.</returns>
         public int GetWidth() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Width;
@@ -195,13 +156,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.iImage_message_getWidth(_MessagePtr);
+            return iImage_message_getWidth(_MessagePtr);
         }
 
-		/// <summary>
-		/// Sets the height of the uploaded image.
-		/// </summary>
-		/// <param name="height">The height of the uploaded image. Returns 0 if the SDK does not support the format of the uploaded image.</param>
         public void SetHeight(int height) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -214,13 +171,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-			IRtmApiNative.iImage_message_setHeight(_MessagePtr, height);
+            iImage_message_setHeight(_MessagePtr, height);
         }
 
-		/// <summary>
-		/// Gets the height of the uploaded image.
-		/// </summary>
-		/// <returns>The height of the uploaded image.</returns>
         public int GetHeight() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _Height;
@@ -230,13 +183,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.iImage_message_getHeight(_MessagePtr);
+            return iImage_message_getHeight(_MessagePtr);
         }
 
-		/// <summary>
-		/// Sets the width of the thumbnail.
-		/// </summary>
-		/// <param name="thumbnailWidth">the The width of the thumbnail.</param>
         public void SetThumbnailWidth(int thumbnailWidth) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -250,13 +199,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-			IRtmApiNative.iImage_message_setThumbnailWidth(_MessagePtr, thumbnailWidth);
+            iImage_message_setThumbnailWidth(_MessagePtr, thumbnailWidth);
         }
 
-		/// <summary>
-		/// Gets the width of the thumbnail.
-		/// </summary>
-		/// <returns>The width of the thumbnail.</returns>
         public int GetThumbnailWidth() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _ThumbnailWidth;
@@ -266,13 +211,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.iImage_message_getThumbnailWidth(_MessagePtr);
+            return iImage_message_getThumbnailWidth(_MessagePtr);
         }
 
-		/// <summary>
-		/// Sets the height of the thumbnail.
-		/// </summary>
-		/// <param name="height">The height of the thumbnail.</param>
         public void SetThumbnailHeight(int height) {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 			{
@@ -285,13 +226,9 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return;
 			}
-			IRtmApiNative.iImage_message_setThumbnailHeight(_MessagePtr, height);
+            iImage_message_setThumbnailHeight(_MessagePtr, height);
         }
 
-		/// <summary>
-		/// Gets the height of the thumbnail.
-		/// </summary>
-		/// <returns>The height of the thumbnail.</returns>
         public int GetThumbnailHeight() {
 			if (_MessageFlag == MESSAGE_FLAG.RECEIVE)
 				return _ThumbnailHeight;
@@ -301,7 +238,7 @@ namespace agora_rtm {
 				Debug.LogError("_MessagePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.iImage_message_getThumbnailHeight(_MessagePtr);
+            return iImage_message_getThumbnailHeight(_MessagePtr);
         }
     }
 }
