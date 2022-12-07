@@ -45,12 +45,6 @@
     <ClCompile Include="i_rtm_channel_member.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="i_rtm_file_message.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="i_rtm_image_message.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="i_rtm_message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -99,12 +93,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="i_rtm_channel_member.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="i_rtm_file_message.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="i_rtm_image_message.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="i_rtm_message.h">
