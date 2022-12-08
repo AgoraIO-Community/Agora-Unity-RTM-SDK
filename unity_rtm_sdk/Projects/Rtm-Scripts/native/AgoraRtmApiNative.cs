@@ -382,73 +382,73 @@ namespace agora_rtm {
 
 
 		/// Image Message
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern Int64 iImage_message_getSize(IntPtr image_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern Int64 iImage_message_getSize(IntPtr image_message_instance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern IntPtr iImage_message_getMediaId(IntPtr image_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern IntPtr iImage_message_getMediaId(IntPtr image_message_instance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern void iImage_message_setThumbnail(IntPtr image_message_instance, byte[] thumbnail, Int64 length);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern void iImage_message_setThumbnail(IntPtr image_message_instance, byte[] thumbnail, Int64 length);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern IntPtr iImage_message_getThumbnailData(IntPtr image_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern IntPtr iImage_message_getThumbnailData(IntPtr image_message_instance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern Int64 iImage_message_getThumbnailLength(IntPtr image_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern Int64 iImage_message_getThumbnailLength(IntPtr image_message_instance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern void iImage_message_setFileName(IntPtr image_message_instance, string fileName);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern void iImage_message_setFileName(IntPtr image_message_instance, string fileName);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern IntPtr iImage_message_getFileName(IntPtr image_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern IntPtr iImage_message_getFileName(IntPtr image_message_instance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern void iImage_message_setWidth(IntPtr image_message_instance, int width);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern void iImage_message_setWidth(IntPtr image_message_instance, int width);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int iImage_message_getWidth(IntPtr image_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern int iImage_message_getWidth(IntPtr image_message_instance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern void iImage_message_setHeight(IntPtr image_message_instance, int height);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern void iImage_message_setHeight(IntPtr image_message_instance, int height);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int iImage_message_getHeight(IntPtr image_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern int iImage_message_getHeight(IntPtr image_message_instance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern void iImage_message_setThumbnailWidth(IntPtr image_message_instance, int width);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern void iImage_message_setThumbnailWidth(IntPtr image_message_instance, int width);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int iImage_message_getThumbnailWidth(IntPtr image_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern int iImage_message_getThumbnailWidth(IntPtr image_message_instance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern void iImage_message_setThumbnailHeight(IntPtr image_message_instance, int height);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern void iImage_message_setThumbnailHeight(IntPtr image_message_instance, int height);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int iImage_message_getThumbnailHeight(IntPtr image_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern int iImage_message_getThumbnailHeight(IntPtr image_message_instance);
 
 		/// File Message
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern Int64 iFile_message_getSize(IntPtr file_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern Int64 iFile_message_getSize(IntPtr file_message_instance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern IntPtr iFile_message_getMediaId(IntPtr file_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern IntPtr iFile_message_getMediaId(IntPtr file_message_instance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern void iFile_message_setThumbnail(IntPtr file_message_instance, byte[] thumbnail, int length);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern void iFile_message_setThumbnail(IntPtr file_message_instance, byte[] thumbnail, int length);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern IntPtr iFile_message_getThumbnailData(IntPtr file_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern IntPtr iFile_message_getThumbnailData(IntPtr file_message_instance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern Int64 iFile_message_getThumbnailLength(IntPtr file_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern Int64 iFile_message_getThumbnailLength(IntPtr file_message_instance);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern void iFile_message_setFileName(IntPtr file_message_instance, string fileName);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern void iFile_message_setFileName(IntPtr file_message_instance, string fileName);
 
-		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern IntPtr iFile_message_getFileName(IntPtr file_message_instance);
+		// [DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		// internal static extern IntPtr iFile_message_getFileName(IntPtr file_message_instance);
 
 		// Channel Member
 		[DllImport(MyLibName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
