@@ -88,15 +88,15 @@ fi
 EXTRACFLAGS=OTHER_CFLAGS="-DGIT_SRC_VERSION=${COMMITNR}"
 
 # simulator
-xcodebuild -project ${module_name}.xcodeproj -target ${module_name} -configuration ${build_config} -sdk ${iphonesimulator_config} ${BUILD_TARGET} SYMROOT=${output_build_tmp_path} ${EXTRACFLAGS} -UseModernBuildSystem=NO || exit 1
+# xcodebuild -project ${module_name}.xcodeproj -target ${module_name} -configuration ${build_config} -sdk ${iphonesimulator_config} ${BUILD_TARGET} SYMROOT=${output_build_tmp_path} ${EXTRACFLAGS} -UseModernBuildSystem=NO || exit 1
 
 # iphone
 xcodebuild -project ${module_name}.xcodeproj -target ${module_name}  -configuration ${build_config} -sdk ${iphoneos_config} ${BUILD_TARGET} SYMROOT=${output_build_tmp_path} ${EXTRACFLAGS} -UseModernBuildSystem=NO || exit 1
 
-lipo ./${output_build_tmp_path}/${build_config}-${iphonesimulator_config}/lib${module_name}.a -remove arm64 -output ./${output_build_tmp_path}/${build_config}-${iphonesimulator_config}/lib${module_name}.a
+# lipo ./${output_build_tmp_path}/${build_config}-${iphonesimulator_config}/lib${module_name}.a -remove arm64 -output ./${output_build_tmp_path}/${build_config}-${iphonesimulator_config}/lib${module_name}.a
 
 # merge
-lipo -create  ./${output_build_tmp_path}/${build_config}-${iphonesimulator_config}/lib${module_name}.a ./${output_build_tmp_path}/${build_config}-${iphoneos_config}/lib${module_name}.a -output ./${output_build_tmp_path}/${build_config}-${iphoneos_config}/lib${module_name}.a || exit 1
+# lipo -create  ./${output_build_tmp_path}/${build_config}-${iphonesimulator_config}/lib${module_name}.a ./${output_build_tmp_path}/${build_config}-${iphoneos_config}/lib${module_name}.a -output ./${output_build_tmp_path}/${build_config}-${iphoneos_config}/lib${module_name}.a || exit 1
 
 make_unity_plugin
 

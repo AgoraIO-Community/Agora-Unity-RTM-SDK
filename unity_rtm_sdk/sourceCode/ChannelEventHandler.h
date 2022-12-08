@@ -55,26 +55,6 @@ class ChannelEventHandler : public agora::rtm::IChannelEventHandler {
    */
   virtual void onMessageReceived(const char* userId,
                                  const agora::rtm::IMessage* message) override;
-  /**
-   Occurs when receiving a channel image message.
-
-   @param userId The message sender.
-   @param message The received channel image message. See \ref
-   agora::rtm::IImageMessage "IImageMessage".
-   */
-  virtual void onImageMessageReceived(
-      const char* userId,
-      const agora::rtm::IImageMessage* message) override;
-
-  /**
-   Occurs when receiving a channel file message.
-
-   @param userId The message sender.
-   @param message The received channel file message. See \ref
-   agora::rtm::IFileMessage "IFileMessage".
-   */
-  virtual void onFileMessageReceived(const char* userId,
-                                     const agora::rtm::IFileMessage* message) override;
 
   /**
    Returns the result of the \ref agora::rtm::IChannel::sendMessage

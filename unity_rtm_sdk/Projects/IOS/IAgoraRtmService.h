@@ -25,7 +25,7 @@
 
 #elif defined(__ANDROID__) || defined(__linux__)
 #if defined(__ANDROID__) && defined(FEATURE_RTM_STANDALONE_SDK)
-#define AGORA_API extern "C"
+#define AGORA_API extern "C" __attribute__((visibility("default")))
 #define _AGORA_CPP_API
 #else
 #define AGORA_API extern "C" __attribute__((visibility("default")))
@@ -312,6 +312,11 @@ namespace agora {
        8: Another user is logging in the Agora RTM system with the same User ID.
        */
       CONNECTION_CHANGE_REASON_REMOTE_LOGIN = 8,
+      
+      /**
+      9: The token has expired.
+      */
+      CONNECTION_CHANGE_REASON_TOKEN_EXPIRED = 9,
     };
 
     /**
@@ -460,6 +465,11 @@ namespace agora {
        3: The user is not in the channel.
        */
       LEAVE_CHANNEL_ERR_NOT_IN_CHANNEL = 3,
+
+      /**
+       4: The user is banned to join the channel.
+       */
+      LEAVE_CHANNEL_ERR_KICKED = 4,
 
       /**
        101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
@@ -849,142 +859,6 @@ namespace agora {
         GET_CHANNEL_MEMBER_COUNT_ERR_USER_NOT_LOGGED_IN = 102,
      };
 
-      /**
-       @brief Error codes related to downloading a file or image.
-       */
-      enum DOWNLOAD_MEDIA_ERR_CODE {
-          /**
-           0: The method call succeeds, or the operation succeeds.
-           */
-          DOWNLOAD_MEDIA_ERR_OK = 0,
-
-          /**
-           1: Unknown common failure. Check whether you have write access.
-           */
-          DOWNLOAD_MEDIA_ERR_FAILURE = 1,
-
-          /**
-           2: An argument you put is invalid. For example, `mediaId` is in the wrong format or `filePath` is set as `null`.
-           */
-          DOWNLOAD_MEDIA_ERR_INVALID_ARGUMENT = 2,
-          /**
-           3: A timeout occurs. The current timeout is set as 120 seconds. The SDK assumes that a timeout occurs if it has not detected any file transmission between the SDK and the file server for 120 seconds.
-           */
-          DOWNLOAD_MEDIA_ERR_TIMEOUT = 3,
-
-          /**
-           4: The file or image to download does not exist, either because the media ID you input is incorrect or because the validity of the media ID has expired.
-           */
-          DOWNLOAD_MEDIA_ERR_NOT_EXIST = 4,
-
-          /**
-           5: You have exceeded the upper limit for file download. You can initiate a maximum of nine file download or upload tasks at the same time (download and upload tasks count together).
-           */
-          DOWNLOAD_MEDIA_ERR_CONCURRENCY_LIMIT_EXCEEDED = 5,
-
-          /**
-           6: The file or image download task is aborted for either of the following reasons:
-
-           - The user is in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" state.
-           - The user has cancelled the download task.
-           */
-          DOWNLOAD_MEDIA_ERR_INTERRUPTED = 6,
-
-          /**
-           101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
-           */
-          DOWNLOAD_MEDIA_ERR_NOT_INITIALIZED = 101,
-
-          /**
-           102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before this operation.
-           */
-          DOWNLOAD_MEDIA_ERR_NOT_LOGGED_IN = 102,
-      };
-
-
-      /**
-       @brief Error codes related to uploading a file or image.
-       */
-      enum UPLOAD_MEDIA_ERR_CODE {
-          /**
-           0: The method call succeeds, or the operation succeeds.
-           */
-          UPLOAD_MEDIA_ERR_OK = 0,
-
-          /**
-           1: Unknown common failure. Please check whether the file exists and whether you can access the file.
-           */
-          UPLOAD_MEDIA_ERR_FAILURE = 1,
-
-          /**
-           2: The argument you put is invalid. For example, `mediaId` is in the wrong format.
-           */
-          UPLOAD_MEDIA_ERR_INVALID_ARGUMENT = 2,
-
-          /**
-           3: A timeout occurs. The current timeout is set as 120 seconds. The SDK assumes that a timeout occurs if it has not detected any file transmission between the SDK and the file server for 120 seconds.
-           */
-          UPLOAD_MEDIA_ERR_TIMEOUT = 3,
-
-          /**
-           4: The size of the file or image to upload exceeds 30 MB.
-           */
-          UPLOAD_MEDIA_ERR_SIZE_OVERFLOW = 4,
-          /**
-           5: You have exceeded the upper limit for file upload. You can initiate a maximum of nine file upload or download tasks at the same time (upload and download tasks count together).
-           */
-          UPLOAD_MEDIA_ERR_CONCURRENCY_LIMIT_EXCEEDED = 5,
-          /**
-           6: The file or image upload task is aborted for either of the following reasons:
-
-           - The user in the \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" state.
-           - The user has cancelled the upload task.
-           */
-          UPLOAD_MEDIA_ERR_INTERRUPTED = 6,
-
-          /**
-           101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
-           */
-          UPLOAD_MEDIA_ERR_NOT_INITIALIZED = 101,
-
-          /**
-           102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before this operation.
-           */
-          UPLOAD_MEDIA_ERR_NOT_LOGGED_IN = 102,
-      };
-
-      /**
-       @brief Error codes related to cancelling a download task or cancelling an upload task.
-       */
-      enum CANCEL_MEDIA_ERR_CODE {
-          /**
-           0: The method call succeeds, or the operation succeeds.
-           */
-          CANCEL_MEDIA_ERR_OK = 0,
-
-          /**
-           1: Unknown common failure.
-           */
-          CANCEL_MEDIA_ERR_FAILURE = 1,
-
-          /**
-           2: The task to cancel does not exist. You can only cancel an ongoing download or upload task. If the download or upload task completes, the corresponding @p requestId is no longer valid.
-           */
-          CANCEL_MEDIA_ERR_NOT_EXIST = 2,
-
-          /**
-           101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
-           */
-          CANCEL_MEDIA_ERR_NOT_INITIALIZED = 101,
-
-          /**
-           102: The user does not call the \ref agora::rtm::IRtmService::login "login" method, or the method call of \ref agora::rtm::IRtmService::login "login" does not succeed before this operation.
-           */
-          CANCEL_MEDIA_ERR_NOT_LOGGED_IN = 102,
-      };
-
-
-
     /**
      @brief Message types.
      */
@@ -1020,29 +894,7 @@ namespace agora {
       @brief Message sending options.
       */
     struct SendMessageOptions{
-      /**
-      Set the message as an offline message.
 
-      - true: Set the message as an offline message.
-      - false: (default) Do not set the message as an offline message.
-
-      @note This setting applies to the peer-to-peer message only, not to the channel message.
-      */
-      bool enableOfflineMessaging;
-      /**
-       <b>PRIVATE BETA</b> Save the message to message history.
-
-       - true: Save the message to message history.
-       - false: (default) Do not save the message to message history.
-       */
-      bool enableHistoricalMessaging;
-
-      SendMessageOptions()
-      : enableOfflineMessaging(false)
-
-      , enableHistoricalMessaging(false)
-
-      {}
     };
 
     /**
@@ -1060,21 +912,6 @@ namespace agora {
          Value of the user attribute. Must not exceed 8 KB.
          */
         const char* value;
-    };
-
-    /**
-     @brief A data structure representing the upload ratio or download ratio.
-     */
-    struct MediaOperationProgress
-    {
-        /**
-         The total size of the file or image being loaded.
-         */
-        long long totalSize;
-        /**
-         The size of the loaded part of the file or image.
-         */
-        long long currentSize;
     };
 
      /**
@@ -1235,205 +1072,6 @@ namespace agora {
     };
 
     /**
-     @brief The class for setting and retrieving attributes of a file message.
-     */
-    class IFileMessage : public IMessage
-    {
-    public:
-
-        /**
-         Gets the size of the uploaded file.
-
-         @return The size of the uploaded file in bytes.
-         */
-        virtual long long getSize() const = 0;
-
-        /**
-         Gets the media ID of the uploaded file.
-
-         @note
-         - The media ID is automatically populated once the file is uploaded to the file server.
-         - The media ID is valid for 7 days because the file server keeps all uploaded files for 7 days only.
-
-         @return The media ID of the uploaded file.
-         */
-        virtual const char* getMediaId() const = 0;
-
-        /**
-         Sets the thumbnail of the uploaded file.
-
-         @param thumbnail The thumbnail of the uploaded file. Must be binary data.
-         @param length The length of the thumbnail. The size of @p thumbnail and @p fileName combined must not exceed 32 KB.
-         */
-        virtual void setThumbnail(const uint8_t* thumbnail, int length) = 0;
-
-        /**
-         Gets the thumbnail of the uploaded file.
-
-         @return The thumbnail of the uploaded file.
-         */
-        virtual const char* getThumbnailData() const = 0;
-
-        /**
-         Gets the length of the thumbnail.
-
-         @return The length of the thumbnail.
-         */
-        virtual const long long getThumbnailLength() const = 0;
-
-        /**
-         Sets the name of the uploaded file.
-
-         @param fileName The name of the uploaded file. The size of @p thumbnail and @p fileName combined must not exceed 32 KB.
-         */
-        virtual void setFileName(const char* fileName) = 0;
-
-        /**
-         Gets the name of the uploaded file.
-
-         @return The name of the uploaded file.
-         */
-        virtual const char* getFileName() const = 0;
-    };
-
-    /**
-     @brief The class for setting and retrieving attributes of an image message.
-     */
-    class IImageMessage : public IMessage
-    {
-    public:
-        /**
-         Gets the size of the uploaded image.
-
-         @return The size of the uploaded image in bytes.
-         */
-        virtual long long getSize() const = 0;
-
-        /**
-         Gets the media ID of the uploaded image.
-
-         @note
-         - The media ID is automatically populated once the image is uploaded to the file server.
-         - The media ID is valid for 7 days because the file server keeps all uploaded files for 7 days only.
-
-         @return The media ID of the uploaded image.
-         */
-        virtual const char* getMediaId() const = 0;
-
-        /**
-         Sets the thumbnail of the uploaded image.
-
-         @param thumbnail The thumbnail of the uploaded image.
-         @param length The length of the thumbnail in bytes. The size of @p thumbnail and @p fileName combined must not exceed 32 KB.
-         */
-        virtual void setThumbnail(const uint8_t* thumbnail, long long length) = 0;
-
-        /**
-         Gets the thumbnail data of the uploaded image.
-
-         @return The thumbnail data of the uploaded image.
-         */
-        virtual const char* getThumbnailData() const = 0;
-
-        /**
-         Gets the length of the thumbnail data.
-
-         @return The length of the thumbnail data.
-         */
-        virtual const long long getThumbnailLength() const = 0;
-
-        /**
-         Sets the file name of the uploaded image.
-
-         @param fileName The file name of the uploaded image. The size of @p thumbnail and @p fileName combined must not exceed 32 KB.
-         */
-        virtual void setFileName(const char* fileName) = 0;
-
-        /**
-         Gets the file name of the uploaded image.
-
-         @return The file name of the uploaded image.
-         */
-        virtual const char* getFileName() const = 0;
-
-        /**
-         Sets the width of the uploaded image.
-
-         @note
-         - If the uploaded image is in JPG, JPEG, BMP, or PNG format, the SDK automatically calculates the width and height of the image. You can call \ref agora::rtm::IImageMessage::getWidth() "getWidth" directly to get the width of the image.
-         - Image width that is set by calling this method overrides the width calculated by the SDK.
-
-         @param width The width of the uploaded image.
-         */
-        virtual void setWidth(int width) = 0;
-
-        /**
-         Gets the width of the uploaded image.
-
-         @note
-         - If the uploaded image is in JPG, JPEG, BMP, or PNG format, the SDK automatically calculates the width and height of the image. You can call this method directly to get the width of the image.
-         - Image width that is set by calling \ref agora::rtm::IImageMessage::setWidth() "setWidth" overrides the width calculated by the SDK.
-
-         @return The width of the uploaded image. Is 0 if the SDK does not support the format of the uploaded image.
-         */
-        virtual int getWidth() const = 0;
-
-        /**
-         Sets the height of the uploaded image.
-
-         @note
-         - If the uploaded image is in JPG, JPEG, BMP, or PNG format, the SDK automatically calculates the width and height of the image. You can call \ref agora::rtm::IImageMessage::getHeight() "getHeight" directly to get the height of the image.
-         - Image height that is set by calling this method overrides the height calculated by the SDK.
-
-         @param height The height of the uploaded image. Is 0 if the SDK does not support the format of the uploaded image.
-         */
-        virtual void setHeight(int height) = 0;
-
-        /**
-         Gets the height of the uploaded image.
-
-         @note
-         - If the uploaded image is in JPG, JPEG, BMP, or PNG format, the SDK automatically calculates the width and height of the image. You can call this method directly to get the height of the image.
-         - Image height that is set by calling \ref agora::rtm::IImageMessage::setHeight() "setHeight" overrides the height calculated by the SDK.
-
-         @return The height of the uploaded image.
-         */
-        virtual int getHeight() const = 0;
-
-        /**
-         Sets the width of the thumbnail.
-
-         @note You need to work out the width of the thumbnail by yourself, because the SDK does not work out the value for you.
-
-         @param width The width of the thumbnail.
-         */
-        virtual void setThumbnailWidth(int width) = 0;
-
-        /**
-         Gets the width of the thumbnail.
-
-         @return The width of the thumbnail.
-         */
-        virtual int getThumbnailWidth() const = 0;
-
-        /**
-         Sets the height of the thumbnail.
-
-         @note You need to work out the height of the thumbnail by yourself, because the SDK does not work out the value for you.
-
-         @param height The height of the thumbnail.
-         */
-        virtual void setThumbnailHeight(int height) = 0;
-
-        /**
-         Gets the height of the thumbnail.
-
-         @return The height of the thumbnail.
-         */
-        virtual int getThumbnailHeight() const = 0;
-    };
-
-    /**
      @brief The class for retrieving the attributes of a channel member.
      */
     class IChannelMember
@@ -1544,7 +1182,7 @@ namespace agora {
       {
           (JOIN_CHANNEL_ERR) errorCode;
       }
-
+      
       /**
        Returns the result of the \ref agora::rtm::IChannel::leave "leave" method call.
 
@@ -1566,27 +1204,6 @@ namespace agora {
           (const char *) userId;
           (IMessage *) message;
       }
-        /**
-         Occurs when receiving a channel image message.
-
-         @param userId The message sender.
-         @param message The received channel image message. See \ref agora::rtm::IImageMessage "IImageMessage".
-         */
-        virtual void onImageMessageReceived(const char *userId, const IImageMessage* message)
-        {
-            (IImageMessage *) message;
-        }
-
-        /**
-         Occurs when receiving a channel file message.
-
-         @param userId The message sender.
-         @param message The received channel file message. See \ref agora::rtm::IFileMessage "IFileMessage".
-         */
-        virtual void onFileMessageReceived(const char *userId, const IFileMessage* message)
-        {
-            (IFileMessage *) message;
-        }
 
       /**
        Returns the result of the \ref agora::rtm::IChannel::sendMessage "sendMessage" method call.
@@ -1811,12 +1428,22 @@ namespace agora {
       }
 
       /**
-       Occurs when the RTM server detects that the RTM token has exceeded the 24-hour validity period and when the SDK is in the \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state.
+       Occurs when the RTM server detects that the RTM token has exceeded the specified validity period.
 
-       - This callback occurs only when the SDK is reconnecting to the server. You will not receive this callback when the SDK is in the \ref agora::rtm::CONNECTION_STATE_CONNECTED "CONNECTION_STATE_CONNECTED" state.
-       - When receiving this callback, generate a new RTM Token on the server and call the \ref agora::rtm::IRtmService::renewToken "renewToken" method to pass the new Token on to the server.
+       - If the SDK is in the \ref agora::rtm::CONNECTION_STATE_CONNECTED "CONNECTION_STATE_CONNECTED" state, the connection state switches to \ref agora::rtm::CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" and you need to call the \ref agora::rtm::IRtmService::login "login" method to log in again.
+       - If the SDK is in the \ref agora::rtm::CONNECTION_STATE_RECONNECTING "CONNECTION_STATE_RECONNECTING" state, you will receive this callback when the network reconnects and you need to call \ref agora::rtm::IRtmService::renewToken "renewToken" to pass the new token on to the server.
        */
       virtual void onTokenExpired()
+      {
+      }
+
+      /**
+       Occurs when the token expires in 30 seconds.
+       
+       - Upon receiving this callback, generate a new token on the server and call the \ref agora::rtm::IRtmService::renewToken "renewToken" method to pass the new token to the SDK.
+       - If the token used in the \ref agora::rtm::IRtmService::login "login" method expires, the user becomes offline and the SDK attempts to reconnect.
+       */
+      virtual void onTokenPrivilegeWillExpire()
       {
       }
 
@@ -1863,132 +1490,6 @@ namespace agora {
       {
           (char *) peerId;
           (IMessage *) message;
-      }
-
-      /**
-       Occurs when receiving a peer-to-peer image message.
-
-       @param peerId The ID of the message sender.
-       @param message The received peer-to-peer image message. See \ref agora::rtm::IImageMessage "IImageMessage".
-       */
-      virtual void onImageMessageReceivedFromPeer(const char *peerId, const IImageMessage* message)
-      {
-          (char *) peerId;
-          (IImageMessage *) message;
-      }
-
-      /**
-       Occurs when receiving a peer-to-peer file message.
-
-       @param peerId The ID of the message sender.
-       @param message The received peer-to-peer file message. See \ref agora::rtm::IFileMessage "IFileMessage".
-       */
-      virtual void onFileMessageReceivedFromPeer(const char *peerId, const IFileMessage* message)
-      {
-          (char *) peerId;
-          (IFileMessage *) message;
-      }
-
-      /**
-       Reports the progress of an ongoing upload task.
-
-       @note
-       - If the upload task is ongoing, the SDK returns this callback once every second.
-       - If the upload task comes to a halt, the SDK stops returning this callback until the task is going again.
-
-       @param requestId The unique ID of the upload request.
-       @param progress The progress of the ongoing upload task. See \ref agora::rtm::MediaOperationProgress "MediaOperationProgress".
-       */
-      virtual void onMediaUploadingProgress(long long requestId, const MediaOperationProgress &progress)
-      {
-          (long long) requestId;
-          (MediaOperationProgress) progress;
-      }
-
-      /**
-       Reports the progress of an ongoing download task.
-
-       @note
-       - If the download task is ongoing, the SDK returns this callback once every second.
-       - If the download task comes to a halt, the SDK stops returning this callback until the task is going again.
-
-       @param requestId The unique ID of the download request.
-       @param progress The progress of the ongoing download task. See \ref agora::rtm::MediaOperationProgress "MediaOperationProgress".
-       */
-      virtual void onMediaDownloadingProgress(long long requestId, const MediaOperationProgress &progress)
-      {
-          (long long) requestId;
-          (MediaOperationProgress) progress;
-      }
-
-      /**
-       Reports the result of the \ref agora::rtm::IRtmService::createFileMessageByUploading "createFileMessageByUploading" method call.
-
-       @param requestId The unique ID of the upload request.
-       @param fileMessage An \ref agora::rtm::IFileMessage "IFileMessage" instance.
-       @param code Error codes. See #UPLOAD_MEDIA_ERR_CODE.
-       */
-      virtual void onFileMediaUploadResult(long long requestId, IFileMessage* fileMessage, UPLOAD_MEDIA_ERR_CODE code)
-      {
-          (long long) requestId;
-          (IFileMessage *) fileMessage;
-          (UPLOAD_MEDIA_ERR_CODE) code;
-      }
-
-      /**
-       Reports the result of the \ref agora::rtm::IRtmService::createImageMessageByUploading "createImageMessageByUploading" method call.
-
-       @param requestId The unique ID of the upload request.
-       @param imageMessage An \ref agora::rtm::IImageMessage "IImageMessage" instance.
-       @param code Error codes. See #UPLOAD_MEDIA_ERR_CODE.
-       */
-      virtual void onImageMediaUploadResult(long long requestId, IImageMessage* imageMessage, UPLOAD_MEDIA_ERR_CODE code)
-      {
-          (long long) requestId;
-          (IImageMessage *) imageMessage;
-          (UPLOAD_MEDIA_ERR_CODE) code;
-      }
-
-      /**
-       Reports the result of the \ref agora::rtm::IRtmService::downloadMediaToFile "downloadMediaToFile" method call.
-
-       @param requestId The unique ID of the download request.
-       @param code Error codes. See #DOWNLOAD_MEDIA_ERR_CODE.
-       */
-      virtual void onMediaDownloadToFileResult(long long requestId, DOWNLOAD_MEDIA_ERR_CODE code)
-      {
-          (long long)requestId;
-          (DOWNLOAD_MEDIA_ERR_CODE)code;
-      }
-
-      /**
-       Reports the result of the \ref agora::rtm::IRtmService::downloadMediaToMemory "downloadMediaToMemory" method call.
-
-       @note The SDK releases the downloaded file or image immediately after returning this callback.
-
-       @param requestId The unique ID of the download request.
-       @param memory The memory address where the downloaded file or image is stored.
-       @param length The size of the downloaded file or image.
-       @param code Error codes. See #DOWNLOAD_MEDIA_ERR_CODE.
-       */
-      virtual void onMediaDownloadToMemoryResult(long long requestId, const char* memory, long long length, DOWNLOAD_MEDIA_ERR_CODE code)
-      {
-          (long long) requestId;
-          (const char*) memory;
-          (long long) length;
-          (DOWNLOAD_MEDIA_ERR_CODE) code;
-      }
-
-      /**
-       Reports the result of the \ref agora::rtm::IRtmService::cancelMediaDownload "cancelMediaDownload" or \ref agora::rtm::IRtmService::cancelMediaUpload "cancelMediaUpload" method call.
-
-       @param requestId The unique ID of the cancel request.
-       @param code Error codes. See #CANCEL_MEDIA_ERR_CODE.
-       */
-      virtual void onMediaCancelResult(long long requestId, CANCEL_MEDIA_ERR_CODE code)
-      {
-          (long long) requestId;
-          (CANCEL_MEDIA_ERR_CODE) code;
       }
 
       /**
@@ -2343,68 +1844,6 @@ namespace agora {
       virtual int sendMessageToPeer(const char *peerId, const IMessage *message) = 0;
 
       /**
-       Downloads a file or image from the Agora server to the local memory by media ID.
-
-       The SDK returns the result of this method call by the \ref agora::rtm::IRtmServiceEventHandler::onMediaDownloadToFileResult "onMediaDownloadToMemoryResult" callback.
-
-       @note
-       - This method applies to scenarios requiring quick access to the downloaded file or image.
-       - The SDK releases the downloaded file or image immediately after returning the \ref agora::rtm::IRtmServiceEventHandler::onMediaDownloadToFileResult "onMediaDownloadToMemoryResult" callback.
-
-       @param mediaId The media ID of the file or image on the Agora server.
-       @param requestId The unique ID of this download request.
-       @return
-       - 0: Success.
-       - &ne;0: Failure. See #DOWNLOAD_MEDIA_ERR_CODE for the error codes.
-       */
-      virtual int downloadMediaToMemory(const char* mediaId, long long &requestId) = 0;
-
-      /**
-       Downloads a file or image from the Agora server to a specified local directory by media ID.
-
-       The SDK returns the result of this method call by the \ref agora::rtm::IRtmServiceEventHandler::onMediaDownloadToFileResult "onMediaDownloadToFileResult" callback.
-
-       @param mediaId The media ID of the file or image on the Agora server.
-       @param filePath The full path to the downloaded file or image. Must be in UTF-8.
-       @param requestId The unique ID of this download request.
-       @return
-       - 0: Success.
-       - &ne;0: Failure. See #DOWNLOAD_MEDIA_ERR_CODE for the error codes.
-       */
-      virtual int downloadMediaToFile(const char* mediaId, const char* filePath, long long &requestId) = 0;
-
-      /**
-       Cancels an ongoing file or image download task by request ID.
-
-       The SDK returns the result of this method call with the \ref agora::rtm::IRtmServiceEventHandler::onMediaCancelResult "onMediaCancelResult" callback.
-
-       @note
-       You can only cancel an ongoing download task. After a download task completes, the corresponding request ID is no longer valid and hence you cannot cancel it.
-
-       @param requestId The unique ID of the download request to cancel.
-       @return
-       - 0: Success.
-       - &ne;0: Failure. See #CANCEL_MEDIA_ERR_CODE for the error codes.
-       */
-      virtual int cancelMediaDownload(long long requestId) = 0;
-
-      /**
-       Cancels an ongoing file or image upload task by request ID.
-
-       The SDK returns the result of this method call with the \ref agora::rtm::IRtmServiceEventHandler::onMediaCancelResult "onMediaCancelResult" callback.
-
-       @note
-       You can only cancel an ongoing upload task. After an upload task completes, you cannot cancel it and the corresponding request ID is no longer valid.
-
-       @param requestId The unique ID of the upload request to cancel.
-       @return
-       - 0: Success.
-       - &ne;0: Failure. See #CANCEL_MEDIA_ERR_CODE for the error codes.
-       */
-      virtual int cancelMediaUpload(long long requestId) = 0;
-
-
-      /**
        Sends an (offline) peer-to-peer message to a specified user (receiver).
 
        This method allows you to send a message to a specified user when he/she is offline. If you set a message as an offline message and the specified user is offline when you send it, the RTM server caches it. Please note that for now we only cache 200 offline messages for up to seven days for each receiver. When the number of the cached messages reaches this limit, the newest message overrides the oldest one.
@@ -2521,66 +1960,6 @@ namespace agora {
        @return A raw \ref agora::rtm::IMessage "IMessage" instance with a brief text description.
        */
       virtual IMessage *createMessage(const uint8_t* rawData, int length, const char* description) = 0;
-
-      /**
-       Creates an \ref agora::rtm::IFileMessage "IFileMessage" instance by media ID.
-
-       - If you have at hand the media ID of a file on the Agora server, you can call this method to create an \ref agora::rtm::IFileMessage "IFileMessage" instance.
-       - If you do not have a media ID, then you must call \ref agora::rtm::IRtmService::createFileMessageByUploading "createFileMessageByUploading" to get a corresponding \ref agora::rtm::IFileMessage "IFileMessage" instance by uploading a file to the Agora RTM server.
-
-       @param mediaId The media ID of an uploaded file on the Agora server.
-       @return An \ref agora::rtm::IFileMessage "IFileMessage" instance.
-       */
-      virtual IFileMessage *createFileMessageByMediaId(const char* mediaId) = 0;
-
-      /**
-       Creates an \ref agora::rtm::IImageMessage "IImageMessage" instance by media ID.
-
-       - If you have at hand the media ID of an image on the Agora server, you can call this method to create an \ref agora::rtm::IImageMessage "IImageMessage" instance.
-       - If you do not have a media ID, then you must call \ref agora::rtm::IRtmService::createImageMessageByUploading "createImageMessageByUploading" to get a corresponding \ref agora::rtm::IImageMessage "IImageMessage" instance by uploading an image to the Agora RTM server.
-
-       @param mediaId The media ID of an uploaded image on the Agora server.
-       @return An \ref agora::rtm::IImageMessage "IImageMessage" instance.
-       */
-      virtual IImageMessage *createImageMessageByMediaId(const char* mediaId) = 0;
-
-      /**
-       Gets an \ref agora::rtm::IFileMessage "IFileMessage" instance by uploading a file to the Agora server.
-
-       The SDK returns the result with the \ref agora::rtm::IRtmServiceEventHandler::onFileMediaUploadResult callback. If success, this callback returns a corresponding \ref agora::rtm::IFileMessage "IFileMessage" instance.
-
-       @note
-       - If you have at hand the media ID of a file on the Agora server, you can call \ref agora::rtm::IRtmService::createFileMessageByMediaId "createFileMessageByMediaId" to create an \ref agora::rtm::IFileMessage "IFileMessage" instance.
-       - To cancel an ongoing file upload task, call \ref agora::rtm::IRtmService::cancelMediaUpload "cancelMediaUpload".
-
-
-       @param filePath The full path to the local file to upload. Must be in UTF-8.
-       @param requestId The unique ID of this upload request.
-       @return
-       - 0: Success.
-       - &ne;0: Failure. See #UPLOAD_MEDIA_ERR_CODE for the error codes.
-       */
-      virtual int createFileMessageByUploading(const char* filePath, long long &requestId) = 0;
-
-      /**
-       Gets an \ref agora::rtm::IImageMessage "IImageMessage" instance by uploading an image to the Agora server.
-
-       The SDK returns the result by the \ref agora::rtm::IRtmServiceEventHandler::onImageMediaUploadResult callback. If success, this callback returns a corresponding \ref agora::rtm::IImageMessage "ImageMessage" instance.
-
-       - If the uploaded image is in JPEG, JPG, BMP, or PNG format, the SDK calculates the width and height of the image. You can call \ref agora::rtm::IImageMessage::getWidth "getWidth" and \ref agora::rtm::IImageMessage::getHeight "getHeight" to get the calculated width and height.
-       - Otherwise, you need to call \ref agora::rtm::IImageMessage::setWidth "setWidth" and \ref agora::rtm::IImageMessage::setHeight "setHeight" to set the width and height of the uploaded image by yourself.
-
-       @note
-       - If you have at hand the media ID of an image on the Agora server, you can call \ref agora::rtm::IRtmService::createImageMessageByMediaId "createImageMessageByMediaId" to create an \ref agora::rtm::IImageMessage "IImageMessage" instance.
-       - To cancel an ongoing image upload task, call \ref agora::rtm::IRtmService::cancelMediaUpload "cancelMediaUpload".
-
-       @param filePath The full path to the local image to upload. Must be in UTF-8.
-       @param requestId The unique ID of the upload request.
-       @return
-       - 0: Success.
-       - &ne;0: Failure. See #UPLOAD_MEDIA_ERR_CODE for the error codes.
-       */
-      virtual int createImageMessageByUploading(const char* filePath, long long &requestId) = 0;
 
       /**
        Creates an \ref agora::rtm::IRtmChannelAttribute "IRtmChannelAttribute" instance.

@@ -19,8 +19,6 @@ LOCAL_SRC_FILES := \
 				i_rtm_channel_event_handler.cpp\
 				i_rtm_channel_member.cpp\
 				i_rtm_channel.cpp\
-				i_rtm_file_message.cpp\
-				i_rtm_image_message.cpp\
 				i_rtm_message.cpp\
 				i_rtm_service_event_handler.cpp\
 				i_rtm_service.cpp\

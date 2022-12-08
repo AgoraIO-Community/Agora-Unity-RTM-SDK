@@ -199,7 +199,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return IRtmApiNative.sendMessageToPeer_rtm(_rtmServicePtr, peerId, message.GetPtr(), options.enableOfflineMessaging, options.enableHistoricalMessaging);
+            return IRtmApiNative.sendMessageToPeer_rtm(_rtmServicePtr, peerId, message.GetPtr());
         }
 
         /// <summary>
@@ -224,90 +224,6 @@ namespace agora_rtm {
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
             return IRtmApiNative.sendMessageToPeer2_rtm(_rtmServicePtr, peerId, message.GetPtr());
-        }
-
-        /// <summary>
-        /// Downloads a file or image from the Agora server to the local memory by media ID.
-        /// The SDK returns the result of this method call by the <OnMediaDownloadToMemoryResultHandler> callback.
-        /// </summary>
-        /// <param name="mediaId">
-        /// The media ID of the file or image on the Agora server.
-        /// </param>
-        /// <param name="requestId">
-        /// The unique ID of this download request.
-        /// </param>
-        /// <returns>
-        /// 0: Success.
-        /// ≠0: Failure.
-        /// </returns>
-        public int DownloadMediaToMemory(string mediaId, ref Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return IRtmApiNative.downloadMediaToMemory_rtm(_rtmServicePtr, mediaId, ref requestId);
-        }
-
-        /// <summary>
-        /// Downloads a file or image from the Agora server to a specified local directory by media ID.
-        /// The SDK returns the result of this method call by the <OnMediaDownloadToFileResultHandler> callback.
-        /// </summary>
-        /// <param name="mediaId">The media ID of the file or image on the Agora server.</param>
-        /// <param name="filePath">The full path to the downloaded file or image. Must be in UTF-8.</param>
-        /// <param name="requestId">The unique ID of this download request.</param>
-        /// <returns>
-        /// 0: Success.
-        /// ≠0: Failure.
-        /// </returns>
-        public int DownloadMediaToFile(string mediaId, string filePath, ref Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return IRtmApiNative.downloadMediaToFile_rtm(_rtmServicePtr, mediaId, filePath, ref requestId);
-        }
-
-        /// <summary>
-        /// Cancels an ongoing file or image download task by request ID.
-        /// The SDK returns the result of this method call with the <OnMediaCancelResultHandler> callback.
-        /// </summary>
-        /// <param name="requestId">
-        /// The unique ID of the download request to cancel.
-        /// </param>
-        /// <param name="requestId">The unique ID of this download request.</param>
-        /// <returns>
-        /// 0: Success.
-        /// ≠0: Failure.
-        /// </returns>
-        public int CancelMediaDownload(Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return IRtmApiNative.cancelMediaDownload_rtm(_rtmServicePtr, requestId);
-        }
-
-        /// <summary>
-        /// Cancels an ongoing file or image upload task by request ID.
-        /// The SDK returns the result of this method call with the <OnMediaCancelResultHandler> callback.
-        /// </summary>
-        /// <param name="requestId">
-        /// The unique ID of the upload request to cancel.
-        /// </param>
-        /// <returns>
-        /// 0: Success.
-        /// ≠0: Failure. 
-        /// </returns>
-        public int CancelMediaUpload(Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return IRtmApiNative.cancelMediaUpload_rtm(_rtmServicePtr, requestId);
         }
 
         /// <summary>
@@ -399,90 +315,6 @@ namespace agora_rtm {
 			}
             IntPtr _MessagePtr = IRtmApiNative.createMessage_rtm(_rtmServicePtr, rawData, rawData.Length, description);
             return new TextMessage(_MessagePtr, MESSAGE_FLAG.SEND);
-        }
-
-        /// <summary>
-        /// Creates an <ImageMessage> instance by media ID.
-        /// If you have at hand the media ID of an image on the Agora server, you can call this method to create an <ImageMessage> instance.
-        /// If you do not have a media ID, then you must call <CreateImageMessageByUploading> to get a corresponding IImageMessage instance by uploading an image to the Agora RTM server.
-        /// </summary>
-        /// <param name="mediaId">The media ID of an uploaded image on the Agora server.</param>
-        /// <returns>
-        /// An <ImageMessage> instance.
-        /// </returns>
-        public ImageMessage CreateImageMessageByMediaId(string mediaId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return null;
-			}
-            IntPtr _MessagePtr = IRtmApiNative.createImageMessageByMediaId_rtm(_rtmServicePtr, mediaId);
-            return new ImageMessage(_MessagePtr, MESSAGE_FLAG.SEND);
-        }
-
-        /// <summary>
-        /// Gets an <ImageMessage> instance by uploading an image to the Agora server.
-        /// The SDK returns the result by the OnImageMediaUploadResultHandler callback. If success, this callback returns a corresponding ImageMessage instance.
-        /// If the uploaded image is in JPEG, JPG, BMP, or PNG format, the SDK calculates the width and height of the image. You can call GetWidth and GetHeight to get the calculated width and height.
-        /// Otherwise, you need to call SetWidth and SetHeight to set the width and height of the uploaded image by yourself.
-        /// </summary>
-        /// <param name="filePath">The full path to the local image to upload. Must be in UTF-8.</param>
-        /// <param name="requestId">The unique ID of the upload request.</param>
-        /// <returns>
-        /// 0: Success.
-        /// ≠0: Failure. 
-        /// </returns>
-        public int CreateImageMessageByUploading(string filePath, ref Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-            {
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-            }
-            return IRtmApiNative.createImageMessageByUploading_rtm(_rtmServicePtr, filePath, ref requestId);
-        }
-
-        /// <summary>
-        /// Creates an <FileMessage> instance by media ID.
-        /// If you have at hand the media ID of a file on the Agora server, you can call this method to create an FileMessage instance.
-        /// If you do not have a media ID, then you must call <CreateFileMessageByUploading> to get a corresponding FileMessage instance by uploading a file to the Agora RTM server.
-        /// </summary>
-        /// <param name="mediaId">
-        /// The media ID of an uploaded file on the Agora server.
-        /// </param>
-        /// <returns>
-        /// An <FileMessage> instance.
-        /// </returns>
-        public FileMessage CreateFileMessageByMediaId(string mediaId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return null;
-			}
-            IntPtr _MessagePtr = IRtmApiNative.createFileMessageByMediaId_rtm(_rtmServicePtr, mediaId);
-            return new FileMessage(_MessagePtr, MESSAGE_FLAG.SEND);
-        }
-
-        /// <summary>
-        /// Gets an <FileMessage> instance by uploading a file to the Agora server.
-        /// The SDK returns the result with the OnFileMediaUploadResultHandler callback. If success, this callback returns a corresponding FileMessage instance.
-        /// </summary>
-        /// <param name="filePath">
-        /// The full path to the local file to upload. Must be in UTF-8.
-        /// </param>
-        /// <param name="requestId">
-        /// The unique ID of this upload request.
-        /// </param>
-        /// <returns>
-        /// 0: Success.
-        /// ≠0: Failure. 
-        /// </returns>
-        public int CreateFileMessageByUploading(string filePath, ref Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return IRtmApiNative.createFileMessageByUploading_rtm(_rtmServicePtr, filePath, ref requestId);
         }
 
         /// <summary>

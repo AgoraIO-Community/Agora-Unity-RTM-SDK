@@ -70,6 +70,8 @@ class RtmServiceEventHandler : public agora::rtm::IRtmServiceEventHandler {
    */
   virtual void onTokenExpired() override;
 
+  virtual void onTokenPrivilegeWillExpire() override;
+
   /**
    Occurs when a user logs out of the Agora RTM system.
 
@@ -113,133 +115,6 @@ class RtmServiceEventHandler : public agora::rtm::IRtmServiceEventHandler {
   virtual void onMessageReceivedFromPeer(
       const char* peerId,
       const agora::rtm::IMessage* message) override;
-
-  /**
-   Occurs when receiving a peer-to-peer image message.
-
-   @param peerId The ID of the message sender.
-   @param message The received peer-to-peer image message. See \ref
-   agora::rtm::IImageMessage "IImageMessage".
-   */
-  virtual void onImageMessageReceivedFromPeer(
-      const char* peerId,
-      const agora::rtm::IImageMessage* message) override;
-
-  /**
-   Occurs when receiving a peer-to-peer file message.
-
-   @param peerId The ID of the message sender.
-   @param message The received peer-to-peer file message. See \ref
-   agora::rtm::IFileMessage "IFileMessage".
-   */
-  virtual void onFileMessageReceivedFromPeer(
-      const char* peerId,
-      const agora::rtm::IFileMessage* message) override;
-
-  /**
-   Reports the progress of an ongoing upload task.
-
-   @note
-   - If the upload task is ongoing, the SDK returns this callback once every
-   second.
-   - If the upload task comes to a halt, the SDK stops returning this callback
-   until the task is going again.
-
-   @param requestId The unique ID of the upload request.
-   @param progress The progress of the ongoing upload task. See \ref
-   agora::rtm::MediaOperationProgress "MediaOperationProgress".
-   */
-  virtual void onMediaUploadingProgress(
-      long long requestId,
-      const agora::rtm::MediaOperationProgress& progress) override;
-
-  /**
-   Reports the progress of an ongoing download task.
-
-   @note
-   - If the download task is ongoing, the SDK returns this callback once every
-   second.
-   - If the download task comes to a halt, the SDK stops returning this callback
-   until the task is going again.
-
-   @param requestId The unique ID of the download request.
-   @param progress The progress of the ongoing download task. See \ref
-   agora::rtm::MediaOperationProgress "MediaOperationProgress".
-   */
-  virtual void onMediaDownloadingProgress(
-      long long requestId,
-      const agora::rtm::MediaOperationProgress& progress) override;
-
-  /**
-   Reports the result of the \ref
-   agora::rtm::IRtmService::createFileMessageByUploading
-   "createFileMessageByUploading" method call.
-
-   @param requestId The unique ID of the upload request.
-   @param fileMessage An \ref agora::rtm::IFileMessage "IFileMessage" instance.
-   @param code Error codes. See #UPLOAD_MEDIA_ERR_CODE.
-   */
-  virtual void onFileMediaUploadResult(
-      long long requestId,
-      agora::rtm::IFileMessage* fileMessage,
-      agora::rtm::UPLOAD_MEDIA_ERR_CODE code) override;
-
-  /**
-   Reports the result of the \ref
-   agora::rtm::IRtmService::createImageMessageByUploading
-   "createImageMessageByUploading" method call.
-
-   @param requestId The unique ID of the upload request.
-   @param imageMessage An \ref agora::rtm::IImageMessage "IImageMessage"
-   instance.
-   @param code Error codes. See #UPLOAD_MEDIA_ERR_CODE.
-   */
-  virtual void onImageMediaUploadResult(
-      long long requestId,
-      agora::rtm::IImageMessage* imageMessage,
-      agora::rtm::UPLOAD_MEDIA_ERR_CODE code) override;
-
-  /**
-   Reports the result of the \ref agora::rtm::IRtmService::downloadMediaToFile
-   "downloadMediaToFile" method call.
-
-   @param requestId The unique ID of the download request.
-   @param code Error codes. See #DOWNLOAD_MEDIA_ERR_CODE.
-   */
-  virtual void onMediaDownloadToFileResult(
-      long long requestId,
-      agora::rtm::DOWNLOAD_MEDIA_ERR_CODE code);
-
-  /**
-   Reports the result of the \ref agora::rtm::IRtmService::downloadMediaToMemory
-   "downloadMediaToMemory" method call.
-
-   @note The SDK releases the downloaded file or image immediately after
-   returning this callback.
-
-   @param requestId The unique ID of the download request.
-   @param memory The memory address where the downloaded file or image is
-   stored.
-   @param length The size of the downloaded file or image.
-   @param code Error codes. See #DOWNLOAD_MEDIA_ERR_CODE.
-   */
-  virtual void onMediaDownloadToMemoryResult(
-      long long requestId,
-      const char* memory,
-      long long length,
-      agora::rtm::DOWNLOAD_MEDIA_ERR_CODE code) override;
-
-  /**
-   Reports the result of the \ref agora::rtm::IRtmService::cancelMediaDownload
-   "cancelMediaDownload" or \ref agora::rtm::IRtmService::cancelMediaUpload
-   "cancelMediaUpload" method call.
-
-   @param requestId The unique ID of the cancel request.
-   @param code Error codes. See #CANCEL_MEDIA_ERR_CODE.
-   */
-  virtual void onMediaCancelResult(
-      long long requestId,
-      agora::rtm::CANCEL_MEDIA_ERR_CODE code) override;
 
   /**
    Reports the result of the \ref

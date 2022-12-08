@@ -12,9 +12,8 @@ namespace io.agora.rtm.demo
 
         [Header("Agora Properties")]
         [SerializeField]
-        private string appId = "";
-        [SerializeField]
-        private string token = "";
+        InputField appIdInput, appTokenInput; 
+ 
 
         [Header("Application Properties")]
         // put absolute path like /Users/yournameonmac/Downloads/mono-boad.jpg  in the Inspector
@@ -68,8 +67,7 @@ namespace io.agora.rtm.demo
         }
 
         agora_rtm.SendMessageOptions _MessageOptions = new agora_rtm.SendMessageOptions() {
-                    enableOfflineMessaging = true,
-                    enableHistoricalMessaging = true
+                
 	    };
 
         private void Awake()
@@ -85,6 +83,39 @@ namespace io.agora.rtm.demo
         // Start is called before the first frame update
         void Start()
         {
+           
+        }
+
+
+
+
+
+        void OnApplicationQuit()
+        {
+            if (channel != null)
+            {
+                channel.Dispose();
+                channel = null;
+            }
+            if (rtmClient != null)
+            {
+                rtmClient.Dispose();
+                rtmClient = null;
+            }
+        }
+
+        #region Button Events
+
+        public void Init()
+        {
+            string appId = this.appIdInput.text;
+            if (appId == "")
+            {
+                messageDisplay.AddTextToDisplay("input appid first", Message.MessageType.Error);
+                return;
+            }
+
+
             clientEventHandler = new RtmClientEventHandler();
             channelEventHandler = new RtmChannelEventHandler();
             callEventHandler = new RtmCallEventHandler();
@@ -110,12 +141,10 @@ namespace io.agora.rtm.demo
             channelEventHandler.OnMemberJoined = OnMemberJoinedHandler;
             channelEventHandler.OnMemberLeft = OnMemberLeftHandler;
 
-            // image
-            clientEventHandler.OnImageMessageReceivedFromPeer = OnImageMessageReceivedFromPeerHandler;
-            clientEventHandler.OnImageMediaUploadResult = OnImageMediaUploadResultHandler;
+
+
             clientEventHandler.OnSendMessageResult = OnSendMessageResultHandler;
-            clientEventHandler.OnMediaDownloadToFileResult = OnMediaDownloadToFileResultHandler;
-            clientEventHandler.OnMediaDownloadToMemoryResult = OnMediaDownloadToMemoryResultHandler;
+            clientEventHandler.OnTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpireHandler;
 
             // invite
             callEventHandler.OnLocalInvitationAccepted = OnLocalInvitationAcceptedHandler;
@@ -123,8 +152,8 @@ namespace io.agora.rtm.demo
             callEventHandler.OnLocalInvitationFailure = OnLocalInvitationFailureHandler;
             callEventHandler.OnLocalInvitationReceivedByPeer = OnLocalInvitationReceivedByPeerHandler;
             callEventHandler.OnLocalInvitationRefused = OnLocalInvitationRefusedHandler;
-            
-	        callEventHandler.OnRemoteInvitationAccepted = OnRemoteInvitationAcceptedHandler;
+
+            callEventHandler.OnRemoteInvitationAccepted = OnRemoteInvitationAcceptedHandler;
             callEventHandler.OnRemoteInvitationCanceled = OnRemoteInvitationCanceledHandler;
             callEventHandler.OnRemoteInvitationFailure = OnRemoteInvitationFailureHandler;
             callEventHandler.OnRemoteInvitationReceived = OnRemoteInvitationReceivedHandler;
@@ -146,31 +175,19 @@ namespace io.agora.rtm.demo
             }
         }
 
-        void OnApplicationQuit()
-        {
-            if (channel != null)
-            {
-                channel.Dispose();
-                channel = null;
-            }
-            if (rtmClient != null)
-            {
-                rtmClient.Dispose();
-                rtmClient = null;
-            }
-        }
-
-        #region Button Events
         public void Login()
         {
             UserName = userNameInput.text;
+            string token = appTokenInput.text;
+            
 
-            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(appId))
+            if (string.IsNullOrEmpty(UserName))
             {
-                Debug.LogError("We need a username and appId to login");
+                Debug.LogError("We need a username  to login");
                 return;
             }
 
+            messageDisplay.AddTextToDisplay("use token: " + token, Message.MessageType.Info);
             rtmClient.Login(token, UserName);
         }
 
@@ -236,55 +253,7 @@ namespace io.agora.rtm.demo
             rtmClient.QueryPeersOnlineStatus(new string[] { queryUsersBox.text }, ref req);
         }
 
-        #region  --Image Send / Receive ---------------------------
-        string ImageMediaId { get; set; }
-        // Sender will get this assign in callback
-        ImageMessage RcvImageMessage { get; set; }
 
-        public void UploadImageToPeer()
-        {
-            if (!System.IO.File.Exists(ImagePath))
-            {
-                string msg = string.Format("File send:{0} does not exist.  Please provide a valid filepath in the Inspector!", ImagePath);
-                Debug.Log(msg);
-                messageDisplay.AddTextToDisplay(msg, Message.MessageType.Error);
-                return;
-            }
-            long requestId = 10002;
-            int rc = rtmClient.CreateImageMessageByUploading(ImagePath, ref requestId);
-
-            Debug.LogFormat("Sending image {0} ---> rc={1}", ImagePath, rc);
-        }
-
-        public void GetImageByMediaId()
-        {
-	    long requestId = 0;
-            string mediaID = RcvImageMessage.GetMediaId();
-            int rc = rtmClient.DownloadMediaToMemory(mediaID, ref requestId);
-            Debug.LogFormat("Download image {0} ---> rc={1}", mediaID, rc);
-        }
-
-        public void SendImageToPeer()
-        {
-            string peer = peerUserBox.text;
-            if (string.IsNullOrEmpty(peer))
-            {
-                Debug.LogError("You must enter peer id in the input textfield!");
-                messageDisplay.AddTextToDisplay("You must enter peer id in the input textfield!", Message.MessageType.Error);
-                return;
-            }
-            else
-            {
-                ImageMessage message = rtmClient.CreateImageMessageByMediaId(ImageMediaId);
-                rtmClient.SendMessageToPeer(
-                    peerId: peer,
-                    message: message,
-                    options: _MessageOptions
-                    ); 
-            }
-        }
-
-        #endregion
         #region  -- Invite ---------------------------
 
         public void InvitePeer()
@@ -314,6 +283,7 @@ namespace io.agora.rtm.demo
         }
         bool ShowDisplayTexts()
         {
+            string appId = appIdInput.text;
             int showLength = 6;
             if (string.IsNullOrEmpty(appId) || appId.Length < showLength)
             {
@@ -327,6 +297,7 @@ namespace io.agora.rtm.demo
                 appIdDisplayText.text = "appid = ********" + appId.Substring(appId.Length - showLength, showLength);
             }
 
+            string token = appTokenInput.text;
             if (string.IsNullOrEmpty(token) || token.Length < showLength)
             {
                 tokenDisplayText.text = "token = null";
@@ -441,34 +412,11 @@ namespace io.agora.rtm.demo
             messageDisplay.AddTextToDisplay(msg, errorCode == PEER_MESSAGE_ERR_CODE.PEER_MESSAGE_ERR_OK ? Message.MessageType.Info : Message.MessageType.Error);
         }
 
-        void OnImageMediaUploadResultHandler(int id, long requestId, ImageMessage imageMessage, UPLOAD_MEDIA_ERR_CODE errorCode)
+        private void OnTokenPrivilegeWillExpireHandler(int id)
         {
-            string msg = string.Format("Upload image with id:{0} MessageId:{1} errorCode:{2} MediaID:{3}", id, requestId, errorCode, imageMessage.GetMediaId());
+            string msg = string.Format("onTokenPrivilegeWillExpire id:{0}", id);
             Debug.Log(msg);
             messageDisplay.AddTextToDisplay(msg, Message.MessageType.Info);
-            ImageMediaId = imageMessage.GetMediaId();
-            SendMessageButton.interactable = errorCode == UPLOAD_MEDIA_ERR_CODE.UPLOAD_MEDIA_ERR_OK;
-        }
-
-        void OnImageMessageReceivedFromPeerHandler(int id, string peerId, ImageMessage imageMessage)
-        {
-            string msg = string.Format("received image message with id:{0} peer:{1} mediaID:{2}", id, peerId, imageMessage.GetMediaId());
-            Debug.Log(msg);
-            messageDisplay.AddTextToDisplay(msg, Message.MessageType.Info);
-            RcvImageMessage = imageMessage;
-            DownloadImageButton.interactable = true;
-        }
-
-        void OnMediaDownloadToFileResultHandler(int id, long requestId, DOWNLOAD_MEDIA_ERR_CODE code)
-        {
-            Debug.LogFormat("Download id:{0} requestId:{1} errorCode:{2}", id, requestId, code);
-        }
-
-        void OnMediaDownloadToMemoryResultHandler(int id, long requestId, byte[] memory, long length, DOWNLOAD_MEDIA_ERR_CODE code)
-        {
-            Debug.Log("OnMediaDownloadToMemoryResultHandler requestId = " + requestId + " ,length = " + length);
-            //messageDisplay.AddImageToDisplay(memory, RcvImageMessage.GetWidth(), RcvImageMessage.GetHight());
-            messageDisplay.AddImageToDisplay(memory);
         }
 
         void OnConnectionStateChangedHandler(int id, CONNECTION_STATE state, CONNECTION_CHANGE_REASON reason)
@@ -547,6 +495,7 @@ namespace io.agora.rtm.demo
             Debug.Log(msg);
             messageDisplay.AddTextToDisplay(msg, Message.MessageType.Info);
 	    }
+
         #endregion
     }
 

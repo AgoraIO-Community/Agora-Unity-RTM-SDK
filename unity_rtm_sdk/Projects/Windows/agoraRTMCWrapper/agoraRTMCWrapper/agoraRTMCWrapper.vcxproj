@@ -162,8 +162,6 @@
     <ClCompile Include="i_rtm_channel_attribute.cpp" />
     <ClCompile Include="i_rtm_channel_event_handler.cpp" />
     <ClCompile Include="i_rtm_channel_member.cpp" />
-    <ClCompile Include="i_rtm_file_message.cpp" />
-    <ClCompile Include="i_rtm_image_message.cpp" />
     <ClCompile Include="i_rtm_message.cpp" />
     <ClCompile Include="i_rtm_service.cpp" />
     <ClCompile Include="i_rtm_service_event_handler.cpp" />
@@ -184,8 +182,6 @@
     <ClInclude Include="i_rtm_channel_attribute.h" />
     <ClInclude Include="i_rtm_channel_event_handler.h" />
     <ClInclude Include="i_rtm_channel_member.h" />
-    <ClInclude Include="i_rtm_file_message.h" />
-    <ClInclude Include="i_rtm_image_message.h" />
     <ClInclude Include="i_rtm_message.h" />
     <ClInclude Include="i_rtm_service.h" />
     <ClInclude Include="i_rtm_service_event_handler.h" />
