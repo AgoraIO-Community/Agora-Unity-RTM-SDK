@@ -4,60 +4,145 @@ using System.Collections.Generic;
 using System;
 using AOT;
 
-
-
 namespace agora_rtm {
-    public sealed class RtmChannelEventHandler : IRtmApiNative { 
+    public sealed class RtmChannelEventHandler { 
         private static int _id = 0;
         private static Dictionary<int, RtmChannelEventHandler> channelEventHandlerDic = new Dictionary<int, RtmChannelEventHandler>();
-        private IntPtr channelEventHandlerPtr = IntPtr.Zero;
+        private IntPtr channelEventHandlerNativePtr = IntPtr.Zero;
         private int currentIdIndex = 0;
-        public delegate void OnJoinSuccessHandler(int id);
+
+		private CChannelEvent cChannelEvent;
+		private CChannelEventPtr cChannelEventPtr;
+		private IntPtr globalPtr = IntPtr.Zero;
+
+		/// <summary>
+		/// Occurs when successfully joining a channel.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		public delegate void OnJoinSuccessHandler(int id);
+
+		/// <summary>
+		/// Occurs when failing to join a channel.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="errorCode">The error code.</param>
         public delegate void OnJoinFailureHandler(int id, JOIN_CHANNEL_ERR errorCode);
-        public delegate void OnLeaveHandler(int id, LEAVE_CHANNEL_ERR errorCode);
-        public delegate void OnMessageReceivedHandler(int id, string userId, TextMessage message);
-        public delegate void OnImageMessageReceivedHandler(int id, string userId, ImageMessage message);
-        public delegate void OnFileMessageReceivedHandler(int id, string userId, FileMessage message);
-        public delegate void OnSendMessageResultHandler(int id, Int64 messageId, CHANNEL_MESSAGE_ERR_CODE errorCode);
-        public delegate void OnMemberJoinedHandler(int id, RtmChannelMember member);
-        public delegate void OnMemberLeftHandler(int id, RtmChannelMember member);
-        public delegate void OnGetMembersHandler(int id, RtmChannelMember[] members, int userCount, GET_MEMBERS_ERR errorCode);
-        public delegate void OnAttributesUpdatedHandler(int id, RtmChannelAttribute[] attributesList, int numberOfAttributes);
-        public delegate void OnMemberCountUpdatedHandler(int id, int memberCount);
+        
+		/// <summary>
+		/// Returns the result of the leave method call.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="errorCode">The error code. </param>
+		public delegate void OnLeaveHandler(int id, LEAVE_CHANNEL_ERR errorCode);
+        
+		/// <summary>
+		/// Occurs when receiving a channel message.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="userId">The message sender.</param>
+		/// <param name="message">The received channel message.</param>
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+		public delegate void OnMessageReceivedHandler(int id, string userId, TextMessage message);
+        
+		/// <summary>
+		/// Returns the result of the sendMessage method call.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="messageId">The ID of the sent channel message.</param>
+		/// <param name="errorCode">The error codes. </param>
+		public delegate void OnSendMessageResultHandler(int id, Int64 messageId, CHANNEL_MESSAGE_ERR_CODE errorCode);
+        
+		/// <summary>
+		/// Occurs when a remote user joins the channel.
+		/// When a remote user calls the join method and receives the onJoinSuccess callback (successfully joins the channel), the local user receives this callback.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="member">The user joining the channel.</param>
+		public delegate void OnMemberJoinedHandler(int id, RtmChannelMember member);
+        
+		/// <summary>
+		/// Occurs when a remote member leaves the channel.
+		/// When a remote member in the channel calls the leave method and receives the the onLeave (LEAVE_CHANNEL_ERR_OK) callback, the local user receives this callback.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="member">The channel member that leaves the channel. </param>
+		public delegate void OnMemberLeftHandler(int id, RtmChannelMember member);
+        
+		/// <summary>
+		/// Returns the result of the getMembers method call.
+		/// When the method call succeeds, the SDK returns the member list of the channel.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="members">The member list. </param>
+		/// <param name="userCount">The number of members.</param>
+		/// <param name="errorCode">Error code.</param>
+		public delegate void OnGetMembersHandler(int id, RtmChannelMember[] members, int userCount, GET_MEMBERS_ERR errorCode);
+        
+		/// <summary>
+		/// Occurs when channel attributes are updated, and returns all attributes of the channel.
+		/// This callback is enabled only when the user, who updates the attributes of the channel, sets enableNotificationToChannelMembers as true. Also note that this flag is valid only within the current channel attribute method call.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="attributesList">All attribute of this channel.</param>
+		/// <param name="numberOfAttributes">The total number of the channel attributes.</param>
+		public delegate void OnAttributesUpdatedHandler(int id, RtmChannelAttribute[] attributesList, int numberOfAttributes);
+        
+		/// <summary>
+		/// Occurs when the number of the channel members changes, and returns the new number.
+		/// </summary>
+		/// <param name="id">the id of the rtmChannelEventHandler</param>
+		/// <param name="memberCount">Member count of this channel.</param>
+		public delegate void OnMemberCountUpdatedHandler(int id, int memberCount);
 
         public OnJoinSuccessHandler OnJoinSuccess;
         public OnJoinFailureHandler OnJoinFailure;
         public OnLeaveHandler OnLeave;
         public OnMessageReceivedHandler OnMessageReceived;
-        public OnImageMessageReceivedHandler OnImageMessageReceived;
-        public OnFileMessageReceivedHandler OnFileMessageReceived;
         public OnSendMessageResultHandler OnSendMessageResult;
         public OnMemberJoinedHandler OnMemberJoined;
         public OnMemberLeftHandler OnMemberLeft;
-        public OnAttributesUpdatedHandler OnAttributesUpdated;
-        public OnMemberCountUpdatedHandler OnMemberCountUpdated;
-        public OnGetMembersHandler OnGetMembers;
-
+		public OnGetMembersHandler OnGetMembers;
+		public OnAttributesUpdatedHandler OnAttributesUpdated;
+		public OnMemberCountUpdatedHandler OnMemberCountUpdated;
+	
         public RtmChannelEventHandler() {
             currentIdIndex = _id;
+
+			cChannelEvent = new CChannelEvent
+			{
+				onJoinSuccess = OnJoinSuccessCallback,
+				onJoinFailure = OnJoinFailureCallback,
+				onLeave = OnLeaveCallback,
+				onMessageReceived = OnMessageReceivedCallback,
+				onSendMessageResult = OnSendMessageResultCallback,
+				onMemberJoined = OnMemberJoinedCallback,
+				onMemberLeft = OnMemberLeftCallback,
+				onGetMember = OnGetMemberCallback,
+				onAttributesUpdated = OnAttributesUpdatedCallback,
+				onMemberCountUpdated = OnMemberCountUpdatedCallback
+			};
+
+			cChannelEventPtr = new CChannelEventPtr {
+				onJoinSuccess = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onJoinSuccess),
+				onJoinFailure = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onJoinFailure),
+				onLeave = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onLeave),
+				onMessageReceived = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onMessageReceived),
+				onSendMessageResult = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onSendMessageResult),
+				onMemberJoined = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onMemberJoined),
+				onMemberLeft = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onMemberLeft),
+				onGetMember = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onGetMember),
+				onAttributesUpdated = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onAttributesUpdated),
+				onMemberCountUpdated = Marshal.GetFunctionPointerForDelegate(cChannelEvent.onMemberCountUpdated)
+			};
+			globalPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CChannelEventPtr)));
+			Marshal.StructureToPtr(cChannelEventPtr, globalPtr, true);
 			channelEventHandlerDic.Add(currentIdIndex, this);
-            channelEventHandlerPtr = channel_event_handler_createEventHandler(currentIdIndex, OnJoinSuccessCallback,
-                                                                                              OnJoinFailureCallback,
-                                                                                              OnLeaveCallback,
-                                                                                              OnMessageReceivedCallback,
-                                                                                              OnImageMessageReceivedCallback,
-                                                                                              OnFileMessageReceivedCallback,
-                                                                                              OnSendMessageResultCallback,
-                                                                                              OnMemberJoinedCallback,
-                                                                                              OnMemberLeftCallback,
-                                                                                              OnGetMemberCallback,
-                                                                                              OnMemberCountUpdatedCallback,
-                                                                                              OnAttributesUpdatedCallback);
+			channelEventHandlerNativePtr = IRtmApiNative.channel_event_handler_createEventHandler(currentIdIndex, globalPtr);
             _id ++;
         }
 
-        public IntPtr GetChannelEventHandlerPtr() {
-            return channelEventHandlerPtr;
+        internal IntPtr GetPtr() {
+            return channelEventHandlerNativePtr;
         }
 
         [MonoPInvokeCallback(typeof(OnLeaveHandler))]
@@ -104,46 +189,12 @@ namespace agora_rtm {
         {
 			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnMessageReceived != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-                    TextMessage textMessage = new TextMessage(messagePtr, TextMessage.MESSAGE_FLAG.SEND);
-					TextMessage _textMessage = new TextMessage(textMessage, TextMessage.MESSAGE_FLAG.RECEIVE);
+                    TextMessage textMessage = new TextMessage(messagePtr, MESSAGE_FLAG.SEND);
+					TextMessage _textMessage = new TextMessage(textMessage, MESSAGE_FLAG.RECEIVE);
 					textMessage.SetMessagePtr(IntPtr.Zero);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnMessageReceived != null) {
 							channelEventHandlerDic[id].OnMessageReceived(id, userId, _textMessage);
-						}
-					});
-				}
-			}
-        }
-
-        [MonoPInvokeCallback(typeof(EngineEventOnImageMessageReceived))]
-        private static void OnImageMessageReceivedCallback(int id, string userId, IntPtr messagePtr) 
-        {
-			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnImageMessageReceived != null) {
-				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-                    ImageMessage imageMessage = new ImageMessage(messagePtr, ImageMessage.MESSAGE_FLAG.SEND);
-					ImageMessage _imageMessage = new ImageMessage(imageMessage, ImageMessage.MESSAGE_FLAG.RECEIVE);
-					imageMessage.SetMessagePtr(IntPtr.Zero);
-					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnImageMessageReceived != null) {
-							channelEventHandlerDic[id].OnImageMessageReceived(id, userId, _imageMessage);
-						}
-					});
-				}
-			}
-        }
-
-        [MonoPInvokeCallback(typeof(EngineEventOnFileMessageReceived))]
-        private static void OnFileMessageReceivedCallback(int id, string userId, IntPtr messagePtr)
-        {
-			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnFileMessageReceived != null) {
-				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-                    FileMessage fileMessage = new FileMessage(messagePtr, FileMessage.MESSAGE_FLAG.SEND);
-					FileMessage _fileMessage = new FileMessage(fileMessage, FileMessage.MESSAGE_FLAG.RECEIVE);
-					fileMessage.SetMessagePtr(IntPtr.Zero);
-					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnFileMessageReceived != null) {
-							channelEventHandlerDic[id].OnFileMessageReceived(id, userId, _fileMessage);
 						}
 					});
 				}
@@ -170,8 +221,8 @@ namespace agora_rtm {
             Debug.Log("OnMemberJoinedCallback");
 			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnMemberJoined != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-                    string userId = Marshal.PtrToStringAnsi(channel_member_getUserId(channelMemberPtr));
-                    string channelId = Marshal.PtrToStringAnsi(channel_member_getChannelId(channelMemberPtr));
+                    string userId = Marshal.PtrToStringAnsi(IRtmApiNative.channel_member_getUserId(channelMemberPtr));
+                    string channelId = Marshal.PtrToStringAnsi(IRtmApiNative.channel_member_getChannelId(channelMemberPtr));
                     RtmChannelMember rtmChannelMember = new RtmChannelMember(userId, channelId);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnMemberJoined != null) {
@@ -187,8 +238,8 @@ namespace agora_rtm {
         {
 			if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnMemberLeft != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-                    string userId = Marshal.PtrToStringAnsi(channel_member_getUserId(channelMemberPtr));
-                    string channelId = Marshal.PtrToStringAnsi(channel_member_getChannelId(channelMemberPtr));
+                    string userId = Marshal.PtrToStringAnsi(IRtmApiNative.channel_member_getUserId(channelMemberPtr));
+                    string channelId = Marshal.PtrToStringAnsi(IRtmApiNative.channel_member_getChannelId(channelMemberPtr));
                     RtmChannelMember rtmChannelMember = new RtmChannelMember(userId, channelId);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (channelEventHandlerDic.ContainsKey(id) && channelEventHandlerDic[id].OnMemberLeft != null) {
@@ -214,7 +265,7 @@ namespace agora_rtm {
 								_attribute.SetKey(sArray[j++]);
 								_attribute.SetValue(sArray[j++]);
 								_attribute.SetLastUpdateTs(Int64.Parse(sArray[j++]));
-								_attribute.SetLastUpdateUserId(sArray[j++]);	
+								_attribute.SetLastUpdateUserId(sArray[j++]);
 								channelAttributes[i] = _attribute;
 							}
 							channelEventHandlerDic[id].OnAttributesUpdated(id, channelAttributes, numberOfAttributes);
@@ -260,12 +311,15 @@ namespace agora_rtm {
         }
 
         public void Release() {
-            if (channelEventHandlerPtr == IntPtr.Zero) {
+			Debug.Log("RtmChannelEventHandler Released");
+            if (channelEventHandlerNativePtr == IntPtr.Zero) {
                 return;
             }
             channelEventHandlerDic.Remove(currentIdIndex);
-            channel_event_handler_releaseEventHandler(channelEventHandlerPtr);
-            channelEventHandlerPtr = IntPtr.Zero;
-        }
-    }
+			IRtmApiNative.channel_event_handler_releaseEventHandler(channelEventHandlerNativePtr);
+			channelEventHandlerNativePtr = IntPtr.Zero;
+			Marshal.FreeHGlobal(globalPtr);
+			globalPtr = IntPtr.Zero;
+		}
+	}
 }

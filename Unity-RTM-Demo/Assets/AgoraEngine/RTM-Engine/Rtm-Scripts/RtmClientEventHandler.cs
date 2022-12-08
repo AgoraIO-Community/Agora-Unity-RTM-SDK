@@ -377,7 +377,7 @@ namespace agora_rtm {
 		[MonoPInvokeCallback(typeof(OnTokenPrivilegeWillExpireHandler))]
 		private static void OnTokenPrivilegeWillExpireCallback(int id)
 		{
-			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnTokenExpired != null)
+			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnTokenPrivilegeWillExpire != null)
 			{
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null)
 				{
