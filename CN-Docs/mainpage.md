@@ -4,20 +4,20 @@ Agora Real-time Messaging (RTM) SDK 提供了稳定可靠、低延时、高并�
 
 Agora RTM SDK 提供以下功能：
 
-- [登录登出](#登录登出相关)
-- [点对点消息](#peermessage)
-- [查询单个或多个用户的在线状态](#onlinestatus)
-- [订阅或退订单个或多个指定用户的在线状态](#subscribe)
-- [用户属性增删改查](#attributes)
-- [频道属性增删改查](#channelattributes)
-- [查询单个或多个频道的成员人数](#channelmembercount)
-- [加入离开频道相关](#joinorleavechannel)
-- [频道消息](#channelmessage)
-- [获取频道成员列表](#memberlist)
-- [呼叫邀请管理](#callinvitation)
-- [更新当前的 RTM Token](#renewtoken)
-- [日志设置与版本查询](#logfile)
-- [定制方法](#customization)
+- <a href="#loginlogout">登录登出</a>
+- <a href="#peermessage">点对点消息</a>
+- <a href="#onlinestatus">查询单个或多个用户的在线状态</a>
+- <a href="#subscribe">订阅或退订单个或多个指定用户的在线状态</a>
+- <a href="#attributes">用户属性增删改查</a>
+- <a href="#channelattributes">频道属性增删改查</a>
+- <a href="#channelmembercount">查询单个或多个频道的成员人数</a>
+- <a href="#joinorleavechannel">加入离开频道相关</a>
+- <a href="#channelmessage">频道消息</a>
+- <a href="#memberlist">获取频道成员列表</a>
+- <a href="#callinvitation">呼叫邀请管理</a>
+- <a href="#renewtoken">更新当前的 RTM Token</a>
+- <a href="#logfile">日志设置与版本查询</a>
+- <a href="index.html#customization">定制方法</a>
 
 <a name="登录登出"></a>
 ## 登录登出相关

@@ -4,20 +4,20 @@ The Agora RTM SDK provides a stable messaging mechanism for you to implement rea
 
 Following are the core functionalities that the Agora RTM SDK provides.
 
-- [Login and logout](#loginlogout)
-- [Sending a peer-to-peer message](#peermessage)
-- [Querying the online status of specified users](#onlinestatus)
-- [Subscribing to or unsubscribing from the online status of specified users](#subscribe)
-- [User attribute operations](#attributes)
-- [Channel attribute operations](#channelattributes)
-- [Retrieving channel member count of specified channels](#channelmembercount)
-- [Joining and leaving a Channel](#joinorleavechannel)
-- [Sending a channel message](#channelmessage)
-- [Retrieving a member list of the current channel](#memberlist)
-- [Call invitation](#callinvitation)
-- [Renewing the current RTM Token](#renewtoken)
-- [Logfile settings and version check](#logfile)
-- [Customized method](#customization)
+- <a href="#loginlogout">Login and logout</a>
+- <a href="#peermessage">Sending a peer-to-peer message</a>
+- <a href="#onlinestatus">Querying the online status of specified users</a>
+- <a href="#subscribe">Subscribing to or unsubscribing from the online status of specified users</a>
+- <a href="#attributes">User attribute operations</a>
+- <a href="#channelattributes">Channel attribute operations</a>
+- <a href="#channelmembercount">Retrieving channel member count of specified channels</a>
+- <a href="#joinorleavechannel">Joining and leaving a Channel</a>
+- <a href="#channelmessage">Sending a channel message</a>
+- <a href="#memberlist">Retrieving a member list of the current channel</a>
+- <a href="#callinvitation">Call invitation</a>
+- <a href="#renewtoken">Renewing the current RTM Token</a>
+- <a href="#logfile">Logfile settings and version check</a>
+- <a href="index.html#customization">Customized method</a>
 
 <a name="loginlogout"></a>
 ## Login and logout
