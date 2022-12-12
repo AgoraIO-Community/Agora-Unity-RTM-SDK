@@ -44,6 +44,15 @@ namespace agora_rtm {
 		public delegate void OnTokenExpiredHandler(int id);
 
 		/// <summary>
+		/// 当前使用的 RTM Token 还有 30 秒过期时触发。
+		/// SDK 触发该回调提醒 App 当前 Token 即将过期，应即时获取新 Token。
+		/// - 收到该回调后，你需要在服务端生成新 Token 并调用 \ref agora::rtm::IRtmService::renewToken "renewToken" 方法将该 Token 传给 SDK。
+		/// - 如果调用 \ref agora::rtm::IRtmService::login "login" 方法登录时传入的 Token 直至过期仍未更新，SDK 会断线重连，用户将下线。
+		/// </summary>
+		/// <param name="id">引擎 ID</param>
+		public delegate void OnTokenPrivilegeWillExpireHandler(int id);
+
+		/// <summary>
 		/// 登出 Agora RTM 服务回调。
 		/// </summary>
 		/// <param name="id">引擎 ID</param>
@@ -73,89 +82,6 @@ namespace agora_rtm {
 		/// <param name="peerId">发送该消息的对端用户 ID。</param>
 		/// <param name="message">接收到的消息。详见 \ref agora_rtm.IMessage "IMessage"。</param>
 		public delegate void OnMessageReceivedFromPeerHandler(int id, string peerId, TextMessage message);
-		
-		/// <summary>
-		/// 收到点对点图片消息回调。
-		/// </summary>
-		/// <param name="id">引擎 ID</param>
-		/// <param name="peerId">发送该消息的对端用户 ID。</param>
-		/// <param name="message">T接收到的图片消息。 详见 \ref agora_rtm.ImageMessage "ImageMessage"。</param>
-		public delegate void OnImageMessageReceivedFromPeerHandler(int id, string peerId, ImageMessage message);
-		
-		/// <summary>
-		/// 收到点对点文件消息回调。
-		/// </summary>
-		/// <param name="id">引擎 ID</param>
-		/// <param name="peerId">发送该消息的对端用户 ID。</param>
-		/// <param name="message">接收到的文件消息。详见 \ref agora_rtm.FileMessage "FileMessage"。</param>
-		public delegate void OnFileMessageReceivedFromPeerHandler(int id, string peerId, FileMessage message);
-		
-		/// <summary>
-		/// 主动回调：上传任务的上传进度回调。
-		/// @note 
-		///  - 如果上传任务正在不断进行中，SDK 每秒返回该回调一次。
-		///  - 如果上传任务停顿，SDK 会暂停返回该回调直到上传任务重新进行。
-		/// </summary>
-		/// <param name="id">引擎 ID</param>
-		/// <param name="requestId">标识本次上传请求的的唯一 ID。</param>
-		/// <param name="progress">文件或图片的上传进度。详见 \ref agora_rtm.MediaOperationProgress "MediaOperationProgress"。</param>
-		public delegate void OnMediaUploadingProgressHandler(int id, Int64 requestId, MediaOperationProgress progress);
-		
-		/// <summary>
-		/// 主动回调：下载任务的下载进度回调。
-		/// @note
-		///  - 如果下载任务正在不断进行中，SDK 每秒返回该回调一次。
-		///  - 如果下载任务停顿，SDK 会暂停返回该回调直到上传任务重新进行。
-		/// </summary>
-		/// <param name="id">引擎 ID</param>
-		/// <param name="requestId">标识本次下载请求的的唯一 ID。</param>
-		/// <param name="progress">文件或图片的下载进度。详见 \ref agora_rtm.MediaOperationProgress "MediaOperationProgress"。</param>
-		public delegate void OnMediaDownloadingProgressHandler(int id, Int64 requestId, MediaOperationProgress progress);
-		
-		/// <summary>
-		/// 报告 \ref agora_rtm.RtmClient.CreateFileMessageByUploading "CreateFileMessageByUploading" 方法的调用结果。
-		/// </summary>
-		/// <param name="id">引擎 ID</param>
-		/// <param name="requestId">标识本次上传请求的唯一 ID。</param>
-		/// <param name="fileMessage">一个 \ref agora_rtm.FileMessage "FileMessage" 实例。</param>
-		/// <param name="code">错误码。详见 \ref agora_rtm.UPLOAD_MEDIA_ERR_CODE "UPLOAD_MEDIA_ERR_CODE".</param>
-		public delegate void OnFileMediaUploadResultHandler(int id, Int64 requestId, FileMessage fileMessage, UPLOAD_MEDIA_ERR_CODE code);
-		
-		/// <summary>
-		/// 报告 \ref agora_rtm.RtmClient.CreateImageMessageByUploading "CreateImageMessageByUploading" 方法的调用结果。
-		/// </summary>
-		/// <param name="id">引擎 ID</param>
-		/// <param name="requestId">标识本次上传请求的唯一 ID。</param>
-		/// <param name="imageMessage">是一个 \ref agora_rtm.ImageMessage "ImageMessage" 实例。</param>
-		/// <param name="code">错误码。详见 \ref agora_rtm.UPLOAD_MEDIA_ERR_CODE "UPLOAD_MEDIA_ERR_CODE"。</param>
-		public delegate void OnImageMediaUploadResultHandler(int id, Int64 requestId, ImageMessage imageMessage, UPLOAD_MEDIA_ERR_CODE code);
-		
-		/// <summary>
-		/// 报告 \ref agora_rtm.RtmClient.DownloadMediaToFile "DownloadMediaToFile" 方法的调用结果。
-		/// </summary>
-		/// <param name="id">引擎 ID</param>
-		/// <param name="requestId">标识本次下载请求的唯一 ID。</param>
-		/// <param name="code">错误码。详见 \ref agora_rtm.DOWNLOAD_MEDIA_ERR_CODE "DOWNLOAD_MEDIA_ERR_CODE".</param>
-		public delegate void OnMediaDownloadToFileResultHandler(int id, Int64 requestId, DOWNLOAD_MEDIA_ERR_CODE code);
-		
-		/// <summary>
-		/// 报告 \ref agora_rtm.RtmClient.DownloadMediaToMemory "DownloadMediaToMemory" 方法的调用结果。
-		/// @note 回调结束后，SDK 会立刻释放下载的图片或文件。
-		/// </summary>
-		/// <param name="id">引擎 ID</param>
-		/// <param name="requestId">标识本次下载请求的唯一 ID。</param>
-		/// <param name="memory">下载文件或图片的内存存放地址。</param>
-		/// <param name="length">下载文件或图片的数据长度。</param>
-		/// <param name="code">错误码。详见 \ref agora_rtm.DOWNLOAD_MEDIA_ERR_CODE "DOWNLOAD_MEDIA_ERR_CODE"。</param>
-		public delegate void OnMediaDownloadToMemoryResultHandler(int id, Int64 requestId, byte[] memory, Int64 length, DOWNLOAD_MEDIA_ERR_CODE code);
-		
-		/// <summary>
-		/// 报告 \ref agora_rtm.RtmClient.CancelMediaDownload "CancelMediaDownload" 或 \ref agora_rtm.RtmClient.CancelMediaUpload "CancelMediaUpload" 方法的调用结果。
-		/// </summary>
-		/// <param name="id">引擎 ID</param>
-		/// <param name="requestId">标识本次取消请求的唯一 ID。</param>
-		/// <param name="code">错误码。详见 \ref agora_rtm.CANCEL_MEDIA_ERR_CODE "CANCEL_MEDIA_ERR_CODE"。</param>
-		public delegate void OnMediaCancelResultHandler(int id, Int64 requestId, CANCEL_MEDIA_ERR_CODE code);
 		
 		/// <summary>
 		/// 报告 \ref agora_rtm.RtmClient.QueryPeersOnlineStatus "QueryPeersOnlineStatus" 方法的调用结果。
@@ -292,19 +218,12 @@ namespace agora_rtm {
 		public OnLoginFailureHandler OnLoginFailure;
 		public OnRenewTokenResultHandler OnRenewTokenResult;
 		public OnTokenExpiredHandler OnTokenExpired;
+		public OnTokenPrivilegeWillExpireHandler OnTokenPrivilegeWillExpire;
 		public OnLogoutHandler OnLogout;
 		public OnConnectionStateChangedHandler OnConnectionStateChanged;
 		public OnSendMessageResultHandler OnSendMessageResult;
 		public OnMessageReceivedFromPeerHandler OnMessageReceivedFromPeer;
-		public OnImageMessageReceivedFromPeerHandler OnImageMessageReceivedFromPeer;
-		public OnFileMessageReceivedFromPeerHandler OnFileMessageReceivedFromPeer;
-		public OnMediaUploadingProgressHandler OnMediaUploadingProgress;
-		public OnMediaDownloadingProgressHandler OnMediaDownloadingProgress;
-		public OnFileMediaUploadResultHandler OnFileMediaUploadResult;
-		public OnImageMediaUploadResultHandler OnImageMediaUploadResult;
-		public OnMediaDownloadToFileResultHandler OnMediaDownloadToFileResult;
-		public OnMediaDownloadToMemoryResultHandler OnMediaDownloadToMemoryResult;
-		public OnMediaCancelResultHandler OnMediaCancelResult;
+
 		public OnQueryPeersOnlineStatusResultHandler OnQueryPeersOnlineStatusResult;
 		public OnSubscriptionRequestResultHandler OnSubscriptionRequestResult;
 		public OnQueryPeersBySubscriptionOptionResultHandler OnQueryPeersBySubscriptionOptionResult;
@@ -321,56 +240,86 @@ namespace agora_rtm {
 		public OnGetChannelMemberCountResultHandler OnGetChannelMemberCountResult;
 		public OnPeersOnlineStatusChangedHandler OnPeersOnlineStatusChanged;
 
+		private CRtmServiceEventHandler rtmServiceEventHandler;
+		private CRtmServiceEventHandlerPtr rtmServiceEventHandlerPtr;
+		private IntPtr globalPtr = IntPtr.Zero;
 
 		public RtmClientEventHandler() {
 			currentIdIndex = _id;
 			clientEventHandlerHandlerDic.Add(currentIdIndex, this);
-			_rtmClientEventHandlerPtr = service_event_handler_createEventHandle(currentIdIndex, OnLoginSuccessCallback,
-																				OnLoginFailureCallback,
-																				OnRenewTokenResultCallback,
-																				OnTokenExpiredCallback,
-																				OnLogoutCallback,
-																				OnConnectionStateChangedCallback,
-																				OnSendMessageResultCallback,
-																				OnMessageReceivedFromPeerCallback,
-																				OnImageMessageReceivedFromPeerCallback,
-																				OnFileMessageReceivedFromPeerCallback,
-																				OnMediaUploadingProgressCallback,
-																				OnMediaDownloadingProgressCallback,
-																				OnFileMediaUploadResultCallback,
-																				OnImageMediaUploadResultCallback,
-																				OnMediaDownloadToFileResultCallback,
-																				OnMediaDownloadToMemoryResultCallback,
-																				OnMediaCancelResultCallback,
-																				OnQueryPeersOnlineStatusResultCallback,
-																				OnSubscriptionRequestResultCallback,
-																				OnQueryPeersBySubscriptionOptionResultCallback,
-																				OnPeersOnlineStatusChangedCallback,
-																				OnSetLocalUserAttributesResultCallback,
-																				OnDeleteLocalUserAttributesResultCallback,
-																				OnClearLocalUserAttributesResultCallback,
-																				OnGetUserAttributesResultCallback,
-																				OnSetChannelAttributesResultCallback,
-																				OnAddOrUpdateLocalUserAttributesResultCallback,
-																				OnDeleteChannelAttributesResultCallback,
-																				OnClearChannelAttributesResultCallback,
-																				OnGetChannelAttributesResultCallback,
-																				OnGetChannelMemberCountResultCallback);
-			_id ++;
+			rtmServiceEventHandler = new CRtmServiceEventHandler {
+				onLoginSuccess = OnLoginSuccessCallback,
+				onLoginFailure = OnLoginFailureCallback,
+				onRenewTokenResult = OnRenewTokenResultCallback,
+				onTokenExpired = OnTokenExpiredCallback,
+				onTokenPrivilegeWillExpire = OnTokenPrivilegeWillExpireCallback,
+				onLogout = OnLogoutCallback,
+				onConnectionStateChanged = OnConnectionStateChangedCallback,
+				onSendMessageResult = OnSendMessageResultCallback,
+				onMessageReceivedFromPeer = OnMessageReceivedFromPeerCallback,
+				onQueryPeersOnlineStatusResult = OnQueryPeersOnlineStatusResultCallback, 
+				onSubscriptionRequestResult = OnSubscriptionRequestResultCallback,
+				onQueryPeersBySubscriptionOptionResult = OnQueryPeersBySubscriptionOptionResultCallback,
+				onPeersOnlineStatusChanged = OnPeersOnlineStatusChangedCallback,
+				onSetLocalUserAttributesResult = OnSetLocalUserAttributesResultCallback,
+				onDeleteLocalUserAttributesResult = OnDeleteLocalUserAttributesResultCallback,
+				onClearLocalUserAttributesResult = OnClearLocalUserAttributesResultCallback,
+				onGetUserAttributesResult = OnGetUserAttributesResultCallback,
+				onSetChannelAttributesResult = OnSetLocalUserAttributesResultCallback,
+				onAddOrUpdateLocalUserAttributesResult = OnAddOrUpdateLocalUserAttributesResultCallback,
+				onDeleteChannelAttributesResult = OnDeleteChannelAttributesResultCallback,
+				onClearChannelAttributesResult = OnClearChannelAttributesResultCallback,
+				onGetChannelAttributesResult = OnGetChannelAttributesResultCallback,
+				onGetChannelMemberCountResult = OnGetChannelMemberCountResultCallback
+			};
+
+			rtmServiceEventHandlerPtr = new CRtmServiceEventHandlerPtr {
+				onLoginSuccess = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onLoginSuccess),
+				onLoginFailure = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onLoginFailure),
+				onRenewTokenResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onRenewTokenResult),
+				onTokenExpired = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onTokenExpired),
+				onTokenPrivilegeWillExpire = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onTokenPrivilegeWillExpire),
+				onLogout = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onLogout),
+				onConnectionStateChanged = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onConnectionStateChanged),
+				onSendMessageResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSendMessageResult),
+				onMessageReceivedFromPeer = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onMessageReceivedFromPeer),
+				onQueryPeersOnlineStatusResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onQueryPeersOnlineStatusResult),
+				onSubscriptionRequestResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSubscriptionRequestResult),
+				onQueryPeersBySubscriptionOptionResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onQueryPeersBySubscriptionOptionResult),
+				onPeersOnlineStatusChanged = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onPeersOnlineStatusChanged),
+				onSetLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSetLocalUserAttributesResult),
+				onDeleteLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onDeleteLocalUserAttributesResult),
+				onClearLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onClearLocalUserAttributesResult),
+				onGetUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onGetUserAttributesResult),
+				onSetChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onSetChannelAttributesResult),
+				onAddOrUpdateLocalUserAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onAddOrUpdateLocalUserAttributesResult),
+				onDeleteChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onDeleteChannelAttributesResult),
+				onClearChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onClearChannelAttributesResult),
+				onGetChannelAttributesResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onGetChannelAttributesResult),
+				onGetChannelMemberCountResult = Marshal.GetFunctionPointerForDelegate(rtmServiceEventHandler.onGetChannelMemberCountResult)
+			};
+
+			globalPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(CRtmServiceEventHandlerPtr)));
+			Marshal.StructureToPtr(rtmServiceEventHandlerPtr, globalPtr, true);
+			_rtmClientEventHandlerNativePtr = IRtmApiNative.service_event_handler_createEventHandle(currentIdIndex, globalPtr);
+            _id ++;
 		}
 
 		public void Release() {
 			Debug.Log("RtmClientEventHandler Released");
-			if (_rtmClientEventHandlerPtr == IntPtr.Zero) {
+			if (_rtmClientEventHandlerNativePtr == IntPtr.Zero) {
 				return;
 			}
 			clientEventHandlerHandlerDic.Remove(currentIdIndex);
-			service_event_handler_releaseEventHandler(_rtmClientEventHandlerPtr);
-			_rtmClientEventHandlerPtr = IntPtr.Zero;
+			IRtmApiNative.service_event_handler_releaseEventHandler(_rtmClientEventHandlerNativePtr);
+			_rtmClientEventHandlerNativePtr = IntPtr.Zero;
+
+			Marshal.FreeHGlobal(globalPtr);
+			globalPtr = IntPtr.Zero;
 		}
 
-		public IntPtr GetRtmClientEventHandlerPtr() {
-			return _rtmClientEventHandlerPtr;
+		public IntPtr GetPtr() {
+			return _rtmClientEventHandlerNativePtr;
 		}
 		
 		[MonoPInvokeCallback(typeof(OnLoginSuccessHandler))]
@@ -425,6 +374,26 @@ namespace agora_rtm {
 			}
 		}
 
+		[MonoPInvokeCallback(typeof(OnTokenPrivilegeWillExpireHandler))]
+		private static void OnTokenPrivilegeWillExpireCallback(int id)
+		{
+			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnTokenPrivilegeWillExpire != null)
+			{
+				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null)
+				{
+					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(() => {
+						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnTokenPrivilegeWillExpire != null)
+						{
+							clientEventHandlerHandlerDic[id].OnTokenPrivilegeWillExpire(id);
+						}
+					});
+				}
+			}
+		}
+
+
+
+
 		[MonoPInvokeCallback(typeof(OnLogoutHandler))]
 		private static void OnLogoutCallback(int id, LOGOUT_ERR_CODE errorCode) {
 			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnLogout != null) {
@@ -470,86 +439,12 @@ namespace agora_rtm {
 		private static void OnMessageReceivedFromPeerCallback(int id, string peerId, IntPtr message) {
 			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMessageReceivedFromPeer != null) {
 				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-					TextMessage textMessage = new TextMessage(message, TextMessage.MESSAGE_FLAG.SEND);
-					TextMessage _textMessage = new TextMessage(textMessage, TextMessage.MESSAGE_FLAG.RECEIVE);
+					TextMessage textMessage = new TextMessage(message, MESSAGE_FLAG.SEND);
+					TextMessage _textMessage = new TextMessage(textMessage, MESSAGE_FLAG.RECEIVE);
 					textMessage.SetMessagePtr(IntPtr.Zero);
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMessageReceivedFromPeer != null) {
 							clientEventHandlerHandlerDic[id].OnMessageReceivedFromPeer(id, peerId, _textMessage);
-						}
-					});
-				}
-			}
-		}
-
-		[MonoPInvokeCallback(typeof(EngineEventOnImageMessageReceived))]
-		private static void OnImageMessageReceivedFromPeerCallback(int id, string peerId, IntPtr message) {
-			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnImageMessageReceivedFromPeer != null) {
-				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-					ImageMessage imageMessage = new ImageMessage(message, ImageMessage.MESSAGE_FLAG.SEND);
-					ImageMessage _imageMessage = new ImageMessage(imageMessage, ImageMessage.MESSAGE_FLAG.RECEIVE);
-					imageMessage.SetMessagePtr(IntPtr.Zero);
-					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnImageMessageReceivedFromPeer != null) {
-							clientEventHandlerHandlerDic[id].OnImageMessageReceivedFromPeer(id, peerId, _imageMessage);
-						}
-					});
-				}
-			}
-		}
-
-		[MonoPInvokeCallback(typeof(EngineEventOnFileMessageReceived))]
-		private static void OnFileMessageReceivedFromPeerCallback(int id, string peerId, IntPtr message) {
-			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnFileMessageReceivedFromPeer != null) {
-				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-					FileMessage fileMessage = new FileMessage(message, FileMessage.MESSAGE_FLAG.SEND);
-					FileMessage _fileMessage = new FileMessage(fileMessage, FileMessage.MESSAGE_FLAG.RECEIVE);
-					fileMessage.SetMessagePtr(IntPtr.Zero);
-					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnFileMessageReceivedFromPeer != null) {
-							clientEventHandlerHandlerDic[id].OnFileMessageReceivedFromPeer(id, peerId, _fileMessage);
-						}
-					});
-				}
-			}
-		}
-
-		[MonoPInvokeCallback(typeof(OnMediaDownloadToFileResultHandler))]
-		private static void OnMediaDownloadToFileResultCallback(int id, Int64 requestId, DOWNLOAD_MEDIA_ERR_CODE code) {
-			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMediaDownloadToFileResult != null) {
-				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMediaDownloadToFileResult != null) {
-							clientEventHandlerHandlerDic[id].OnMediaDownloadToFileResult(id, requestId, code);
-						}
-					});
-				}
-			}
-		}
-
-		[MonoPInvokeCallback(typeof(EngineEventOnMediaDownloadToMemoryResult))]
-		private static void OnMediaDownloadToMemoryResultCallback(int id, Int64 requestId, IntPtr memory, Int64 length, DOWNLOAD_MEDIA_ERR_CODE code) {
-			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMediaDownloadToMemoryResult != null) {
-				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-					byte[] memoryData = new byte[length];
-					Marshal.Copy(memory, memoryData, 0, (int)length);
-					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMediaDownloadToMemoryResult != null) {
-							clientEventHandlerHandlerDic[id].OnMediaDownloadToMemoryResult(id, requestId, memoryData, length, code);
-						}
-					});
-				}
-			}
-		}
-
-		[MonoPInvokeCallback(typeof(OnMediaCancelResultHandler))]
-		private static void OnMediaCancelResultCallback(int id, Int64 requestId, CANCEL_MEDIA_ERR_CODE code)
-		{
-			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMediaCancelResult != null) {
-				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMediaCancelResult != null) {
-							clientEventHandlerHandlerDic[id].OnMediaCancelResult(id, requestId, code);
 						}
 					});
 				}
@@ -693,67 +588,6 @@ namespace agora_rtm {
 					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
 						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnClearChannelAttributesResult != null) {
 							clientEventHandlerHandlerDic[id].OnClearChannelAttributesResult(id, requestId, errorCode);
-						}
-					});
-				}
-			}
-		}
-
-		[MonoPInvokeCallback(typeof(EngineEventOnFileMediaUploadResult))]
-		private static void OnFileMediaUploadResultCallback(int id, Int64 requestId, IntPtr fileMessagePtr, UPLOAD_MEDIA_ERR_CODE code) {
-			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnFileMediaUploadResult != null) {
-				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-				 	FileMessage fileMessage = new FileMessage(fileMessagePtr, FileMessage.MESSAGE_FLAG.SEND);
-					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnFileMediaUploadResult != null) {
-							clientEventHandlerHandlerDic[id].OnFileMediaUploadResult(id, requestId, fileMessage, code);
-						}
-					});
-				}
-			}
-		}
-
-		[MonoPInvokeCallback(typeof(EngineEventOnImageMediaUploadResult))]
-		private static void OnImageMediaUploadResultCallback(int id, Int64 requestId, IntPtr imageMessagePtr, UPLOAD_MEDIA_ERR_CODE code) {
-			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnImageMediaUploadResult != null) {
-				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-					Debug.Log("OnImageUploadResutl  result = " + code);
-				 	ImageMessage imageMessage = new ImageMessage(imageMessagePtr, ImageMessage.MESSAGE_FLAG.SEND);
-					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnImageMediaUploadResult != null) {
-							clientEventHandlerHandlerDic[id].OnImageMediaUploadResult(id, requestId, imageMessage, code);
-						}
-					});
-				}
-			}
-		}
-
-		[MonoPInvokeCallback(typeof(EngineEventOnMediaUploadingProgress))]
-		private static void OnMediaUploadingProgressCallback(int id, Int64 requestId, Int64 totalSize, Int64 currentSize) {
-			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMediaUploadingProgress != null) {
-				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMediaUploadingProgress != null) {
-							MediaOperationProgress mediaOperationProgress = new MediaOperationProgress();
-							mediaOperationProgress.totalSize = totalSize;
-							mediaOperationProgress.currentSize = currentSize;
-							clientEventHandlerHandlerDic[id].OnMediaUploadingProgress(id, requestId, mediaOperationProgress);
-						}
-					});
-				}
-			}
-		}
-
-		[MonoPInvokeCallback(typeof(OnMediaDownloadingProgressHandler))]
-		private static void OnMediaDownloadingProgressCallback(int id, Int64 requestId, Int64 totalSize, Int64 currentSize) {
-			if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMediaDownloadingProgress != null) {
-				if (AgoraCallbackObject.GetInstance()._CallbackQueue != null) {
-					AgoraCallbackObject.GetInstance()._CallbackQueue.EnQueue(()=>{
-						MediaOperationProgress mediaOperationProgress = new MediaOperationProgress();
-						mediaOperationProgress.totalSize = totalSize;
-						mediaOperationProgress.currentSize = currentSize;
-						if (clientEventHandlerHandlerDic.ContainsKey(id) && clientEventHandlerHandlerDic[id].OnMediaDownloadingProgress != null) {
-							clientEventHandlerHandlerDic[id].OnMediaDownloadingProgress(id, requestId, mediaOperationProgress);
 						}
 					});
 				}

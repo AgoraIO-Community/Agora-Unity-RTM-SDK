@@ -272,6 +272,11 @@ namespace agora_rtm {
        8: 另一个用户正以相同的 User ID 登陆 Agora RTM 系统。
        */
       CONNECTION_CHANGE_REASON_REMOTE_LOGIN = 8,
+      
+      /**
+      9: Token 过期失效。
+      */
+      CONNECTION_CHANGE_REASON_TOKEN_EXPIRED = 9,
     };
 
     /**
@@ -424,6 +429,11 @@ namespace agora_rtm {
        3: 用户已不在频道内。
        */
       LEAVE_CHANNEL_ERR_NOT_IN_CHANNEL = 3,
+
+      /**
+        4: 用户被禁止加入频道。
+        */
+      LEAVE_CHANNEL_ERR_KICKED = 4,
 
       /// @cond  
       /**
@@ -827,146 +837,6 @@ namespace agora_rtm {
          */
         GET_CHANNEL_MEMBER_COUNT_ERR_USER_NOT_LOGGED_IN = 102,
     };
-      
-      /**
-       @brief 文件或图片下载相关错误码。
-       */
-    public enum DOWNLOAD_MEDIA_ERR_CODE {
-          /**
-           0: 方法调用成功，或下载操作成功。
-           */
-          DOWNLOAD_MEDIA_ERR_OK = 0,
-          
-          /**
-           1: 通用未知错误。请检查你是否有写权限。
-           */
-          DOWNLOAD_MEDIA_ERR_FAILURE = 1,
-          
-          /**
-           2: 输入参数错误。比如 `mediaId` 格式错误或 `filePath` 为空。
-           */
-          DOWNLOAD_MEDIA_ERR_INVALID_ARGUMENT = 2,
-          /**
-           3: 服务器响应超时。当前如果 SDK 与文件服务器之间没有文件传输达 120 秒时，SDK 认定下载超时。
-           */
-          DOWNLOAD_MEDIA_ERR_TIMEOUT = 3,
-          
-          /**
-           4: 要下载的文件或图片不存在，可能因为 `mediaId` 输入错误，也可能因为 `mediaId` 已过期。
-           */
-          DOWNLOAD_MEDIA_ERR_NOT_EXIST = 4,
-          
-          /**
-           5: 文件或图片同时下载数超过 9 个的上限（上传任务和下载任务一并计算）。
-           */
-          DOWNLOAD_MEDIA_ERR_CONCURRENCY_LIMIT_EXCEEDED = 5,
-
-          /**
-           6: 文件或图片下载任务因如下原因中途退出：
-
-           - 下载方处于 \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" 状态。
-           - 下载方取消了文件或图片下载。
-           */
-          DOWNLOAD_MEDIA_ERR_INTERRUPTED = 6,
-          
-          /// @cond
-          /**
-           101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
-           */
-          DOWNLOAD_MEDIA_ERR_NOT_INITIALIZED = 101,
-          /// @endcond
-          
-          /**
-           102: 本次操作前未调用 \ref agora_rtm.RtmClient.Login "Login" 方法或者 \ref agora_rtm.RtmClient.Login "Login" 方法调用未成功。
-           */
-          DOWNLOAD_MEDIA_ERR_NOT_LOGGED_IN = 102,
-    };
-      
-      
-      /**
-       @brief 文件或图片上传相关错误码。
-       */
-    public enum UPLOAD_MEDIA_ERR_CODE {
-          /**
-           0: 方法调用成功，或上传操作成功。
-           */
-          UPLOAD_MEDIA_ERR_OK = 0,
-          
-          /**
-           1: 通用未知错误。请检查文件是否存在或是否有权限。
-           */
-          UPLOAD_MEDIA_ERR_FAILURE = 1,
-          
-          /**
-           2: 输入参数错误。比如 `mediaId` 格式错误。
-           */
-          UPLOAD_MEDIA_ERR_INVALID_ARGUMENT = 2,
-          
-          /**
-           3: 服务器响应超时。当前如果 SDK 与文件服务器之间没有文件传输达 120 秒时，SDK 认定上传超时。
-           */
-          UPLOAD_MEDIA_ERR_TIMEOUT = 3,
-          
-          /**
-           4: 上传文件或图片大小超过 30 MB 上限。
-           */
-          UPLOAD_MEDIA_ERR_SIZE_OVERFLOW = 4,
-          /**
-           5: 文件或图片同时上传数超过 9 个的上限(上传任务和下载任务可一并计算)。
-           */
-          UPLOAD_MEDIA_ERR_CONCURRENCY_LIMIT_EXCEEDED = 5,
-          /**
-           6: 文件或图片上传任务因如下原因中途退出：
-           
-           - 上传方处于 \ref agora_rtm.CONNECTION_STATE.CONNECTION_STATE_ABORTED "CONNECTION_STATE_ABORTED" 状态。
-           - 上传方取消了文件或图片上传。
-           */
-          UPLOAD_MEDIA_ERR_INTERRUPTED = 6,
-          
-          /// @cond
-          /**
-           101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
-          */
-          UPLOAD_MEDIA_ERR_NOT_INITIALIZED = 101,
-          /// @endcond
-        
-          /**
-          102: 本次操作前未调用 \ref agora_rtm.RtmClient.Login "Login" 方法或者 \ref agora_rtm.RtmClient.Login "Login" 方法调用未成功。
-           */
-          UPLOAD_MEDIA_ERR_NOT_LOGGED_IN = 102,
-      };
-      
-      /**
-       @brief 取消上传或取消下载相关的错误码。
-       */
-      public enum CANCEL_MEDIA_ERR_CODE {
-          /**
-           0: 方法调用成功，或取消操作成功。
-           */
-          CANCEL_MEDIA_ERR_OK = 0,
-          
-          /**
-           1: 通用未知错误。
-           */
-          CANCEL_MEDIA_ERR_FAILURE = 1,
-          
-          /**
-           2: 待取消任务不存在。你只能取消正在进行中的上传或下载任务。如果上传或下载任务已完成，对应的 `requestId` 将不再有效。
-           */
-          CANCEL_MEDIA_ERR_NOT_EXIST = 2,
-          
-          /// @cond
-          /**
-           101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
-           */
-          CANCEL_MEDIA_ERR_NOT_INITIALIZED = 101,
-          /// @endcond
-          
-          /**
-           102: 本次操作前未调用 \ref agora_rtm.RtmClient.Login "Login" 方法或者 \ref agora_rtm.RtmClient.Login "Login" 方法调用失败。
-           */
-          CANCEL_MEDIA_ERR_NOT_LOGGED_IN = 102,
-      };
         
        /**
        @brief 消息类型。
@@ -1028,21 +898,6 @@ namespace agora_rtm {
        - 如果你是订阅指定用户的在线状态（ \ref agora_rtm.RtmClient.SubscribePeersOnlineStatus "SubscribePeersOnlineStatus" ），我们的后台服务器则可能返回 `unreachable` 状态。详见 \ref agora_rtm.RtmClientEventHandler.OnPeersOnlineStatusChangedHandler "OnPeersOnlineStatusChangedHandler" 回调。
        */
       public PEER_ONLINE_STATE onlineState;
-    };
-
-     /**
-     @brief 上传或下载文件/图片比例。
-     */
-    public struct MediaOperationProgress
-    {
-        /**
-         文件或图片的总大小。
-         */
-        public Int64 totalSize;
-        /**
-         已下载或已上传的文件或图片大小。
-         */
-        public Int64 currentSize;
     };
 
     

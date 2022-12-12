@@ -99,7 +99,7 @@ namespace agora_rtm {
 				Debug.LogError("_rtmChannelPtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-			return channel_sendMessage2(_rtmChannelPtr, message.GetPtr(), options.enableOfflineMessaging, options.enableHistoricalMessaging);
+			return IRtmApiNative.channel_sendMessage2(_rtmChannelPtr, message.GetPtr(), options.enableOfflineMessaging, options.enableHistoricalMessaging);
 		}
 
 		/// <summary>

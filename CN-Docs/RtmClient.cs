@@ -210,7 +210,7 @@ namespace agora_rtm {
                 Debug.LogError("rtmServicePtr is null");
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
-            return sendMessageToPeer_rtm(_rtmServicePtr, peerId, message.GetPtr(), options.enableOfflineMessaging, options.enableHistoricalMessaging);
+            return IRtmApiNative.sendMessageToPeer_rtm(_rtmServicePtr, peerId, message.GetPtr());
         }
 
         /// <summary>
@@ -237,94 +237,6 @@ namespace agora_rtm {
 				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
 			}
             return sendMessageToPeer2_rtm(_rtmServicePtr, peerId, message.GetPtr());
-        }
-
-        /// <summary>
-        /// 通过 media ID 从 Agora 服务器下载文件或图片至本地内存。
-        /// 方法调用结果由 SDK 通过 \ref agora_rtm.RtmClientEventHandler.OnMediaDownloadToMemoryResultHandler "OnMediaDownloadToMemoryResultHandler" 回调返回。
-        /// @note
-        /// - 该方法适用于需要快速读取下载文件或图片的场景。
-        /// - SDK 会在 \ref agora_rtm.RtmClientEventHandler.OnMediaDownloadToMemoryResult "OnMediaDownloadToMemoryResult" 回调结束后立即释放下载的文件或图片。
-        /// </summary>
-        /// <param name="mediaId">
-        /// 服务器上待下载的文件或图片对应的 media ID。
-        /// </param>
-        /// <param name="requestId">
-        /// 标识本次下载请求的唯一 ID。
-        /// </param>
-        /// <returns>
-        ///  - 0: 方法调用成功。
-        ///  - ≠0: 方法调用失败。详见 #DOWNLOAD_MEDIA_ERR_CODE.
-        /// </returns>
-        public int DownloadMediaToMemory(string mediaId, Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return downloadMediaToMemory_rtm(_rtmServicePtr, mediaId, requestId);
-        }
-
-        /// <summary>
-        /// 通过 media ID 从 Agora 服务器下载文件或图片至本地指定地址。
-        /// 方法调用结果由 SDK 通过 \ref agora_rtm.RtmClientEventHandler.OnMediaDownloadToFileResultHandler "OnMediaDownloadToFileResultHandler" 回调返回。
-        /// </summary>
-        /// <param name="mediaId">服务器上待下载的文件或图片对应的 media ID。</param>
-        /// <param name="filePath">下载文件或图片在本地存储的完整路径。文件路径必须为 UTF-8 编码格式。</param>
-        /// <param name="requestId">标识本次下载请求的唯一 ID。</param>
-        /// <returns>
-        ///  - 0: 方法调用成功。
-        ///  - ≠0: 方法调用失败。详见 #DOWNLOAD_MEDIA_ERR_CODE 。
-        /// </returns>
-        public int DownloadMediaToFile(string mediaId, string filePath, Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return downloadMediaToFile_rtm(_rtmServicePtr, mediaId, filePath, requestId);
-        }
-
-        /// <summary>
-        /// 通过 request ID 取消一个正在进行中的文件或图片下载任务。
-        /// 方法调用结果由 SDK 通过 \ref agora_rtm.RtmClientEventHandler.OnMediaCancelResultHandler "OnMediaCancelResultHandler" 回调返回。
-        /// @note 你只能取消一个正在进行中的下载任务。下载任务完成后则无法取消下载任务，因为相应的 request ID 已不再有效。
-        /// </summary>
-        /// <param name="requestId">
-        /// 标识本次下载请求的唯一 ID。
-        /// </param>
-        /// <returns>
-        ///  - 0: 方法调用成功。
-        ///  - ≠0: 方法调用失败。详见 #CANCEL_MEDIA_ERR_CODE 。
-        /// </returns>
-        public int CancelMediaDownload(Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return cancelMediaDownload_rtm(_rtmServicePtr, requestId);
-        }
-
-        /// <summary>
-        /// 通过 request ID 取消一个正在进行中的文件或图片上传任务。
-        /// 方法调用结果由 SDK 通过 \ref agora_rtm.RtmClientEventHandler.OnMediaCancelResultHandler "OnMediaCancelResultHandler" 回调返回。
-        /// @note 你只能取消一个正在进行中的上传任务。上传任务完成后则无法取消上传任务，因为相应的 request ID 已不再有效。
-        /// </summary>
-        /// <param name="requestId">
-        /// 标识本次上传请求的唯一 ID。
-        /// </param>
-        /// <returns>
-        ///  - 0: 方法调用成功。
-        ///  - ≠0: 方法调用失败。详见 #CANCEL_MEDIA_ERR_CODE 。
-        /// </returns>
-        public int CancelMediaUpload(Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return cancelMediaUpload_rtm(_rtmServicePtr, requestId);
         }
 
         /// <summary>
@@ -448,93 +360,6 @@ namespace agora_rtm {
 			}
             IntPtr _MessagePtr = createMessage_rtm(_rtmServicePtr, rawData, rawData.Length, description);
             return new TextMessage(_MessagePtr, TextMessage.MESSAGE_FLAG.SEND);
-        }
-
-        /// <summary>
-        /// 通过 media ID 创建一个 \ref agora_rtm.ImageMessage "ImageMessage" 实例。
-        /// - 如果你已经有了一个保存在 Agora 服务器上的图片对应的 media ID，你可以调用本方法创建一个 \ref agora_rtm.ImageMessage "ImageMessage" 实例。
-        /// - 如果你没有相应的 media ID，那么你必须通过调用 #CreateImageMessageByUploading 方法上传相应的文件到 Agora 服务器来获得一个对应的 \ref agora_rtm.ImageMessage "ImageMessage" 实例。
-        /// </summary>
-        /// <param name="mediaId">已上传到 Agora 服务器的图片的 media ID。</param>
-        /// <returns>
-        /// 一个 \ref agora_rtm.ImageMessage "ImageMessage" 实例。
-        /// </returns>
-        public ImageMessage CreateImageMessageByMediaId(string mediaId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return null;
-			}
-            IntPtr _MessagePtr = createImageMessageByMediaId_rtm(_rtmServicePtr, mediaId);
-            return new ImageMessage(_MessagePtr, ImageMessage.MESSAGE_FLAG.SEND);
-        }
-
-        /// <summary>
-        /// 上传一个图片到 Agora 服务器以获取一个相应的 \ref agora_rtm.ImageMessage "ImageMessage" 图片消息实例。
-        /// SDK 会通过 \ref agora_rtm.RtmClientEventHandler.OnImageMediaUploadResultHandler "OnImageMediaUploadResultHandler" 回调返回方法的调用结果。如果方法调用成功，该回调返回一个对应的 \ref agora_rtm.ImageMessage "ImageMessage" 实例。
-        /// - 如果上传图片为 JPEG、JPG、BMP，或 PNG 格式，SDK 会自动计算上传图片的宽和高。你可以通过调用 \ref agora_rtm.ImageMessage.GetWidth "GetWidth" 方法获取计算出的宽。
-        /// - 如果上传图片为其他格式，你需要调用 \ref agora_rtm.ImageMessage.SetWidth "SetWidth" 和 \ref agora_rtm.ImageMessage.SetHeight "SetHeight" 方法自行设置上传图片的宽和高。
-        /// @note
-        ///  - 如果你已经有了一个保存在 Agora 服务器上的对应的 media ID，你可以调用 \ref agora_rtm.RtmClient.CreateImageMessageByMediaId "CreateImageMessageByMediaId" 创建一个 \ref agora_rtm.ImageMessage "ImageMessage" 实例。
-        ///  - 如需取消一个正在进行的上传任务，请调用 \ref agora_rtm.RtmClient.CancelMediaUpload "CancelMediaUpload" 方法。
-        /// </summary>
-        /// <param name="filePath">待上传图片在本地的完整路径。文件路径必须为 UTF-8 编码格式。</param>
-        /// <param name="requestId">标识本次上传请求的唯一 ID。</param>
-        /// <returns>
-        ///  - 0: 方法调用成功。
-        ///  - ≠0: 方法调用失败。错误码详见 #UPLOAD_MEDIA_ERR_CODE 。
-        /// </returns>
-        public int CreateImageMessageByUploading(string filePath, Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-            {
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-            }
-            return createImageMessageByUploading_rtm(_rtmServicePtr, filePath, requestId);
-        }
-
-        /// <summary>
-        /// 通过 media ID 创建一个 \ref agora_rtm.FileMessage "FileMessage" 实例。
-        /// - 如果你已经有了一个保存在 Agora 服务器上的文件对应的 media ID，你可以调用本方法创建一个 \ref agora_rtm.FileMessage "FileMessage" 实例。
-        /// - 如果你没有相应的 media ID，那么你必须通过调用 #CreateFileMessageByUploading 方法上传相应的文件到 Agora 服务器来获得一个对应的 \ref agora_rtm.FileMessage "FileMessage" 实例。
-        /// </summary>
-        /// <param name="mediaId">
-        /// 已上传到 Agora 服务器的文件的 media ID。
-        /// </param>
-        /// <returns>
-        /// 一个 \ref agora_rtm.FileMessage "FileMessage" 实例。
-        /// </returns>
-        public FileMessage CreateFileMessageByMediaId(string mediaId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return null;
-			}
-            IntPtr _MessagePtr = createFileMessageByMediaId_rtm(_rtmServicePtr, mediaId);
-            return new FileMessage(_MessagePtr, FileMessage.MESSAGE_FLAG.SEND);
-        }
-
-        /// <summary>
-        /// 上传一个文件到 Agora 服务器以获取一个相应的 \ref agora_rtm.FileMessage "FileMessage" 文件消息实例。
-        /// SDK 会通过 \ref agora_rtm.RtmClientEventHandler.OnFileMediaUploadResultHandler "OnFileMediaUploadResultHandler" 回调返回方法的调用结果。如果方法调用成功，该回调返回一个对应的 \ref agora_rtm.FileMessage "FileMessage" 实例。
-        /// </summary>
-        /// <param name="filePath">
-        /// 待上传文件在本地的完整路径。文件路径必须为 UTF-8 编码格式。
-        /// </param>
-        /// <param name="requestId">
-        /// 标识本次上传请求的唯一 ID。
-        /// </param>
-        /// <returns>
-        ///  - 0: 方法调用成功。
-        ///  - ≠0: 方法调用失败。错误码详见 #UPLOAD_MEDIA_ERR_CODE 。
-        /// </returns>
-        public int CreateFileMessageByUploading(string filePath, Int64 requestId) {
-            if (_rtmServicePtr == IntPtr.Zero)
-			{
-                Debug.LogError("rtmServicePtr is null");
-				return (int)COMMON_ERR_CODE.ERROR_NULL_PTR;
-			}
-            return createFileMessageByUploading_rtm(_rtmServicePtr, filePath, requestId);
         }
 
         /// <summary>
