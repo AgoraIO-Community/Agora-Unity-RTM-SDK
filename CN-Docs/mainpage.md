@@ -4,21 +4,20 @@ Agora Real-time Messaging (RTM) SDK 提供了稳定可靠、低延时、高并�
 
 Agora RTM SDK 提供以下功能：
 
-- [登录登出](#登录登出相关)
-- [点对点消息](#peermessage)
-- [查询单个或多个用户的在线状态](#onlinestatus)
-- [订阅或退订单个或多个指定用户的在线状态](#subscribe)
-- [用户属性增删改查](#attributes)
-- [频道属性增删改查](#channelattributes)
-- [查询单个或多个频道的成员人数](#channelmembercount)
-- [上传和下载文件或图片](#multimedia)
-- [加入离开频道相关](#joinorleavechannel)
-- [频道消息](#channelmessage)
-- [获取频道成员列表](#memberlist)
-- [呼叫邀请管理](#callinvitation)
-- [更新当前的 RTM Token](#renewtoken)
-- [日志设置与版本查询](#logfile)
-- [定制方法](#customization)
+- <a href="#loginlogout">登录登出</a>
+- <a href="#peermessage">点对点消息</a>
+- <a href="#onlinestatus">查询单个或多个用户的在线状态</a>
+- <a href="#subscribe">订阅或退订单个或多个指定用户的在线状态</a>
+- <a href="#attributes">用户属性增删改查</a>
+- <a href="#channelattributes">频道属性增删改查</a>
+- <a href="#channelmembercount">查询单个或多个频道的成员人数</a>
+- <a href="#joinorleavechannel">加入离开频道相关</a>
+- <a href="#channelmessage">频道消息</a>
+- <a href="#memberlist">获取频道成员列表</a>
+- <a href="#callinvitation">呼叫邀请管理</a>
+- <a href="#renewtoken">更新当前的 RTM Token</a>
+- <a href="#logfile">日志设置与版本查询</a>
+- <a href="index.html#customization">定制方法</a>
 
 <a name="登录登出"></a>
 ## 登录登出相关
@@ -324,103 +323,6 @@ Agora RTM SDK 提供以下功能：
 <tr>
 <td>\ref agora_rtm.RtmClientEventHandler.OnGetChannelMemberCountResultHandler "OnGetChannelMemberCountResultHandler"</td>
 <td>返回 <code>GetChannelMemberCount</code> 方法的调用结果。</td>
-</tr>
-</table>
-
-<a name="多媒体"></a>
-## 上传和下载文件或图片
-
-<table>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.CreateFileMessageByUploading "CreateFileMessageByUploading"</td>
-<td>上传一个文件到 Agora 服务器以获取一个相应的 <code>FileMessage</code> 文件消息实例。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.CreateImageMessageByUploading "CreateImageMessageByUploading"</td>
-<td>上传一个图片到 Agora 服务器以获取一个相应的 <code>ImageMessage</code> 图片消息实例。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.CancelMediaUpload "CancelMediaUpload"</td>
-<td>通过 request ID 取消一个正在进行中的文件或图片上传任务。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.CreateFileMessageByMediaId "CreateFileMessageByMediaId"</td>
-<td>通过 media ID 创建一个 <code>FileMessage</code> 实例。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.CreateImageMessageByMediaId "CreateImageMessageByMediaId"</td>
-<td>通过 media ID 创建一个 <code>ImageMessage</code> 实例。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.DownloadMediaToMemory "DownloadMediaToMemory"</td>
-<td>通过 media ID 从 Agora 服务器下载文件或图片至本地内存。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.DownloadMediaToFile "DownloadMediaToFile"</td>
-<td>通过 media ID 从 Agora 服务器下载文件或图片至本地指定地址。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.CancelMediaDownload "CancelMediaDownload"</td>
-<td>通过 request ID 取消一个正在进行中的文件或图片下载任务。</td>
-</tr>
-</table>
-
-<table>
-<tr>
-<th>事件</th>
-<th>描述</th>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnMediaUploadingProgressHandler "OnMediaUploadingProgressHandler"</td>
-<td>主动回调：上传任务的上传进度回调。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnMediaCancelResultHandler "OnMediaCancelResultHandler"</td>
-<td>报告 <code>CancelMediaDownload</code> 或 <code>CancelMediaUpload</code> 方法的调用结果。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnFileMediaUploadResultHandler "OnFileMediaUploadResultHandler"</td>
-<td>报告 <code>CreateFileMessageByUploading</code> 方法的调用结果。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnImageMediaUploadResultHandler "OnImageMediaUploadResultHandler"</td>
-<td>报告 <code>CreateImageMessageByUploading</code> 方法的调用结果。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnFileMessageReceivedFromPeerHandler "OnFileMessageReceivedFromPeerHandler"</td>
-<td>收到点对点文件消息回调。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnImageMessageReceivedFromPeerHandler "OnImageMessageReceivedFromPeerHandler"</td>
-<td>收到点对点图片消息回调。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmChannelEventHandler.OnFileMessageReceivedHandler "OnFileMessageReceivedHandler"</td>
-<td>收到频道文件消息回调。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmChannelEventHandler.OnImageMessageReceivedHandler "OnImageMessageReceivedHandler"</td>
-<td>收到频道图片消息回调。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnMediaDownloadingProgressHandler "OnMediaDownloadingProgressHandler"</td>
-<td>主动回调：下载任务的下载进度回调。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnMediaCancelResultHandler "OnMediaCancelResultHandler"</td>
-<td>报告 <code>CancelMediaDownload</code> 或 <code>CancelMediaUpload</code> 方法的调用结果。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnMediaDownloadToMemoryResultHandler "OnMediaDownloadToMemoryResultHandler"</td>
-<td>报告 <code>DownloadMediaToMemory</code> 方法的调用结果。</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnMediaDownloadToFileResultHandler "OnMediaDownloadToFileResultHandler"</td>
-<td>报告 <code>DownloadMediaToFile</code> 方法的调用结果。</td>
 </tr>
 </table>
 

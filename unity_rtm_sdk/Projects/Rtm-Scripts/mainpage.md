@@ -4,21 +4,20 @@ The Agora RTM SDK provides a stable messaging mechanism for you to implement rea
 
 Following are the core functionalities that the Agora RTM SDK provides.
 
-- [Login and logout](#loginlogout)
-- [Sending a peer-to-peer message](#peermessage)
-- [Querying the online status of specified users](#onlinestatus)
-- [Subscribing to or unsubscribing from the online status of specified users](#subscribe)
-- [User attribute operations](#attributes)
-- [Channel attribute operations](#channelattributes)
-- [Retrieving channel member count of specified channels](#channelmembercount)
-- [Uploading and downloading images or files](#multimedia)
-- [Joining and leaving a Channel](#joinorleavechannel)
-- [Sending a channel message](#channelmessage)
-- [Retrieving a member list of the current channel](#memberlist)
-- [Call invitation](#callinvitation)
-- [Renewing the current RTM Token](#renewtoken)
-- [Logfile settings and version check](#logfile)
-- [Customized method](#customization)
+- <a href="#loginlogout">Login and logout</a>
+- <a href="#peermessage">Sending a peer-to-peer message</a>
+- <a href="#onlinestatus">Querying the online status of specified users</a>
+- <a href="#subscribe">Subscribing to or unsubscribing from the online status of specified users</a>
+- <a href="#attributes">User attribute operations</a>
+- <a href="#channelattributes">Channel attribute operations</a>
+- <a href="#channelmembercount">Retrieving channel member count of specified channels</a>
+- <a href="#joinorleavechannel">Joining and leaving a Channel</a>
+- <a href="#channelmessage">Sending a channel message</a>
+- <a href="#memberlist">Retrieving a member list of the current channel</a>
+- <a href="#callinvitation">Call invitation</a>
+- <a href="#renewtoken">Renewing the current RTM Token</a>
+- <a href="#logfile">Logfile settings and version check</a>
+- <a href="index.html#customization">Customized method</a>
 
 <a name="loginlogout"></a>
 ## Login and logout
@@ -324,103 +323,6 @@ Following are the core functionalities that the Agora RTM SDK provides.
 <tr>
 <td>\ref agora_rtm.RtmClientEventHandler.OnGetChannelMemberCountResultHandler "OnGetChannelMemberCountResultHandler"</td>
 <td>Reports the result of the <code>GetChannelMemberCount</code> method call.</td>
-</tr>
-</table>
-
-<a name="multimedia"></a>
-## Uploading and downloading images or files
-
-<table>
-<tr>
-<th>Method</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.CreateFileMessageByUploading "CreateFileMessageByUploading"</td>
-<td>Gets an <code>FileMessage</code> instance by uploading a file to the Agora server.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.CreateImageMessageByUploading "CreateImageMessageByUploading"</td>
-<td>Gets an <code>ImageMessage</code> instance by uploading an image to the Agora server.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.CancelMediaUpload "CancelMediaUpload"</td>
-<td>Cancels an ongoing file or image upload task by request ID.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.CreateFileMessageByMediaId "CreateFileMessageByMediaId"</td>
-<td>Creates an <code>FileMessage</code> instance by media ID.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.CreateImageMessageByMediaId "CreateImageMessageByMediaId"</td>
-<td>Creates an <code>ImageMessage</code> instance by media ID.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.DownloadMediaToMemory "DownloadMediaToMemory"</td>
-<td>Downloads a file or image from the Agora server to the local memory by media ID.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.DownloadMediaToFile "DownloadMediaToFile"</td>
-<td>Downloads a file or image from the Agora server to the local storage by media ID.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClient.CancelMediaDownload "CancelMediaDownload"</td>
-<td>Cancels an ongoing file or image download task by request ID.</td>
-</tr>
-</table>
-
-<table>
-<tr>
-<th>Event</th>
-<th>Description</th>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnMediaUploadingProgressHandler "OnMediaUploadingProgressHandler"</td>
-<td>Reports the progress of an ongoing uploading task.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnMediaCancelResultHandler "OnMediaCancelResultHandler"</td>
-<td>Reports the result of the <code>CancelMediaDownload</code> or <code>CancelMediaUpload</code> method call.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnFileMediaUploadResultHandler "OnFileMediaUploadResultHandler"</td>
-<td>Reports the result of the <code>CreateFileMessageByUploading</code> method call.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnImageMediaUploadResultHandler "OnImageMediaUploadResultHandler"</td>
-<td>Reports the result of the <code>CreateImageMessageByUploading</code> method call.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnFileMessageReceivedFromPeerHandler "OnFileMessageReceivedFromPeerHandler"</td>
-<td>Occurs when receiving a peer-to-peer file message.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnImageMessageReceivedFromPeerHandler "OnImageMessageReceivedFromPeerHandler"</td>
-<td>Occurs when receiving a peer-to-peer image message.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmChannelEventHandler.OnFileMessageReceivedHandler "OnFileMessageReceivedHandler"</td>
-<td>Occurs when receiving a channel file message.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmChannelEventHandler.OnImageMessageReceivedHandler "OnImageMessageReceivedHandler"</td>
-<td>Occurs when receiving a channel image message.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnMediaDownloadingProgressHandler "OnMediaDownloadingProgressHandler"</td>
-<td>Reports the progress of an ongoing downloading task.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnMediaCancelResultHandler "OnMediaCancelResultHandler"</td>
-<td>Reports the result of the <code>CancelMediaDownload</code> or the <code>CancelMediaUpload</code> method call.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnMediaDownloadToMemoryResultHandler "OnMediaDownloadToMemoryResultHandler"</td>
-<td>Reports the result of the <code>DownloadMediaToMemory</code> method call.</td>
-</tr>
-<tr>
-<td>\ref agora_rtm.RtmClientEventHandler.OnMediaDownloadToFileResultHandler "OnMediaDownloadToFileResultHandler"</td>
-<td>Reports the result of the <code>DownloadMediaToFile</code> method call.</td>
 </tr>
 </table>
 
